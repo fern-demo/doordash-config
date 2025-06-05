@@ -19,6 +19,9 @@ navigation:
         path: docs/pages/sdks.mdx
         slug: sdks
   - api: API Reference
+    api-name: marketplace
+  - api: API Reference
+    api-name: drive
 
 navbar-links:
   - type: minimal
@@ -42,3 +45,6 @@ logo:
   href: https://buildwithfern.com/?utm_campaign=demo&utm_medium=plantstore&utm_source=logo
 
 favicon: docs/assets/favicon.svg
+
+experimental:
+  openapi-parser-v3: true
