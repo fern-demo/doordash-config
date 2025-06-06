@@ -1,0 +1,51 @@
+name: Release all SDKs
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "The version of the Go SDK that you would like to release"
+        required: true
+        type: string
+
+env:
+  FERN_TOKEN: ${{ secrets.FERN_TOKEN }}
+  NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+  MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
+  MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
+  PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+  RUBYGEMS_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+jobs:
+  
+  go:
+    uses: ./.github/workflows/go-sdk.yml
+    secrets: inherit
+    with: 
+        version: ${{ inputs.version }}      
+
+  python:
+    uses: ./.github/workflows/python-sdk.yml
+    secrets: inherit
+    with: 
+        version: ${{ inputs.version }}        
+
+  ts:
+    uses: ./.github/workflows/ts-sdk.yml
+    secrets: inherit
+    with: 
+        version: ${{ inputs.version }} 
+
+  java:
+    uses: ./.github/workflows/java-sdk.yml
+    secrets: inherit
+    with: 
+        version: ${{ inputs.version }}
+
+  dotnet:
+    uses: ./.github/workflows/dotnet-sdk.yml
+    secrets: inherit
+    with: 
+        version: ${{ inputs.version }}
+
