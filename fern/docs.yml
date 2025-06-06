@@ -59,3 +59,6 @@ favicon: docs/assets/favicon.png
 
 experimental:
   openapi-parser-v3: true
+
+css:
+  - ./assets/styles.css

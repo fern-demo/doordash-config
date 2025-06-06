@@ -1,0 +1,9 @@
+@media screen and (min-width: 1024px) {
+  .fern-product-selector {
+    transform: translate(-6px, 1.5px);
+  }
+
+  .fern-version-selector {
+    transform: translate(-4px, 1.5px);
+  }
+}
