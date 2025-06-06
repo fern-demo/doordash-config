@@ -1,0 +1,105 @@
+## Overview[​](#overview "Direct link to heading")
+
+DoorDash has built the Developer Portal to enable Integration Partners to have a more hands-on experience where they can view/manage their Marketplace and Drive integrations from one central place.
+
+Partners who were onboarded via the legacy Marketplace integration need to update their integration to meet our Developer Portal requirements to ensure the integration will continue to be supported.
+
+## Required Updates Partners must complete[​](#required-updates-partners-must-complete "Direct link to heading")
+
+1. Gain access to Developer Portal by following the appropriate [Migration Process](#migration-process)
+2. Update integration hostname to [https://openapi.doordash.com/marketplace](https://openapi.doordash.com/marketplace)
+3. Update URL Paths to the updated versions outlined [below](#updated-url-paths-for-migration)
+4. Update to our new JWT authentication method outlined [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/JWTs/)
+
+## Migration Process[​](#migration-process "Direct link to heading")
+
+**The migration process is different for Partners who only have a DoorDash Marketplace integration versus Partners who have both DoorDash Marketplace AND DoorDash Drive integrations.**
+
+To ensure your Migration to the Developer Portal goes smoothly, please follow the proper process that applies to you below:
+
+* Marketplace **ONLY** Partners: Follow [this process](https://developer.doordash.com/en-US/docs/marketplace/faq/marketplace_migration_steps)
+* Marketplace **AND** Drive Partners: Follow [this process](https://developer.doordash.com/en-US/docs/marketplace/faq/marketplace_and_drive_migration)
+
+## Migration FAQs[​](#migration-faqs "Direct link to heading")
+
+### How do I know if our integration is a Legacy integration that needs to be updated?[​](#how-do-i-know-if-our-integration-is-a-legacy-integration-that-needs-to-be-updated "Direct link to heading")
+
+If you are using the Hostname [https://pointofsale.doordash.com](https://pointofsale.doordash.com), for your integration, you have a legacy integration that needs to be updated.
+
+### Can we make the required updates in phases?[​](#can-we-make-the-required-updates-in-phases "Direct link to heading")
+
+Some examples are:
+
+1. Changing the Hostname and URL Paths but not using to JWT Auth yet
+2. Updating an *x* amount of your Hostname and URL Paths one week and the other *x* amount another time
+3. Updating to JWT Auth, but not updating the HostName or URL paths yet
+
+Partners are able to make these changes in stages but **MUST** ensure that the **HostName** and **URL paths** are **updated together**.
+
+For example, if a Partner updates their HostName for their [Activation Status endpoint](https://developer.doordash.com/en-US/api/marketplace#tag/Store-Endpoints/operation/updateStoreStatus), they must also ensure that the URL path for this call is also updated.
+If they mix the legacy hostname with the new URL paths, the calls will fail.
+
+Correct:
+[https://openapi.doordash.com/marketplace/api/v1/stores/"{location_id}"/status](https://openapi.doordash.com/marketplace/api/v1/stores/%7Blocation_id%7D/status)
+
+Incorrect:
+[https://pointofsale.doordash.com/marketplace/api/v1/stores/{"{location_id}"}/status](https://pointofsale.doordash.com/marketplace/api/v1/stores/%7Blocation_id%7D/status)
+
+### How do I know if I have fully updated my integration?[​](#how-do-i-know-if-i-have-fully-updated-my-integration "Direct link to heading")
+
+When you have 100% successfully updated your integration, a Technical Account Manager will reach out to you and let you know that you have successfully updated all items including the Hostname, URL paths and JWT.
+
+### Are changes required for the bearer token that is sent with the webhooks from DoorDash to the Partner environment?[​](#are-changes-required-for-the-bearer-token-that-is-sent-with-the-webhooks-from-doordash-to-the-partner-environment "Direct link to heading")
+
+No, no changes are required. The changes needed here are strictly for calls to the Doordash API.
+
+### What should I do if I submitted a support request to share my email, and I have not heard back?[​](#what-should-i-do-if-i-submitted-a-support-request-to-share-my-email-and-i-have-not-heard-back "Direct link to heading")
+
+If you have submitted the email you used to kick off the migration process and have not heard anything, please reach out to your Technical Account Manager.
+
+If you are not sure who your Technical Account Manager is, please submit another ticket by filling out this [form](https://doordash.workflowcloud.com/forms/2828c42d-8fe2-48a0-82dd-f036f8c76c0d) and using the ID 2305617399 for the field "DoorDash Store ID".
+
+### What happens if I do not migrate before the deadline?[​](#what-happens-if-i-do-not-migrate-before-the-deadline "Direct link to heading")
+
+Your integration will be at risk of losing core functionality and you will be unable to enjoy the benefits of our new Developer Portal.
+If you have any questions or concerns with the deadline, please work with your Technical Account Manager.
+
+## Updated URL Paths for Migration[​](#updated-url-paths-for-migration "Direct link to heading")
+
+The legacy integration used different URL Paths that will need to be updated to fully migrate your legacy integration to Developer Portal.
+
+### Order Endpoint Updates[​](#order-endpoint-updates "Direct link to heading")
+
+These URL Paths for Order Endpoints will need to be updated to the  **Updated Order Endpoints**  in the 2nd Column of the below table.
+*Please make sure to update these URL paths in staging/sandbox and production environments.*
+
+| Legacy Order Endpoints | Updated Order Endpoints |
+| --- | --- |
+| /api/v1/orders/{id} | /api/v1/orders/{id} |
+| /v1/external/orders | /api/v1/external\_orders |
+
+### Menu Endpoint Updates[​](#menu-endpoint-updates "Direct link to heading")
+
+These URL Paths for Menu Endpoints will need to be updated to the  **Updated Menu Endpoints**  in the 2nd Column of the below table.
+*Please make sure to update these URL paths in staging/sandbox and production environments.*
+
+| Legacy Menu Endpoints | Updated Menu Endpoints |
+| --- | --- |
+| /api/v1/menus | /api/v1/menus |
+| /api/v1/menus/{"{menu_id}"} | /api/v1/menus/{"{menu_id}"} |
+
+### Store Endpoint Updates[​](#store-endpoint-updates "Direct link to heading")
+
+These URL Paths for Store Endpoints will need to be updated to the  **Updated Store Endpoints**  in the 2nd Column of the below table.
+*Please make sure to update these URL paths in staging/sandbox and production environments.*
+
+| Legacy Store Endpoints | Updated Store Endpoints |
+| --- | --- |
+| /api/v1/stores/{"{merchant_supplied_id}"}/activation-status | /api/v1/stores/{"{merchant_supplied_id}"}/status |
+| /api/v1/stores/{"{merchant_supplied_id}"}/item/activation-status | /api/v1/stores/{"{merchant_supplied_id}"}/items/status |
+| /api/v1/stores/{"{merchant_supplied_id}"}/items | /api/v1/stores/{"{merchant_supplied_id}"}/items |
+| /api/v1/stores/{"{merchant_supplied_id}"}/item_option/activation-status | /api/v1/stores/{"{merchant_supplied_id}"}/item_options/status |
+| /api/v1/stores/{"{merchant_supplied_id}"}/menu_details | /api/v1/stores/{"{merchant_supplied_id}"}/menu_details |
+| /api/v1/stores/search | /api/v1/stores/search |
+| /api/v1/stores/{"{merchant_supplied_id}"} | /api/v1/stores/{"{merchant_supplied_id}"}/store_details |
+

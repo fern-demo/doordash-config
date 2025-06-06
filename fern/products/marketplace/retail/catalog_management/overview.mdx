@@ -1,0 +1,62 @@
+## Catalog Management API[​](#catalog-management-api "Direct link to heading")
+
+### Overview[​](#overview-1 "Direct link to heading")
+
+The Item Management API is designed for DoorDash partners to manage information about the items they offer on the platform. It allows partners to add new items to the catalog and update information about existing items. Item information is managed at the business level, and each item is identified by a unique Merchant Supplied Item ID (MSID).
+
+**Endpoint URL:** `https://openapi.doordash.com/marketplace/api/v2/items`
+
+### Getting Started[​](#getting-started "Direct link to heading")
+
+#### Request[​](#request "Direct link to heading")
+
+* **HTTP Method:**
+
+  + POST: Add new items to the catalog
+  + PATCH: Update information about existing items
+* **Headers:**
+
+  + Refer to the [JWT authentication documentation](https://developer.doordash.com/en-US/docs/marketplace/how_to/JWTs) for authentication details.
+* **Payload Example:** [View Example JSON](https://developer.doordash.com/en-US/api/marketplace_v2/#tag/ItemManagementEndpoints/operation/batchAddItems)
+
+#### Response[​](#response "Direct link to heading")
+
+* **Success Response:**
+
+```
+{  
+  "operation_id": "string",  
+  "operation_status": "SUCCESS", // Possible values: "QUEUED" "IN_PROGRESS" "SUCCESS" "FAILED" "PARTIAL_SUCCESS"  
+  "message": "string"  
+}  
+
+```
+
+* **Fail Response Details:**
+
+| Response Code | Code | Message | field\_errors.field | field\_errors.error |
+| --- | --- | --- | --- | --- |
+| 400 | validation\_error | One or more request values couldn't be validated. | Name of the field whose value couldn't be validated. | The error that was encountered when validating the field's value. |
+| 401 | authentication\_error | Default: The [exp] is in the past; the JWT is expired | - | - |
+| 403 | authorization\_error | Default: Authorization error: the credentials provided with the request don't work | - | - |
+| 404 | unknown\_business\_id | - | - | - |
+| 422 | request\_rate\_limited | - | - | - |
+| 429 | request\_rate\_limited | - | - | - |
+| 500 | service\_fault | Default: Internal service failure, please try again later. | - | - |
+
+### Verification:[​](#verification "Direct link to heading")
+
+Once you believe you have made a successful call to the endpoint, reach out to your DoorDash technical account manager to verify. Please provide an example of the payload used in the request.
+
+### FAQ[​](#faq "Direct link to heading")
+
+1. **How do I get the required `business_id`?**
+
+   * Your DoorDash technical account manager will provide the `business_id` for the test and production stores.
+2. **How long will it take for new items to be created or updated?**
+
+   * The current Service Level Agreement (SLA) is 18 days.
+3. **Do I need to include all of the fields that are in the payload?**
+
+   * No, you do not. However, including more data and ensuring higher data quality will expedite the process of creating or updating items.
+

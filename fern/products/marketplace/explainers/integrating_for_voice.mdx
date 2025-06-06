@@ -1,0 +1,115 @@
+## Workflow[​](#workflow "Direct link to heading")
+
+Along with Marketplace, DoorDash Voice Ordering is powered by the OpenAPI platform for both the menu and order flow.
+
+* **Menu**: The Voice User Interface (UI) used by Agents to place orders uses Menu data provided [via OpenAPI](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_integration). This can be accomplished in one of two ways:
+  1. Using a shared menu with Marketplace
+  2. Creating a separate Voice-specific menu
+* **Order**: Orders placed on the Voice UI are sent [via OpenAPI](https://developer.doordash.com/en-US/docs/marketplace/how_to/order_integration).
+  They can be identified separately from Marketplace orders via the `“experience”` field in the [order payload](https://developer.doordash.com/en-US/api/marketplace/#tag/Models/Order) which for voice orders will be `“voice”`
+
+## Integration Requirements[​](#integration-requirements "Direct link to heading")
+
+| Core Flow | Requirement | Priority |
+| --- | --- | --- |
+| Menu | Provide In-Store Price Parity | Must Have |
+| Menu | Provide In-Store Selection Parity | Must Have |
+| Order | Ingest Is-Paymentless Flag | Must Have |
+| Order | Ingest Experience Field | Nice-to-Have |
+
+### In-Store Price Parity[​](#in-store-price-parity "Direct link to heading")
+
+Because our Voice UI utilizes marketplace menus, in-store pricing is needed to appropriately charge customers. Your delivery price can remain inflated on Marketplace, but your pickup prices (set via the base\_price field) need to match your 1st party ordering channel.
+
+### In-Store Selection Parity[​](#in-store-selection-parity "Direct link to heading")
+
+Any items that are available on your in-store/1st party menu will also need to be made available on your Marketplace menu. Without this, there could be cases where our agents are unable to successfully build orders for customers.
+
+If you would like to create a voice-specific menu through the integration, you can do so using the `experience` field in the [menu model](https://developer.doordash.com/en-US/api/marketplace#tag/Models/StoreMenu). If specified as `“voice”`, the menu will not be shown on DoorDash marketplace, but will still be available for our Voice agents to use to place orders.
+
+### Pay-in-store[​](#pay-in-store "Direct link to heading")
+
+Pay-in-store is a popular method for Voice Orders. Because this is not supported for Marketplace orders, we’ve introduced a new field in our Order API to capture the payment method. This information will need to be ingested into the POS when orders are received so that operators know when to collect payment.
+
+| Field Name | Data Type |
+| --- | --- |
+| `is_paymentless` | boolean |
+
+* If `“is_paymentless”: true` then this indicates that payment will need to be collected in-store.
+* If `“is_paymentless”: false` then this indicates that payment was already collected when the order was placed.
+
+**Example**
+
+```
+{  
+   "id": "56577e6e-cae5-4dd6-97c2-68ad217a066f",  
+   "tax": 37,  
+   "subtotal": 299,  
+   "estimated_pickup_time": "2022-11-04T14:00:56+00:00",  
+   "is_pickup": true,  
+   "order_special_instructions": "",  
+   "consumer": {  
+       "id": 1180639014,  
+       "first_name": "PickUp-Galen",  
+       "last_name": "C",  
+       "email": "[email protected]",  
+       "phone": "8559731040"  
+   },  
+   "store": {  
+       "merchant_supplied_id": "ST0977",  
+       "provider_type": "bobs_burgers"  
+   },  
+   "categories": [  
+       {  
+           "merchant_supplied_id": "CATG-35",  
+           "name": "Beverages",  
+           "items": [  
+               {  
+                   "name": "Pepsi",  
+                   "quantity": 1,  
+                   "price": 299,  
+                   "merchant_supplied_id": "ITEM-251",  
+                   "consumer_name": "Galen",  
+                   "extras": [  
+                       {  
+                           "merchant_supplied_id": "ITEM#E#1-251_70",  
+                           "name": "Beverages Size",  
+                           "options": [  
+                               {  
+                                   "name": "2 Liter",  
+                                   "quantity": 1,  
+                                   "price": 299,  
+                                   "merchant_supplied_id": "ITEMTYPE-251_440",  
+                                   "extras": [],  
+                                   "line_option_id": "c39fc7cc-909e-45e2-8479-8b316e018563"  
+                               }  
+                           ]  
+                       }  
+                   ],  
+                   "special_instructions": "",  
+                   "line_item_id": "5bd534b9-0c1e-4be7-9ecd-06a417d6797c"  
+               }  
+           ]  
+       }  
+   ],  
+   "delivery_fee": 0,  
+   "delivery_short_code": "a42251a3",  
+   "tax_transaction_id": "",  
+   "is_demand_gen": false,  
+   "commission_type": "regular",  
+   "is_tax_remitted_by_doordash": false,  
+   "tax_amount_remitted_by_doordash": 0,  
+   "fulfillment_type": "pickup",  
+   "subtotal_for_tax": 299,  
+   "merchant_tip_amount": 0,  
+   "experience": "VOICE",  
+   "is_paymentless": true  
+}  
+
+```
+
+* [Workflow](#workflow)
+* [Integration Requirements](#integration-requirements)
+  + [In-Store Price Parity](#in-store-price-parity)
+  + [In-Store Selection Parity](#in-store-selection-parity)
+  + [Pay-in-store](#pay-in-store)

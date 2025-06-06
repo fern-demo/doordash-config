@@ -1,0 +1,26 @@
+Limited access
+
+<Warning>
+Marketplace APIs are not yet generally available. Please record interest in early access [here](https://docs.google.com/forms/d/e/1FAIpQLSfggU_NjGWCdi9vyWUicrnzJmtu9vC4zgbfSC3ROwSvW4eV2g/viewform).
+</Warning>
+
+## Is a Menu callback endpoint still needed to receive the DoorDash generated UUID that is used to patch the menu?[​](#is-a-menu-callback-endpoint-still-needed-to-receive-the-doordash-generated-uuid-that-is-used-to-patch-the-menu "Direct link to heading")
+
+Yes, the existing endpoint for Menu processing notifications should remain as the primary method to receive and store the Menu UUID that is needed to update the menu due to performance constraints. There will be a rate limit applied for this new endpoint, and if exceeded, any functionality reliant on it will fail.
+
+## Is it possible to determine the current items that are 86’d for each store/menu using these endpoints?[​](#is-it-possible-to-determine-the-current-items-that-are-86d-for-each-storemenu-using-these-endpoints "Direct link to heading")
+
+These endpoints unfortunately do not capture the activation status of items and item-options. The status of these should continue to be tracked by the partner whenever deactivation/reactivation events are sent.
+
+## Why are there two ‘current\_deactivations’ returned for one location? What is the difference?[​](#why-are-there-two-current_deactivations-returned-for-one-location-what-is-the-difference "Direct link to heading")
+
+There are two types of deactivations in DoorDash. One is called a temporary deactivation, where an `end_time` is set automatically. Once the `end_time` condition is met, the store is automatically reactivated. Temp deactivations can always be ended manually in the Merchant Portal. The second type is called a permanent deactivation, where an `end_time` is not set automatically (null). This requires a secondary reactivation event to be sent or manual intervention by DoorDash support to bring the store back online. Our Open API Store Availability webhook triggers what we call a permanent deactivation. For a store to appear online, there must be 0 `current_deactivations`.
+
+## Why is there a menu with ‘is\_pos\_menu = false’ active at my POS store?[​](#why-is-there-a-menu-with-is_pos_menu--false-active-at-my-pos-store "Direct link to heading")
+
+This is unexpected and may result in order errors. Please reach out to DoorDash support to deactivate the non-POS menu.
+
+## How can I deactivate/reactivate POS menus at a store?[​](#how-can-i-deactivatereactivate-pos-menus-at-a-store "Direct link to heading")
+
+You can set the `is_active` field to `true` or `false` in the menu PATCH request to control the status of the POS menus.
+

@@ -1,0 +1,84 @@
+# Best practice of retry strategy
+
+It's recommended that all applications that communicate with remote services and resources must be sensitive to transient faults. This is also true when calling Doordash's API, similar to any other cloud services.
+Transient faults include the momentary loss of network connectivitys, the temporary unavailability of a service, and timeouts that occur when a service is busy. These faults are often self-correcting,
+so, if the action is repeated after a suitable delay, it's likely to succeed. The best practice to communicate with Doordash's service is to add Retry logic around the API call.
+
+This article provides some general guidance for retry strategy.
+
+# Determine if the error is retriable
+
+
+
+If the fault indicates that the failure isn't transient or is unlikely to be successful if repeated, the application should cancel the operation and report an exception.
+For example, an authentication failure caused by providing invalid credentials is not likely to succeed no matter how many times it's attempted.
+
+If the specific fault reported is unusual or rare, it might have been caused by unusual circumstances. In this case, the application could retry the failing request again
+because the same failure is unlikely to be repeated and the request will probably be successful, like a temporary internet connection lag.
+
+Below are the Doordash best practices to handle errors:
+
+| Error code | Meaning | Recommendation |
+| --- | --- | --- |
+| 4xx | Client side error | Do not retry, need to fix the problem in the code |
+| 429 | Too many requests | Retry after at least 1 second; avoid bursts of requests |
+| 5xx | Error on server side | Retry with exponential backoff and jitter |
+
+# Choose an appropriate retry strategy
+
+* Use exponential back-off for retry   
+  Always use exponential back-off for retries. Exponential back-off is to increase the time between every retry attempt. For example if we decided to use 3 retry attempts
+  and first attempt is after 1 second of failure the next would be after 2 seconds and last would be after 5 seconds.
+  This strategy provides the breather for downstream service to recover from any failures or high work load, and will be more likely to success.
+  It's okay to retry immediately for only one time, but not more than once. You can plug in different values of the configuration parameters (initial interval, max retries, backoff coefficient) in [this tool](https://exponentialbackoffcalculator.com/) to see the gap between the retry attempts.
+* Incremental intervals   
+  The application waits a short time before the first retry, and then incrementally increases the time between each subsequent retry.
+  For example, it might retry the operation after 3 seconds, 7 seconds, 13 seconds, and so on.
+* Regular intervals   
+  The application waits for the same period of time between each attempt. For example, it might retry the operation every 3 seconds.
+* Add some randomizatio "jitter" with exponential back-off   
+  Any of the retry strategies you choose can include a randomization to prevent multiple instances of the client sending subsequent retry attempts at the same time.
+
+In summary, a good retry strategy to call Doordash's API is using exponential-backoff and randomization, with 3 retries, and delay from 1s to 5s. You don't need to implement the stragy from scratch (more detail below).
+Here is an example of the retry configuration if you use Javascript:
+
+```
+retry.operation({  
+  retries: 3,  
+  factor: 2,  
+  minTimeout: 1 * 1000,  
+  maxTimeout: 5 * 1000,  
+  randomize: true,  
+});  
+
+```
+
+# Anti-pattern to avoid
+
+* Do not retry indefinitely.
+* Never perform an immediate retry more than once.
+* Avoid amplifying retries by issuing retries at multiple levels. Think about the service holistically and decide that do we really need to do the retry at given level. In general if retries are done at multiple level it can leads to cascading failures and degradation of service.
+
+# Chose a resilience library
+
+It's recommended to use existing resilience library rather than implementing the retry logic from scratch.
+Some vendors provide libraries that implement retry policies, where the application can specify the maximum number of retries, the time between retry attempts, and other parameters,
+which can make the developement easier and less error-prone.
+
+Here are examples for some programming languages:
+
+* [Resilience4j](https://github.com/resilience4j/resilience4j) for Java.
+* [Polly](https://github.com/App-vNext/Polly) for C#
+* [Retry](https://pypi.org/project/retry/) for Python
+* [Retry](https://www.npmjs.com/package/retry) for Javascript
+
+# Monitor and log the retries and operation
+
+It's recommended your application to log the retry attempts, time taken when calling Doordash's API. Also log the error response,
+and contact Doordash if you see the retry attempts consistently or the retry happens often.
+
+# Reference
+
+* [https://learn.microsoft.com/en-us/azure/architecture/best-practices/transient-faults](https://learn.microsoft.com/en-us/azure/architecture/best-practices/transient-faults)
+* [https://learn.microsoft.com/en-us/azure/architecture/patterns/retry](https://learn.microsoft.com/en-us/azure/architecture/patterns/retry)
+

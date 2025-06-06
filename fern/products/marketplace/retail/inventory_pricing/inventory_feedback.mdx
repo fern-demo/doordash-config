@@ -1,0 +1,114 @@
+### Purpose[​](#purpose "Direct link to heading")
+
+This page guides you on reviewing your inventory jobs and their progress in partner portal.
+
+### Key Components[​](#key-components "Direct link to heading")
+
+* **Event Logs**: Accessible through the Partner Portal, these logs provide you with end-to-end status updates of you inventory API transactions.
+* **Item-Level SKU Failure Reporting**: You can now retrieve detailed information about individual SKU failures, enabling targeted troubleshooting.
+* **Exhaustive Error Messaging**: Updated error messages provide clear reasons for SKU failures and actionable steps for resolution.
+
+---
+
+### Schema[​](#schema "Direct link to heading")
+
+| Field Name | Type | Definition | New / Exists |
+| --- | --- | --- | --- |
+| `operation_id` | STRING | UUID to identify jobs sent by the Merchant | Exists |
+| `operation_status` | STRING | HTTP status code indicating the result of the operation (e.g., 200, 400) | Exists |
+| `message` | STRING | Indicates if job is successful, failed, queued, or errors out | Exists |
+| `details` | STRING | SKU level information about shared payload to DD | New |
+| `success_items` | STRING | Object containing MSIDs for successful SKUs | New |
+| `failed_items` | STRING | Object containing MSIDs for failed SKUs and their failure reasons | New |
+| `success_items_count` | STRING | Total number of successful SKUs in the job | New |
+| `failed_items_counts` | STRING | Total number of failed SKUs in the job | New |
+| `request_id` | STRING | UUID to identify follow-up request from DD | New |
+
+---
+
+### Common Error Reasons[​](#common-error-reasons "Direct link to heading")
+
+#### Item Not in Catalog[​](#item-not-in-catalog "Direct link to heading")
+
+The item does not exist in the current catalog. Verify the item has been sent through the Catalog API.
+If it was sent over 18 days ago, reach out to your DD account owner. If not, it's still in the build pipeline.
+
+#### Missing Price[​](#missing-price "Direct link to heading")
+
+Dropped due to missing price. Verify a price is being sent and trigger another inventory update.
+The previous job's price will be honored.
+
+#### Missing Availability Flag[​](#missing-availability-flag "Direct link to heading")
+
+Dropped due to missing availability flag. Please verify it is being sent and trigger another update.
+
+#### Invalid Hours Format[​](#invalid-hours-format "Direct link to heading")
+
+Incorrect item-level hours format. Required format: `HH:MM:SS`.
+
+#### Restricted Item[​](#restricted-item "Direct link to heading")
+
+Item is restricted. Contact your DD account manager if this is a mistake.
+
+#### Alcohol Sales Not Permitted[​](#alcohol-sales-not-permitted "Direct link to heading")
+
+Store is not allowed to sell alcohol. Contact your DD account manager to enable.
+
+#### Semantic Duplication[​](#semantic-duplication "Direct link to heading")
+
+Dropped due to semantic duplication (name, category 1, category 2). Contact DD partnership contact if this is incorrect.
+
+#### Inactive in Catalog[​](#inactive-in-catalog "Direct link to heading")
+
+Item is inactive. Contact DD partnership contact to reactivate.
+
+#### Price Change Outside Threshold[​](#price-change-outside-threshold "Direct link to heading")
+
+Price change exceeds threshold (100% increase / 70% decrease). Update ignored.
+Item still available at old price.
+
+#### High Item Drop Rate[​](#high-item-drop-rate "Direct link to heading")
+
+Too many items dropped (>25%). Check accuracy of SKU count in request.
+
+#### Invalid Price[​](#invalid-price "Direct link to heading")
+
+Price is empty, < $0.10, or > $1000.00. Must be corrected.
+
+#### Weighted Item Conflict[​](#weighted-item-conflict "Direct link to heading")
+
+Weighted Item status conflicts with DD configuration. Contact DD account owner.
+
+#### Catalog Data Error / Validation Error[​](#catalog-data-error--validation-error "Direct link to heading")
+
+Internal issue with DD catalog data. Contact DD support to resolve.
+
+#### Low Item Count[​](#low-item-count "Direct link to heading")
+
+Active item count below 50% threshold of previous successful job. Causes sync error.
+
+#### Internal Error[​](#internal-error "Direct link to heading")
+
+## Unexpected error. Try again or contact support.[​](#unexpected-error-try-again-or-contact-support "Direct link to heading")
+
+### Payload Example[​](#payload-example "Direct link to heading")
+
+```
+{  
+  "store_id": "1234567",  
+  "success_items_count": 101,  
+  "failed_items_count": 2,  
+  "request_id": "uuid",  
+  "details": {  
+    "success_items": [  
+      "msid1", "msid2", ...  
+    ],  
+    "failed_items": {  
+      "msid3": ["ErrorCode1"],  
+      "msid4": ["ErrorCode2", "ErrorCode3"]  
+    }  
+  }  
+}  
+
+```
+

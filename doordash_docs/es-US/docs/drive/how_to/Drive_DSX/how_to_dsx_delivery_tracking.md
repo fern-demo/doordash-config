@@ -1,0 +1,107 @@
+En esta página
+
+# [Explainer] Dasher Shop Delivery Tracking
+
+### SMS to Customers[​](#sms-to-customers "Enlace directo al encabezado")
+
+DoorDash sends SMS messages with updates on the progress of a delivery to help the person receiving that delivery (the dropoff\_contact) keep track of the delivery and prepare for its arrival. You can customize these messages on the Developer Portal: whether they are sent at all, and the precise text that is sent.
+
+In Developer Portal, if you want to customize the SMS based on the delivery metadata like the name of the store or the name of the Dasher, type an opening curly bracket. You will be presented with a list of metadata placeholders. You will be able to preview the text message.
+
+![sms](/es-US/assets/images/sms-6a386343bef4ee9bc4ae211c8217351d.png)
+
+| SMS Event | Trigger Condition |
+| --- | --- |
+| Delivery Created | When a new delivery order is successfully created in the system. |
+| Dasher Approaching Dropoff Location | When the dasher is nearing the dropoff location |
+| Dasher Approaching Customer Hand it to me | When the dasher is nearing the customer for a "hand it to me" delivery. "contactless" = "FALSE" in delivery\_creation |
+| Dasher Confirmed | When the dasher confirms their assignment to the delivery order. |
+| Dasher Dropped Off Contactless | When the dasher completes a contactless dropoff at the customer's location |
+| Dasher Dropped Off Hand It To Me | When the dasher completes a non-contactless delivery at the customer's location. |
+| Dasher Picked Up Contactless | When the dasher checks-out from the store for a contactless delivery |
+| Dasher Pickup Hand It To Me | When the dasher checks-out from the store for a non-contactless delivery |
+| Customer Unavailable | When the dasher attempts delivery but the customer is unavailable to receive it. |
+| Delivery Cancelled | When the delivery order is cancelled. |
+| Delivery Complete | When the delivery is successfully completed. |
+| Dasher Adds New Item For Customer | When the dasher adds a new item to the order on behalf of the customer. |
+| PIN Code Required | When a PIN code is required for the customer to receive the delivery. |
+| Dasher Arrived At Store | When the dasher arrives at the store to begin shopping for items. |
+
+### Webhooks[​](#webhooks "Enlace directo al encabezado")
+
+Webhooks enable near-real-time information flow from DoorDash and our Dashers to your application and your customers. Subscribe to webhooks [here](https://developer.doordash.com/en-US/docs/drive/reference/webhooks/). With webhooks, you can enable real-time scenarios like a map view showing your customers how far away their Dasher is, push notifications telling your customers the latest status of their order, and much more.
+
+Similar to SMS text messages, webhooks are triggered at pre-defined events. Here are a list of webhooks you should expect to receive during a Dasher Shop order
+
+| Webhook Event | Trigger Condition Description |
+| --- | --- |
+| DASHER\_CONFIRMED | Dasher has accepted the order. |
+| DASHER\_CONFIRMED\_STORE\_ARRIVAL | Dasher has arrived at the store to shop the order. |
+| DASHER\_COMPLETED\_SHOPPING | The Dasher has finished shopping for the order |
+| DASHER\_PICKED\_UP | The Dasher has checked-out from the store |
+| DASHER\_CONFIRMED\_CONSUMER\_ARRIVAL | The Dasher has arrived at the customer's location. |
+| DASHER\_DROPPED\_OFF | The Dasher has successfully delivered the order to the customer. |
+| DELIVERY\_CANCELLED | The order has been canceled |
+| DASHER\_COMPLETED\_STAGING | The Dasher has completed staging (for Dasher Shop and Stage Order) |
+| DASHER\_CONFIRMED\_RETURN\_ARRIVAL | The Dasher has arrived at the return location for the order. |
+| DASHER\_DROPPED\_OFF\_RETURN | The Dasher has successfully returned the order to the specified return location. |
+| DELIVERY\_PENDING\_RETURN | The order is pending return and has not yet been picked up for return. |
+
+**Sample Webhook**
+
+*With the exception of the DASHER\_COMPLETED\_SHOPPING and DASHER\_COMPLETED\_STAGING events, all webhooks follow the same format.*
+
+```
+{  
+  "created_at": "2025-03-06T01:41:30.266973Z",  
+  "event_name": "DASHER_DROPPED_OFF",  
+  "external_delivery_id": "ORDER1",  
+  "dasher_id": "12345",  
+  "dasher_name": "JOHN SMITH",  
+  "dasher_phone_number": "6055551234",  
+  "dasher_dropoff_phone_number": "4156661234",  
+  "dasher_pickup_phone_number": "2123456789",  
+  "dasher_location": {  
+    "lat": "REDACTED",  
+    "lng": "REDACTED"  
+  },  
+  "dasher_vehicle_make": "HONDA",  
+  "dasher_vehicle_model": "CIVIC",  
+  "dasher_vehicle_year": "2003",  
+  "pickup_address": "STORE ADDRESS",  
+  "pickup_phone_number": "4152224567",  
+  "pickup_instructions": "SHOP ITEMS IN-STORE",  
+  "pickup_reference_tag": "ORDER ID",  
+  "pickup_external_business_id": "BUSINESS 1",  
+  "pickup_external_store_id": "STORE 1",  
+  "dropoff_address": "123 MAIN STREET, SAN FRANCISCO, CA, 94111",  
+  "dropoff_phone_number": "4157778899",  
+  "dropoff_instructions": "RING DOORBELL",  
+  "dropoff_contact_given_name": "JANE",  
+  "dropoff_contact_family_name": "DOE",  
+  "dropoff_contact_send_notifications": true,  
+  "order_value": "12500",  
+  "currency": "USD",  
+  "pickup_time_estimated": "2025-03-06T02:41:30.266973Z",  
+  "pickup_time_actual": "2025-03-06T03:41:30.266973Z",  
+  "dropoff_time_estimated": "2025-03-06T04:41:30.266973Z",  
+  "dropoff_time_actual": "2025-03-06T05:41:30.266973Z",  
+  "fee": "2500",  
+  "tip": "1000",  
+  "support_reference": "ORDER ID",  
+  "tracking_url": "REDACTED",  
+  "contactless": false,  
+  "updated_at": "2025-03-05T22:24:06.704630Z"  
+}  
+  
+
+```
+
+[Anterior
+
+[Explainer] Checkout & Audit](/es-US/docs/drive/how_to/Drive_DSX/how_to_checkout_audit)[Siguiente
+
+[Explainer] Shopping Complete Webhooks](/es-US/docs/drive/how_to/Drive_DSX/how_to_shopping_complete_webhook)
+
+* [SMS to Customers](#sms-to-customers)
+* [Webhooks](#webhooks)

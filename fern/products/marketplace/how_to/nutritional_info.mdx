@@ -1,0 +1,211 @@
+# Prerequisites
+
+DoorDash has made an enhancement to the Open API contract to allow partners to provide
+nutritional and dietary information with the menu items. This information will be sent via our Menu API.
+
+## Overview[​](#overview "Direct link to heading")
+
+Displaying nutritional and dietary information with the menu items helps consumers make
+informed decisions about the food they consume. Beside the value for the customers, menu
+labeling is a mandated requirement by regulations for any items that are available for sale.
+
+For this enhancement, partners have the ability to add the following nutritional information to their menu items:
+
+* Caloric Information (Higher Ranger and Lower Range)
+* Dietary Tags (Only 3 are available at this time)
+  + `Vegetarian`
+  + `Vegan`
+  + `Gluten-Free`
+
+## Get Started[​](#get-started "Direct link to heading")
+
+### Step 1: Alter Menu Payload[​](#step-1-alter-menu-payload "Direct link to heading")
+
+Alter menu payload to add desired nutritional information on an item OR item modifier level.
+
+#### Add Caloric Information to Menu Payload:[​](#add-caloric-information-to-menu-payload "Direct link to heading")
+
+Specify the display label, lower and higher range for item calorific information. For e.g.
+
+* `display_type` = ‘cal’
+* `higher_range` = 360
+
+##### Caloric Info JSON Snippet Example:[​](#caloric-info-json-snippet-example "Direct link to heading")
+
+```
+"nutritional_info":{  
+   "calorific_info":{  
+      "display_type":"string",  
+      "lower_range":0,  
+      "higher_range":0  
+   }  
+}  
+
+```
+
+#### Add Dietary Tags to Menu Payload:[​](#add-dietary-tags-to-menu-payload "Direct link to heading")
+
+Specify the dietary tags that need to be presented with the item from the following options:
+
+* `TAG_KEY_DIETARY_VEGETARIAN`
+* `TAG_KEY_DIETARY_VEGAN`
+* `TAG_KEY_DIETARY_GLUTEN_FREE`
+
+##### Dietary Tags JSON Snippet Example:[​](#dietary-tags-json-snippet-example "Direct link to heading")
+
+```
+"classification_info":{  
+   "classification_tags":[  
+      "TAG_KEY_DIETARY_VEGETARIAN"  
+   ]  
+}  
+
+```
+
+### Step 2: Push Menu with new additional fields and validate in UI[​](#step-2-push-menu-with-new-additional-fields-and-validate-in-ui "Direct link to heading")
+
+Once the payload is altered to add the desired nutritional information, please push the menu (via MenuCreate or MenuUpdate) to the DD server. Validate in the UI that the caloric information + dietary tags are present.
+
+
+
+
+## Menu Payload Example:[​](#menu-payload-example "Direct link to heading")
+
+Below is a snippet of the menu payload with the additional dish information included:
+
+```
+"menu":{  
+   "name":"string",  
+   "subtitle":"string",  
+   "merchant_supplied_id":"string",  
+   "active":true,  
+   "categories":[  
+            {  
+                "name":"string",  
+                "subtitle":"string",  
+                "merchant_supplied_id":"string",  
+                "active":true,  
+                "sort_id":0,  
+                "items":[  
+                    {  
+                    "name":"string",  
+                    "description":"string",  
+                    "merchant_supplied_id":"string",  
+                    "active":true,  
+                    "is_alcohol":true,  
+                    "is_bike_friendly":true,  
+                    "sort_id":0,  
+                    "price":0,  
+                    "base_price":0,  
+                    "item_special_hours":[  
+                        {  
+                            "day_index":"MON",  
+                            "start_time":"13:00:00",  
+                            "end_time":"18:00:00",  
+                            "start_date":"string",  
+                            "end_date":"string"  
+                        }  
+                    ],  
+                    "extras":[  
+                        {  
+                            "name":"string",  
+                            "description":"string",  
+                            "merchant_supplied_id":"string",  
+                            "active":true,  
+                            "sort_id":0,  
+                            "min_num_options":0,  
+                            "max_num_options":0,  
+                            "num_free_options":0,  
+                            "min_option_choice_quantity":0,  
+                            "max_option_choice_quantity":0,  
+                            "min_aggregate_options_quantity":0,  
+                            "max_aggregate_options_quantity":0,  
+                            "options":[  
+                                {  
+                                "name":"string",  
+                                "description":"string",  
+                                "merchant_supplied_id":"string",  
+                                "active":true,  
+                                "price":0,  
+                                "base_price":0,  
+                                "default":true,  
+                                "sort_id":0,  
+                                "tax_rate":"string",  
+                                "item_extra_option_special_hours":[  
+                                    {  
+                                        "day_index":"MON",  
+                                        "start_time":"13:00:00",  
+                                        "end_time":"18:00:00",  
+                                        "start_date":"string",  
+                                        "end_date":"string"  
+                                    }  
+                                ],  
+                                "operation_context":[  
+                                    "string"  
+                                ],  
+                                "quantity_info":{  
+                                    "default_quantity":0,  
+                                    "charge_above":0  
+                                },  
+                                "dish_info":{  
+                                    "nutritional_info":{  
+                                        "calorific_info":{  
+                                            "display_type":"string",  
+                                            "lower_range":0,  
+                                            "higher_range":0  
+                                        }  
+                                    }  
+                                },  
+                                "classification_info":{  
+                                    "classification_tags":[  
+                                        "TAG_KEY_DIETARY_VEGETARIAN"  
+                                    ],  
+                                    "has_side":true,  
+                                    "is_hot":true,  
+                                    "is_entree":true,  
+                                    "has_alcoholic_items":true,  
+                                    "service_types":[  
+                                        "string"  
+                                    ]  
+                                }  
+                                }  
+                            }  
+                        ]  
+                    }  
+                    ],  
+                    "tax_rate":"string",  
+                    "original_image_url":"string",  
+                    "operation_context":[  
+                    "string"  
+                    ],  
+                    "dish_info":{  
+                    "nutritional_info":{  
+                        "calorific_info":{  
+                            "display_type":"string",  
+                            "lower_range":0,  
+                            "higher_range":0  
+                        }  
+                    }  
+                    },  
+                    "classification_info":{  
+                    "has_side":true,  
+                    "is_hot":true,  
+                    "is_entree":true,  
+                    "has_alcoholic_items":true,  
+                    "service_types":[  
+                        "string"  
+                    ]  
+                    }  
+                }  
+            }  
+        ]  
+    }  
+]  
+}  
+
+```
+
+---
+
+*Modified: 5/05/2023*
+

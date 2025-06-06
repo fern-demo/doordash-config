@@ -1,0 +1,256 @@
+## Prerequisites[​](#prerequisites "Direct link to heading")
+
+DoorDash has made an enhancement to our Open API contract to allow partners to consume discount information within the order payload for promotional campaigns that are funded by the merchant. This additional information is passed through to the merchant when a consumer redeems a Merchant Funded Promotion configured within DoorDash Campaign Manager.
+
+## Overview[​](#overview "Direct link to heading")
+
+Merchants want their point-of-sale (POS) system to be the source of truth for their accounting reconciliation. When running a DoorDash promotion today, the orders are transmitted to the POS without any insight into the amount of discount redeemed by the consumer. This makes it difficult for merchants to reconcile the amount of discount expensed vs revenue earned.
+
+## Get Started[​](#get-started "Direct link to heading")
+
+### How[​](#how "Direct link to heading")
+
+After an eligible promotional campaign is configured within DoorDash Campaign Manager, a Merchant will need to provide the external\_campaign\_id to their DoorDash Account Owner. The DoorDash Engineering Team will take action to enable the Promotions functionality of the OpenAPI Order Service.
+
+Upon configuration of the promotion, DoorDash will send additional fields within the order payload [sample](#example-order). This information will give the merchant the details that are required to reconcile discount redemptions. These fields include:
+
+| These fields will be present for all orders |  |
+| --- | --- |
+| `subtotal_for_tax` | Taxable amount subject to a sales tax logic factoring in discount, discount funding source and store state’s marketplace facilitator status. |
+| `subtotal_tax_amount` | The tax amount calculated after discounts have been applied to the subtotal, but excluding taxes on additional fees like delivery or service charges. |
+
+| These fields will be present for orders with promotions/discounts. |  |
+| --- | --- |
+| `subtotal_discount_funding_source` | promotion funding source, either “doordash” or “merchant”. Applicable when promotion is available. **Note - We only send applied\_discount information for merchant funded promos today.** |
+
+| These fields will be present for orders with subtotal promotions/discounts |  |
+| --- | --- |
+| `applied_discounts` | Array containing all details relevant to the redemption of a promotion. |
+| `discount_amount` | Integer representing promotional value applied to the subtotal. |
+| `promo_id` | String denoting the particular DoorDash Promotional Campaign. |
+| `promo_code` (optional) | String entered by the consumer to apply a promotional discount to the transaction upon checkout. |
+| `external_campaign_id` | Campaign reference id as defined by the merchant. |
+
+| These fields will be present for orders with item-level promotions/discounts [Example](#sample-order-with-item-level-discount) |  |
+| --- | --- |
+| `applied_discounts` | Array containing all details relevant to the redemption of a promotion. |
+| `discount_amount` | Integer representing promotional value applied to the subtotal. |
+| `promo_id` | String denoting the particular DoorDash Promotional Campaign. |
+| `promo_code` (optional) | String entered by the consumer to apply a promotional discount to the transaction upon checkout. |
+| `external_campaign_id` | Campaign reference id as defined by the merchant. |
+| `promo_quantity` (optional) | **Only applicable for item level discounts. Promotion quantity on either item or option.** `free_item_promo_quantity`: free item quantity & `discount_item_promo_quantity`: discounted item quantity & `free_option_promo_quantity`: free option quantity & `discount_option_promo_quantity`: discounted option quantity.  **Currently doordash supports following cases:**  `free_item_promo_quantity` alone & `discount_item_promo_quantity` alone & `free_item_promo_quantity` with `free_option_promo_quantity` |
+
+## FAQ[​](#faq "Direct link to heading")
+
+1. **Will the subtotal and tax reflect the promotion applied?**
+   DoorDash will reflect the subtotal amount before the promotion is redeemed (pre-discount).
+   Orders included promotions, should use the subtotal\_for\_tax value which will reflect the amount subject to a promotion sales tax logic factoring in discount, discount funding source and store state’s marketplace facilitator status.
+2. **Which promotions are eligible?**
+   This functionality is only available for subtotal or item based discounts of any kind. Examples of eligible promotions:
+
+**SubTotal Discounts:**
+
+* X% off an order (e.g 20% off an order; Buy a burger then 10% Off)
+* $X off an order (e.g $5 off an order)
+
+**Item level Discounts:**
+
+* Free Item (e.g Free Fries with a purchase of a burger)
+* Buy One Item, Get That Item Free
+* Buy Item A and Get Item B at 50% off
+
+3. **Can I apply a Promotion to an Item Option or Item Option Extra?**
+   DoorDash supports three types of item-level promotions:
+
+* Promotion applied only to Menu Item
+* Promotion applied only to Menu item’s extra option
+  \*Promotion applied to both the Menu Item and extra options
+
+4. **Will DoorDash send the type of promotion (Merchant funded vs. DoorDash funded)?**
+   DoorDash will send a differentiator between Merchant funded and DoorDash funded promos on the order, reflected in the “subtotal\_discount\_funding\_source” value.
+
+* DoorDash will only send the associated discount info `applied_discounts` on the order payload when the merchant is funding the promotion. (i.e `subtotal_discount_funding_source`:`merchant`)
+
+### Example Order[​](#example-order "Direct link to heading")
+
+Below are portions of order messages with subtotal discount, item discount and no discount. Promotion related information is highlighted. Fields that are specific.
+
+#### Sample order with subtotal level discount[​](#sample-order-with-subtotal-level-discount "Direct link to heading")
+
+Below is an example portion of the order payload for a subtotal discount. Fields that are specific to Promotions are highlighted.
+
+```
+{  
+   "id": "1522756512",  
+   "delivery_uuid": "69668578-b72d-4805-9327-4c5e64b1e75c",  
+   "cart_uuid": "80d4fc48-48fa-4c2f-9375-83d7b4cfb650",  
+   "cart_updated_at": 1615943758280,  
+   "store_order_cart_id": "4332079335",  
+   "tax": 288,  
+   "subtotal": 4271,  
+   "estimated_pickup_time": "2021-03-17T03:23:45.337510+00:00",  
+   "is_pickup": false,  
+   "tip_amount": 1000,  
+   "order_special_instructions": "",  
+   "delivery_address": {},  
+   "consumer": { ... },  
+   "store": { ... },  
+   "categories": [ ... ],  
+   "delivery_short_code": "739884",  
+   "tax_transaction_id": "",  
+   "delivery_fee": 0,  
+   "subtotal_tax_amount": 288,  
+   "taxes_on_fees": 0,  
+   "is_demand_gen": false,  
+   "extra_cart_order_fee": 0,  
+      "is_marketplace_facilitator": false,  
+   "commission_type": "dashpass",  
+   "applied_discounts": [  
+       {  
+           "discount_amount": 500,  
+           "promo_id": "0ea502da-66bd-41f7-b6cf-e8ad3f96bdaa",   
+           "promo_code": "$5 off",  
+           "external_campaign_id": "PLU-123456"  
+       }  
+   ],  
+   "external_order_reference": "",  
+   "currency_code": "USD",  
+   "subtotal_for_tax":3771,  
+   "subtotal_discount_funding_source":"merchant"  
+}  
+
+```
+
+#### Sample order with item level discount[​](#sample-order-with-item-level-discount "Direct link to heading")
+
+Free pizza with topping in the order.
+
+```
+{  
+   "id": "1777340606",  
+   "delivery_uuid": "46ef280e-3bc4-48f8-9c97-1c234f9488f5",  
+   "cart_uuid": "b9264755-f386-4325-84bb-1f4d3cc56a9c",  
+   "cart_updated_at": 1621454222788,  
+   "store_order_cart_id": "4597778889",  
+   "tax": 140,  
+   "subtotal": 1956,  
+   "estimated_pickup_time": "2021-05-19T20:15:17.683553+00:00",  
+   "is_pickup": false,  
+   "tip_amount": 100,  
+   "order_special_instructions": "",  
+   "delivery_address": {},  
+   "consumer": { ... },  
+   "store": { ... },  
+   "categories": [  
+       {  
+           "merchant_supplied_id": "Sides",  
+           "name": "Sides",  
+           "items": [  
+               {  
+                   "name": "Mozzarella Sticks (4 ea.)",  
+                   "quantity": 1,  
+                   "price": 379,  
+                   "merchant_supplied_id": "Mozzarella-Sticks-82692",  
+                   "consumer_name": "John",  
+                   "extras": [],  
+                   "special_instructions": "",  
+                   "applied_item_discount": {  
+                       "discount_amount": 379,  
+                       "promo_id": "7f85583b-03a1-4a54-b6e8-ac4b7b241d2d",  
+                       "external_campaign_id": "Free 4pc Mozz-Delivery.",  
+                       "promo_quantity": {  
+                           "free_item_promo_quantity": 1,  
+                           "free_option_promo_quantity": 1  
+                       }  
+                   }  
+               },  
+               …                                                                            `  
+           ]  
+       },  
+       ...  
+   ],  
+   "delivery_short_code": "854019",  
+   "tax_transaction_id": "",  
+   "delivery_fee": 199,  
+   "subtotal_tax_amount": 140,  
+   "taxes_on_fees": 44,  
+   "is_demand_gen": false,  
+   "extra_cart_order_fee": 0,  
+   "is_marketplace_facilitator": true,  
+   "commission_type": "regular",  
+   "external_order_reference": "",  
+   "currency_code": "USD",  
+   "fulfillment_type": "dx_delivery",  
+   "subtotal_for_tax":1577,  
+   "subtotal_discount_funding_source":"merchant"  
+}  
+
+```
+
+#### Sample order without discount[​](#sample-order-without-discount "Direct link to heading")
+
+No promotion information included in the message.
+
+```
+{  
+   "id": "1825578540",  
+   "delivery_uuid": "d810eed5-ecb1-417c-80dd-96f0c9f9c809",  
+   "cart_uuid": "b6f30543-aacf-4da2-b79c-cef7194ce12c",  
+   "cart_updated_at": 1622505569692,  
+   "store_order_cart_id": "4648815252",  
+   "tax": 270,  
+   "subtotal": 3085,  
+   "estimated_pickup_time": "2021-06-01T00:22:08.836357+00:00",  
+   "is_pickup": false,  
+   "tip_amount": 400,  
+   "order_special_instructions": "",  
+   "delivery_address": {},  
+   "consumer": { ... },  
+   "store": { ... },  
+   "categories": [ ... ],  
+   "delivery_short_code": "500543",  
+   "tax_transaction_id": "",  
+   "delivery_fee": 299,  
+   "subtotal_tax_amount": 270,  
+   "taxes_on_fees": 0,  
+   "is_demand_gen": false,  
+   "extra_cart_order_fee": 0,  
+   "is_marketplace_facilitator": false,  
+   "commission_type": "dashpass",  
+   "external_order_reference": "",  
+
+```
+
+**Example Promo Quantity**
+Free item only. i.e. free pizza without topping
+
+```
+"promo_quantity": {  
+  "free_item_promo_quantity": 1  
+}  
+
+```
+
+Discount item only. Half price for 2nd piece of pizza.
+
+```
+"promo_quantity": {  
+  "discount_item_promo_quantity": 1  
+}  
+
+```
+
+Free item with option. i.e. free pizza with topping
+
+```
+"promo_quantity": {  
+  "free_item_promo_quantity": 1,  
+  "free_option_promo_quantity": 1  
+}  
+
+```
+
+---
+
+*Modified: 5/05/2023*
+

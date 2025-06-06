@@ -1,0 +1,77 @@
+## Overview[​](#overview "Direct link to heading")
+
+As part of the integration workflow, partners can implement an endpoint that allows DoorDash to pull the opening hours for a store location. This refreshes the store hours for a store, changing when Customers are able to order items from the store.
+
+The response from this endpoint should match the [Store model](https://developer.doordash.com/en-US/api/marketplace_v2/#tag/ItemManagementModels/Store).
+
+## Get Started[​](#get-started "Direct link to heading")
+
+---
+
+### Step 1: Set up Endpoint Specification to Pull Store Hours[​](#step-1-set-up-endpoint-specification-to-pull-store-hours "Direct link to heading")
+
+The set up of the endpoint is:
+
+**GET**
+`/{merchant_pull_endpoint}/{store_location_id}`
+
+`store_location_id` is the unique Merchant Supplied ID that is configured for that store location. The endpoint will deliver the store hours for 1 single location at a time. This endpoint should be different from the Inventory pull endpoint.
+
+### Step 2: Ensure that store.json response from endpoint has the correct format[​](#step-2-ensure-that-storejson-response-from-endpoint-has-the-correct-format "Direct link to heading")
+
+As mentioned above, the Store Hours pull request must return the response that matches [Store request model](https://developer.doordash.com/en-US/api/marketplace_v2#tag/ItemManagementModels/Store)
+
+*Note: The response should contain all regular and special hours for a store. DoorDash will replace the current hours of the store with the ones from the json response when calling the pull job endpoint.*
+
+Model response expected from endpoint:
+
+```
+{  
+  "merchant_supplied_store_id": "string",  
+  "open_hours": [  
+    {  
+      "day_index": "MON",  
+      "start_time": "string",  
+      "end_time": "string"  
+    }  
+  ],  
+  "special_hours": [  
+    {  
+      "date": "string",  
+      "start_time": "string",  
+      "end_time": "string",  
+      "closed": true  
+    }  
+  ]  
+}  
+  
+
+```
+
+### Step 3: Enroll your endpoint in the Developer Portal[​](#step-3-enroll-your-endpoint-in-the-developer-portal "Direct link to heading")
+
+Once the endpoint is ready, enroll it using the Developer Portal:
+
+1. Navigate to the [Developer Portal](https://developer.doordash.com/portal)
+2. Navigate to your Marketplace integration
+3. Navigate to the "Webhook subscriptions" section
+4. Click "Configure endpoint"
+5. Select the appropriate provider type
+6. For "Event", select "Store Hours Pull"
+7. Enter the URL
+
+   * Enter the base URL only: `https://{merchant_pull_endpoint}`. DoorDash will send through the store*location\_id \_at the end of the URL* each time a request is made. Your endpoint must accept that URL parameter and return the store hours data only for the store specified.
+8. Enter the authentication token (if needed)
+
+   * Currently we support static tokens and Oauth authentication mechanisms when calling Pull endpoints.
+
+
+
+## Next Steps[​](#next-steps "Direct link to heading")
+
+To ensure that Store Hours pull is working as expected, please reach out to support via Developer Portal or your Technical Account Manager (if applicable) to test.
+
+---
+
+*Modified: 1/21/2025*
+

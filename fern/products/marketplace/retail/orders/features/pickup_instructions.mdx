@@ -1,0 +1,93 @@
+# Send Pickup Instructions
+
+# Send order pickup instructions to Dasher
+
+## Prerequisites[​](#prerequisites "Direct link to heading")
+
+To allow Merchants to send pickup instructions, this must be built out on the Provider side and then the value can be passed to DoorDash within order confirmation.
+
+## Overview[​](#overview "Direct link to heading")
+
+DoorDash has a field within the order confirmation process to allow for a merchant to send a tailored message with instructions for the Dasher per each distinct order. The field that can be used is `"pickup_instructions"`.
+
+
+
+There are 2 moments in the pickup process when the Dasher sees instructions:
+
+* When they first receive the order
+* When they arrive at the store
+
+There are 4 types of pickup instructions that can be utilized and shown to the Dasher:
+
+* Default store-level pickup instructions (set in the Merchant Portal)
+* Arrival store-level pickup instructions (set in the Merchant Portal)
+* Order-level pickup instructions (sent via the API)
+* Dynamic store-level instructions (set in the Merchant Portal)
+
+No type of pickup instructions will overwrite or replace another type
+
+* If more than 1 type of pickup instructions are utilized they will all display to the Dasher in the app
+
+## Get Started[​](#get-started "Direct link to heading")
+
+---
+
+### Step 1: Identify endpoint[​](#step-1-identify-endpoint "Direct link to heading")
+
+Identify the [order confirmation endpoint](https://developer.doordash.com/en-US/api/marketplace#tag/Order-Endpoints/operation/confirmOrder)
+
+**PATCH**
+[https://openapi.doordash.com/marketplace/api/v1/orders/{"{id}"}](https://openapi.doordash.com/marketplace/api/v1/orders/%7Bid%7D)
+
+### Step 2: Add pickup\_instructions field[​](#step-2-add-pickup_instructions-field "Direct link to heading")
+
+Add the additional field `"pickup_instructions"` within the order confirmation PATCH body.
+
+**Example:**
+
+```
+{  
+  
+"merchant_supplied_id": "string",  
+  
+"order_status": "success",  
+  
+"failure_reason": "string",  
+  
+"prep_time": "2021-10-13T17:32:59Z"  
+  
+"pickup_instructions": "string"  
+  
+}  
+
+```
+
+### Step 3: Implement[​](#step-3-implement "Direct link to heading")
+
+Implement a way for Merchants to add pickup instructions through the POS which can be passed to DoorDash which will be shared with the Dasher.
+
+---
+
+## Progress Check[​](#progress-check "Direct link to heading")
+
+A test order can be placed and within the order confirmation you can ensure that the `"pickup_instructions"` are being sent within the body and are sent successfully.
+
+1. [Place and receive a test order.](https://developer.doordash.com/en-US/docs/marketplace/how_to/order_integration)
+2. [Confirm the test order.](https://developer.doordash.com/en-US/api/marketplace#tag/Order-Endpoints/operation/confirmOrder) and ensure the `"pickup_instructions"` are included within the Confirm Order webhook.
+
+## Next Steps[​](#next-steps "Direct link to heading")
+
+Present to your Merchants on how they can leverage this functionality. Such as:
+
+1. Merchants are generating short codes to expedite order identification/retrieval by
+
+Dasher in-store
+
+2. Item specific instructions to ensure proper handling during fulfillment (I.e hot
+
+handle with care, retrieve from pickup rack via side door, etc.)
+
+---
+
+*Modified: 3/16/2023*
+

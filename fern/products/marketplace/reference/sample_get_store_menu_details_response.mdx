@@ -1,0 +1,50 @@
+# Sample GET store menu details response
+
+Limited access
+
+<Warning>
+Marketplace APIs are not yet generally available. Please record interest in early access [here](https://docs.google.com/forms/d/e/1FAIpQLSfggU_NjGWCdi9vyWUicrnzJmtu9vC4zgbfSC3ROwSvW4eV2g/viewform).
+</Warning>
+
+The following JSON object represents the GET store menu details response sent from DoorDash. These requests will return a payload following the below format:
+
+Please refer to the [model](/en-US/api/marketplace#tag/Store-Endpoints/operation/getStoreMenuInfo) for field definitions
+
+```
+{  
+  "provider_name": "provider_a",  
+  "merchant_supplied_id": "location1",  
+  "menus": [  
+    {  
+      "Menu_id": "7ea64c79-cdcd-4144-8c73-b911cafb89fc",  
+      "name": "Breakfast Menu",  
+      "subtitle": "Breakfast Menu",  
+      "is_active": true,  
+      "is_pos_menu": true,  
+      "url": "https://www.doordash.com/store/963310",  
+      "latest_menu_update": {  
+        "Created_at": "2020-08-14T02:13:56.121734Z",  
+        "status": "SUCCESS"  
+      },  
+      "Last_successful_menu_update_at": "2020-08-14T02:13:56.121734Z",  
+      "open_hours": [  
+        {  
+          "start_time": "08:00",  
+          "end_time": "15:00",  
+          "day_index": "MON"  
+        }  
+      ],  
+      "special_hours": [  
+        {  
+          "date": "2020-12-12",  
+          "start_time": "08:00",  
+          "end_time": "15:00",  
+          "closed": true  
+        }  
+      ]  
+    }  
+  ]  
+}  
+
+```
+

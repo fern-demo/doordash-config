@@ -1,0 +1,121 @@
+## Inventory/Pricing Management API[​](#inventorypricing-management-api "Direct link to heading")
+
+### Overview[​](#overview-1 "Direct link to heading")
+
+The Inventory/Pricing Management API is designed for DoorDash partners to manage inventory, pricing, and other in-store attributes of the items they offer on the platform. It allows partners to add inventory/pricing information for new items and update details for existing items at the store level.
+
+**Endpoint URL:** `https://openapi.doordash.com/marketplace/api/v2/stores/{store_location_id}/items`
+
+### Getting Started[​](#getting-started "Direct link to heading")
+
+#### Request[​](#request "Direct link to heading")
+
+* **HTTP Method:**
+
+  + **POST:** Add inventory/pricing for new items at the store.
+    - *Important: Must send at least 50 items for brand new menu.*
+  + **PATCH:** Update inventory/pricing information for existing items at the store.
+* **Headers:**
+
+  + Refer to the [JWT authentication documentation](https://developer.doordash.com/en-US/docs/marketplace/how_to/JWTs) for authentication details.
+* **Payload Example:** [View Example JSON](https://developer.doordash.com/en-US/docs/marketplace/retail/inventory_pricing/reference)
+
+#### Response[​](#response "Direct link to heading")
+
+* **Success Response:**
+
+```
+{  
+  "operation_id": "string",  
+  "operation_status": "SUCCESS",  
+  "message": "string"  
+}  
+
+```
+
+* **Fail Response Details:**
+
+| Response Code | Code | Message | field\_errors.field | field\_errors.error |
+| --- | --- | --- | --- | --- |
+| 400 | validation\_error | One or more request values couldn't be validated. | Name of the field whose value couldn't be validated. | The error that was encountered when validating the field's value. |
+| 401 | authentication\_error | Default: The [exp] is in the past; the JWT is expired | - | - |
+| 403 | authorization\_error | Default: Authorization error: the credentials provided with the request don't work | - | - |
+| 404 | unknown\_business\_id | - | - | - |
+| 422 | request\_rate\_limited | - | - | - |
+| 429 | request\_rate\_limited | - | - | - |
+| 500 | service\_fault | Default: Internal service failure, please try again later. | - | - |
+
+### Verification:[​](#verification "Direct link to heading")
+
+To verify the successful update of inventory/pricing information at the store level, follow these steps:
+
+1. **Attempt to Manipulate Item Data:**
+
+   * Make intentional changes to the inventory/pricing information for items in a test store using the provided endpoint.
+2. **Check for Changes:**
+
+   * After making the changes, observe the behavior of the items in the DoorDash Retail UI or any integrated system. Changes should be reflected within a few minutes.
+3. **Reach Out for Confirmation:**
+
+   * If you encounter any issues or want confirmation, reach out to your DoorDash technical account manager. Provide details about the changes made and the specific store to expedite the verification process.
+
+Please provide an example of the payload used in the request when reaching out for verification.
+
+### Scenarios[​](#scenarios "Direct link to heading")
+
+The following events will occur when new Merchants are being onboarded to DoorDash, or new stores under existing Merchants are being activated.
+
+| Scenario | Description | Endpoint | Data Populated | Desired Call Patterns |
+| --- | --- | --- | --- | --- |
+| 1 | A brand new store is launching on DoorDash. Inventory and pricing data for all sellable items are created simultaneously   *Important: Must send at least 50 items for brand new menu* | POST Inventory Endpoint | Base\_price, status, and balance\_on\_hand populated for all items in store | Records batched (~1000 items) |
+| 2 - part 1 | A brand new store is launching on DoorDash. Inventory and pricing data for all sellable items are created separately   *Important: Must send at least 50 items for brand new menu* | POST Inventory Endpoint | base\_price populated for all items in store | Records batched (~1000 items) |
+| 2 - part 2 | A brand new store is launching on DoorDash. Inventory and pricing data for all sellable items are created separately   *Important: Must send at least 50 items for brand new menu* | POST Inventory Endpoint | balance\_on\_hand populated for all items in store | Records batched (~1000 items) |
+
+The following events will occur when inventory and pricing are updated. We recommend leveraging the API to reflect changes as they are happening intraday.
+
+| Scenario | Description | Endpoint | Data Populated | Desired Call Patterns |
+| --- | --- | --- | --- | --- |
+| 1 | Due to a summer holiday, multiple stores have limited availability of Miller Lite 6 packs of beer | PATCH Inventory endpoint | Miller Lite 6 packs at locations 001 and 774 are updated with “balance\_on\_hand": 2 | As close to real-time as possible (batched where relevant) |
+| 2 | Due to a summer holiday, multiple stores have limited availability of Miller Lite 6 packs of beer | PATCH Inventory endpoint | Miller Lite 6 packs at locations 001, 234, and 774 are updated with “status": INACTIVE or “balance\_on\_hand”:0 | As close to real-time as possible (batched where relevant) |
+| 3 | Location 003 marks down themed M&Ms after the July 4th holiday | PATCH Inventory endpoint | M&M’s at location 003 are updated with "sale\_price": 1.50 | As close to real-time as possible (batched where relevant) |
+
+If it is not technically feasible for our partners to send near-real-time updates, we expect to receive daily pricing and inventory updates which can be batched (i.e nightly)
+
+| Scenario | Description | Endpoint | Data Populated | Desired Call Patterns |
+| --- | --- | --- | --- | --- |
+| 1 | A full sync job runs nightly within the Merchants systems. An export of this snapshot is shared with Doordash | POST Inventory endpoint | All items across all stores are updated with the appropriate status: INACTIVE or ACTIVE | Scheduled — records batched (~1000 items) |
+| 2 | Due to the upcoming back-to-school season, backpacks are discounted from their original price of $39 across all stores | POST Inventory endpoint | All backpacks across all eligible stores are updated with "sale\_price": 28.99 | Scheduled — records batched (~1000 items) |
+
+### FAQ[​](#faq "Direct link to heading")
+
+1. **How is `store_location_id` determined?**
+
+   * The `store_location_id` is determined by the Partner and is typically aligned with a standard internal naming convention for each store. Each store within a business must have a unique `store_location_id`.
+2. **How quickly is the inventory/pricing information updated at the store level?**
+
+   * Inventory and pricing updates should typically be reflected within minutes.
+3. **If `balance_on_hand` is set to 0, will the item be marked as out of stock?**
+
+   * No, `item_availability` is what DoorDash uses to determine if the item should be available for ordering.
+4. **How will DoorDash use my inventory data like `balance_on_hand` or `last_sold_date`?**
+
+   * DoorDash uses this data as an input for predictive data modeling that allows us to provide insights to the Customer while they shop by badging items that are likely to be or are out of stock. *Note: DoorDash is committed to protecting the privacy of this data and will not use or distribute for any other purposes.*
+5. **Will DoorDash restrict the number of units a Customer can order based on the `balance_on_hand`?**
+
+   * No, `balance_on_hand` data is used for predictive data modeling to better set Customer expectations when an item is likely to be or is out of stock.
+6. **How does DoorDash use `sale_price`?**
+
+   * If a partner passes both a `base_price` and a `sale_price`, DoorDash is able to display as a strikethrough deal & dynamically add those items to a ‘deals’ category to highlight these savings to Customers.
+7. **How is data in the `location` object used?**
+
+   * This data is recommended for any partner leveraging the Dasher Shop & Deliver fulfillment model. This information is shared with Dashers to help them shop for items more efficiently in stores, reducing the overall time to deliver goods to Customers.
+8. **How does DoorDash define the concept of "business level"?**
+
+   * In the context of DoorDash, the term "business level" refers to the organizational structure used to manage a comprehensive set of item data, also known as a catalog. This catalog includes all the necessary information to effectively merchandise items available for purchase across all stores. Specifically, a business in DoorDash's system corresponds to a banner or chain of stores. It's important to note that a parent company may have multiple businesses, each associated with its unique catalog.
+9. **What format should the price and tax fields take?**
+
+   * `base_price`, `sale_price`, `bottle_fee` will all be in cents (e.g. $10.99 item will have `base_price` of 1099). `tax_rate` will be a double and should be sent as a percent (e.g.`tax_rate` of 8% will be sent with value `8` and `tax_rate` of 5.5% will be sent with a value of `5.5`)
+10. **I just POSTed inventory to my store - so why doesn't it have a menu?**
+
+    * When creating a store's very first menu - typically during onboarding - using Inventory POST or PATCH, you *must send at least 50 items*. Alternatively, you can build to the [Inventory Pull](https://developer.doordash.com/en-US/docs/marketplace/retail/how_to/store_item_pull_job) pattern and use that to create menus for new stores.
+

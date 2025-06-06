@@ -1,0 +1,77 @@
+## Prerequisites[​](#prerequisites "Direct link to heading")
+
+To allow Consumers on DoorDash Marketplace to accept or decline receiving single-use utensils/accessories at your store, the feature must be enabled at the store/business level by a DoorDash Technical Account Manager and the “Orders” Webhook Subscription must be built out on the Provider side to enable DoorDash to pass the value within the order confirmation payload body.
+
+## Overview[​](#overview "Direct link to heading")
+
+DoorDash has a toggle during checkout to allow Customers to opt-in or opt-out of receiving single-use accessories. DoorDash will include an additional boolean field *"is\_plastic\_ware\_option\_selected”* on the order payload to notify the Merchant operator of the Consumer’s plasticware selection.
+
+## Get Started[​](#get-started "Direct link to heading")
+
+### Step 1: Confirm your [Webhook Subscription setup](https://developer.doordash.com/portal/integration/marketplace/webhook_subscriptions) is complete[​](#step-1-confirm-your-webhook-subscription-setup-is-complete "Direct link to heading")
+
+Verify the Endpoint URL defined for the “Orders” Event Type.
+
+
+### Step 2: Identify the order payload model and the additional field **"is\_plastic\_ware\_option\_selected"**.[​](#step-2-identify-the-order-payload-model-and-the-additional-field-is_plastic_ware_option_selected "Direct link to heading")
+
+### Step 3: Upon order injection, validate the field **"is\_plastic\_ware\_option\_selected"**[​](#step-3-upon-order-injection-validate-the-field-is_plastic_ware_option_selected "Direct link to heading")
+
+Alert the store operator to include single-use accessories if the field is set to “true”. When the guest elects to include single-use accessories on their order, this value is often included on the Kitchen Display System and printed on receipts.
+
+## Progress Check[​](#progress-check "Direct link to heading")
+
+After the feature is enabled for your test store, a test order can be placed to validate that the **"is\_plastic\_ware\_option\_selected"** field is being sent within the order payload body and handled correctly downstream.
+
+## Next Steps[​](#next-steps "Direct link to heading")
+
+### Step 1 - POS Programming[​](#step-1---pos-programming "Direct link to heading")
+
+Confirm if any additional programming is needed locally within the POS database to support the mapping of DoorDash’s plasticware field to the corresponding item/option within the Merchant’s environment.
+
+### Step 2 - User Acceptance Testing[​](#step-2---user-acceptance-testing "Direct link to heading")
+
+During testing, ensure that Consumer selection for single-use accessories is visible to the store operator downstream within POS/KDS.
+
+### Step 3 - Deployment Planning[​](#step-3---deployment-planning "Direct link to heading")
+
+Define feature deployment schedule with your DoorDash Technical Account Manager and verify successful implementation in Production during pilot period.
+
+### Step 4 - Complete Rollout[​](#step-4---complete-rollout "Direct link to heading")
+
+Ensure that functionality is enabled for all eligible stores under your provider.
+
+## FAQs[​](#faqs "Direct link to heading")
+
+### Why is DoorDash rolling out this new policy?[​](#why-is-doordash-rolling-out-this-new-policy "Direct link to heading")
+
+Reducing our environmental footprint is important to DoorDash, and this new policy tracks environmental guidelines in specific cities in the United States.
+
+### What do you mean by “plasticware”?[​](#what-do-you-mean-by-plasticware "Direct link to heading")
+
+Plasticware includes utensils, straws, stirrers, sauces, and napkins. When an order
+indicates “no silverware”, then no plasticware is needed.
+
+### How will consumers select whether or not to include silverware?[​](#how-will-consumers-select-whether-or-not-to-include-silverware "Direct link to heading")
+
+In each order, consumers select whether they want silverware. By default, silverware will
+be excluded from their order. We anticipate the majority of your DoorDash orders will not
+include silverware.
+
+### Will Dashers know about this change?[​](#will-dashers-know-about-this-change "Direct link to heading")
+
+Yes, we are communicating these changes to Dashers. Today, Dashers confirm whether
+silverware is included and often pick up napkins. Specifically, Dashers will also see
+whether consumers are selecting silverware in each order and adjust accordingly.
+
+### Where does this new DoorDash program apply?[​](#where-does-this-new-doordash-program-apply "Direct link to heading")
+
+The feature is currently available only in select geographies. More details [here](https://help.doordash.com/merchants/s/article/Single-Use-Accessories?language=en_US).
+
+### If I don’t provide any silverware today, do I need to start?[​](#if-i-dont-provide-any-silverware-today-do-i-need-to-start "Direct link to heading")
+
+If your orders do not require silverware today (e.g., pizza), you do not need to start
+supplying silverware.
+
+Modified: 3/21/2023
+

@@ -1,0 +1,1322 @@
+openapi: 3.1.0
+info:
+  title: DoorDash Drive Classic API
+  version: 0.4.8
+  description: |
+    The DoorDash Drive Classic API enables partners to create and manage deliveries, quotes, and stores using the legacy interface. For more information, visit the [DoorDash Developer Portal](https://developer.doordash.com/en-US/api/drive_classic/).
+servers:
+  - url: https://openapi.doordash.com
+    description: Production server
+security:
+  - BearerAuth: []
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        JWT Token authentication. See the [JWT Token guide](https://developer.doordash.com/en-US/docs/drive/api/token) for more information.
+  schemas:
+    Address:
+      type: object
+      properties:
+        city:
+          type: string
+        state:
+          type: string
+        street:
+          type: string
+        unit:
+          type: string
+        zip_code:
+          type: string
+        full_address:
+          type: string
+        location:
+          type: object
+          properties:
+            lat:
+              type: number
+            lng:
+              type: number
+    Item:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        barcode:
+          type: string
+        quantity:
+          type: integer
+        external_id:
+          type: string
+        volume:
+          type: number
+        weight:
+          type: number
+        length:
+          type: number
+        width:
+          type: number
+        height:
+          type: number
+        price:
+          type: integer
+    DeliveryEstimateRequest:
+      type: object
+      properties:
+        pickup_address:
+          $ref: '#/components/schemas/Address'
+        dropoff_address:
+          $ref: '#/components/schemas/Address'
+        order_value:
+          type: integer
+        delivery_time:
+          type: string
+          format: date-time
+        pickup_time:
+          type: string
+          format: date-time
+        external_business_name:
+          type: string
+        external_business_id:
+          type: string
+        external_store_id:
+          type: string
+        promotion_id:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+      required:
+        - dropoff_address
+        - order_value
+    FeeComponent:
+      type: object
+      properties:
+        type:
+          type: string
+        amount:
+          type: integer
+    TaxComponent:
+      type: object
+      properties:
+        type:
+          type: string
+        amount:
+          type: integer
+    DeliveryEstimateResponse:
+      type: object
+      properties:
+        delivery_time:
+          type: string
+          format: date-time
+        fee:
+          type: integer
+        fee_components:
+          type: array
+          items:
+            $ref: '#/components/schemas/FeeComponent'
+        tax:
+          type: integer
+        tax_components:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxComponent'
+        pickup_time:
+          type: string
+          format: date-time
+        currency:
+          type: string
+        id:
+          type: integer
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+    Delivery:
+      type: object
+      properties:
+        id:
+          type: integer
+        status:
+          type: string
+        delivery_time:
+          type: string
+          format: date-time
+        pickup_time:
+          type: string
+          format: date-time
+        fee:
+          type: integer
+        currency:
+          type: string
+        dropoff_address:
+          $ref: '#/components/schemas/Address'
+        pickup_address:
+          $ref: '#/components/schemas/Address'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+        external_business_id:
+          type: string
+        external_store_id:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        last_updated_at:
+          type: string
+          format: date-time
+    UpdateDeliveryRequest:
+      type: object
+      properties:
+        pickup_address:
+          $ref: '#/components/schemas/Address'
+        dropoff_address:
+          $ref: '#/components/schemas/Address'
+        delivery_time:
+          type: string
+          format: date-time
+        pickup_time:
+          type: string
+          format: date-time
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+        promotion_id:
+          type: string
+    Business:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        external_business_id:
+          type: string
+        activation_status:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        last_updated_at:
+          type: string
+          format: date-time
+        is_test:
+          type: boolean
+        external_metadata:
+          type: object
+          properties:
+            number_of_stores:
+              type: string
+            client_email:
+              type: string
+    UpdateBusinessRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the business.
+        description:
+          type: string
+          description: The description of the business.
+    CreateBusinessRequest:
+      type: object
+      required:
+        - external_business_id
+        - name
+      properties:
+        external_business_id:
+          type: string
+          description: "Unique, caller-selected ID of the business. Validated using the following regular expression: /^[A-Za-z0-9_-]{3,64}$/."
+        name:
+          type: string
+          description: The name of the business.
+        description:
+          type: string
+          description: The description of the business.
+    ListBusinessesResponse:
+      type: object
+      properties:
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/Business'
+        continuation_token:
+          type: string
+        result_count:
+          type: integer
+    Store:
+      type: object
+      properties:
+        name:
+          type: string
+        external_business_id:
+          type: string
+        external_store_id:
+          type: string
+        phone_number:
+          type: string
+        address:
+          type: string
+        status:
+          type: string
+        is_test:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        last_updated_at:
+          type: string
+          format: date-time
+    UpdateStoreRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the store.
+        phone_number:
+          type: string
+          description: The phone number of the store.
+        address:
+          type: string
+          description: The full address of the store, in the order appropriate for your locale, with each element separated by a comma.
+    CreateStoreRequest:
+      type: object
+      required:
+        - external_store_id
+        - name
+        - address
+      properties:
+        external_store_id:
+          type: string
+          description: "A unique ID for the store, selected or generated by the API caller. Validated using the following regular expression: /^[A-Za-z0-9_-]{3,64}$/."
+        name:
+          type: string
+          description: The name of the store.
+        phone_number:
+          type: string
+          description: The phone number of the store.
+        address:
+          type: string
+          description: The full address of the store, in the order appropriate for your locale, with each element separated by a comma.
+    ListStoresResponse:
+      type: object
+      properties:
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/Store'
+        continuation_token:
+          type: string
+        result_count:
+          type: integer
+paths:
+  /drive/v1/estimates:
+    post:
+      tags:
+        - Delivery
+      summary: Delivery Estimate
+      description: Request time and fee estimates for the delivery. The Estimates API can also be used to check if an area is serviced.
+      operationId: deliveryEstimate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeliveryEstimateRequest'
+            examples:
+              basic:
+                value:
+                  pickup_address:
+                    city: "San Francisco"
+                    state: "California"
+                    street: "101 Howard Street"
+                    unit: "Apt 301"
+                    zip_code: "94105"
+                    full_address: "901 Market Street 6th Floor, San Francisco, CA 94103"
+                  dropoff_address:
+                    city: "San Francisco"
+                    state: "California"
+                    street: "901 Market Street"
+                    unit: "Suite #600"
+                    zip_code: "94105"
+                    full_address: "901 Market Street 6th Floor, San Francisco, CA 94103"
+                    location:
+                      lat: 37.78
+                      lng: -122.4
+                  order_value: 1999
+                  delivery_time: "2018-08-22T17:21:28Z"
+                  pickup_time: "2018-08-22T17:20:28Z"
+                  external_business_name: "1443432456"
+                  external_business_id: "a0720d55-7cbe-41ce-8185-58285b7985cd"
+                  external_store_id: "mega-corp-2340593"
+                  promotion_id: "ee680b87-0016-496e-ac3c-d3f33ab54c1c"
+                  items:
+                    - name: "Mega Bean and Cheese Burrito"
+                      description: "Mega Burrito contains the biggest beans of the land with extra cheese."
+                      barcode: "12342830041"
+                      quantity: 2
+                      external_id: "123-123443434b"
+                      volume: 5.3
+                      weight: 2.8
+                      length: 2.8
+                      width: 2.8
+                      height: 2.8
+                      price: 1000
+      responses:
+        '200':
+          description: Estimate returned for the delivery with the given parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeliveryEstimateResponse'
+              examples:
+                success:
+                  value:
+                    delivery_time: "2018-08-22T17:20:28Z"
+                    fee: 1900
+                    fee_components:
+                      - type: "distance_based_fee"
+                        amount: 1900
+                    tax: 520
+                    tax_components:
+                      - type: "gst_hst"
+                        amount: 520
+                    pickup_time: "2018-08-22T18:10:58Z"
+                    currency: "USD"
+                    id: 48173944
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /drive/v1/validation:
+    post:
+      tags:
+        - Delivery
+      summary: Delivery Validation
+      description: Validates input parameters for delivery and checks if the area is serviceable. DoorDash recommends using the Estimates API instead.
+      operationId: deliveryValidation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeliveryEstimateRequest'
+            examples:
+              basic:
+                value:
+                  pickup_address:
+                    city: "San Francisco"
+                    state: "California"
+                    street: "101 Howard Street"
+                    unit: "Apt 301"
+                    zip_code: "94105"
+                    full_address: "901 Market Street 6th Floor, San Francisco, CA 94103"
+                  dropoff_address:
+                    city: "San Francisco"
+                    state: "California"
+                    street: "901 Market Street"
+                    unit: "Suite #600"
+                    zip_code: "94105"
+                    full_address: "901 Market Street 6th Floor, San Francisco, CA, 94103"
+                    location:
+                      lat: 37.78
+                      lng: -122.4
+                  order_value: 1999
+                  delivery_time: "2018-08-22T17:21:28Z"
+                  pickup_time: "2018-08-22T17:20:28Z"
+                  external_business_name: "1443432456"
+                  external_business_id: "a0720d55-7cbe-41ce-8185-58285b7985cd"
+                  external_store_id: "mega-corp-2340593"
+                  promotion_id: "ee680b87-0016-496e-ac3c-d3f33ab54c1c"
+                  items:
+                    - name: "Mega Bean and Cheese Burrito"
+                      description: "Mega Burrito contains the biggest beans of the land with extra cheese."
+                      barcode: "12342830041"
+                      quantity: 2
+                      external_id: "123-123443434b"
+                      volume: 5.3
+                      weight: 2.8
+                      length: 2.8
+                      width: 2.8
+                      height: 2.8
+                      price: 1000
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal service failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /drive/v1/deliveries:
+    post:
+      tags:
+        - Delivery
+      summary: Delivery Creation
+      description: Create a new delivery.
+      operationId: createDelivery
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeliveryEstimateRequest'
+            examples:
+              basic:
+                value:
+                  pickup_address:
+                    city: "San Francisco"
+                    state: "California"
+                    street: "101 Howard Street"
+                    unit: "Apt 301"
+                    zip_code: "94105"
+                    full_address: "901 Market Street 6th Floor, San Francisco, CA 94103"
+                  dropoff_address:
+                    city: "San Francisco"
+                    state: "California"
+                    street: "901 Market Street"
+                    unit: "Suite #600"
+                    zip_code: "94105"
+                    full_address: "901 Market Street 6th Floor, San Francisco, CA, 94103"
+                    location:
+                      lat: 37.78
+                      lng: -122.4
+                  order_value: 1999
+                  delivery_time: "2018-08-22T17:21:28Z"
+                  pickup_time: "2018-08-22T17:20:28Z"
+                  external_business_name: "1443432456"
+                  external_business_id: "a0720d55-7cbe-41ce-8185-58285b7985cd"
+                  external_store_id: "mega-corp-2340593"
+                  promotion_id: "ee680b87-0016-496e-ac3c-d3f33ab54c1c"
+                  items:
+                    - name: "Mega Bean and Cheese Burrito"
+                      description: "Mega Burrito contains the biggest beans of the land with extra cheese."
+                      barcode: "12342830041"
+                      quantity: 2
+                      external_id: "123-123443434b"
+                      volume: 5.3
+                      weight: 2.8
+                      length: 2.8
+                      width: 2.8
+                      height: 2.8
+                      price: 1000
+      responses:
+        '200':
+          description: Delivery created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Delivery'
+              examples:
+                success:
+                  value:
+                    id: 123456
+                    status: "created"
+                    delivery_time: "2018-08-22T17:21:28Z"
+                    pickup_time: "2018-08-22T17:20:28Z"
+                    fee: 1900
+                    currency: "USD"
+                    dropoff_address:
+                      city: "San Francisco"
+                      state: "California"
+                      street: "901 Market Street"
+                      unit: "Suite #600"
+                      zip_code: "94105"
+                      full_address: "901 Market Street 6th Floor, San Francisco, CA, 94103"
+                      location:
+                        lat: 37.78
+                        lng: -122.4
+                    pickup_address:
+                      city: "San Francisco"
+                      state: "California"
+                      street: "101 Howard Street"
+                      unit: "Apt 301"
+                      zip_code: "94105"
+                      full_address: "901 Market Street 6th Floor, San Francisco, CA 94103"
+                    items:
+                      - name: "Mega Bean and Cheese Burrito"
+                        description: "Mega Burrito contains the biggest beans of the land with extra cheese."
+                        barcode: "12342830041"
+                        quantity: 2
+                        external_id: "123-123443434b"
+                        volume: 5.3
+                        weight: 2.8
+                        length: 2.8
+                        width: 2.8
+                        height: 2.8
+                        price: 1000
+                    external_business_id: "a0720d55-7cbe-41ce-8185-58285b7985cd"
+                    external_store_id: "mega-corp-2340593"
+                    created_at: "2018-08-22T17:00:00Z"
+                    last_updated_at: "2018-08-22T17:05:00Z"
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /drive/v1/deliveries/{delivery_id}:
+    get:
+      tags:
+        - Delivery
+      summary: Get Delivery Details
+      description: Retrieve the details of a specific delivery.
+      operationId: getDeliveryDetails
+      parameters:
+        - name: delivery_id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: The DoorDash-generated delivery ID.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Delivery'
+              examples:
+                success:
+                  value:
+                    id: 123456
+                    status: "created"
+                    delivery_time: "2018-08-22T17:21:28Z"
+                    pickup_time: "2018-08-22T17:20:28Z"
+                    fee: 1900
+                    currency: "USD"
+                    dropoff_address:
+                      city: "San Francisco"
+                      state: "California"
+                      street: "901 Market Street"
+                      unit: "Suite #600"
+                      zip_code: "94105"
+                      full_address: "901 Market Street 6th Floor, San Francisco, CA, 94103"
+                      location:
+                        lat: 37.78
+                        lng: -122.4
+                    pickup_address:
+                      city: "San Francisco"
+                      state: "California"
+                      street: "101 Howard Street"
+                      unit: "Apt 301"
+                      zip_code: "94105"
+                      full_address: "901 Market Street 6th Floor, San Francisco, CA 94103"
+                    items:
+                      - name: "Mega Bean and Cheese Burrito"
+                        description: "Mega Burrito contains the biggest beans of the land with extra cheese."
+                        barcode: "12342830041"
+                        quantity: 2
+                        external_id: "123-123443434b"
+                        volume: 5.3
+                        weight: 2.8
+                        length: 2.8
+                        width: 2.8
+                        height: 2.8
+                        price: 1000
+                    external_business_id: "a0720d55-7cbe-41ce-8185-58285b7985cd"
+                    external_store_id: "mega-corp-2340593"
+                    created_at: "2018-08-22T17:00:00Z"
+                    last_updated_at: "2018-08-22T17:05:00Z"
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Delivery not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      tags:
+        - Delivery
+      summary: Update Delivery
+      description: Update the details of a specific delivery.
+      operationId: updateDelivery
+      parameters:
+        - name: delivery_id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: The DoorDash-generated delivery ID.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateDeliveryRequest'
+            examples:
+              basic:
+                value:
+                  dropoff_address:
+                    city: "San Francisco"
+                    state: "California"
+                    street: "456 Market St"
+                    unit: "Suite #700"
+                    zip_code: "94105"
+                    full_address: "456 Market St, San Francisco, CA, 94103"
+                  delivery_time: "2018-08-22T18:00:00Z"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Delivery'
+              examples:
+                success:
+                  value:
+                    id: 123456
+                    status: "updated"
+                    delivery_time: "2018-08-22T18:00:00Z"
+                    pickup_time: "2018-08-22T17:20:28Z"
+                    fee: 1900
+                    currency: "USD"
+                    dropoff_address:
+                      city: "San Francisco"
+                      state: "California"
+                      street: "456 Market St"
+                      unit: "Suite #700"
+                      zip_code: "94105"
+                      full_address: "456 Market St, San Francisco, CA, 94103"
+                      location:
+                        lat: 37.78
+                        lng: -122.4
+                    pickup_address:
+                      city: "San Francisco"
+                      state: "California"
+                      street: "101 Howard Street"
+                      unit: "Apt 301"
+                      zip_code: "94105"
+                      full_address: "901 Market Street 6th Floor, San Francisco, CA 94103"
+                    items:
+                      - name: "Mega Bean and Cheese Burrito"
+                        description: "Mega Burrito contains the biggest beans of the land with extra cheese."
+                        barcode: "12342830041"
+                        quantity: 2
+                        external_id: "123-123443434b"
+                        volume: 5.3
+                        weight: 2.8
+                        length: 2.8
+                        width: 2.8
+                        height: 2.8
+                        price: 1000
+                    external_business_id: "a0720d55-7cbe-41ce-8185-58285b7985cd"
+                    external_store_id: "mega-corp-2340593"
+                    created_at: "2018-08-22T17:00:00Z"
+                    last_updated_at: "2018-08-22T18:05:00Z"
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Delivery not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      tags:
+        - Delivery
+      summary: Cancel Delivery
+      description: Cancel a specific delivery by its DoorDash-generated delivery ID.
+      operationId: cancelDelivery
+      parameters:
+        - name: delivery_id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: The DoorDash-generated delivery ID.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Delivery'
+              examples:
+                success:
+                  value:
+                    id: 123456
+                    status: "cancelled"
+                    delivery_time: "2018-08-22T17:21:28Z"
+                    pickup_time: "2018-08-22T17:20:28Z"
+                    fee: 1900
+                    currency: "USD"
+                    dropoff_address:
+                      city: "San Francisco"
+                      state: "California"
+                      street: "901 Market Street"
+                      unit: "Suite #600"
+                      zip_code: "94105"
+                      full_address: "901 Market Street 6th Floor, San Francisco, CA, 94103"
+                      location:
+                        lat: 37.78
+                        lng: -122.4
+                    pickup_address:
+                      city: "San Francisco"
+                      state: "California"
+                      street: "101 Howard Street"
+                      unit: "Apt 301"
+                      zip_code: "94105"
+                      full_address: "901 Market Street 6th Floor, San Francisco, CA 94103"
+                    items:
+                      - name: "Mega Bean and Cheese Burrito"
+                        description: "Mega Burrito contains the biggest beans of the land with extra cheese."
+                        barcode: "12342830041"
+                        quantity: 2
+                        external_id: "123-123443434b"
+                        volume: 5.3
+                        weight: 2.8
+                        length: 2.8
+                        width: 2.8
+                        height: 2.8
+                        price: 1000
+                    external_business_id: "a0720d55-7cbe-41ce-8185-58285b7985cd"
+                    external_store_id: "mega-corp-2340593"
+                    created_at: "2018-08-22T17:00:00Z"
+                    last_updated_at: "2018-08-22T17:05:00Z"
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Delivery not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /drive/v1/businesses/{external_business_id}:
+    get:
+      tags:
+        - Business & Store
+      summary: Get Business
+      description: Get the details of a business.
+      operationId: getBusiness
+      parameters:
+        - name: external_business_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: "Unique, caller-selected ID of the business. Validated using the following regular expression: /^[A-Za-z0-9_-]{3,64}$/."
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Business'
+              examples:
+                success:
+                  value:
+                    name: "Neighborhood Deli Group"
+                    description: "A group of local delis."
+                    external_business_id: "a0720d55-7cbe-41ce-8185-58285b7985cd"
+                    activation_status: "active"
+                    created_at: "2022-04-25T17:21:43Z"
+                    last_updated_at: "2022-04-25T17:21:43Z"
+                    is_test: false
+                    external_metadata:
+                      number_of_stores: "10"
+                      client_email: "owner@deli.com"
+        '400':
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Operation not authorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Business not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal service failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      tags:
+        - Business & Store
+      summary: Update Business
+      description: Update the attributes of a business.
+      operationId: updateBusiness
+      parameters:
+        - name: external_business_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: "Unique, caller-selected ID of the business. Validated using the following regular expression: /^[A-Za-z0-9_-]{3,64}$/ ."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateBusinessRequest'
+            examples:
+              basic:
+                value:
+                  name: "Neighborhood Deli Group"
+                  description: "A group of local delis."
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Business'
+              examples:
+                success:
+                  value:
+                    name: "Neighborhood Deli Group"
+                    description: "A group of local delis."
+                    external_business_id: "a0720d55-7cbe-41ce-8185-58285b7985cd"
+                    activation_status: "active"
+                    created_at: "2022-04-25T17:21:43Z"
+                    last_updated_at: "2022-04-25T17:21:43Z"
+                    is_test: false
+                    external_metadata:
+                      number_of_stores: "10"
+                      client_email: "owner@deli.com"
+        '400':
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Operation not authorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Business not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal service failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /drive/v1/businesses:
+    post:
+      tags:
+        - Business & Store
+      summary: Create Business
+      description: Create a new business.
+      operationId: createBusiness
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBusinessRequest'
+            examples:
+              basic:
+                value:
+                  external_business_id: "a0720d55-7cbe-41ce-8185-58285b7985cd"
+                  name: "Neighborhood Deli Group"
+                  description: "A group of local delis."
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Business'
+              examples:
+                success:
+                  value:
+                    name: "Neighborhood Deli Group"
+                    description: "A group of local delis."
+                    external_business_id: "a0720d55-7cbe-41ce-8185-58285b7985cd"
+                    activation_status: "active"
+                    created_at: "2022-04-25T17:21:43Z"
+                    last_updated_at: "2022-04-25T17:21:43Z"
+                    is_test: false
+                    external_metadata:
+                      number_of_stores: "10"
+                      client_email: "owner@deli.com"
+        '400':
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Operation not authorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Unknown external business ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '424':
+          description: Missing dependency to set up business
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal service failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      tags:
+        - Business & Store
+      summary: List Businesses
+      description: List all businesses for the developer.
+      operationId: listBusinesses
+      parameters:
+        - name: continuationToken
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Opaque string that can be used to fetch next page of businesses, the token value will be null if there are no more businesses to fetch. Page size is 100 businesses.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListBusinessesResponse'
+              examples:
+                success:
+                  value:
+                    result:
+                      - name: "Neighborhood Deli Group"
+                        description: "A group of local delis."
+                        external_business_id: "a0720d55-7cbe-41ce-8185-58285b7985cd"
+                        activation_status: "active"
+                        created_at: "2022-04-25T17:21:43Z"
+                        last_updated_at: "2022-04-25T17:21:43Z"
+                        is_test: false
+                        external_metadata:
+                          number_of_stores: "10"
+                          client_email: "owner@deli.com"
+                    continuation_token: "string"
+                    result_count: 1
+        '400':
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Operation not authorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal service failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /drive/v1/businesses/{external_business_id}/stores:
+    post:
+      tags:
+        - Business & Store
+      summary: Create Store
+      description: Create a Drive store. To create a store for your developer's default business please create stores under "default" external_business_id.
+      operationId: createStore
+      parameters:
+        - name: external_business_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: "Unique, caller-selected ID of the business. Validated using the following regular expression: /^[A-Za-z0-9_-]{3,64}$/ ."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateStoreRequest'
+            examples:
+              basic:
+                value:
+                  external_store_id: "ed178ef3-b486-4ce8-8baa-5bc9f0f3fa4a"
+                  name: "Neighborhood Deli #10"
+                  phone_number: "+12065551212"
+                  address: "901 Market Street, 6th Floor, San Francisco, CA, 94103"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store'
+              examples:
+                success:
+                  value:
+                    name: "Neighborhood Deli #10"
+                    external_business_id: "a0720d55-7cbe-41ce-8185-58285b7985cd"
+                    external_store_id: "ed178ef3-b486-4ce8-8baa-5bc9f0f3fa4a"
+                    phone_number: "+12065551212"
+                    address: "901 Market Street, 6th Floor, San Francisco, CA, 94103"
+                    status: "active"
+                    is_test: false
+                    created_at: "2022-04-25T17:21:43Z"
+                    last_updated_at: "2022-04-25T17:21:43Z"
+        '400':
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Operation not authorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Unknown external business ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '424':
+          description: Missing dependency to set up stores
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal service failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      tags:
+        - Business & Store
+      summary: List Stores
+      description: List the stores under a business.
+      operationId: listStores
+      parameters:
+        - name: external_business_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: "Unique, caller-selected ID of the business. Validated using the following regular expression: /^[A-Za-z0-9_-]{3,64}$/ ."
+        - name: activationStatus
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [active, inactive]
+          description: Activation status of the store.
+        - name: continuationToken
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Opaque string that can be used to fetch next page of stores, the token value will be null if there are no more stores to fetch. Page size is 100 stores.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListStoresResponse'
+              examples:
+                success:
+                  value:
+                    result:
+                      - name: "Neighborhood Deli #10"
+                        external_business_id: "a0720d55-7cbe-41ce-8185-58285b7985cd"
+                        external_store_id: "ed178ef3-b486-4ce8-8baa-5bc9f0f3fa4a"
+                        phone_number: "+12065551212"
+                        address: "901 Market Street, 6th Floor, San Francisco, CA, 94103"
+                        status: "active"
+                        is_test: false
+                        created_at: "2022-04-25T17:21:43Z"
+                        last_updated_at: "2022-04-25T17:21:43Z"
+                    continuation_token: "string"
+                    result_count: 1
+        '400':
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Operation not authorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Unknown external business ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal service failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      tags:
+        - Business & Store
+      summary: Update Store
+      description: Update the attributes of a store.
+      operationId: updateStore
+      parameters:
+        - name: external_business_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: "Unique, caller-selected ID of the business. Validated using the following regular expression: /^[A-Za-z0-9_-]{3,64}$/ ."
+        - name: external_store_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: "Unique, caller-selected ID for the store. Validated using the following regular expression: /^[A-Za-z0-9_-]{3,64}$/ ."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateStoreRequest'
+            examples:
+              basic:
+                value:
+                  name: "Neighborhood Deli #10"
+                  phone_number: "+12065551212"
+                  address: "901 Market Street, 6th Floor, San Francisco, CA, 94103"
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store'
+              examples:
+                success:
+                  value:
+                    name: "Neighborhood Deli #10"
+                    external_business_id: "a0720d55-7cbe-41ce-8185-58285b7985cd"
+                    external_store_id: "ed178ef3-b486-4ce8-8baa-5bc9f0f3fa4a"
+                    phone_number: "+12065551212"
+                    address: "901 Market Street, 6th Floor, San Francisco, CA, 94103"
+                    status: "active"
+                    is_test: false
+                    created_at: "2022-04-25T17:21:43Z"
+                    last_updated_at: "2022-04-25T17:21:43Z"
+        '400':
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Operation not authorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Store not found under this external business ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal service failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+tags:
+  - name: Delivery
+    description: Endpoints for managing deliveries and estimates

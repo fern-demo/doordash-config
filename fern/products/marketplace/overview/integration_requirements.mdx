@@ -1,0 +1,226 @@
+<Warning>
+Marketplace APIs are not yet generally available. Please record interest in early access [here](https://docs.google.com/forms/d/e/1FAIpQLSfggU_NjGWCdi9vyWUicrnzJmtu9vC4zgbfSC3ROwSvW4eV2g/viewform).
+</Warning>
+
+In order to gain access to production after the build is complete, we require our integration partners to go through a certification process to guarantee a good customer experience. As part of this certification process, all tests must be successfully completed and verified before production access is granted.
+
+For each required feature, there is a set of validations that will be reviewed by our team once you [request production access](https://developer.doordash.com/en-US/docs/marketplace/how_to/production_access).
+
+Unless otherwise established when sandbox access is granted, integration partners will be expected to submit screen recordings of each required feature for async certification by DoorDash.
+
+If you have any questions on requirements and certification, please reach out via the [Developer Portal support form](https://developer.doordash.com/en-US/docs/marketplace/how_to/request_support).
+
+---
+
+# Table of Contents
+
+*Note: Every section listed in the table of contents is a required component of the integration.*
+
+1. [Menu Requirements](#menu-requirements)
+2. [Availability Requirements](#availability-requirements)
+3. [Order Requirements](#order-requirements)
+4. [Onboarding Requirements](#onboarding-requirements)
+   1. [Onboarding SLAs](#onboarding-sla-requirements)
+   2. [SSIO](#ssio-onboarding-requirements)
+   3. [SOW](#sow-onboarding-requirements)
+5. [General Requirements](#general-requirements)
+6. [Enablement Requirements](#enablement-requirements)
+7. [Quality Requirements](#quality-requirements)
+
+---
+
+## Menu Requirements
+
+### Required
+
+| Required Feature | Validations for Certification |
+| --- | --- |
+| Demonstrate Menu Creation - Menu Push: [Details](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_push) | * Display POSTing the menu from your environment <br/> * Display the job was successful by showing the [menu preview](https://developer.doordash.com/en-US/docs/marketplace/how_to/ingest_and_update_menus#menu-check) in DoorDash <br/> * Display in the event logs that the menu was created successfully |
+| Demonstrate Menu Update - Menu Push: [Details](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_push#step-3-allow-menu-push-to-be-used-for-menu-updates) | * Display PATCHing the menu by making a menu update in your environment (e.g. update an item description) <br/> * Display the job was successful by showing the [menu preview](https://developer.doordash.com/en-US/docs/marketplace/how_to/ingest_and_update_menus#menu-check) in DoorDash <br/> * Display in the event logs that the menu was updated successfully |
+| Demonstrate receiving the Menu Status Webhook & displaying the details to your Merchants: [Details](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_status_callback) | * Display POSTing a menu from your environment (that should intentionally fail) <br/> * Display in your environment that the menu POST failed and display the details to the Merchant <br/> * Display in the event logs that the menu status webhook was sent with the same details displayed |
+| Support sending real-time menu updates & updating a menu per store per day | * Confirm that you support real-time updates & 1 Menu update per store per day |
+| Demonstrate deactivation of an Item and Option from the Menu - *permanent removal or using the active flag*: [Details](https://developer.doordash.com/en-US/docs/marketplace/explainers/menu_configuration_reference#item-level) | * Display removing an item & modifier from the menu in your environment <br/> * Display the job was successful by showing the [menu preview](https://developer.doordash.com/en-US/docs/marketplace/how_to/ingest_and_update_menus#menu-check) in DoorDash and the items are no longer visible <br/> * Display in the event logs the item & option active field = `false` OR the item was permanently removed from the menu.json <br/> * Display re-adding the items to the menu in your environment <br/> * Display the job was successful by showing the [menu preview](https://developer.doordash.com/en-US/docs/marketplace/how_to/ingest_and_update_menus#menu-check) in DoorDash and the items are visible again <br/> * Display in the event logs the item & option active field = `true` OR the item was re-added to the menu.json |
+| Demonstrate deactivation of a menu using the active flag: [Details](https://developer.doordash.com/en-US/docs/marketplace/explainers/menu_configuration_reference#menu-level) | * Display deactivating the menu in your environment <br/> * Display that the test store menu is no longer active within DoorDash <br/> * Display reactivating the menu in your environment <br/> * Display the job was successful by showing the [menu preview](https://developer.doordash.com/en-US/docs/marketplace/how_to/ingest_and_update_menus#menu-check) & the menu is now active <br/> * Display in the event logs that the menu is being set `active`:`false` and then returned back to `active`:`true` |
+| Demonstrate a Menu Pull: [Details](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_pull) | * Display pulling the menu using the [ingest menu tool](https://developer.doordash.com/en-US/docs/marketplace/how_to/ingest_and_update_menus/#step-3a-ingesting-a-menu) in the Developer Portal <br/> * Display the event logs in Developer Portal that the menu was pulled successfully <br/> * Display the job was successful by showing the [menu preview](https://developer.doordash.com/en-US/docs/marketplace/how_to/ingest_and_update_menus#menu-check) in DoorDash to validate the menu was pulled successfully |
+| Demonstrate a Menu Update via Menu Pull: [Details](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_pull#step-3-allow-menu-pull-to-be-used-for-menu-updates) | * Display pulling the menu using the [update menu tool](https://developer.doordash.com/en-US/docs/marketplace/how_to/ingest_and_update_menus/#step-3b-updating-a-menu) in the Developer Portal <br/> * Display the event logs in Developer Portal that the menu was updated successfully <br/> * Display the job was successful by showing the [menu preview](https://developer.doordash.com/en-US/docs/marketplace/how_to/ingest_and_update_menus#menu-check) in DoorDash to validate the menu was updated successfully |
+| Validate Store Open Hours - Regular Hours: [Details](https://developer.doordash.com/en-US/docs/marketplace/explainers/menu_configuration_reference#store-open-hours) | * Display in your environment adding menu hours <br/> * Display in DoorDash the store hours are visible |
+| Validate Store Open Hours - Special Hours: [Details](https://developer.doordash.com/en-US/docs/marketplace/explainers/menu_configuration_reference#store-special-hours) | * Display in your environment adding special hours (for tomorrow) to be closed <br/> * Display in DoorDash that the store hours are closed for tomorrow |
+| Validate Integrated Images: [Details](https://developer.doordash.com/en-US/docs/marketplace/how_to/integrated_images) | * Display adding an image to an item from your environment <br/> * Display the image added to the DoorDash menu in the [menu preview](https://developer.doordash.com/en-US/docs/marketplace/how_to/ingest_and_update_menus#menu-check) <br/> * Display in the event logs the menu payload includes the image url |
+| Validate Alcohol Flag: [Details](https://developer.doordash.com/en-US/docs/marketplace/faq/menu_setup_content/#can-i-sell-alcohol-on-my-doordash-menu) | * Display marking an item as alcoholic within your environment <br/> * Display the item is alcoholic by adding the item to your cart & trying to order it <br/> * Display in the event logs the menu payload includes the alcohol flag: `true` |
+| Validate Dual Pricing: [Details](https://developer.doordash.com/en-US/docs/marketplace/how_to/how_to_build_dual_pricing) | * Display in your environment setting an item delivery price vs. a pickup price on an item. They should be two different prices <br/> * Display in the DoorDash menu preview the difference in price when selecting Delivery vs. Pickup. This should clearly be two different prices <br/> * Display in the event logs the menu payload inclused the `base_price` and `price` of the item |
+
+### Highly Recommended
+
+| Recommended Feature | Validations for Certification |
+| --- | --- |
+| Support for sending item nutritional information (calories + dietary tags): [Details](https://developer.doordash.com/en-US/docs/marketplace/how_to/nutritional_info) | *Not included in certification* |
+
+## Availability Requirements
+
+### Required
+
+| Required Feature | Validations for Certification |
+| --- | --- |
+| Demonstrate Item Activation Status Webhook (Item 86'ing): [Details](https://developer.doordash.com/en-US/docs/marketplace/how_to/store_and_item_status#batch-item-activation-status-change) | * Display 86'ing an item in your environment <br/> * Display in the Developer Portal event logs that it was the item activation webhook and not a menu update <br/> * Display the DoorDash Menu Preview that the item was removed <br/> * Display reactivating the item in your environment <br/> * Display in the Developer Portal event logs that it was the item activation webhook being used to reactivate the item <br/> * Display the DoorDash Menu Preview that the item is back on the menu |
+| Demonstrate Item Option Activation Status Webhook (Item Option 86'ing): [Details](https://developer.doordash.com/en-US/docs/marketplace/how_to/store_and_item_status#batch-item-option-activation-status-change) | * Display 86'ing an item option in your environment <br/> * Display in the Developer Portal event logs that it was the item option activation webhook and not a menu update <br/> * Display the DoorDash Menu Preview that the item option was removed <br/> * Display reactivating the item option in your environment <br/> * Display in the Developer Portal event logs that it was the item option activation webhook being used to reactivate the item <br/> * Display the DoorDash Menu Preview that the item option is back on the menu |
+| Demonstrate Store Availability Deactivation/Reactivation: [Details](https://developer.doordash.com/en-US/docs/marketplace/how_to/store_and_item_status#store-activation-status-change) | * Display deactivating the Store in your environment <br/> * Display the event logs in the Developer Portal that the Store activation status endpoint was used to deactivate the store <br/> * Display the test store is Temporarily Deactivated in DoorDash <br/> * Display reactivating the Store in your environment <br/> * Display the event logs in the Developer Portal that the Store activation status endpoint was used Display the test store is Reactivated in DoorDash. |
+
+## Order Requirements
+
+### Required
+
+| Required Feature | Validations for Certification |
+| --- | --- |
+| Successfully Place and Confirm an Incoming Order: [Details](https://developer.doordash.com/en-US/docs/marketplace/how_to/order_integration) | * Display [placing a test order](https://developer.doordash.com/en-US/docs/marketplace/how_to/create_a_test_order) in DoorDash <br/> * Display in your environment that the order came in successfully <br/> * Display in the Developer Portal Event logs that the order was confirmed successfully |
+| Demonstrate rejection of a new order with detailed failure reason information provided: [Details](https://developer.doordash.com/en-US/docs/marketplace/how_to/order_integration#order-failures---desired-failure-reasons) | * Display [placing a test order](https://developer.doordash.com/en-US/docs/marketplace/how_to/create_a_test_order) in DoorDash that will fail <br/> * Display the DoorDash order failed in the DoorDash Order Page <br/> * Display in the Developer Portal Event Logs that the failure reason is passed in the order confirmation |
+| Validate Merchant Tips: [Details](https://developer.doordash.com/en-US/docs/marketplace/how_to/order_integration#order-failures---desired-failure-reasons:~:text=the%20Order%20Model.-,merchant_tip_amount,-%3A%20This%20is%20the) | * Display [placing a test order](https://developer.doordash.com/en-US/docs/marketplace/how_to/create_a_test_order) in DoorDash for pickup and leave a Merchant Tip <br/> * Display in your environment that you have successfully ingested this value |
+| Demonstrate Order Cancellation webhooks from DoorDash to Merchant: [Details](https://developer.doordash.com/en-US/docs/marketplace/how_to/order_cancellation_webhook) | * Display [placing a test order](https://developer.doordash.com/en-US/docs/marketplace/how_to/create_a_test_order) and in the DoorDash order page, cancel the order from DoorDash <br/> * Display in your environment that the order has been canceled and you have successfully received the webhook <br/> * Display in the Developer Portal Event Logs that the order cancellation was sent successfully |
+| Demonstrate Order Cancellation webhooks from Merchant to DoorDash: [Details](https://developer.doordash.com/en-US/docs/marketplace/how_to/merchant_order_cancellation) | * Display [placing a test order](https://developer.doordash.com/en-US/docs/marketplace/how_to/create_a_test_order) and cancel it from your environment <br/> * Display the DoorDash order page and refresh to display that the order has been canceled successfully <br/> * Display in the Developer Portal Event Logs that the order cancellation was sent successfully |
+| Demonstrate Order Ready Signal: [Details](https://developer.doordash.com/en-US/docs/marketplace/how_to/order_ready_signal) | * Display [placing a test order](https://developer.doordash.com/en-US/docs/marketplace/how_to/create_a_test_order) <br/> * Display marking the order as "ready" in your environment <br/> * Display in the Developer Portal event logs that the order ready signal was successfully sent |
+| Validate Ingestion & Display of Experience flag: [Details](https://developer.doordash.com/en-US/docs/marketplace/how_to/order_integration#:~:text=the%20Order%20Model.-,experience,-%3A%20This%20field%20can) | * Display in your environments of how you display to merchants if the order is from Storefront, Caviar or DoorDash |
+| Demonstrate implementation of POS Plugin order management tool for Merchants in your UI: [Details](https://developer.doordash.com/en-US/docs/marketplace/how_to/pos_webview_plugin) | * Display [placing a test order](https://developer.doordash.com/en-US/docs/marketplace/how_to/create_a_test_order) <br/> * Display the live order in your environment and then display the POS plug-in option for Merchants to utilize |
+
+### Highly Recommended
+
+| Required Feature | Validations for Certification |
+| --- | --- |
+| Demonstrate consumption of Dasher Status Notifications: [Details](https://developer.doordash.com/en-US/docs/marketplace/how_to/dasher_status_webhooks) | *Not included in certification* |
+
+## Onboarding Requirements
+
+Based on your primary purpose of your integration, you are required to build the correlating onboarding requirement (SSIO or SOW).
+
+**[1. Self-Serve Integration Onboarding (SSIO) Flow](#ssio-onboarding-requirements)**
+
+If you are a middleware platform integration and serve multiple merchants, you are required to build [SSIO](#ssio-onboarding-requirements).
+
+**[2. Store Onboarding Webhook (SOW) Flow](#sow-onboarding-requirements)**
+
+If you are a single-merchant integration, you are required to build [SOW](#sow-onboarding-requirements).
+
+### Onboarding SLA Requirements
+
+All integrations are expected to build to the proper onboarding standards and maintain the following onboarding SLAs:
+
+1. **14 Day Partner SLA** - When processing onboarding requests, steps on the partner's end to get a merchant set up (e.g initial sign up, store configuration, menu set up) should be completed within 14 days, followed immediately by a webhook to begin the onboarding process on DoorDash.
+2. **48 Hour Escalation SLA**​ - When processing onboarding requests, you will be able to utilize DoorDash Developer Portal to view status updates for each store going through the onboarding process. We expect menu issues that are visible for stores in the Developer Portal to be resolved within 48 business hours of the webhook timestamp.
+
+*Please note failure to adhere will make your integration non-compliant and be at risk of having all further integration onboarding requests suspended.*
+
+### SSIO Onboarding Requirements
+
+SSIO is required for all middleware platform integrations. The full specifications for SSIO can be found [here](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/), but all required features are listed below.
+
+#### Existing DoorDash Store Requirements
+
+These are requirements for the SSIO flow for existing DoorDash Merchants.
+
+| Requirement | Validations for Certification |
+| --- | --- |
+| Partner environment to kick off the process | * Display the option to "Add DoorDash Integration" appears in your Environment <br/> * Display that the Merchant should see a clear and actionable call to action to start the process in the your UI |
+| Breaking Previous Integration FYI: [Details](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/#requirement-integration-transitioning-merchants) | * Display a message in your environment that calls out - that any existing integration they have will be broken by activating themselves on this new integration. (e.g. messaging that calls out the breaking changes) |
+| Connect with DoorDash: [Details](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/#connect-with-doordash-oauth) | * Display oAuthing into DoorDash and sign in successfully |
+| Fetch DoorDash Stores: [Details](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/#fetch-doordash-stores) | * Display after oAuthing as a Business Admin, see that all stores are returned in a list |
+| Stores ineligible to onboard are displayed but are not selectable | * Display at least one ineligible store and it is displayed as being 'greyed out' and is NOT selectable |
+| Partner Store Name & DoorDash Store Name [Fetch Stores] | * Display the list of available stores to onboard is shown and the user should see both **Partner Store Name** and **DoorDash Store Name** in the same window/modal to help ensure the user does not accidentally select the wrong store |
+| * Menu Pull: [Details](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/#prerequisite-menu-pull) * Fetch Onboarding Status webhook subscription reflects MENU_QUALIFIED status: [Details](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/#fetch-doordash-stores) | * Display after selecting the store, the menu will be pulled automatically <br/> * Specifically see the menu is now in the menu_qualified state |
+| Fetch Onboarding Status webhook subscription reflects INTEGRATION_ACTIVATED status: [Details](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/#fetch-onboarding-status) | * Display after the menu is qualified, the store is ready to be activated <br/> * Display activating the store and that it is in the **integration-activated** state |
+
+#### Net New DoorDash Store Requirements
+
+These are requirements for the SSIO flow for new merchants who still need to sign up on DoorDash.
+
+| Requirement | Validations for Certification |
+| --- | --- |
+| Net New UI option (e.g. "New to DoorDash? Sign up here.") shown on initial process start: [Details](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/#net-new-merchant-api) | * Display in the kick off process that there is an option 'New to DoorDash? Sign up here.' option |
+| Net New API deep link redirect URL: [Details](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/#net-new-merchant-api) | * Display clicking the 'sign up' option <br/> * Display that this takes you to the deep link URL where the DoorDash sign up fields should be **prefilled** |
+| Store Activation within SSIO: [Details](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/#store-activation-within-ssio) | * Display within your environment how the Merchant understands that if they're new to DoorDash, clicking 'Activate' (or completing SSIO) will also result in their store being activated |
+
+#### Exclusion Scenario Requirements
+
+| Requirement | Validations for Certification |
+| --- | --- |
+| Fetch DoorDash Stores: Non-Business Admin | * Display oAuthing with a non-business admin account (could be any email) <br/> * Display after oAuthing that you display a message saying something like "user does not have business admin access to all stores." <br/> * Display that there is messaging that the Merchant is instructed to **re-do oAuth with a user account with Business Admin permissions** |
+| Onboarding Status Webhook: MENU_BLOCK: [Details](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/#fetch-onboarding-status) | * Display removing store hours from your menu to cause a menu_block <br/> * Display triggering a menu_pull during SSIO and clearly display the menu status is **menu_block** <br/> * Display that there is a way for the Merchant to re-ingest the menu to resolve the menu_block |
+| Menu Update: [Details](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_pull/#step-3-allow-menu-pull-to-be-used-for-menu-updates) | * Display the **menu_block** state, and clearly display triggering a menu_update and the menu status moves to **menu_qualified** |
+| Net New Exclusion: Net New UI option (e.g. "New to DoorDash? Sign up here.") shown when the Fetch Stores response is empty | * Display the option "new to DoorDash, sign up here." when no stores are returned from the fetch stores. |
+
+#### Operational Requirements
+
+| Requirement | Validations for Certification |
+| --- | --- |
+| Virtual Brand: [Details](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/#fyi-virtual-brands) | * Confirm that you support virtual brands and have a unique location_id per Virtual Concept. |
+| Multi-location Onboarding: [Details](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/#csv-upload-details) | * Confirm that you natively support Multi-location onboarding, *or* <br/> * Confirm that you will not be supporting Multi-location onboarding, *or* <br/> * Confirm that you will use the CSV upload in Developer Portal to onboard Multi-locations *[requested functionality]* |
+| Change of Ownership/SSIO Restart: [Details](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/#requirement-ssio-restart) | * Confirm the Merchant can start SSIO again to bind the Partner location to a new DoorDash store <br/> * Display how a Merchant is able to restart |
+| New Onboarding IDs: [Details](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/#requirement-ingest-new-onboarding-id) | * Confirm that you are **always** listening for the onboarding status webhook |
+| Production Webhook Subscription | * Confirm that your onboarding status webhook will be configured for production in Developer Portal when given access |
+| Production Redirect URLs | * Confirm that all of your production redirect URLs have been allowlisted |
+| Spec Versioning: [Details](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/#specification-updates) | * Confirm that their implementation of SSIO accounts for all changes/enhancements in the latest spec version |
+| Partner Environment URL (e.g. what URL do we direct merchant to for starting SSIO?) | * Successfully share your environment URL |
+
+### SOW Onboarding Requirements
+
+The SOW flow is available for single-merchant integrations only. The full specifications for SOW can be found [here](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/sow/), but all required features are listed below.
+
+#### SOW certification Requirements
+
+| Requirement | Validations for Certification |
+| --- | --- |
+| Store Onboarding Webook sent with proper location_id, address fields, etc. | * Display sending the onboarding webhook for a test store <br/> * Display in the Event Logs that the onboarding webhook was sent and display the request body |
+| Menu Pull succeeds on the location the test SOW is sent for | * Display pulling the menu using the [ingest menu tool](https://developer.doordash.com/en-US/docs/marketplace/how_to/ingest_and_update_menus) in the Developer Portal <br/> * Display in the Event Logs that the menu was pulled successfully <br/> * Display the menu preview in DoorDash to validate the menu was pulled successfully |
+| Acknowledgment of programmatic webhook contents sourcing requirement | * Confirm that the webhook contents are sourced programmatically from Merchant information stored in your environment |
+
+## General Requirements
+
+Our APIs are always being enhanced. This validation is to allow our team to be confident in sending new fields or field values to not cause any issues with the integration.
+
+* It is required that you are always ready to accept new fields and field values at any time from DoorDash.
+* For example, if we add a new field to the order payload or add a new field to one of our webhooks, you will be able to ingest this with no issues. Also, if we update a value from a 32-bit integer to 64-bit, you will be able to ingest this with no issues.
+
+| Requirement | Validations for Certification |
+| --- | --- |
+| Ability to accept new fields without rejecting orders | Confirmation that you will always be ready to accept new fields without rejecting orders |
+
+## Enablement Requirements
+
+### Order Failure Reason Documentation
+
+In order to provide the best in class merchant experience, we need to equip our technical teams with the clear and detailed error messages along with proper troubleshooting steps.
+
+**It is required to set up your integration failure reasons based on the required failure reasons listed [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/order_integration#order-failures---required-failure-reasons).**
+
+*This will be expected to be submitted during certification as a google sheet.*
+
+This includes:
+
+* The exact failure message string that will be returned to DoorDash when a failure occurs
+* A detailed breakdown of what the failure message means
+* The DRI who is responsible to solve the issue which helps our team where to direct the issue i.e is this something a Merchant can solve on their own by adjusting configurations or is this something we need to escalate to your technical team to address
+* A detailed breakdown of the steps. If this is an issue the Merchant needs to fix, please link out to any relevant help articles.
+
+If this is an issue your technical team needs to fix, please be sure to include any data that would be helpful to your team during troubleshooting i.e timestamps, store integration ids, etc.
+
+### Merchant Facing Materials
+
+If you are a third-party integration partner, you will also be required to share merchant facing enablement materials during certification in order to be granted production access.
+*These will be expected to be submitted during certification.*
+
+This includes:
+
+* A link to your Merchant facing portal i.e where a Merchant can log in to begin the onboarding process and/or manage their integration.
+* A URL for a help article where Merchants can find information on menu and store availability management to educate Merchants on how to manage their menus, 86 items, and configure store hours.
+* A URL for a help article where merchants can find any other key additional information on managing their stores once integrated i.e how to pause their store, manage orders, etc.
+
+## Quality Requirements
+
+To ensure a quality experience for our mutual merchants, we require partners to adhere to specific quality and performance standards. This criteria includes:
+
+* < 1% error rate on the integration
+* At least 1 menu update per store per day
+
+Integration health can be monitored directly in the Developer Portal and technical support is also available directly through the [Developer Portal Support form](https://developer.doordash.com/en-US/docs/marketplace/how_to/request_support).
+
+**Note:** These quality standards are subject to change. Once updated, your team will have 6 months to make the required changes to meet the updated quality standards to continue onboarding additional stores in production.
+
+*Please note failure to adhere may result in temporary or permanently revoked API access.*
+

@@ -1,0 +1,182 @@
+## Overview[​](#overview "Direct link to heading")
+
+As part of the integration workflow, partners can implement an endpoint that allows DoorDash to pull all items sold at a store (the store's Catalog). A Catalog combines with Inventory to produce a customer-facing menu; without a Catalog, a store can't go live on DoorDash Marketplace. The Catalog pull feature allows for faster and more efficient store onboarding.
+
+The response from this endpoint should match [BatchAddOrUpdateItemRequest request model](https://developer.doordash.com/en-US/api/marketplace_v2#tag/ItemManagementModels/BatchAddOrUpdateItemRequest).
+
+## Get Started[​](#get-started "Direct link to heading")
+
+---
+
+### Step 1: Set up Endpoint Specification to Pull Catalog[​](#step-1-set-up-endpoint-specification-to-pull-catalog "Direct link to heading")
+
+The set up of the endpoint is:
+
+**GET**
+`/{merchant_pull_endpoint}/{partner_business_id}`
+
+`partner_business_id` is the unique ID that is configured for that business within the partner's system. The endpoint will deliver the full catalog for 1 single business at a time. A "business" is a parent object that can have 1 or more children "stores"; all stores must share exactly the same Catalog to belong to the same business.
+
+A simple test to determine if 2 stores belong to the same business:
+
+* If item XYZ at store A has ID 123, while item XYZ at store B has ID 789, the 2 stores *do not* belong to the same business.
+* If item XYZ at store A has ID 123, and item XYZ at store B has ID 123, and store A and store B have the same owners, then the 2 stores *do* belong to the same business.
+
+### Step 2: Ensure that items.json response from endpoint has the correct format[​](#step-2-ensure-that-itemsjson-response-from-endpoint-has-the-correct-format "Direct link to heading")
+
+As mentioned above, the Catalog pull request must return the response that matches [BatchAddOrUpdateItemRequest request model](https://developer.doordash.com/en-US/api/marketplace_v2#tag/ItemManagementModels/BatchAddOrUpdateItemRequest)
+
+*Note: The response should contain all items in a business. DoorDash will upsert the items from the partner's json response to the business' DoorDash Catalog when calling the pull job endpoint. *If the response for any business will exceed 50,000 items, please inform your Technical Account Manager and request a limit increase.**
+
+Model response expected from endpoint:
+
+```
+{  
+  "scope": {  
+    "business_ids": [  
+      "string"  
+    ]  
+  },  
+  "items": [  
+    {  
+      "merchant_supplied_item_id": "string",  
+      "name": "string",  
+      "description": "string",  
+      "product_traits": [  
+        "ALCOHOL"  
+      ],  
+      "other_identifiers": [  
+        {  
+          "identifier_type": "UPC",  
+          "identifier_value": "string"  
+        }  
+      ],  
+      "images": [  
+        {  
+          "url": "string",  
+          "sort_id": 0  
+        }  
+      ],  
+      "size": {  
+        "details": {  
+          "dimensions": {  
+            "length": {  
+              "value": 0,  
+              "unit": "inch"  
+            },  
+            "width": {  
+              "value": 0,  
+              "unit": "inch"  
+            },  
+            "height": {  
+              "value": 0,  
+              "unit": "inch"  
+            }  
+          },  
+          "weight": {  
+            "value": 0,  
+            "unit": "lbs"  
+          },  
+          "volume": {  
+            "value": 0,  
+            "unit": "oz"  
+          },  
+          "product_specific_size_definition": {  
+            "value": "string",  
+            "description": "string"  
+          }  
+        },  
+        "pack_size_details": {  
+          "count_per_pack": 0,  
+          "per_item_size_details": {  
+            "dimensions": {  
+              "length": {  
+                "value": 0,  
+                "unit": "inch"  
+              },  
+              "width": {  
+                "value": 0,  
+                "unit": "inch"  
+              },  
+              "height": {  
+                "value": 0,  
+                "unit": "inch"  
+              }  
+            },  
+            "weight": {  
+              "value": 0,  
+              "unit": "lbs"  
+            },  
+            "volume": {  
+              "value": 0,  
+              "unit": "oz"  
+            },  
+            "product_specific_size_definition": {  
+              "value": "string",  
+              "description": "string"  
+            }  
+          }  
+        }  
+      },  
+      "weighted_item_info": {  
+        "average_weight_per_each": 0,  
+        "average_weight_measurement_unit": "ea",  
+        "shop_by_measurement_unit": "kg",  
+        "price_by_measurement_unit": "kg"  
+      },  
+      "brand_info": {  
+        "name": "string"  
+      },  
+      "program_eligibility": [  
+        "SNAP"  
+      ],  
+      "item_categorizations": [  
+        {  
+          "category": {  
+            "name": "string",  
+            "sub_category": {}  
+          }  
+        }  
+      ],  
+      "product_attributes": [  
+        {  
+          "attribute_name": "string",  
+          "attribute_value": {  
+            "single_select_bool": true  
+          }  
+        }  
+      ]  
+    }  
+  ]  
+}  
+  
+
+```
+
+### Step 3: Enroll your endpoint in the Developer Portal[​](#step-3-enroll-your-endpoint-in-the-developer-portal "Direct link to heading")
+
+Once the endpoint is ready, enroll it using the Developer Portal:
+
+1. Navigate to the [Developer Portal](https://developer.doordash.com/portal)
+2. Navigate to your Marketplace integration
+3. Navigate to the "Webhook subscriptions" section
+4. Click "Configure endpoint"
+5. Select the appropriate provider type
+6. For "Event", select "Catalog Pull"
+7. Enter the URL
+
+   * Enter the base URL only: `https://{merchant_pull_endpoint}`. DoorDash will send through the partner*business\_id \_at the end of the URL* each time a request is made. Your endpoint must accept that URL parameter and return the catalog data only for the business specified.
+8. Enter the authentication token (if needed)
+
+   * Currently we support static tokens and Oauth authentication mechanisms when calling Pull endpoints.
+
+
+
+## Next Steps[​](#next-steps "Direct link to heading")
+
+To ensure that Catalog pull is working as expected, please reach out to support via Developer Portal or your Technical Account Manager (if applicable) to test.
+
+---
+
+*Modified: 1/21/2025*
+

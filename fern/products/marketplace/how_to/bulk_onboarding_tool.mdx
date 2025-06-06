@@ -1,0 +1,114 @@
+## CSV Bulk Onboarding[​](#csv-bulk-onboarding "Direct link to heading")
+
+### WHAT[​](#what "Direct link to heading")
+
+The Bulk Onboarding CSV tool in DoorDash Developer Portal streamlines
+the onboarding process for partners needing to onboard multiple locations.
+
+### HOW[​](#how "Direct link to heading")
+
+This tool allows partners to upload a list of stores for onboarding in
+bulk. DoorDash will map the partner's stores in the CSV to DoorDash stores
+based on the store name and address. If a value is populated in the
+`doordash_store_id` field, Doordash will use this to map the store instead
+of the name/address. DoorDash recommends populating doordash\_store\_id to ensure the correct store can be identified and onboarded.
+
+Once a store is mapped, DoorDash will automatically kick off the onboarding
+process for these stores and trigger the menu pull. The menu will be automatically
+QA’ed to ensure there are no missing hours or blank menus. If the menu QA is successful, the store will automatically be moved to *Integration Activated* status and the integration will be live on DoorDash. Please note, stores should only be submitted through CSV upload if there is confidence that the merchant is ready to be activated on the integration. If the store was not previously active for odering, the merchant can login to the Merchant Portal and activate the store.
+
+### STEPS TO SUBMIT CSV[​](#steps-to-submit-csv "Direct link to heading")
+
+1. Login to DoorDash Developer Portal and navigate to *Stores* page.
+
+
+
+2. In the *Production Store Onboarding Request* section, select the *Upload Stores* button to upload the CSV with the locations' details included and select a file to upload. Users can select the *Download CSV Template* button to download a sample template.
+
+
+
+Users will need to select the *Consent to integrate has been obtained from the specified Mechants* box to ensure that the merchant has consented to being integrated.
+
+
+
+3. Successfully uploaded stores will be shown in the *Production Store Onboarding Request* with a status of *Integration Requested*. Doordash will immediately and successful menu ingestion will transition the store to *Menu Qualified*. After automatic menu QA is complete, the store will be moved to *Integration Activated*. The merchant will receive the below email that their integration is activated.
+
+
+
+
+
+4. If the store was not previously active on Doordash for ordering, the merchant will get an email to activate their store.
+
+
+
+The merchant will be redirected to login to the Merchant Portal and click the *Activate Now* button to set the store live.
+
+
+
+### CSV Details[​](#csv-details "Direct link to heading")
+
+| Name | Type | Required | Details |
+| --- | --- | --- | --- |
+| partner\_store\_id | string | true | Unique identifier of the store in the partner's system |
+| doordash\_store\_id | string | false | Unique identifier of the store in the DoorDash's system. |
+| partner\_store\_name | string | false | Customer-facing name of the store (e.g., “Burger Shack” |
+| address\_line\_1 | string | true | Merchant address field |
+| address\_line\_2 | string | false | Merchant address field |
+| address\_city | string | true | Merchant address field |
+| address\_state | string | true | Merchant address field |
+| address\_country | string | true | Merchant address field |
+| address\_zip | string | true | Merchant address field |
+| requestor\_first\_name | string | true | First name of the partner point of contact (who can resolve issues) |
+| requestor\_last\_name | string | true | Last name of the partner point of contact (who can resolve issues) |
+| requestor\_email | string | true | Email of the partner point of contact (who can resolve issues) |
+| mx\_decision\_maker\_email | string | false | Email contact for user on the merchant’s side initiating the request as well as for receiving status updates on the onboarding request |
+| expected\_go\_live\_date | string | true | Partners to indicate an expected date to go live. This is an informational value the DoorDash Activations specialist will use to activate the store processes the request. The DoorDash activations team will attempt to honor the date. |
+
+### FAQ[​](#faq "Direct link to heading")
+
+1. **What to do if the CSV is not successfully uploaded?**
+
+   When uploading the CSV, the tool will validate that the data is sent in the correct format and all required fields are populated. If any value is invalid, the partner should use the *Export results* button to view the error messages for each store and update the file.
+
+   **There is a 24 hour delay between when a net new store is created and will be able to be onboarded. If attempting to onboard a new store, wait 24 hours before uploading the CSV.**
+
+   For questions on CSV Upload errors, submit a support request via the Developer Portal.
+
+   
+
+   Common Error Messages
+
+* **We were unable to upload stores.** - File format is incorrect and upload has failed
+* **expected\_go\_live\_date is invalid** - Expected go live date format should be mm/dd/yyyy
+* **Could not fetch store from address** - DoorDash was unable to find a store with a match name/address. Have the merchant fetch the Doordash store id and populate that value in the `doordash_store_id` field
+* **This store is already in the process of being onboarded to this integration or another, please confirm store details and reach out to DoorDash if you believe this is incorrect**. Either complete onboarding or reach out to DoorDash support to abandon the job.
+
+2. **What do the Onboarding Statuses mean?**
+
+   *Integration Requested*  - CSV was successfully uploaded and automation to integrate the store will soon begin.
+
+   *Menu Block* - Menu ingestion failed OR Menu validation unsuccessful on DoorDash. A new menu ingestion is needed for this onboarding to continue. This is the expected status when the menu ingestion has an issue. An email will be sent to the merchant
+
+   *Integration Activated*  -The POS integration has been activated for this store.
+
+   *Abandoned* - The POS onboarding had been abandoned due to failing any of the onboarding validations or hitting any unexpected error within DoorDash. A new onboarding request will have to be submitted to integrate the store
+3. **What to do if the store is in *Menu Blocked* Status?**
+
+   Review the menu failure reason and update the menu accordingly in the partner portal. Partners can send the Retrigger Menu API from their portals to DoorDash to retry the menu pull.
+4. **How can I see a list of all recent onboarding requests?**
+
+   Use the *Download as CSV* button to export a copy of all onboarding requests in the last 30 days.
+   
+5. **Does the merchant have to activate the store?**
+
+   If the merchant is already live on DoorDash, they will not have to activate the store. New SMB merchants can activate their store in the Merchant Portal. Enterprise merchants will be activated via the DoorDash Activations team based on the expected go live date submitted in the CSV.
+6. **Which partners are eligible to use this tool?**
+
+   The CSV Upload tool is only available for partners who have built SSIO, but do not have a multi-location batching experience. The CSV tool should be used for merchants that have too many locations to oAuth each one individually.
+
+* [CSV Bulk Onboarding](#csv-bulk-onboarding)
+  + [WHAT](#what)
+  + [HOW](#how)
+  + [STEPS TO SUBMIT CSV](#steps-to-submit-csv)
+  + [CSV Details](#csv-details)
+  + [FAQ](#faq)

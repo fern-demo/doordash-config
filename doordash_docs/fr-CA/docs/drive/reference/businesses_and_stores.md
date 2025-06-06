@@ -1,0 +1,128 @@
+Sur cette page
+
+# Businesses and stores
+
+API: Drive
+
+This doc covers the Drive API. If you're using the Drive (classic) API, see the [Drive (classic) business & store reference guide](/fr-CA/docs/drive_classic/reference/businesses_and_stores).
+
+DoorDash Drive maintains a data model of **businesses**–a merchant that owns a collection of stores–and **stores**–individual locations from which deliveries are made. This data model helps our logistics platform optimize and route deliveries and helps ensure every delivery makes it to the right place. It also helps make your delivery requests shorter and easier by abstracting common information, like a store's pickup address and contact details, into a single ID that you can reference when creating a delivery. Finally, the business and store data model helps us structure the invoice you receive for deliveries to be easy to use and break out by merchant. If your organization has more than one store location, creating businesses and stores via the Business and Store APIs is [required](https://developer.doordash.com/en-US/docs/drive/how_to/build_for_restaurants/#a-onboarding).
+
+## Concepts[​](#concepts "Lien direct vers le titre")
+
+To understand the concepts of business & store, we'll use the example of a middleware provider that serves a variety of local restaurant groups. In this example, our middleware provider serves a merchant called Neighboorhood Deli that has 10 deli stores, named Neighboorhood Deli #1 through Neighboorhood Deli #10, as well as a merchant called Ariana's Tacos that only has a single location.
+
+### Business[​](#business "Lien direct vers le titre")
+
+In non-technical terms, a business is a merchant or a brand. A business is some sort of entity–usually a legal business like a corporation, franchise, LLC, or similar–that owns a set of stores, usually under the same brand. In technical terms, a `business` in DoorDash's data model collects a set of stores under a given `external_business_id`. A business can have many stores or just one, but you must have at least one store under a business to create deliveries for that business.
+
+In our middleware provider example, Neighborhood Deli and Ariana's Taco are businesses.
+
+#### External Business Identifiers[​](#external-business-identifiers "Lien direct vers le titre")
+
+You may notice Drive classic businesses can be identified by two different identifiers:
+
+`external_business_name` and `external_business_id`. Here’s what you should know about them:
+
+* Both `external_business_name` and `external_business_id`, are unique identifiers within your organization used to create or get a Drive (classic) business.
+  + In each request to the Drive (classic) API, you must use one of `external_business_name` *or* `external_business_id` but never both.
+* You cannot have more than one business with the same external\_business\_name.
+  + Similarly, you cannot have more than one business with the same external\_business\_id.
+* `external_business_id` is validated using the regex */^[A-Za-z0-9\_-]{3,64}$/*
+* "default" is a reserved name for `external_business_id`, created during developer onboarding. You can use this to avoid explicitly modeling a business and just need store modeling. Please see [here](https://developer.doordash.com/en-US/api/drive#tag/Business-and-Store/operation/CreateStore) for more details about how to use the default business.
+* Only use external\_business\_name if you've been told to do so by DoorDash or if you know you use [auto-onboarding](https://developer.doordash.com/en-US/docs/drive_classic/how_to/use_businesses_and_stores_auto_onboard#auto-onboarding-a-business--store). Otherwise, always use the [Business and Stores APIs](https://developer.doordash.com/en-US/api/drive_classic#tag/business-and-stores) to create a business and then use `external_business_id` to identify the business.
+
+### Store[​](#store "Lien direct vers le titre")
+
+A store represents a single location that makes deliveries: a restaurant, a storefront, a ghost kitchen, or any other location from which you wish to deliver goods. We use the metadata you provide about a store to ensure Dashers can quickly find your location and customers know where their delivery is coming from.
+
+In our middleware provider example, Neighborhood Deli #1 through Neighborhood Deli #10, as well as Ariana's Tacos' single location, are stores.
+
+info
+
+`external_store_id`s are unique within each business, so you cannot have duplicate stores with the same `external_store_id` within a business. However, you can reuse an `external_store_id` across multiple businesses. For example, you might have `external_store_id=1` for Neighborhood Deli #1 and for Ariana's Tacos' single location, because those two stores are children of different businesses.
+
+## The default business & store[​](#the-default-business--store "Lien direct vers le titre")
+
+The Drive integration creates a default business and store for you when you sign up. You can use the default business and store to create deliveries by omitting the `pickup_external_business_id` and `pickup_external_store_id` from your delivery creation request. You will see this default business and default store if you use the [list businesses API](/fr-CA/api/drive#tag/business-and-stores/operation/ListBusiness) and [list stores API](/fr-CA/api/drive#tag/business-and-stores/operation/ListStore). You can edit the default business and store using `external_business_id: "default"` in the [edit businesses API](/fr-CA/api/drive#tag/Business-and-Store/operation/UpdateBusiness) and `external_store_id: "default"` in the [edit stores API](/fr-CA/api/drive#tag/Business-and-Store/operation/UpdateStore).
+
+## Why you should create businesses and stores[​](#why-you-should-create-businesses-and-stores "Lien direct vers le titre")
+
+### Improved delivery quality[​](#improved-delivery-quality "Lien direct vers le titre")
+
+DoorDash uses Google Maps to resolve the `pickup_address` that you provide when you create a delivery. For some stores, especially stores in newly-mapped or newly-built locations, the Google Maps place ID for the address you provide can change over time, leading Dashers to go to the wrong location. Creating stores through the Store API allows a DoorDash operator to pin a store's location so that the Dasher appears at the right location every time.
+
+### Peace of mind[​](#peace-of-mind "Lien direct vers le titre")
+
+If something goes wrong during the auto-onboarding process, a store might have food sitting on a table waiting to get delivered, which makes for a stressful experience trying to resolve the auto-onboarding issue before the food has to be remade. Creating stores through the Store API allows a merchant to be certain that a store has the right address, pickup instructions, billing information, and more, before any deliveries are made.
+
+### Clear invoices[​](#clear-invoices "Lien direct vers le titre")
+
+Creating businesses and stores through the Business & Store APIs helps DoorDash provide you the most accurate invoice for the deliveries made by each merchant and each store.
+
+### Better support experiences[​](#better-support-experiences "Lien direct vers le titre")
+
+Creating stores through the Store API ensures that DoorDash Support can easily locate and troubleshoot deliveries when a merchant calls in.
+
+If your merchants use the DoorDash Merchant Portal, it also ensures that a store operator can see all of their deliveries in one place in the portal. Merchant Portal access is not mandatory, but we recommend it as a tool to help merchants track and manage orders.
+
+### Access to leads from DoorDash marketing sites[​](#access-to-leads-from-doordash-marketing-sites "Lien direct vers le titre")
+
+get.doordash.com ranks well in SEO and may be the first place your merchants land when they're seeking out a local delivery integration; the Business API and webhooks enable those leads to have a seamless onboarding experience so that more merchants convert.
+
+### Self-serve access to new delivery capabilities[​](#self-serve-access-to-new-delivery-capabilities "Lien direct vers le titre")
+
+In the coming months, we'll be augmenting the Business & Store model with the ability for you to self-serve enable delivery capabilities that require additional configuration or an additional agreement with DoorDash, like alcohol deliveries and catering/large order deliveries.
+
+## Example business & store scenarios[​](#example-business--store-scenarios "Lien direct vers le titre")
+
+### Merchant[​](#merchant "Lien direct vers le titre")
+
+To understand how you might create your own business and stores, consider the example of a collection of sandwich shops all owned by a single restauranteur. In this example, you would first create a business, "Neighborhood Deli". Then, you would create all of the delis owned by Neighborhood Deli, say, "Neighborhood Deli #1" and "Neighborhood Deli #2". Now, whenever you want to make a delivery from Neighborhood Deli #2, you can pass the Neighborhood Deli `external_business_id` and Neighborhood Deli #2 `external_store_id` and DoorDash will use the address and store details that you entered when you created the business & store, so you don't have to pass this information with every request.
+
+### Platform/middleware provider[​](#platformmiddleware-provider "Lien direct vers le titre")
+
+Next, consider the example of a platform or a middleware provider that works with many merchants. In this example, you would create as many businesses–say, "Ariana's Tacos" and "Patrick's Pizza" and "Jordan's Mediterranean Bites"–and then create a store or stores underneath each business as needed. As in the deli example, whenever you want to make a delivery from Ariana's Tacos West Seattle, you can pass the Arian's Tacos `external_business_id` and Ariana's Tacos West Seattle `external_store_id` and DoorDash will use the address and store details that you entered when you created the business & store, so you don't have to pass this information with every request.
+
+## When you should create businesses & stores[​](#when-you-should-create-businesses--stores "Lien direct vers le titre")
+
+We recommend using the Business & Store APIs when:
+
+* You provide platform services to a range of merchants, like a point-of-sale or online ordering solution
+* You want to tell DoorDash about your stores up front, instead of providing redundant details on every delivery request
+* You want the ability to pin store addresses so that Dashers appears at the right location, every time
+
+We recommend using the Store API when:
+
+* You're a single merchant, like a restaurant group or a chain of laundromats
+* You want to tell DoorDash about your stores up front, instead of providing redundant details on every delivery request
+* You want the ability to pin store addresses so that Dashers appears at the right location, every time
+
+You may not need to use the Business & Store APIs if:
+
+* You're making point-to-point or peer-to-peer deliveries from a wide variety of locations
+
+## Next steps[​](#next-steps "Lien direct vers le titre")
+
+Now that you know about the concepts of businesses and stores, you can:
+
+* Start using them with the [use businesses & stores how-to guide](/fr-CA/docs/drive/how_to/use_businesses_and_stores_api)
+* View [the business & store API reference](/fr-CA/api/drive#tag/business-and-stores)
+* View [the create delivery API reference](/fr-CA/api/drive#operation/CreateDelivery)
+
+[Précédent
+
+Settings & inheritance](/fr-CA/docs/drive/explain/settings_inheritance)[Suivant
+
+Currencies](/fr-CA/docs/drive/reference/currencies)
+
+* [Concepts](#concepts)
+  + [Business](#business)
+  + [Store](#store)
+* [The default business & store](#the-default-business--store)
+* [Why you should create businesses and stores](#why-you-should-create-businesses-and-stores)
+* [Example business & store scenarios](#example-business--store-scenarios)
+  + [Merchant](#merchant)
+  + [Platform/middleware provider](#platformmiddleware-provider)
+* [When you should create businesses & stores](#when-you-should-create-businesses--stores)
+* [Next steps](#next-steps)

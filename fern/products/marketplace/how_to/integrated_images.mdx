@@ -1,0 +1,111 @@
+## Prerequisites[​](#prerequisites "Direct link to heading")
+
+POS Integrated Images is a new DoorDash feature that enables Merchants to directly control their menu photos on DoorDash. We have enhanced our POS integration to pull photos directly from the source along with the rest of the menu that we pull today.
+
+## Overview[​](#overview "Direct link to heading")
+
+Photos are extremely important for Merchants on DoorDash as they are a primary driver for order conversion and AOV on DoorDash. Further, Merchants want consistency and accuracy in how their brand is portrayed across their stores on Doordash.
+
+Historically our product hasn’t supported Merchants on these points, as photos would ‘fall-off’ a Merchant’s menu during menu ingestion and it would take many days to re-link the images resulting in lost sales. In addition, since linking photos was a manual process we couldn’t guarantee that the same image was being linked across all stores, until now.
+
+This new feature includes two versions:
+
+* An auto-approval version **[Recommended]** that will pull photos from the Mx’s POS integration, crop them to meet DoorDash specifications, upload them to your DoorDash store, and link the photo to all associated items on DoorDash.
+* A manual-approval version that will pull photos from the merchant’s POS integration, then pass the images to our dedicated Photos team to approve the photos, crop them to meet DoorDash specifications, and link the photos to all associated items on DoorDash.
+
+## Get Started[​](#get-started "Direct link to heading")
+
+### How?[​](#how "Direct link to heading")
+
+Start by reaching out to a DD Technical Manager or Employee to let them know you’re interested in the integrated photos product. Once you’re enabled from the DD end, you’ll be able to begin testing by adding the additional field **‘original\_image\_url’** to the menu payload on an item level.
+
+### Auto Approval Flow[​](#auto-approval-flow "Direct link to heading")
+
+When a menu update or ingestion is triggered our product will now pull in photo URLs from the Merchant, in addition to the rest of the menu data.
+If the system recognizes that the photo URL provided with an item is the same URL as the last menu update we will not ingest a new photo. If the system recognizes a new photo URL the product will:
+
+* Automatically crop & ingest those photos to the Merchant’s business ID in our systems for all providers or businesses enabled for auto-approval.
+* Once all photos are entered into DoorDash systems, a linking process is kicked off.
+  + This process utilizes the mapping of Item to PhotoURL from the POS menu payload to determine what photo needs to be linked to what item.
+
+### Manual Approval Flow[​](#manual-approval-flow "Direct link to heading")
+
+When a menu update or ingestion is triggered our product will now pull in photo URLs from the Merchant, in addition to the rest of the menu data.
+If the system recognizes that the photo URL provided with an item is the same URL as the last menu update we will not ingest a new photo. If the system recognizes a new photo URL the product will:
+
+* Ingest the new photo
+* Send the photos to DoorDash’s Photo team to be reviewed, enhanced, and approved or rejected within 5 business days
+* Once the photos have been reviewed, an email will be sent to the Merchant notifying them of the status of their images.
+  + All approved images will be linked utilizing the mapping of the Item to PhotoURL from the POS menu payload to determine what photo needs to be linked to what item.
+
+### URL Requirements[​](#url-requirements "Direct link to heading")
+
+* Http or https format
+* No query parameters in url
+* Ends in .JPG, .JPEG, or .PNG
+* URL publicly accessible
+
+### Photo Specifications[​](#photo-specifications "Direct link to heading")
+
+The DoorDash platform requires that photos meet certain criteria to display properly on the site. These requirements are as follows:
+
+* 16:9 aspect ratio
+* Max file size of 2MB
+* JPG, JPEG, or PNG format
+* Merchant’s photos must meet these [guidelines](https://developer.doordash.com/en-US/docs/marketplace/explainers/menu_configuration_reference#item-images) if they would like to use auto-approval
+
+If the file size or file format criteria are not met, this new feature will fail and no photo will be linked to the item.
+
+*For auto-approval*, if a photo does not meet the aspect ratio requirements, DoorDash will crop the middle section of the photo to meet this requirement. This **cropping is not ideal, so we suggest the Mx change the source photos in their POS system to meet this aspect ratio requirement** so that no cropping is needed on the DoorDash end.
+
+### Technical Details - EXAMPLE MENU[​](#technical-details---example-menu "Direct link to heading")
+
+Below is a snippet of the menu payload with the new photo URL on the Item Level included for OpenAPI integrations.
+
+```
+{  
+  "reference": "string",  
+  "store": {  
+    "merchant_supplied_id": "string",  
+    "provider_type": "string"  
+  },  
+  "open_hours": [  
+    {  
+      "day_index": "MON",  
+      "start_time": "13:00",  
+      "end_time": "18:00"  
+    }  
+  ],  
+  "menu": {  
+    "name": "string",  
+    "subtitle": "string",  
+    "merchant_supplied_id": "string",  
+    "active": true,  
+    "categories": [  
+      {  
+        "name": "string",  
+        "subtitle": "string",  
+        "merchant_supplied_id": "string",  
+        "active": true,  
+        "sort_id": 0,  
+        "items": [  
+          {  
+            "name": "string",  
+            "description": "string",  
+            "merchant_supplied_id": "string",  
+            "active": true,  
+            "is_alcohol": true,  
+            "is_bike_friendly": true,  
+            "sort_id": 0,  
+            "price": 0,  
+            "base_price": 0,  
+            "tax_rate": "string",  
+            "original_image_url": "string"  
+          }  
+        ]  
+      }  
+    ]  
+  }  
+
+```
+

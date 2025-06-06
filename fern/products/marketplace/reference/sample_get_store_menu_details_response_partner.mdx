@@ -1,0 +1,100 @@
+# Sample GET Menu Response (provided by partner)
+
+Limited access
+
+<Warning>
+Marketplace APIs are not yet generally available. Please record interest in early access [here](https://docs.google.com/forms/d/e/1FAIpQLSfggU_NjGWCdi9vyWUicrnzJmtu9vC4zgbfSC3ROwSvW4eV2g/viewform).
+</Warning>
+
+The following JSON object represents the GET Menu response expected from the partner sent to DoorDash. These requests should return an array of menus, even if there is only one menu being passed:
+
+Please refer to the [model](/en-US/docs/marketplace/how_to/menu_integration) for field definitions
+
+```
+{  
+  "store": {  
+    "merchant_supplied_id": "location1",  
+    "provider_type": "provider_a"  
+  },  
+  "menus": [  
+    {  
+      "id": "string",  
+      "reference": "string",  
+      "open_hours": [  
+        {  
+          "day_index": "MON",  
+          "start_time": "00:00",  
+          "end_time": "23:59"  
+        }  
+      ],  
+      "special_hours": [  
+        {  
+          "date": "2000-01-01",  
+          "closed": true,  
+          "start_time": "00:00",  
+          "end_time": "23:59"  
+        }  
+      ],  
+      "menu": {  
+        "name": "string",  
+        "subtitle": "string",  
+        "merchant_supplied_id": "string",  
+        "active": true,  
+        "categories": [  
+          {  
+            "name": "string",  
+            "subtitle": "string",  
+            "merchant_supplied_id": "string",  
+            "active": true,  
+            "sort_id": 0,  
+            "items": [  
+              {  
+                "name": "string",  
+                "description": "string",  
+                "merchant_supplied_id": "string",  
+                "active": true,  
+                "is_alcohol": true,  
+                "is_bike_friendly": true,  
+                "sort_id": 0,  
+                "price": 0,  
+                "tax_rate": "float",  
+                "extras": [  
+                  {  
+                    "name": "string",  
+                    "description": "string",  
+                    "merchant_supplied_id": "string",  
+                    "active": true,  
+                    "sort_id": 0,  
+                    "min_num_options": 0,  
+                    "max_num_options": 0,  
+                    "num_free_options": 0,  
+                    "min_option_choice_quantity": 0,  
+                    "max_option_choice_quantity": 0,  
+                    "min_aggregate_options_quantity": 0,  
+                    "max_aggregate_options_quantity": 0,  
+                    "options": [  
+                      {  
+                        "name": "string",  
+                        "description": "string",  
+                        "merchant_supplied_id": "string",  
+                        "active": true,  
+                        "price": 0,  
+                        "default": true,  
+                        "sort_id": 0,  
+                        "tax_rate": "float",  
+                        "extras": []  
+                      }  
+                    ]  
+                  }  
+                ]  
+              }  
+            ]  
+          }  
+        ]  
+      }  
+    }  
+  ]  
+}  
+
+```
+

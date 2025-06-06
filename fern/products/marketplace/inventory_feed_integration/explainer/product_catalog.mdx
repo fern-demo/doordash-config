@@ -1,0 +1,85 @@
+The main driver of the images, names, and descriptions of these products is the Product Catalog. DoorDash has a dedicated team to build out the partner’s Catalog. Products are separated into collections and broken down into categories with associated tags & variants. The Catalog is built based on the Catalog File provided by the Merchant, with additional inputs from internal and 3rd party sources to create a rich customer experience. When a new item is added to the catalog post-launch, it can take time to include within the platform.
+
+
+
+### Discoverability & Collections[​](#discoverability--collections "Direct link to heading")
+
+Customers discover items in 3 main ways: Collections, Category Pages, and Search. Below is a detailed description of each as well as a visual guide.
+
+1. **Collections** are a custom group of items to be displayed on the storefront for increased visibility of important items / limited time offers / promotions. DoorDash has a list of relevant Collections and has a team working on Seasonal Collections that will automatically surface. However, our team does take Merchant input and is happy to create custom Collections for you. Ask your Account Owner for a list of Collections we use, feel free to send over a list of Items, and your Account Owner can develop a cadence for updating these for you.
+2. **Categories** are groupings by “categorical level”, optimized for browsing & user friendliness (clicking into “Drinks” will display all drink items only). Category Pages are defined by the vertical of the merchant (Grocery, Convenience, Alcohol, Retail, Pets, etc.).
+3. **Store Level Search** allows a user to search for a specific item within a store. The search experience is optimized by machine learning and search results improve over time based on successful and unsuccessful searches.
+
+### Catalog Feed Setup[​](#catalog-feed-setup "Direct link to heading")
+
+To more easily maintain the product catalog as products are added and removed, DoorDash requests a recurring transfer of the entire catalog file. The file should be transferred via SFTP with the following requirements:
+
+* File Type: Flat file (CSV)
+* File Naming Convention: catalog\_{yyyy}{mm}{dd}{hh}{mm}.csv
+* Transfer Path: catalog/v1
+* File Cadence: At least monthly, but daily or weekly transfers are encouraged
+
+This file will be used for adding new items to the catalog. For example, if a new item enters the Inventory Feed, the DD team will look to the catalog file sent by the Merchant to pull in the fields needed to effectively build the SKU (image, brand, item name, UPC, etc.). It is therefore important that any items in the Inventory Feed are present in the catalog file. Please work with your Account Owner to understand the cadence at which your catalog will be updated on the DoorDash platform. If priority SKUs need to be added quickly (for a seasonal holiday, for example), please send these SKUs to your Account Owner in an email and we will be happy to get these SKUs live and merchandised as quickly as possible.
+
+DD does not currently have an automated process for updating attributes for existing SKUs, outside of price & availability. Rich fields (item name, description, image, brand, ingredients, UPC, etc.) are not automatically added to DD’s catalog if the merchant updates their catalog file.
+
+## Catalog File Fields[​](#catalog-file-fields "Direct link to heading")
+
+| Field Name | Field Description | Required | Format |
+| --- | --- | --- | --- |
+| sku | Merchant's unique product id (may be the same as UPC) | Yes | string |
+| upc | UPC (preferably GTIN-14 format) | Yes | string |
+| secondary\_upc | Any secondary UPCs associated with a product (preferably GTIN-14 format) | Required if SKU has seconday UPC | string |
+| plu | Produce price lookup code | Required for grocery produce SKUs | string |
+| consumer\_facing\_item\_name | The product name the consumer would see on the website and should not have acronyms or abbreviations | Yes | string |
+| brand\_name | Brand name | Yes | string |
+| short\_description | Short description of an product | Recommended | string |
+| size\_variation | Size of product | Yes | number |
+| unit\_of\_measurement | Unit of measurement | Yes | string |
+| extended\_size | Extended sizes for product with multiple in one pack | Recommended | string |
+| product\_group\_id | Merchant's unique product id for items that have multiple variations. Used to group like items together | Required if product is sold is a variety of sizes or other variations | string |
+| variation | "Product variation - color, flavor, material etc Ex. A shirt sold in multiple colors, a soap sold in multiple scents, a beverage sold in multiple flavors, etc." | Required if product is sold in variations | string |
+| L1\_category | Highest level category of a product | Yes | string |
+| L2\_category | Subcategory below L1 category | Yes | string |
+| L3\_category | Subcategory below L2 category (if applicable) | Recommended | string |
+| L4\_category | Subcategory below L3 category (if applicable) | Recommended | string |
+| private\_label | Is this a private label product/brand? (TRUE yes, FALSE no) | Optional | boolean |
+| image\_url\_front | URL link to the product image - front facing | Yes | url |
+| image\_url\_back | URL link to the product image - back | Recommended | url |
+| image\_url\_left\_side | URL link to the product image - left side | Recommended | url |
+| image\_url\_right\_side | URL link to the product image - right side | Required\* | url |
+| image\_url\_ingredients | URL link to the product image - ingredients | Recommended | url |
+| rating | Product rating score | Recommended | string |
+| rating\_count | Total number of product ratings | Recommended | string |
+| is\_alcohol | Is this an alcohol product? (TRUE yes, FALSE no) | Required if alcohol is sold by business | boolean |
+| abv | Alcohol By Volume content in % | Recommended for alcoholic products | number |
+| is\_weighted\_item | Is this a weighted item (such as produce or meat)? | Required for grocery products sold by weight | boolean |
+| average\_weight\_per\_each | "For weighted items, if the item is priced per pound what is the approximate weight of one item or pack. Example: Bananas weigh 0.5 lbs.A package of in-store prepared/cut chicken breast is 2.5 lbs. An in-store fresh packed bowl of watermelon that is priced by the pound typically weighs 1.5 lbs." | Required for grocery products sold by weight | number |
+| average\_weight\_uom | For weighted items, UOM for the average weight | Required for grocery products sold by weight | string |
+| cx\_show\_by | For weighted items, how do we show this item to customers? | Recommended for grocery items sold by weight | string |
+| nutritional\_info | Nutritional facts label info of product | Optional | string |
+| ingredients | Ingredients list | Optional | string |
+| disclaimer | Product disclaimers | Optional | string |
+| allergen info | Allergy/health info | Optional | string |
+| dietary\_flags | Dietary info - Gluten Free, Kosher, etc | Optional | string |
+| snap\_eligible | Does this item qualify for food stamps/SNAP program? | Optional | boolean |
+| is\_hsa\_fsa\_eligible | Does this item qualify for hsa/fsa spending? | Optional | boolean |
+| is\_package\_fee\_eligible | Does this item incur package fees (ex. bottle fee)? | Optional | boolean |
+| package\_type | Glass, plastic, etc. | Optional | string |
+| dimensions | Product dimensions. L x W x H (in inches or ft) | Optional | string |
+| weight | Prodict weight in LBS | Optional | number |
+| meta\_data | Any additional data needed (ex. JSON formatted data) | Optional | string |
+
+## Catalog Sample File[​](#catalog-sample-file "Direct link to heading")
+
+| sku | upc | secondary\_upc | plu | consumer\_facing\_item\_name | brand\_name | short\_description | size\_variation | unit\_of\_measure | extended\_size | product\_group\_id | variation | L1\_category | L2\_category | L3\_category | L4\_category | private\_label\_flag | image\_url\_front | image\_url\_back | image\_url\_left\_side | image\_url\_right\_side | image\_url\_ingredients | priority\_rank | rating | rating\_count | is\_alcohol | abv | is\_weighted\_item | average\_weight\_per\_each | average\_weight\_uom | cx\_show\_by | nutritional\_info | ingredients | disclaimer | allergen\_info | dietary\_flags | snap\_eligible | is\_hsa\_fsa\_eligible | is\_package\_fee\_eligible | package\_type | dimensions | weight | meta\_data | wine\_vinatge\_year | place\_of\_origin | manufacturer | alcohol\_accolade | alcohol\_varietal | alcohol\_dry\_sweetness\_level | alcohol\_beer\_segment | alcohol\_food\_pairing | alcohol\_tasting\_notes | alcohol\_tasting\_notes\_locale | alcohol\_appellation | barcode\_type | product\_page\_url |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Required | Required | Optional | Optional | Required | Required | Required\* | Required | Required | Required\* | Required\* | Required\* | Required | Required | Optional | Optional | Optional | Required | Required\* | Required\* | Required\* | Required\* | Required\* | Required\* | Required\* | Required | Required\* | Required | Required\* | Required\* | Required\* | Optional | Optional | Optional | Optional | Optional | Optional | Optional | Optional | Optional | Optional | Optional | Optional | Optional | Optional | Optional | Optional | Optional | Optional | Optional | Optional | Optional | Optional | Optional | Optional | Required\* |
+| 78910 | 002370016222 | 002370016223 |  | Tyson Chicken Tenderloin Frozen (40 oz) | Tyson |  | 40 | oz |  |  |  | Frozen | Meats |  |  | FALSE | [https://cdn.doordash.com/media/photos/d63c1773-4278-4154-87a1-b4ce1ac75c17-retina-large-jpeg](https://cdn.doordash.com/media/photos/d63c1773-4278-4154-87a1-b4ce1ac75c17-retina-large-jpeg) |  |  |  |  | 417 |  |  | FALSE |  | FALSE |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| 24241 | 005215970118 | 005215970119 |  | Stonyfield Yotoddler 4 oz Yogurt Strawberry Banana (6 ct) | Stonyfield |  | 4 | oz | 6 ct |  |  | Dairy & Eggs | Yogurt |  |  | FALSE | [https://cdn.doordash.com/media/photos/0b23dcda-4106-4887-95e4-cfbaf398ede9-retina-large-jpeg](https://cdn.doordash.com/media/photos/0b23dcda-4106-4887-95e4-cfbaf398ede9-retina-large-jpeg) |  |  |  |  | 5168 |  |  | FALSE |  | FALSE |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| 45705 | 000000040112 | 064312604011 | 4011 | Bananas (each, price varies by actual weight) |  |  | 1 | lb |  |  |  | Produce | Fruit | Bananas |  | FALSE | [https://cdn.doordash.com/media/photos/f8a66983-affb-4061-9ce1-98995f900c91-retina-large-jpeg](https://cdn.doordash.com/media/photos/f8a66983-affb-4061-9ce1-98995f900c91-retina-large-jpeg) |  |  |  |  | 1 |  |  | FALSE |  | TRUE | 0.41 | LB | each |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| 57921 | 000000040693 | 221000000009 | 4069 | Green Cabbage (each) |  |  | 1 | ct |  |  |  | Produce | Leafy Greens | Cabbage |  | FALSE | [https://cdn.doordash.com/media/photos/d54e7a18-12a0-400e-a2e5-0ae9680a544b-retina-large-jpeg](https://cdn.doordash.com/media/photos/d54e7a18-12a0-400e-a2e5-0ae9680a544b-retina-large-jpeg) |  |  |  |  | 400 |  |  | FALSE |  | FALSE |  |  | each |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| 34454 | 049331010967 | 049331010968 |  | La Crema Monterey Pinot Noir (750 ml) | La Crema | La Crema Monterey Pinot Noir Red Wine, 750ml | 750 | ml |  |  |  | Alcohol | Wine | Pinot Noir |  | FALSE | [https://cdn.doordash.com/media/photos/f8df8413-a736-41a5-ad24-508d549f4194-retina-large-jpeg](https://cdn.doordash.com/media/photos/f8df8413-a736-41a5-ad24-508d549f4194-retina-large-jpeg) |  |  |  |  | 104 |  |  | TRUE | 13.5% |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| 128628 | 000000080115 | 000000080116 |  | White Claw Hard Seltzer Lime | White Claw | The fresh flavor of Natural Lime can’t be ignored. Every sip is met with a purely refreshing, zesty citrus aroma and a clean, crisp finish. | 12 | oz | 6 ct | 77654 | Lime | Alcohol | Hard Seltzer |  |  | FALSE | [https://img.cdn4dd.com/cdn-cgi/image/fit=contain,width=300,format=auto,quality=50/https://cdn.doordash.com/media/photos/8ad24b4a-ef11-434f-8552-a20acf501a43-retina-large-jpeg](https://img.cdn4dd.com/cdn-cgi/image/fit=contain,width=300,format=auto,quality=50/https://cdn.doordash.com/media/photos/8ad24b4a-ef11-434f-8552-a20acf501a43-retina-large-jpeg) |  |  |  |  | 21 |  |  | TRUE | 5% |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| 89712357 | 0091401011186 | 0091401011187 |  | Painted Floral Lisle Self Collar Polo | FootJoy | FootJoy Painted Floral Lisle Self Collar Polo Sky Blue Large | Medium | ea |  | 64879 | Sky Blue | Apparel | Men's Apparel | Men's Shirts & Tops |  | FALSE | [https://img.cdn4dd.com/cdn-cgi/image/fit=contain,width=300,format=auto,quality=50/https://cdn.doordash.com/media/photosV2/f512b110-8484-4455-b767-8957aa4f125c-retina-large.png](https://img.cdn4dd.com/cdn-cgi/image/fit=contain,width=300,format=auto,quality=50/https://cdn.doordash.com/media/photosV2/f512b110-8484-4455-b767-8957aa4f125c-retina-large.png) |  |  |  |  | 88 |  |  | FALSE |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+

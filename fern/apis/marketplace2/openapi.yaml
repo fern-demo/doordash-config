@@ -1,0 +1,1044 @@
+openapi: 3.1.0
+info:
+  title: DoorDash Marketplace v2 API
+  version: 2.0.0
+  description: |
+    The DoorDash Marketplace v2 API enables partners to manage item catalogs, inventory, pricing, and other store attributes. For more information, visit the [DoorDash Developer Portal](https://developer.doordash.com/en-US/api/marketplace_v2/).
+servers:
+  - url: https://openapi.doordash.com
+    description: Production server
+security:
+  - BearerAuth: []
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        JWT Token authentication. See the [JWT Token guide](https://developer.doordash.com/en-US/docs/drive/api/token) for more information.
+  schemas:
+    AddItemsRequest:
+      type: object
+      properties:
+        scope:
+          type: object
+          properties:
+            business_ids:
+              type: array
+              items:
+                type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+      required:
+        - scope
+        - items
+    Item:
+      type: object
+      properties:
+        merchant_supplied_item_id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        product_traits:
+          type: array
+          items:
+            type: string
+        other_identifiers:
+          type: array
+          items:
+            type: object
+            properties:
+              identifier_type:
+                type: string
+              identifier_value:
+                type: string
+        images:
+          type: array
+          items:
+            type: object
+            properties:
+              url:
+                type: string
+              sort_id:
+                type: integer
+        size:
+          type: object
+        weighted_item_info:
+          type: object
+        brand_info:
+          type: object
+        program_eligibility:
+          type: array
+          items:
+            type: string
+        item_categorizations:
+          type: array
+          items:
+            type: object
+        product_attributes:
+          type: array
+          items:
+            type: object
+    AddItemsResponse:
+      type: object
+      properties:
+        operation_id:
+          type: string
+        operation_status:
+          type: string
+        message:
+          type: string
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+    BatchAddOrUpdateStoreItemRequest:
+      type: object
+      properties:
+        meta:
+          type: object
+          description: Only need this information when you use paginated pull workflow
+          properties:
+            current_page:
+              type: integer
+            page_size:
+              type: integer
+            total_page:
+              type: integer
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/StoreItem'
+    StoreItem:
+      type: object
+      properties:
+        merchant_supplied_item_id:
+          type: string
+        item_availability:
+          type: string
+        balance_on_hand:
+          type: integer
+        last_sold_datetime:
+          type: string
+        price_info:
+          type: object
+        location:
+          type: object
+        item_special_hours:
+          type: array
+          items:
+            type: object
+        extras:
+          type: array
+          items:
+            type: object
+    CreateJobRequest:
+      type: object
+      properties:
+        job_type:
+          type: string
+          enum:
+            - PULL_STORE_ITEMS
+            - PULL_STORE_ITEMS_WITH_PAGINATION
+          description: |
+            Use PULL_STORE_ITEMS if you can return all items in one pull call for one store, otherwise use PULL_STORE_ITEMS_WITH_PAGINATION which is paginated version pull.
+        job_parameters:
+          type: object
+          description: Job parameters for the job type. For pull store items, see CreatePullStoreItemsJobParameters.
+      required:
+        - job_type
+        - job_parameters
+    CreatePullStoreItemsJobParameters:
+      type: object
+      properties:
+        store_location_id:
+          type: string
+        pull_mode:
+          type: string
+          enum:
+            - REPLACE
+        merchant_supplied_page_size:
+          type: integer
+      required:
+        - store_location_id
+        - pull_mode
+    BatchAddOrUpdatePromotionRequest:
+      type: object
+      properties:
+        promotions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Promotion'
+      required:
+        - promotions
+    Promotion:
+      type: object
+      properties:
+        promotion_id:
+          type: string
+        promotion_type:
+          type: string
+          enum:
+            - BUY_X_FOR_Y
+            - BUY_X_SAVE_Y
+            - BUY_X_GET_Y_Z_PERCENT_OFF
+        purchase_criteria:
+          type: object
+          properties:
+            purchase_items:
+              type: array
+              items:
+                type: string
+            purchase_quantity:
+              type: integer
+        redemption_limit:
+          type: object
+          properties:
+            limit_per_order:
+              type: integer
+        discount_options:
+          type: object
+          properties:
+            discount_total_price:
+              type: number
+            discount_price_off:
+              type: number
+            discount_percentage:
+              type: number
+            discount_quantity:
+              type: number
+        start_time:
+          type: string
+          description: Start time of the promotion with local timezone (yyyy-MM-ddTHH:mm:ssXXX)
+        end_time:
+          type: string
+          description: End time of the promotion with local timezone (yyyy-MM-ddTHH:mm:ssXXX)
+      required:
+        - promotion_id
+        - promotion_type
+        - purchase_criteria
+        - redemption_limit
+        - discount_options
+        - start_time
+        - end_time
+    Store:
+      type: object
+      properties:
+        merchant_supplied_store_id:
+          type: string
+        name:
+          type: string
+        address:
+          type: object
+        phone_number:
+          type: string
+        timezone:
+          type: string
+        status:
+          type: string
+        attributes:
+          type: object
+      required:
+        - merchant_supplied_store_id
+        - name
+    BatchAddOrUpdateItemRequest:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+      required:
+        - items
+paths:
+  /api/v2/items:
+    post:
+      tags:
+        - Item Management
+      summary: Add new items
+      description: Add new items managed by business. Items sold across all stores must be added to business first. Items must be uniquely identifiable across stores. As of now, only one businessId must be specified. Request validation will fail if no businessId or multiple businessIds are specified.
+      operationId: addItems
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddItemsRequest'
+            examples:
+              basic:
+                value:
+                  scope:
+                    business_ids:
+                      - "string"
+                  items:
+                    - merchant_supplied_item_id: "string"
+                      name: "string"
+                      description: "string"
+                      product_traits:
+                        - "ALCOHOL"
+                      other_identifiers:
+                        - identifier_type: "UPC"
+                          identifier_value: "string"
+                      images:
+                        - url: "string"
+                          sort_id: 0
+                      size:
+                        details:
+                          dimensions:
+                            length: { value: 0, unit: "inch" }
+                            width: { value: 0, unit: "inch" }
+                            height: { value: 0, unit: "inch" }
+                          weight: { value: 0, unit: "lbs" }
+                          volume: { value: 0, unit: "oz" }
+                          product_specific_size_definition:
+                            value: "string"
+                            description: "string"
+                        pack_size_details:
+                          count_per_pack: 0
+                          per_item_size_details:
+                            dimensions:
+                              length: { value: 0, unit: "inch" }
+                              width: { value: 0, unit: "inch" }
+                              height: { value: 0, unit: "inch" }
+                            weight: { value: 0, unit: "lbs" }
+                            volume: { value: 0, unit: "oz" }
+                            product_specific_size_definition:
+                              value: "string"
+                              description: "string"
+                      weighted_item_info:
+                        average_weight_per_each: 0
+                        average_weight_measurement_unit: "ea"
+                        shop_by_measurement_unit: "kg"
+                        price_by_measurement_unit: "kg"
+                      brand_info:
+                        name: "string"
+                      program_eligibility:
+                        - "SNAP"
+                      item_categorizations:
+                        - category:
+                            name: "string"
+                            sub_category: {}
+                      product_attributes:
+                        - attribute_name: "string"
+                          attribute_value:
+                            single_select_bool: true
+      responses:
+        '201':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddItemsResponse'
+              examples:
+                success:
+                  value:
+                    operation_id: "string"
+                    operation_status: "QUEUED"
+                    message: "string"
+        '400':
+          description: Request Validation Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Request unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Request Entity Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Request is rate limited
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal service failure, please try again later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      tags:
+        - Item Management
+      summary: Update existing items
+      description: Update existing items managed by business.
+      operationId: updateItems
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddItemsRequest'
+            examples:
+              basic:
+                value:
+                  scope:
+                    business_ids:
+                      - "string"
+                  items:
+                    - merchant_supplied_item_id: "string"
+                      name: "string"
+                      description: "string"
+                      product_traits:
+                        - "ALCOHOL"
+                      other_identifiers:
+                        - identifier_type: "UPC"
+                          identifier_value: "string"
+                      images:
+                        - url: "string"
+                          sort_id: 0
+                      size:
+                        details:
+                          dimensions:
+                            length: { value: 0, unit: "inch" }
+                            width: { value: 0, unit: "inch" }
+                            height: { value: 0, unit: "inch" }
+                          weight: { value: 0, unit: "lbs" }
+                          volume: { value: 0, unit: "oz" }
+                          product_specific_size_definition:
+                            value: "string"
+                            description: "string"
+                        pack_size_details:
+                          count_per_pack: 0
+                          per_item_size_details:
+                            dimensions:
+                              length: { value: 0, unit: "inch" }
+                              width: { value: 0, unit: "inch" }
+                              height: { value: 0, unit: "inch" }
+                            weight: { value: 0, unit: "lbs" }
+                            volume: { value: 0, unit: "oz" }
+                            product_specific_size_definition:
+                              value: "string"
+                              description: "string"
+                      weighted_item_info:
+                        average_weight_per_each: 0
+                        average_weight_measurement_unit: "ea"
+                        shop_by_measurement_unit: "kg"
+                        price_by_measurement_unit: "kg"
+                      brand_info:
+                        name: "string"
+                      program_eligibility:
+                        - "SNAP"
+                      item_categorizations:
+                        - category:
+                            name: "string"
+                            sub_category: {}
+                      product_attributes:
+                        - attribute_name: "string"
+                          attribute_value:
+                            single_select_bool: true
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddItemsResponse'
+              examples:
+                success:
+                  value:
+                    operation_id: "string"
+                    operation_status: "QUEUED"
+                    message: "string"
+        '400':
+          description: Request Validation Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Request unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Request Entity Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Request is rate limited
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal service failure, please try again later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v2/stores:
+    patch:
+      tags:
+        - Store Management
+      summary: Update existing store
+      description: Update existing store information.
+      operationId: updateStore
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchAddOrUpdateStoreItemRequest'
+            examples:
+              basic:
+                value:
+                  meta:
+                    current_page: 0
+                    page_size: 0
+                    total_page: 0
+                  items:
+                    - merchant_supplied_item_id: "string"
+                      item_availability: "ACTIVE"
+                      balance_on_hand: 0
+                      last_sold_datetime: "string"
+                      price_info: {}
+                      location: {}
+                      item_special_hours: []
+                      extras: []
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  operation_id:
+                    type: string
+                  operation_status:
+                    type: string
+                  message:
+                    type: string
+              examples:
+                success:
+                  value:
+                    operation_id: "string"
+                    operation_status: "QUEUED"
+                    message: "string"
+        '400':
+          description: Request Validation Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Request unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Request Entity Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Request is rate limited
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal service failure, please try again later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v2/store_items:
+    post:
+      tags:
+        - Inventory Management
+      summary: Add inventory/pricing and other in-store attributes of new item
+      description: Add inventory, pricing, and other in-store attributes of a new item that is made available for sale in the store.
+      operationId: addStoreItem
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchAddOrUpdateStoreItemRequest'
+            examples:
+              basic:
+                value:
+                  meta:
+                    current_page: 0
+                    page_size: 0
+                    total_page: 0
+                  items:
+                    - merchant_supplied_item_id: "string"
+                      item_availability: "ACTIVE"
+                      balance_on_hand: 0
+                      last_sold_datetime: "string"
+                      price_info: {}
+                      location: {}
+                      item_special_hours: []
+                      extras: []
+      responses:
+        '201':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  operation_id:
+                    type: string
+                  operation_status:
+                    type: string
+                  message:
+                    type: string
+              examples:
+                success:
+                  value:
+                    operation_id: "string"
+                    operation_status: "QUEUED"
+                    message: "string"
+        '400':
+          description: Request Validation Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Request unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Request Entity Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Request is rate limited
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal service failure, please try again later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      tags:
+        - Inventory Management
+      summary: Update inventory/pricing and other in-store attributes of item
+      description: Update inventory, pricing, and other in-store attributes of item that is already sold in the store.
+      operationId: updateStoreItem
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchAddOrUpdateStoreItemRequest'
+            examples:
+              basic:
+                value:
+                  meta:
+                    current_page: 0
+                    page_size: 0
+                    total_page: 0
+                  items:
+                    - merchant_supplied_item_id: "string"
+                      item_availability: "ACTIVE"
+                      balance_on_hand: 0
+                      last_sold_datetime: "string"
+                      price_info: {}
+                      location: {}
+                      item_special_hours: []
+                      extras: []
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  operation_id:
+                    type: string
+                  operation_status:
+                    type: string
+                  message:
+                    type: string
+              examples:
+                success:
+                  value:
+                    operation_id: "string"
+                    operation_status: "QUEUED"
+                    message: "string"
+        '400':
+          description: Request Validation Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Request unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Request Entity Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Request is rate limited
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal service failure, please try again later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v2/jobs:
+    post:
+      tags:
+        - Job Management
+      summary: Create jobs to trigger various pull request flows
+      description: Create jobs to trigger various pull request flows. Job parameters should conform to the schema defined for specific job.
+      operationId: createJob
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateJobRequest'
+            examples:
+              basic:
+                value:
+                  job_type: "PULL_STORE_ITEMS"
+                  job_parameters:
+                    store_location_id: "string"
+                    pull_mode: "REPLACE"
+                    merchant_supplied_page_size: 0
+      responses:
+        '201':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddItemsResponse'
+              examples:
+                success:
+                  value:
+                    operation_id: "string"
+                    operation_status: "QUEUED"
+                    message: "string"
+        '400':
+          description: Request Validation Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Request unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Request Entity Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Request is rate limited
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal service failure, please try again later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v2/promotions:
+    post:
+      tags:
+        - Promotion Management
+      summary: Create new promotion for store
+      description: Create a new promotion for a store.
+      operationId: createPromotion
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchAddOrUpdatePromotionRequest'
+            examples:
+              basic:
+                value:
+                  promotions:
+                    - promotion_id: "string"
+                      promotion_type: "BUY_X_FOR_Y"
+                      purchase_criteria:
+                        purchase_items:
+                          - "string"
+                        purchase_quantity: 0
+                      redemption_limit:
+                        limit_per_order: 0
+                      discount_options:
+                        discount_total_price: 0
+                        discount_price_off: 0
+                        discount_percentage: 0
+                        discount_quantity: 0
+                      start_time: "2024-04-03T10:15:30Z"
+                      end_time: "2024-04-04T10:15:30Z"
+      responses:
+        '201':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddItemsResponse'
+              examples:
+                success:
+                  value:
+                    operation_id: "string"
+                    operation_status: "QUEUED"
+                    message: "string"
+        '400':
+          description: Request Validation Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Request unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Request Entity Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Request is rate limited
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal service failure, please try again later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      tags:
+        - Promotion Management
+      summary: Update promotions in store
+      description: Update promotions in a store.
+      operationId: updatePromotions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchAddOrUpdatePromotionRequest'
+            examples:
+              basic:
+                value:
+                  promotions:
+                    - promotion_id: "string"
+                      promotion_type: "BUY_X_FOR_Y"
+                      purchase_criteria:
+                        purchase_items:
+                          - "string"
+                        purchase_quantity: 0
+                      redemption_limit:
+                        limit_per_order: 0
+                      discount_options:
+                        discount_total_price: 0
+                        discount_price_off: 0
+                        discount_percentage: 0
+                        discount_quantity: 0
+                      start_time: "2024-04-03T10:15:30Z"
+                      end_time: "2024-04-04T10:15:30Z"
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddItemsResponse'
+              examples:
+                success:
+                  value:
+                    operation_id: "string"
+                    operation_status: "QUEUED"
+                    message: "string"
+        '400':
+          description: Request Validation Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Request unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Request Entity Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Request is rate limited
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal service failure, please try again later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+tags:
+  - name: Item Management
+    description: Endpoints for item management
+  - name: Store Management
+    description: Endpoints for store management
+  - name: Inventory Management
+    description: Endpoints for inventory and pricing management
+  - name: Job Management
+    description: Endpoints for job management
+  - name: Promotion Management
+    description: Endpoints for promotion management

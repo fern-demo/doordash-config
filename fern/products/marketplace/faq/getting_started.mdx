@@ -1,0 +1,50 @@
+Limited access
+
+<Warning>
+Marketplace APIs are not yet generally available. Please record interest in early access [here](https://docs.google.com/forms/d/e/1FAIpQLSfggU_NjGWCdi9vyWUicrnzJmtu9vC4zgbfSC3ROwSvW4eV2g/viewform).
+</Warning>
+
+## What is my Provider Type?[​](#what-is-my-provider-type "Direct link to heading")
+
+Provider Type (`provider_type`) is used to indicate the partner an order or menu is associated with. The syntax is brand\_environment. We will provision and share your Provider Type during the onboarding process. In the User-Agent header your Provider Type is in CamelCase. In the JSON body, it will be in snake\_case.
+
+`User_Agent` - {camelcase `provider_type`}/1.0
+
+If your `provider_type` = '**doordash\_pizza**' your User-Agent would be `DoorDashPizza/1.0`
+
+## What are the URL root details?[​](#what-are-the-url-root-details "Direct link to heading")
+
+Marketplace API: URL root is [https://openapi.doordash.com/marketplace/](https://openapi.doordash.com/marketplace/) for all calls.
+
+## How can I tell which API (Marketplace vs. Drive) I'm using?[​](#how-can-i-tell-which-api-marketplace-vs-drive-im-using "Direct link to heading")
+
+You can tell which API you're using by checking the URL. If your API URL is [https://openapi.doordash.com/marketplace](https://openapi.doordash.com/marketplace), you're using the Marketplace API.
+
+## Can we control integration type (moving from POS to Tablet, etc.)?[​](#can-we-control-integration-type-moving-from-pos-to-tablet-etc "Direct link to heading")
+
+We do not have an API that supports our partners controlling the integration type. This must be handled by the DoorDash team.
+
+## How do I switch the provider\_type for a store?[​](#how-do-i-switch-the-provider_type-for-a-store "Direct link to heading")
+
+Submit a request to your Doordash representative to get the provider\_type updated.
+
+## Are there other APIs available from DoorDash?[​](#are-there-other-apis-available-from-doordash "Direct link to heading")
+
+We currently also offer the Drive API. As opposed to orders coming from DoorDash Marketplace, Drive orders will originate from the Merchant through scheduled orders in the Drive portal, or through integrations. Please contact [[email protected]](/cdn-cgi/l/email-protection#afcbcad9cac3c0dfcadd82dcdadfdfc0dddbefcbc0c0ddcbcedcc781ccc0c2) if you would like to enable this feature.
+
+## Why does the Merchant Portal say our integration doesn’t support certain features we actually do?[​](#why-does-the-merchant-portal-say-our-integration-doesnt-support-certain-features-we-actually-do "Direct link to heading")
+
+The feature list on the Merchant Portal's Integrations page is dynamically generated based on production-level data we observe in your integration. These checkmarks are not manually controlled, but instead reflect real-time feature usage.
+
+Here’s how it works:
+
+* If we see a menu from your integration that includes both price and base\_price, Dual Pricing gets marked as supported.
+* If a Scheduled Order is placed and successfully fulfilled, the feature is checked off.
+* Each feature has similar criteria, triggered by actual usage in your production provider type.
+
+This data is also surfaced in the Developer Portal—if a feature is marked supported there, it powers the corresponding item in Merchant Portal.
+
+*Note: When you first go live, lower order volume might delay some of these features being marked as supported. That’s completely normal. As you begin processing more orders and features are utilized in production, the integration page will automatically update.*
+
+We’re continuing to improve this experience—stay tuned for updates!
+

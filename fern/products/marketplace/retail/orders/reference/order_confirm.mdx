@@ -1,0 +1,24 @@
+# Order Confirmation
+
+# Sample order confirmation
+
+Limited access
+
+<Warning>
+Marketplace APIs are not yet generally available. Please record interest in early access [here](https://docs.google.com/forms/d/e/1FAIpQLSfggU_NjGWCdi9vyWUicrnzJmtu9vC4zgbfSC3ROwSvW4eV2g/viewform).
+</Warning>
+
+The following JSON object represents an order confirmation to respond with after DoorDash sends an order:
+
+Please refer to the [model](/en-US/api/marketplace#section/MerchantOrderRecord) for field definitions
+
+```
+{  
+  "merchant_supplied_id": "orderId123",  
+  "order_status": "fail",  
+  "prep_time": "2020-05-13T14:01:32.761934529Z",  
+  "failure_reason": "Salad Plate is currently unavailable"  
+}  
+
+```
+

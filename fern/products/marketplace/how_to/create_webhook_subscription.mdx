@@ -1,0 +1,49 @@
+You can receive updates about an event by subscribing to webhooks from the Marketplace API. Your app will need to provide an internet-accessible endpoint that will receive and process the webhooks.
+
+## Create a webhook endpoint[​](#create-a-webhook-endpoint "Direct link to heading")
+
+Add a new internet-accessible endpoint to your app that will receive and process the webhooks. Make sure you note the endpoint's URL.
+
+### Webhook Endpoints to Create:[​](#webhook-endpoints-to-create "Direct link to heading")
+
+* **Orders [Required]** - Receive DoorDash Orders
+* **Menu Status [Required]** - Receive DoorDash menu status callback notification
+* **Menu Request [Required]** - Receive requests from DoorDash to pull menu for a location
+* **Order Release**- Receive notification from DoorDash to release an order from POS to kitchen
+* **Order Canceled** - Receive notification from DoorDash if an order is canceled
+* **Dasher Status Updates** - Receive notifications to provide visibility into Dasher location
+
+As you implement your endpoint, use the [API Reference](https://developer.doordash.com/en-US/api/marketplace/#tag/Menu-Endpoints) to understand the events that will be sent and the fields that will be sent with each event.
+
+## Secure your webhook endpoint[​](#secure-your-webhook-endpoint "Direct link to heading")
+
+The endpoint that will receive our webhooks must be an HTTPS endpoint and should be protected with authentication token.
+
+## Configure your webhook in the Portal[​](#configure-your-webhook-in-the-portal "Direct link to heading")
+
+Each environment (Sandbox and Production) supports only one webhook endpoint. You must also [request production access](https://developer.doordash.com/en-US/docs/drive/how_to/get_production_access/) before you can configure a production webhook endpoint.
+Navigate to the [Developer Portal](https://developer.doordash.com/portal/integration/drive/webhooks) and click **Webhook Subscriptions** in the left navigation.
+
+
+
+On the Webhooks page, click the **‘Configure Endpoint’** icon.
+
+
+Configure the endpoint by inputting the provider (Sandbox or Production). The event type, the URL and the Auth Token into the subsequent fields.
+
+
+
+Click Configure Endpoint to save your webhook configuration.
+
+## Update a webhook endpoint[​](#update-a-webhook-endpoint "Direct link to heading")
+
+If you need to update an existing endpoint, you can do this from the Webhook Subscription page following the below steps:
+
+1. In the list of all of the existing endpoints, you will select the *three dots*.
+2. Once you click the *three dots*, you will have the option to **configure**.
+   Click **configure** and then you can update your webhook endpoint.
+
+## Configure/Update your webhook without the Portal[​](#configureupdate-your-webhook-without-the-portal "Direct link to heading")
+
+If your team does NOT have access to the developer portal, please reach out to a DoorDash team member and provide them with the Subscription URLs and Authorization Headers/Tokens for each endpoint.
+

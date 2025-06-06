@@ -1,0 +1,46 @@
+Limited access
+
+<Warning>
+Marketplace APIs are not yet generally available. Please record interest in early access [here](https://docs.google.com/forms/d/e/1FAIpQLSfggU_NjGWCdi9vyWUicrnzJmtu9vC4zgbfSC3ROwSvW4eV2g/viewform).
+</Warning>
+
+The following JSON object represents an item activation notification sent from DoorDash to reactivate the `taco` item and to deactivate the `soup` item. The response below is an example error response.
+
+Please refer to the [model](/en-US/api/marketplace#section/ItemActivation) for field definitions
+
+Example Request:
+
+## Example Request:[​](#example-request "Direct link to heading")
+
+```
+[  
+  {  
+    "merchant_supplied_id": "taco",  
+    "is_active": true  
+  },  
+  {  
+    "merchant_supplied_id": "soup",  
+    "is_active": false  
+  }  
+]  
+
+```
+
+## Example Response:[​](#example-response "Direct link to heading")
+
+Response status code: 400
+
+```
+[  
+  {  
+    "merchant_supplied_id": "taco",  
+    "response": "Success"  
+  },  
+  {  
+    "merchant_supplied_id": "soup",  
+    "response": "Server Error"  
+  }  
+]  
+
+```
+

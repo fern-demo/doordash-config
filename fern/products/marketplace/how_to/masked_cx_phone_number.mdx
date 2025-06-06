@@ -1,0 +1,49 @@
+## Prerequisites[​](#prerequisites "Direct link to heading")
+
+To utilize the masked customer phone number, the phone number where the call will be originated must match the phone number that DoorDash has configured. The provider must reach out to Support via the Developer Portal in order to have this feature enabled as part of their integration.
+
+## Overview[​](#overview "Direct link to heading")
+
+During order fulfillment, issues can arise that require a Merchant to get feedback from
+the customer before completing the order. Previously, the only option was to contact DoorDash support which could be time consuming. By providing store operators with a method to call the customer, they can easily get questions answered and complete the order.
+
+*Please Note:*
+
+* *The phone number where the call originates must match the phone number configured in DoorDash.*
+* *The phone number associated with the store is the value shared with DoorDash during store onboarding.*
+* *Both the store and the customer must be using the same international country codes.*
+* *The masked customer phone number is valid once the order has been accepted by the store to 30 minutes after the delivery is either completed or canceled.*
+* *In the rare case DoorDash cannot generate a masked customer number, the default value will be the DoorDash support number.*
+
+## Get Started[​](#get-started "Direct link to heading")
+
+**Step 1:** Ensure the phone number for each store configured in DoorDash matches the number that the store operator will use to originate the call from. If you believe the phone number is incorrect or needs to be updated, you can contact your DoorDash Partnership Manager to verify and have the store phone number updated.
+
+
+
+**Step 2:** Ensure there is a way to surface the field consumer.phone to the store operator. This field is passed as part of the order payload as outlined below
+
+```
+...{  
+    "consumer": {  
+    "id"": 000000000,  
+    "first_name": "Halle",  
+    "last_name": "D",  
+    "email": ""[email protected]"",  
+    "phone": "+11231230000"  
+},...  
+
+```
+
+**Step 3:** Reach out to Support via the Developer Portal in order to have this feature enabled and specify whether this should be enabled for all stores or only specific store(s) as part of the integration.
+
+## Progress Check[​](#progress-check "Direct link to heading")
+
+Once DoorDash has confirmed that the functionality has been enabled as outlined in the request to Support, a test order can be placed. Within the order payload, please ensure that the field consumer.field has been updated from a numeric value to a numeric value beginning with a ‘+’ and the country code.
+
+## Next Steps[​](#next-steps "Direct link to heading")
+
+Present to your Merchants on how they can leverage this functionality, as well as call out the specific requirements necessary to ensure the call from the store operator is successful.
+
+*Modified: 3/21/2022*
+

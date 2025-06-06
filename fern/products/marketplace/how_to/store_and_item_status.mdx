@@ -1,0 +1,103 @@
+DoorDash has a set of APIs that allows store level actions to be implemented. This includes deactivating a store, getting store information, and getting store menu information.
+
+## Store activation status change[​](#store-activation-status-change "Direct link to heading")
+
+PUT `/api/v1/stores/{merchant_supplied_id}/status`
+
+DoorDash has a webhook that will allow you to deactivate a store. If there is a situation where a store needs to be deactivated, you will be able to deactivate the store immediately. Include the `merchant_supplied_id` of the store in the URL parameters. The payloads should have the following format, and are also detailed in the StoreActivationStatus Model:
+
+```
+{  
+  "is_active": false,  
+  "reason": string from list of accepted reasons for deactivation,  
+  "notes": string detailing reason for deactivation,  
+  "end_time": "2023-04-28T01:01:00+01:00"  
+}  
+
+```
+
+There is a required reason parameter that must be passed within the payload. This reason is for our internal records and implementing the ‘best fit’ for the store deactivation is requested here. Please ensure this parameter is associated with one of the reasons below:
+
+* `out_of_business`
+* `delete_store`
+* `payment_issue`
+* `operational_issues`
+* `store_self_disabled_in_their_POS_portal`
+* `store_pos_connectivity_issues`
+
+Upon sending the Request, you will receive a response code of 200 to confirm that the store was successfully deactivated.
+
+DoorDash no longer supports permanent deactivations initiated by POS providers. If no end date is specified in the deactivation request, the store will only be deactivated for two weeks and will automatically reactivate after that period has passed.
+
+To reactivate the store, send an additional PUT Request to the endpoint. When reactivating a store, the only parameter required in the payload is `"is_active": true`.
+
+You will receive a response code of 200 to confirm that the store is successfully reactivated. There are a few validations in place on the DoorDash side that are checked before activating a store. You will receive a 400 response in this case. Please do not try on a 400 response, as these will continue to fail until the issue is manually corrected. Due to these checks, the activation webhook could fail do the the following reasons:
+
+* Store banking information is not present
+* Store banking information is invalid
+* No active POS menus exists at the store
+
+To temporarily deactivate a store with a set end time in the StoreActivationStatus request, please use one of the following:
+
+* “end\_time”
+* “duration\_in\_secs” and “duration\_in\_hours”
+
+If end time and duration are in the request we will honor the DoorDash configured default temporary deactivation duration, not the times sent in the request. The payload should have the below format where the required field are `is_active`, `reason`, and `notes`.
+
+Please notify your TAM if you intend to start sending temporary deactivation webhooks to test & validate the functionality.
+
+```
+{  
+  "is_active": false,  
+  "reason": string from list of accepted reasons for deactivation,  
+  "notes": string detailing reason for deactivation,  
+  "merchant_supplied_id": "12345_abcd",  
+  "end_time": "2023-04-28T01:01:00+01:00"  
+}  
+
+```
+
+```
+{  
+  "is_active": false,  
+  "reason": string from list of accepted reasons for deactivation,  
+  "notes": string detailing reason for deactivation,  
+  "merchant_supplied_id": "12345_abcd",  
+  "duration_in_hours": "24",  
+  "duration_in_secs": "30"  
+}  
+
+```
+
+## Retrieving Store Info (GET)[​](#retrieving-store-info-get "Direct link to heading")
+
+GET `api/v1/stores/{merchant_supplied_id}/store_details`
+
+Partners can utilize this endpoint to retrieve live store-level information for those locations that are set up on the integration. This endpoint can be helpful in validating the following information:
+
+Which order protocol (tablet, POS, etc) is this store currently using?
+What is the max length for special instructions set for this store?
+Is my store temporarily/permanently deactivated? Why?
+Is Auto-Order Release (AOR) enabled at this store?
+
+The response object is fully detailed in our API Reference documentation, and we’ve also included a sample instance in the Reference section of this document.
+
+## Retrieving Store Menu Details (GET)[​](#retrieving-store-menu-details-get "Direct link to heading")
+
+GET `api/v1/stores/{merchant_supplied_id}/menu_details`
+
+Partners can utilize this endpoint to retrieve live menu-level information for those locations that are set up on the integration. This endpoint can be helpful in validating the following information regarding active menus at stores:
+
+* What is/are the menu ID(s) tied to this location?
+* Is this menu currently active?
+* When was the last successful update for this menu?
+* What are the Special/Regular hours for this menu?
+* Was this menu created via POS or another method?
+* What is the menu preview URL?
+
+The response object is fully detailed in our API Reference documentation, and we’ve also included a sample instance in the Reference section of this document.
+
+## Using the store status webhook function to reduce avoidable cancellations[​](#using-the-store-status-webhook-function-to-reduce-avoidable-cancellations "Direct link to heading")
+
+Please reference this [page](https://developer.doordash.com/en-US/docs/marketplace/how_to/store_status_case_study) to understand the importance of store status webhooks.
+

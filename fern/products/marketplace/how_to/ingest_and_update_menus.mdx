@@ -1,0 +1,65 @@
+## Prerequisites[​](#prerequisites "Direct link to heading")
+
+In order to ingest and update menus via the Developer Portal, the following criteria must be met:
+
+* The user attempting the request must have access to the Developer Portal (connect with your organization's Developer Portal admin to be added as a user)
+* The integration must have [menu pull](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_pull/) set up to support both menu creation and menu update.
+* The integration must have [test stores created](https://developer.doordash.com/en-US/docs/marketplace/how_to/create_a_test_store)
+
+## Overview[​](#overview "Direct link to heading")
+
+To ensure that menu integration functionality works as expected, users are able to trigger menu ingestion (create) and menu update requests from DoorDash's services to your [configured endpoints](https://developer.doordash.com/portal/integration/marketplace/webhook_subscriptions).
+
+This functionality should be primarily used for testing and troubleshooting [menu pull](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_pull/) and should not be relied upon as the primary method to send menu updates, as DoorDash has [menu push endpoints](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_push) for this purpose.
+
+## Get Started[​](#get-started "Direct link to heading")
+
+### Step 1: Navigate to Stores within Developer Portal[​](#step-1-navigate-to-stores-within-developer-portal "Direct link to heading")
+
+Login to the [DoorDash Developer Portal](https://developer.doordash.com/portal/) and navigate to the [stores page](https://developer.doordash.com/portal/integration/marketplace/stores) in the Marketplace dropdown menu to view your test and/or production stores.
+
+For each store, there is an option to **Ingest menu** and **Update menus** after selecting the three dots next to the test store:
+
+
+
+### Step 2: Choose whether you want to ingest or update the menu[​](#step-2-choose-whether-you-want-to-ingest-or-update-the-menu "Direct link to heading")
+
+* If the intention is to create net-new menu(s) for the store, the **Ingest menu** option should be selected.
+* If the intention is to update the existing menu(s) for the store, the **Update menus** option should be selected.
+
+Please refer to our documentation on [creating and updating menus via menu pull](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_pull) for more information as well.
+
+### Step 3a: Ingesting a menu[​](#step-3a-ingesting-a-menu "Direct link to heading")
+
+If **Ingest menu** is selected, a modal will appear. In this modal, it will prompt the user to name the menu they are ingesting as well as decide whether to activate the new menu. If the option to activate the new menu is selected, the net-new menu will appear on the DoorDash store after it has been successfully ingested.
+
+
+
+When ready, the user can press the **Ingest menu** button in order to trigger DoorDash to make a menu pull request to your [configured endpoints](https://developer.doordash.com/portal/integration/marketplace/webhook_subscriptions).
+
+### Step 3b: Updating a menu[​](#step-3b-updating-a-menu "Direct link to heading")
+
+If the intention is to update existing menu(s) for the store and the **Update menus** option is selected, a modal will appear. In this modal, it will warn the user that this button will attempt to refresh **all existing and active menus** for this store. When ready, the user can press the **Update menu** button in order to trigger DoorDash to make a menu pull request to your [configured endpoints](https://developer.doordash.com/portal/integration/marketplace/webhook_subscriptions).
+
+
+
+### Progress Check[​](#progress-check "Direct link to heading")
+
+In order to confirm the menu pull job succeeded without any issues, navigate to [event logs](https://developer.doordash.com/portal/integration/marketplace/event_log) within the Developer Portal.
+
+Within Event Logs, the user can filter on name **MENU\_PULL** to see all recent menu pull requests:
+
+
+
+### Menu Check[​](#menu-check "Direct link to heading")
+
+Once the menu ingestion/update job has completed on the DoorDash side, you should receive a [processing-complete webhook](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_status_callback) from DoorDash, but you can also navigate to the store on our Marketplace to verify your updates.
+
+
+
+## FAQS[​](#faqs "Direct link to heading")
+
+1. **What can I do if the menu updates are not reflecting on the live DoorDash page even though the response on the MENU\_PULL webhook was successful?**
+
+If the expected menu updates, either via ingestion or update, are not reflecting on the live DoorDash page, even though the MENU\_PULL webhook did not fail, please reach out to Support via the Developer Portal. Our team will be able to provide more information as to why the menu failed to be updated by DoorDash.
+

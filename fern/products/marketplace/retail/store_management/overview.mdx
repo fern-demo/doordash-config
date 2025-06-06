@@ -1,0 +1,62 @@
+## Store Management API[​](#store-management-api "Direct link to heading")
+
+### Overview[​](#overview-1 "Direct link to heading")
+
+The Store Management API is designed for DoorDash partners to manage the hours of operation for individual stores. It allows partners to update store availability for ordering.
+
+**Endpoint URL:** `https://openapi.doordash.com/marketplace/api/v2/stores/{store_location_id}`
+
+### Getting Started[​](#getting-started "Direct link to heading")
+
+#### Request[​](#request "Direct link to heading")
+
+* **HTTP Method:**
+
+  + PATCH: Update individual store hours
+* **Headers:**
+
+  + Refer to the [JWT authentication documentation](https://developer.doordash.com/en-US/docs/marketplace/how_to/JWTs) for authentication details.
+* **Payload Example:** [Link to Example Payload](https://developer.doordash.com/en-US/docs/marketplace/retail/store_management/reference)
+
+#### Response[​](#response "Direct link to heading")
+
+* **Success Response:**
+
+  + The response to a successful request will be a mirror of the payload provided in the request.
+* **Fail Response Details:**
+
+  + These are the same as [previous endpoints.](#)
+
+#### Verification[​](#verification "Direct link to heading")
+
+* Navigate to the store's Merchant Portal page and check the Store Availability section to verify changes are reflected.
+
+### FAQ[​](#faq "Direct link to heading")
+
+1. **What timezone should my ‘start\_time’ and ‘end\_time’ be?**
+
+   * The hours should be set based on the timezone of the store.
+2. **How can I send hours if my store is open overnight?**
+
+   * For specific information on how to configure the store hour fields, please refer to our Hours Configuration Reference.
+3. **How can I send hours if my store is open 24/7?**
+
+   * For specific information on how to configure the store hour fields, please refer to our Hours Configuration Reference.
+4. **What causes a store hours update request to fail?**
+
+   * DoorDash will fail the job if store hours fall into any of the following categories:
+     + Overlapping Hours across multiple days.
+     + Start Time = End Time and times are not 00:00.
+     + Store Open Hours are less than 30 minutes.
+5. **How can I send hours if my store is closed?**
+
+   * If a store is closed on a particular day (like a holiday), use Store Special Hours and set `closed = true`.
+   * If a store is always closed on a particular day of the week, use Store Open Hours and set `start_time = 00:00` and `end_time = 00:00` for that `day_index` or omit the `day_index` entirely.
+   * If a store is temporarily closed on all days, DoorDash Store Availability webhooks should be used to deactivate the store. Additional information on our Store Availability Webhooks can be found [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/store_and_item_status#store-activation-status-change).
+6. **Why is my store on DoorDash closing earlier than the hours sent?**
+
+   * This is a platform-wide logic where a buffer is applied to all stores on the DoorDash site. This allows for food prep time, time for Dasher arrival, etc., before the store actually closes.
+7. **Can I set hours for a specific item?**
+
+   * Yes, there is the capability to control hourly availability at an Item Level, rather than a store level. This information will be sent via our Inventory/Pricing API. Store Hours will remain the default availability if Item Hours are not defined. More details can be found [here](https://developer.doordash.com/en-US/api/marketplace_v2/#tag/InventoryManagementEndpoints/operation/batchAddStoreItem).
+

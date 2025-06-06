@@ -1,0 +1,91 @@
+## Overview[​](#overview "Direct link to heading")
+
+DoorDash has updated their [Onboarding requirements](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding_requirements) for Marketplace integration partners. Dopending on the Integration type, we would recommend the Onboarding requirements that you would need to comply to.
+
+* [Self-serve integration onboarding (SSIO)](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/#onboarding-store-to-integration) This product provides the back-end infrastructure to allow our partners to build a seamless experience from within their own environment and allow the merchant to control which of their stores get onboarded directly from partner envrionment. SSIO is required for all third-party platform integrations.
+* [Store Onboarding webhook (SOW)](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/sow/) - This product provides an API to allow our partners to send webhooks containing information about the store being onboarded to the integration. The Store Onboarding Webhook flow is available for single-merchant integrations only.
+* [Direct to Merhcant](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/epm/) - This is meant for integration partners who have a single-brand integration with DoorDash (a direct to brand integration or a third-party system used exclusively for a single brand or parent group of brands)
+
+To empower developers in aligning the integration build with the onboarding product, we will guide you through setup instructions relevant to the onboarding product that aligns with the onboarding standards.
+
+If you are building SSIO, please follow the provided steps to setup and configure a test environment.
+
+## New Integration[​](#new-integration "Direct link to heading")
+
+### Step 1: Setup organization details for Marketplace integration through [developer portal](https:developer.doordash.com)[​](#step-1-setup-organization-details-for-marketplace-integration-through-developer-portal "Direct link to heading")
+
+Upon choosing the Marketplace integration, partners will be directed to the Marketplace "Get started" page, displaying the onboarding tracker. This tracker outlines the steps partners need to follow to set up their organization details and align with integration requirements as they prepare their build for a production review. Partners are prompted to specify the industry and purpose of the integration, aiding in the determination of required features for implementation.
+
+
+
+### Step 2: Setup integration Environment[​](#step-2-setup-integration-environment "Direct link to heading")
+
+After the confirmation, partners need to set up their environment.
+
+* Create a Provider: A provider name is generated automatically, based on the provided business name. This step involves establishing a provider entity within the system.
+* Generate Credentials: This step involves generating authentication information that will be utilized to establish a secure connection with DoorDash API for accessing marketplace features via the integration.
+* Register Webhook Subscriptions: Partners are required to register webhook subscriptions for receiving DoorDash orders and menu requests. Webhooks are mechanisms that allow real-time communication between DoorDash and the Partner.
+
+
+
+### Step 3: Setup Integration Onboarding Requirements[​](#step-3-setup-integration-onboarding-requirements "Direct link to heading")
+
+During this step, Partners are required to furnish links to documents that are used to setup the Partners application on DoorDash. The provided links will be prominently featured on the Integration tab in DoorDash Merchant Portal, serving as valuable resources for merchants to gain insights into their integration.
+
+* Display Name - This represents the distinctive name by which the Partner's application will be identified on the DoorDash platform. This will also be the name, Merchants would see when they OAuth into the Doordash environment.
+* Terms and Conditions - Link to the partners terms and conditions associated with the use of their application on DoorDash.
+* Privacy Policy - Link to partners privacy policy that highlights how user data is processed, and safeguarded within the Partner's application.
+* Portal Link - Link to the partners application's portal. Merchants will be redirected to this page when integrating their stores with DoorDash and the Partner environment.
+* Help Documentation - This link provides resources for troubleshooting and understanding the features of the integration.
+
+
+
+Once the information is provided, DoorDash will create a unique OAuth Client ID, that will be used to authenticate any requests made during the onboarding process by the partner.
+
+> **Note:** Display name, Terms and conditions and Privacy policy links cannot be changed after an OAuth Client is setup, so please make sure this information is accurate before clicking on *Save and continue*.
+
+
+
+Once the OAuth Client ID is setup, the [OAuth exchange token](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/#exchange-token) can be generated by following the steps below:
+
+* Visit `https://identity.doordash.com/auth?response_type=code&redirect_uri=https://www.doordash.com/&scope=*&state=test&client_id=[OAUTH_CLIENT_ID]&prompt=none&layout=default`
+* After a successful login, you will be directed to a URL resembling `https://www.doordash.com/?state=test&code=[CODE_-_UUID]&action=Login&method=[Email]`
+* Save the `CODE_UUID` from the above URL. This is the exchange token which needs to be used to generate the Merchant JWT token in [SSIO API calls](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/#api-list).
+
+### Step 4: Build Integration[​](#step-4-build-integration "Direct link to heading")
+
+DoorDash generates a list of features - both required and recommended, depending on the integration purpose. These features must be built before partners can request for production access.
+Additionally, test stores are created to assist with integration testing.
+
+
+
+Clicking on the *Review required features* button, user is redirected to the *Features* page, listing the required features that need to be build.
+
+
+Users can also review the test stores, that are available to aid with Integration onboarding testing. Two test stores are automatically generated to facilitate testing for both eligible and non-eligible marketplace onboarding scenarios.
+
+If you are an administrator of your organizations Developer Portal you will also have access to [DoorDash Merchant Portal](https://doordash.com/merchant). You can use this login to oAuth in and test the end to end onboarding process.
+
+
+
+### Step 5: Certification & Production Access[​](#step-5-certification--production-access "Direct link to heading")
+
+After completing the onboarding build as per the [SSIO spec](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/#onboarding-store-to-integration). partners are required to reach out to their Technical Account Manager to review and approve the build.
+
+During this step the DoorDash team will evaluate the readiness to go-live and will be configuring the [URL](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/#oauth), that will be used for redirecting the Merchants to the partner portal page from the DoorDash identity web page.
+
+## Existing Integration[​](#existing-integration "Direct link to heading")
+
+To comply to the new onboarding standards, existing integrations will be prompted to review the onboarding product requirements at the time of login.
+Upon selecting *Set up requirements*, users will be prompted to setup the onboarding requirements document links that will be utilized to configure an OAuth Client ID for the partner, as described in **Step 3**
+
+
+
+## Next Steps[​](#next-steps "Direct link to heading")
+
+For any questions regarding the setup process, please reach out to support via Developoer Portal or your Technical Account Manager.
+
+---
+
+*Modified: 01/01/2024*
+

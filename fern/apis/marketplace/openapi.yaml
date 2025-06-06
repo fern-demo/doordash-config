@@ -567,6 +567,13 @@ components:
               items:
                 type: string
                 enum: [TAG_KEY_DIETARY_VEGETARIAN]
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
 paths:
   /api/v1/menus:
     post:

@@ -1,0 +1,34 @@
+# Sample auto order release event
+
+Limited access
+
+<Warning>
+Marketplace APIs are not yet generally available. Please record interest in early access [here](https://docs.google.com/forms/d/e/1FAIpQLSfggU_NjGWCdi9vyWUicrnzJmtu9vC4zgbfSC3ROwSvW4eV2g/viewform).
+</Warning>
+
+The following JSON object represents an order release notification sent from DoorDash that is triggered once the Dasher crosses the configured geofence:
+
+```
+{  
+  "dasher": {  
+    "first_name": "Kelley",  
+    "latitude": 40.0293899,  
+    "longitude": -75.099853,  
+    "masked_phone_number": "1234567890",  
+    "vehicle": {  
+      "color": "Black",  
+      "make": "Chevrolet",  
+      "model": "Cruze"  
+    }  
+  },  
+  "distance_from_store": 460.2,  
+  "store": {  
+    "provider_type": "provider_a",  
+    "merchant_supplied_id": "location1"  
+  },  
+  "external_order_id": "0da8b530-7c4c-4925-8785-cd843b797d64",  
+  "client_order_id": "321"  
+}  
+
+```
+

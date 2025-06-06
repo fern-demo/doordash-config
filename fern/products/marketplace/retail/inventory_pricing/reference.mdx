@@ -1,0 +1,73 @@
+Example Payload
+
+```
+{  
+  "items": [  
+    {  
+      "merchant_supplied_item_id": "string",  
+      "item_availability": "ACTIVE",  
+      "balance_on_hand": 0,  
+      "last_sold_datetime": "string",  
+      "price_info": {  
+        "base_price": 0,  
+        "sale_price": 0,  
+        "tax_rate": 0,  
+        "bottle_fee_deposit": 0,  
+        "base_price_per_measurement_unit": 0  
+      },  
+      "location": {  
+        "aisle": "string",  
+        "zone": "string",  
+        "shelf": "string",  
+        "side": "string",  
+        "additional_details": "string",  
+        "coordinates": {  
+          "x": 0,  
+          "y": 0  
+        }  
+      },  
+      "item_special_hours": [  
+        {  
+          "day_index": "MON",  
+          "start_time": "string",  
+          "end_time": "string",  
+          "start_date": "string",  
+          "end_date": "string"  
+        }  
+      ]  
+    }  
+  ]  
+}  
+
+```
+
+### Parameter Details[​](#parameter-details "Direct link to heading")
+
+| Parameter Name | Variable Type | Description | Possible Values | Required for POST | Required for PATCH | Required for PULL | Validation |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| merchant\_supplied\_item\_id | string | The MSID used for the item in the Item Management endpoint |  | Yes | Yes | Yes | Must not be blank or null |
+| item\_availability | string | Item availability status | "ACTIVE" "INACTIVE" | Yes | No | Yes | Must be one of the enumerated values |
+| balance\_on\_hand | integer | Current stock level for the item |  | Recommended | No | Recommended |  |
+| last\_sold\_datetime | string | DateTime in ISO8601 format of when the item was last sold at the store |  | Recommended | No | Recommended |  |
+| price\_info | object | Holds different pricing parameters |  | Yes | No | Yes |  |
+| base\_price | integer | Standard price for the item (in cents) |  | Yes | No | Yes | Between 1 and 1000000, inclusive |
+| sale\_price | integer | Sale price for the item (in cents) |  | Recommended | No | Recommended | 1. Must be < base\_price 2. Between 1 and 1000000, inclusive |
+| tax\_rate | number | Tax rate applied for the item ("8.5%" should be sent as "8.5") |  | No | No | No | Between 0 and 25, inclusive |
+| bottle\_fee\_deposit | number | Fee collected based on local legislative requirements (in cents) |  | No | No | No | Between 0 and 4000, inclusive |
+| base\_price\_per\_measurement\_unit | number | base price per measurement unit(kg, lb) in cents for weighted items |  | No | No | No |  |
+| location | object | Default location of the item in the store |  | No | No | No |  |
+| aisle | string | Aisle where the item can be found |  | No | No | No |  |
+| zone | string | Zone within the aisle or a general zone within the store where the item can be found |  | No | No | No |  |
+| shelf | string | Shelf within the aisle where the item can be found |  | No | No | No |  |
+| side | string | Side of the aisle where the item is located |  | No | No | No |  |
+| additional\_details | string | Additional information about the location of the item |  | No | No | No |  |
+| coordinates | object | Coordinates within the store where the item is located |  | No | No | No |  |
+| coordinates.x | integer | X value of the coordinate |  | No | No | No |  |
+| coordinates.y | integer | Y value of the coordinate |  | No | No | No |  |
+| item\_special\_hours | object | Special hours when the item will be available |  | No | No | No |  |
+| day\_index | string | Day of the week the hours are applied | "MON" "TUE" "WED" "THU" "FRI" "SAT" "SUN" | No | No | No |  |
+| start\_time | string | Starting time of special hours | HH:MM:SS | No | No | No |  |
+| end\_time | string | Ending time of special hours | HH:MM:SS | No | No | No |  |
+| start\_date | string | Specific date when special hours should start |  | No | No | No |  |
+| end\_date | string | Specific date when special hours should end |  | No | No | No |  |
+

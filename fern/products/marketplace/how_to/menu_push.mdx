@@ -1,0 +1,295 @@
+## Prerequisites[​](#prerequisites "Direct link to heading")
+
+Menu Push can be used by Providers to POST a menu and also can be used to update menus. [Menu Pull](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_pull) is required to be built, but it is recommended that Push logic is still built out on the provider’s side to automatically trigger menu updates when changes are made within the POS.
+
+## Overview[​](#overview "Direct link to heading")
+
+For a Menu to be successfully pushed to DoorDash, it must include the fields: `merchant_supplied_id`, `provider_type`, `open_hours`, `special_hours` and `menu.name`. The request body schema can be found in the [API Reference Docs](https://developer.doordash.com/en-US/api/marketplace#tag/Menu-Endpoints/operation/menuCreate).
+
+## Get Started[​](#get-started "Direct link to heading")
+
+---
+
+### Step 1: Identify endpoint[​](#step-1-identify-endpoint "Direct link to heading")
+
+Identify the [Create a Menu endpoint](https://developer.doordash.com/en-US/api/marketplace#tag/Menu-Endpoints/operation/menuCreate)
+
+**POST**
+[https://openapi.doordash.com/marketplace/api/v1/menus](https://openapi.doordash.com/marketplace/api/v1/menus)
+
+*Note: Please avoid using a menu POST for the same menu as this will create duplicate menus.*
+
+### Step 2: Ensure the menu.json has the correct format[​](#step-2-ensure-the-menujson-has-the-correct-format "Direct link to heading")
+
+For the menu job to be successful the menu.json must be sent in the correct format.
+
+Below is a sample menu.json:
+
+```
+{  
+  "reference": "12345-test-id",  
+  "store": {  
+    "merchant_supplied_id": "abc12345",  
+    "provider_type": "papa_pizza"  
+  },  
+  "open_hours": [  
+    {  
+      "day_index": "MON",  
+      "start_time": "07:00",  
+      "end_time": "15:00"  
+    },  
+    {  
+      "day_index": "TUE",  
+      "start_time": "07:00",  
+      "end_time": "15:00"  
+    },  
+    {  
+      "day_index": "WED",  
+      "start_time": "07:00",  
+      "end_time": "15:00"  
+    },  
+    {  
+      "day_index": "THU",  
+      "start_time": "07:00",  
+      "end_time": "15:00"  
+    },  
+    {  
+      "day_index": "FRI",  
+      "start_time": "07:00",  
+      "end_time": "15:00"  
+    }  
+  ],  
+  "special_hours": [],  
+  "menu": {  
+    "name": "Breakfast",  
+    "subtitle": "",  
+    "active": true,  
+    "categories": [  
+      {  
+        "name": "Entree",  
+        "subtitle": "",  
+        "merchant_supplied_id": "Entree",  
+        "active": true,  
+        "sort_id": 0,  
+        "items": [  
+          {  
+            "name": "Burrito Scram-Bowl",  
+            "description": "Creamy guacamole and fresh pico de gallo top off this hearty Mexican breakfast.",  
+            "merchant_supplied_id": "26d3fce0-efd2-46d3-832c-ced5bc956401",  
+            "active": true,  
+            "price": 0,  
+            "extras": []  
+          },  
+          {  
+            "name": "Harissa Scram-Bowl",  
+            "description": "",  
+            "merchant_supplied_id": "47f64b8a-3526-44f1-b2f2-06f376324f69",  
+            "active": true,  
+            "price": 0,  
+            "extras": []  
+          },  
+          {  
+            "name": "Mediterranean Scram-Bowl",  
+            "description": "Creamy goat cheese, bright and tangy chimichurri with scrambled egg whites.",  
+            "merchant_supplied_id": "997f345b-1f9c-4d7d-be8a-bddc06a172e2",  
+            "active": true,  
+            "price": 0,  
+            "extras": []  
+          },  
+          {  
+            "name": "Multigrain Oatmeal",  
+            "description": "A blend of oatmeal, quinoa and flax to fuel your day.",  
+            "merchant_supplied_id": "d50bee8f-07dc-4e7f-9705-d6439290a140",  
+            "active": true,  
+            "price": 0,  
+            "extras": []  
+          },  
+          {  
+            "name": "Start from Scratch",  
+            "description": "Design your own breakfast bowl",  
+            "merchant_supplied_id": "f289b112-28ba-4acd-9be1-99383d1004ce",  
+            "active": true,  
+            "price": 395,  
+            "extras": []  
+          },  
+          {  
+            "name": "Turkey Hash Bowl",  
+            "description": "Start your day with hearty turkey potato hash and toasted quinoa.",  
+            "merchant_supplied_id": "7c38617d-7406-415f-ba10-9777d0553aad",  
+            "active": true,  
+            "price": 0,  
+            "extras": []  
+          },  
+          {  
+            "name": "Turkey Hash Bowl",  
+            "description": "Start your day with hearty turkey potato hash and toasted quinoa.",  
+            "merchant_supplied_id": "7c38617d-7406-415f-ba10-9777d0553aad",  
+            "active": true,  
+            "price": 0,  
+            "extras": []  
+          }  
+        ]  
+      },  
+      {  
+        "name": "Drink",  
+        "subtitle": "",  
+        "merchant_supplied_id": "Drink",  
+        "active": true,  
+        "sort_id": 0,  
+        "items": [  
+          {  
+            "name": "Cherry bubly",  
+            "description": "Unsweetened sparkling water with essence of sweet cherries.",  
+            "merchant_supplied_id": "ee5eb143-a334-41a6-b186-db2d8841fb57",  
+            "active": true,  
+            "price": 0,  
+            "extras": []  
+          },  
+          {  
+            "name": "Equator Fair Trade Organic Coffee",  
+            "description": "A dark roast coffee with hints of bittersweet chocolate and walnut.",  
+            "merchant_supplied_id": "efaad334-e44b-49c3-98ff-e60229f0fa1e",  
+            "active": true,  
+            "price": 0,  
+            "extras": []  
+          },  
+          {  
+            "name": "Equator Fair Trade Organic Iced Coffee",  
+            "description": "Refreshing iced coffee with hints of bittersweet chocolate and a smooth finish.",  
+            "merchant_supplied_id": "e31b8203-8d55-4f80-81e7-ffe8cac0cd46",  
+            "active": true,  
+            "price": 0,  
+            "extras": []  
+          },  
+          {  
+            "name": "Grapefruit bubly",  
+            "description": "Unsweetend sparkling water with hints of fresh grapefruit.",  
+            "merchant_supplied_id": "3b3a9de5-1d43-4ea9-9fae-472f2273da41",  
+            "active": true,  
+            "price": 0,  
+            "extras": []  
+          },  
+          {  
+            "name": "Green Sheep Bottle Water",  
+            "description": "",  
+            "merchant_supplied_id": "68d65af6-4bb7-44ac-a2b4-e8a69eaa1021",  
+            "active": true,  
+            "price": 195,  
+            "extras": []  
+          },  
+          {  
+            "name": "Green Sheep Sparkling Water",  
+            "description": "",  
+            "merchant_supplied_id": "41c0cf24-4acd-495e-9039-e7ca59c78d4d",  
+            "active": true,  
+            "price": 195,  
+            "extras": []  
+          },  
+          {  
+            "name": "House Water",  
+            "description": "",  
+            "merchant_supplied_id": "19f3e7ca-359d-4e0e-b790-7c750e2ec974",  
+            "active": true,  
+            "price": 0,  
+            "extras": []  
+          },  
+          {  
+            "name": "Lime bubly",  
+            "description": "Unsweetend sparkling water with a bright lime finish.",  
+            "merchant_supplied_id": "18f4ef69-0dc9-468f-8bc6-588aa3c579b9",  
+            "active": true,  
+            "price": 0,  
+            "extras": []  
+          },  
+          {  
+            "name": "Pure Leaf Black Tea",  
+            "description": "Crisp and refreshing, unsweetened black iced tea.",  
+            "merchant_supplied_id": "adfd221d-89bb-4803-9375-57feb98c5deb",  
+            "active": true,  
+            "price": 0,  
+            "extras": []  
+          },  
+          {  
+            "name": "Pure Leaf Peach Tea",  
+            "description": "Lightly sweetened black tea with an infusion of fresh peach flavor.",  
+            "merchant_supplied_id": "1d44e8bc-81bf-4834-a8cf-a329fd3b7d17",  
+            "active": true,  
+            "price": 0,  
+            "extras": []  
+          }  
+        ]  
+      }  
+    ]  
+  }  
+}  
+
+```
+
+### Step 3: Allow Menu Push to be used for Menu updates[​](#step-3-allow-menu-push-to-be-used-for-menu-updates "Direct link to heading")
+
+Updating Menus (Push)
+
+**PATCH**
+[https://openapi.doordash.com/marketplace/api/v1/menus/{"{id}"}](https://openapi.doordash.com/marketplace/api/v1/menus/%7Bid%7D)
+
+Partners can utilize Menu Push to update menus as well. Upon creating a menu, you will receive the `"id": "menu-id"` (UUID) in the POST request sent out by DoorDash’s menu status webhook. When updating a menu, you should include that menu’s {id} in the URL parameters. Menu processing time can differ depending on the size of the queue at the time the menu job was created, but average menu processing time is less than 1 minute.
+
+The menu update pipeline works identically to the menu creation pipeline. When updating a menu, you will need to include the full menu in your request, not just the specific fields you wish to update. Hence, the data validation for the PATCH endpoint will be identical to the POST endpoint because it uses the same model. Just as with POST, you can also provide a reference field in the payload to identify your request or rely on the DoorDash generated reference.
+
+Once our service is finished updating your menu or if the menu update fails, our [webhook](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_push#step-4-set-up-menu-status-webhook) will send a POST request to the endpoint you provide us with.
+
+#### Menu Response Codes:[​](#menu-response-codes "Direct link to heading")
+
+| Status Code | Details |
+| --- | --- |
+| 200 | Success |
+| 400 | Bad Request |
+| 403 | Forbidden |
+| 429 | Too Many Requests |
+| 500 | Internal Server Error |
+
+If you receive a `429`, please retry after 1 minute. If you receive a `500`, please retry with exponential backoff. If you receive a `400` response, please do not retry. There should be an associated error message with a `400` status code that will help with diagnosing the origin of the issue (example below).
+
+`400 Bad Request: Invalid menu payload: [StoreMenu.menu.MenuCategory[IcedBeverages]: find duplicate merchant id:5757, name:Freshly Brewed Iced Coffee - Create Your Own - Custom.]`
+
+In the above example, there is already an item with the `merchant_supplied_id` of `5757`. This is stating that there are duplicate IDs for an item within the same level of the Menu. To resolve this error, you must have unique `merchant_supplied_ids` for items within the same Menu Level.
+
+### Step 4: Set up Menu status webhook[​](#step-4-set-up-menu-status-webhook "Direct link to heading")
+
+Once our service is finished creating your menu or if the menu creation fails, the service will send out a POST webhook request with the menu creation result. You need to create an endpoint and provide us with its URL in order to receive the webhook notification. This request will contain the same "reference" as the response to your initial request, allowing you to keep track of which requests have been completely processed.
+
+This endpoint can be set up within Developer Portal by [setting up a webhook subscription](https://developer.doordash.com/en-US/docs/marketplace/how_to/create_webhook_subscription). The Event type that should be used is `Menu Status`.
+
+---
+
+## Progress Check[​](#progress-check "Direct link to heading")
+
+Partners will get a menu job webhook call for each menu upon menu job completion from DoorDash. Reference of menu job webhook format:
+
+```
+{  
+   "event":{  
+      "type":"MenuCreate",  
+      "status":"Success",  
+      "reference":"reference_id_1234"  
+   },  
+   "store":{  
+      "merchant_supplied_id":"location_1"  
+   },  
+   "menu":{  
+      "id":"e7018a50-2308-4a81-bd88-330ea99a60ae"  
+   }  
+}  
+
+```
+
+Please save the `id` field as this will be needed to update the menu in the future. If the `id` field is returned in the Menu Status Notification, this means the core menu was successfully created. There can be situations where the `"status": "FAILURE"`, but the `id` is returned. This means that the menu was created successfully, but the store hours phase of menu creation failed. In this case, please save the `id` field to update the menu in the future and validate that the store hours are correct.
+
+## Next Steps[​](#next-steps "Direct link to heading")
+
+To ensure that Menu Push is working as expected, please try and POST a menu to one of your [test stores](https://developer.doordash.com/en-US/docs/marketplace/how_to/create_a_test_store) that you have set up within Developer Portal. If Menu Push is not working as expected please reach out to support via Developer Portal.
+
+---
+
+*Modified: 5/08/2023*
+

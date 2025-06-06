@@ -1,0 +1,195 @@
+## Overview[​](#overview "Direct link to heading")
+
+### What is 86ing?[​](#what-is-86ing "Direct link to heading")
+
+* Item 86ing & Item Option 86ing refer to the act of marking an item or an item option (i.e. modifier) out of stock, making it temporarily unavailable on the DoorDash menu. This is table stakes functionality for a restaurant to ensure menu accuracy and smooth operations.
+* Partners can send DoorDash a webhook to 86 item(s) and/or item option(s). This feature can also be used to stock the item(s) and/or item option(s) back in when they’re available to order.
+* Note that Item 86ing and Item Option 86ing are immediate and temporary updates to the menu—this is different from permanently deactivating or removing an item using a [menu\_push](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_integration#updating-menus-push).
+
+### Why Implement 86ing?[​](#why-implement-86ing "Direct link to heading")
+
+* Sharing real-time stock updates via item 86ing is essential for maintaining integration quality as it ensures customers are only able to order items currently in stock, reducing friction in restaurant operations and improving the customer experience. This feature is required for all new DoorDash partners, and is a key component of DoorDash’s standards for High Quality Integrations.
+
+### Benefits[​](#benefits "Direct link to heading")
+
+**For Restaurants:**
+
+* **Increased Sales & Reduced Refunds:** Partners that implemented this feature have seen:
+  + Up to **13%** reduction order failures (i.e. POS errors)
+  + Up to **7%** decrease in avoidable cancellations
+  + **3%** fewer order defects due to missing/incorrect items
+* **Operational Efficiency:** Reduced manual effort for restaurant staff, leading to reduced reliance on DoorDash support.
+* **Better Data insights:** Track patterns and trends to make informed decisions on store menus and operations.
+
+**For Customers:**
+
+* **Higher order satisfaction:** Order accuracy leads to a better customer experience.
+* **Transparency and trust → repeat orders:** Consistent order satisfaction builds trust in the restaurant’s brand.
+
+**Real World Example:**
+
+For one top restaurant brand on DoorDash, maintaining accurate menu availability was a challenge due to reliance on three scheduled menu refreshes per day. This approach often caused delays of up to eight hours before out-of-stock items were reflected on the DoorDash Marketplace, leading to customer dissatisfaction and higher cancellation rates.
+
+To address this, a new integration feature was built, real-time item 86ing, enabling instant updates whenever items were marked unavailable on the POS. As a result:
+
+* Average order failure rate dropped by **75%**
+* Overall cancellation rate decreased by **42%**
+
+### Who Should Implement Item 86ing?[​](#who-should-implement-item-86ing "Direct link to heading")
+
+This feature is critical for all restaurant partners integrated with DoorDash’s Menu and Orders APIs, including POS providers, order aggregators, and directly integrated Merchants focused on delivering a high quality online ordering and delivery experience.
+
+## Feature Requirements[​](#feature-requirements "Direct link to heading")
+
+### Technical Requirements[​](#technical-requirements "Direct link to heading")
+
+* You will need to [generate a JWT Auth token](https://developer.doordash.com/en-US/docs/marketplace/how_to/JWTs).
+* Endpoints:
+  + PUT `/api/v1/stores/{merchant_supplied_id}/items/status`
+  + PUT `/api/v1/stores/{merchant_supplied_id}/item_options/status`
+* Required components:
+  + `merchant_supplied_id` within URL parameters refers to the store location\_id.
+  + `merchant_supplied_id` in the payload refers to the item or item option identifier.
+  + `is_active` must be set to inactive to 86 the item or option, or active to stock in the item or item option.
+
+### Implementation Checklist[​](#implementation-checklist "Direct link to heading")
+
+**Step 1: Create a menu to be featured on DoorDash**
+
+Refer [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_integration) for more details on menu creation.
+
+**Step 2: Confirm menu job success**
+
+Use the [menu status update](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_status_callback) to confirm that the menu job was successful before attempting to 86 an item or item option.
+
+**Step 3: Call Item or Item Option Activation Status endpoint**
+
+Call the respective endpoints in real time when a user marks item(s) and/or item option(s) out of stock via your UI (e.g. POS or tablet), specifying the item/option IDs as inactive.
+
+Important: If you have multiple instances of the same item options (i.e. modifiers), when 86ing, call the item option status endpoint for each instance of the item option.
+
+**Example Payload:**
+
+```
+[  
+    {  
+    "merchant_supplied_id": “string”,  
+    "is_active" : false  
+    }  
+]  
+
+```
+
+### Response Status Codes[​](#response-status-codes "Direct link to heading")
+
+| Status Code | Details |
+| --- | --- |
+| 200 | Success |
+| 400 | Bad Request (If one of the items fails to update, 400 should be returned) |
+| 401 | Authentication Error |
+| 403 | Not Allowed to modify this store |
+| 404 | Store not found |
+| 429 | Rate Limit exceeded |
+| 500 | Internal Server Error |
+
+### Response details for each entity[​](#response-details-for-each-entity "Direct link to heading")
+
+| Response | Details |
+| --- | --- |
+| Success |  |
+| Not Found | Item not found |
+| Server Error | Server internal error |
+
+Please only retry the Request if there is a 500 Response. We recommend retrying 3 times with exponential backoff 0.5 seconds
+
+### Key Considerations[​](#key-considerations "Direct link to heading")
+
+* **Real-Time updates:** Item 86ing and Item Option 86ing webhooks should be sent in real time when a user stocks in/stocks out an item to ensure that the change is immediately reflected on DoorDash.
+* **Menu Updates are not a sufficient workaround:** Permanently deactivating, reactivating, removing, or re-adding a menu item via [PATCH Menu Push Update](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_integration) is a more expensive operation that takes longer to reflect on the DoorDash menu, leading to order failures and cancellations as customers order unavailable items. As a result, menu updates are meant for long term menu changes and are not a sufficient solution to handle 86ing.
+* **Order validation:** Before accepting an order, validate whether any items are out of stock. If unavailable, reject the order with a [clear failure reason](https://developer.doordash.com/en-US/docs/marketplace/how_to/order_integration#item-out-of-stock-failure-reasons).
+* **Efficient bulk updates:** Optimize payload size for batch updates to handle high-volume scenarios without hitting rate limits.
+  + Note that each webhook request can include a maximum of 40 items or item options to 86. If more than 40 need to be 86'd, split them into multiple webhook calls.
+* **Substitute OOS items (Optional):** Use our [Order Manager](https://developer.doordash.com/en-US/docs/marketplace/how_to/pos_webview_plugin/) plugin to refund or replace out-of-stock items. We also offer an [Order Adjustment API](https://developer.doordash.com/en-US/docs/marketplace/how_to/merchant_order_adjustment) if you have an existing tooling workflow for store operators to manage live orders.
+* **Rate Limiting:** Your integration can send up to 480 requests per min for each endpoint: Item 86’ing and Item Option 86’ing.
+  + In the event that you receive a 429 HTTPs status code in response to your webhook request, you should implement a retry strategy with exponential backoff.
+
+### Testing and validation[​](#testing-and-validation "Direct link to heading")
+
+1. 86 an item in your sandbox environment
+2. In the Developer Portal [Event Logs](https://developer.doordash.com/portal/integration/marketplace/event_log), check that the event was an item activation webhook and not a menu update and received a `200` response.
+3. Go to the DoorDash Menu Preview and confirm the item is not visible on the menu.
+4. Mark the item back in stock in your environment.
+5. In the Developer Portal [Event Logs](https://developer.doordash.com/portal/integration/marketplace/event_log), check that the event was an item activation webhook and not a menu update and received a `200` response.
+6. Go to the DoorDash Menu Preview and confirm the item is visible on the menu.
+
+## User Flow Recommendations[​](#user-flow-recommendations "Direct link to heading")
+
+**Intended Users:**
+
+* All store operators that have day-to-day knowledge of item availability.
+  + Non-managerial store operators
+  + Managers
+  + Kitchen Supervisors
+  + Head Cooks (for kitchen-related items)
+
+**Optimal User Experience:**
+
+* **POS (Point-of-Sale) System:**
+  + The POS is the primary location for item 86ing as it’s used by servers and managers for taking orders, updating inventory, and managing the menu.
+  + 86ing should be integrated into the POS interface in a way that’s easy for authorized staff to access when needed.
+* **KDS (Kitchen Display System):**
+  + The KDS should display information about item availability in real-time so that kitchen staff and line cooks can see which items have been 86’d and make adjustments as needed.
+  + This ensures all kitchen staff is aware of item status before preparation begins.
+* **Back-Office Dashboard:**
+  + For managers and supervisors who are responsible for tracking inventory and updating the POS, a dedicated dashboard or management interface can be used to oversee item 86ing.
+  + This helps maintain consistency and ensures updates are reflected across all connected systems.
+
+**Example Store Operator workflow:**
+
+* Scenario: A server notices that cheeseburgers are out of stock during the dinner service.
+  1. On the POS screen, the server navigates to the menu where the “cheeseburger” is located.
+  2. The server sees a “Mark as Unavailable” button next to the item or a dropdown menu option labeled “86 Item.”
+  3. The server clicks the “86 Item” button, selects the reason (e.g., “Out of Stock”), and confirms the action with a single tap or click.
+  4. The item status updates immediately on the POS, and a red “OUT” badge appears next to the item. The KDS updates in real-time, and the item is removed from the digital customer-facing menu.
+
+**Error Handling for Users:**
+
+1. General Error Messages
+   * “Unable to process your request at the moment. Please try again later.”
+   * “An error occurred while marking this item as unavailable. Please check your internet connection and try again.”
+2. Confirmation Failures
+   * “This item could not be marked as unavailable. Please verify that you have the necessary permissions and try again.”
+   * “Failed to confirm item status. Make sure the item is not already marked as unavailable or is not part of an ongoing order.”
+3. Permission Issues
+   * “You do not have permission to mark items as unavailable. Please contact a manager for assistance.”
+4. Duplicate Status Updates
+   * “This item is already marked as unavailable. No changes were made.”
+   * “The item is already listed as out of stock. Please review the item status before proceeding.”
+
+## Feature Rollout and Announcement[​](#feature-rollout-and-announcement "Direct link to heading")
+
+**Best Practices for Announcing the Feature**
+
+* Recommend timing announcements 1 week prior to go-live date
+* What to include in an announcement
+  + **Overview:** Brief description of item 86ing, include screenshots and links as available (Example:Sharing real-time stock updates via item 86ing is essential for maintaining integration quality as it ensures customers are only able to order items currently in stock, reducing friction in restaurant operations and improving the customer experience.)
+  + **Why use item 86ing:** Details on the benefit of using item 86ing for POS
+  + **Get started with item 86ing for POS:** Details on how Merchants can access the feature from their POS system
+  + **Additional Resources / Guidance:** Include FAQs and details on how Merchants can contact support to troubleshoot
+
+**Documentation and Resources for Restaurants**
+
+* Publish a help article on your website, informing Merchants about how to use this functionality.
+
+## FAQ[​](#faq "Direct link to heading")
+
+* Item update FAQs can be found [here](https://developer.doordash.com/en-US/docs/marketplace/faq/item_activation_item_updates)
+* If you cannot find the answer to your question in our FAQ please reach out to [DoorDash Developer Portal Support](https://developer.doordash.com/en-US/docs/marketplace/how_to/request_support).
+
+## Appendix[​](#appendix "Direct link to heading")
+
+* How to update a menu - More details [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_integration#updating-menus-push)
+* How to create and update a menu - More details [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_integration)
+* Menu status callbacks - More details [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_status_callback)
+* Order failure reasons - More details [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/order_integration#item-out-of-stock-failure-reasons)
+

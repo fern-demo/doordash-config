@@ -1,0 +1,18 @@
+Limited access
+
+<Warning>
+Marketplace APIs are not yet generally available. Please record interest in early access [here](https://docs.google.com/forms/d/e/1FAIpQLSfggU_NjGWCdi9vyWUicrnzJmtu9vC4zgbfSC3ROwSvW4eV2g/viewform).
+</Warning>
+
+## When is the ‘arriving\_at\_store’ notification triggered?[​](#when-is-the-arriving_at_store-notification-triggered "Direct link to heading")
+
+The notification is triggered when a Dasher is 400 meters from the store. This value is not configurable.
+
+## What happens if a dasher is unassigned?[​](#what-happens-if-a-dasher-is-unassigned "Direct link to heading")
+
+The `dasher_assigned` notification would be triggered twice in this scenario.
+
+## How does this event differ from Auto Order Release (AOR)?[​](#how-does-this-event-differ-from-auto-order-release-aor "Direct link to heading")
+
+The Dasher status webhook is an informational event aimed at improving the handoff between Merchant and Dasher. AOR is only designed for Quick Service Restaurants and is tied to more complex Dasher assignment logic on the DoorDash side.
+

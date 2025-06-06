@@ -3,4 +3,98 @@
 api:
   specs:
     - openapi: ../marketplace/openapi.yaml
-    - openapi: ../drive/openapi.yaml
+      overrides: overrides.yml
+    - openapi: ../drive2/openapi.yaml
+      overrides: overrides.yml
+    - openapi: ../driveclassic/openapi.yaml
+      overrides: overrides.yml
+    - openapi: ../marketplace2/openapi.yaml
+      overrides: overrides.yml
+
+groups:
+  go-sdk:
+    generators:
+      - name: fernapi/fern-go-sdk
+        version: 0.38.0
+        github:
+          repository: fern-demo/doordash-go-sdk
+        config:
+          union: v1
+          packageName: doordash
+          inlinePathParameters: true
+          inlineFileProperties: true
+        smart-casing: true
+
+  java-sdk:
+    generators:
+      - name: fernapi/fern-java-sdk
+        version: 2.37.0
+        output:
+          location: maven
+          coordinate: com.doordash:doordash
+        github:
+          repository: fern-demo/doordash-java-sdk
+          mode: pull-request
+        config:
+          base-api-exception-class-name: DoordashApiException
+          base-exception-class-name: DoordashException
+          client-class-name: DoordashClient
+          enable-forward-compatible-enums: true
+          inline-path-parameters: true
+          inline-file-properties: true
+          package-prefix: com.doordash
+          package-layout: flat
+
+  dotnet-sdk:
+    generators:
+      - name: fernapi/fern-csharp-sdk
+        version: 1.17.5
+        output:
+          location: nuget
+          package-name: Doordash
+        github:
+          repository: fern-demo/doordash-dotnet-sdk
+          mode: pull-request
+        config:
+          namespace: Doordash
+          package-id: Doordash
+          base-api-exception-class-name: DoordashApiException
+          base-exception-class-name: DoordashException
+          client-class-name: DoordashClient
+          environment-class-name: DoordashEnvironment
+          experimental-enable-forward-compatible-enums: true
+          explicit-namespaces: true
+          generate-mock-server-tests: true
+          inline-path-parameters: true
+          use-discriminated-unions: true
+
+  python-sdk:
+    generators:
+      - name: fernapi/fern-python-sdk
+        version: 4.21.4
+        output:
+          location: pypi
+          package-name: doordash
+        github:
+          repository: fern-demo/doordash-python-sdk
+          mode: pull-request
+        config:
+          client:
+            class_name: Doordash
+            filename: client.py
+          pydantic_config:
+            skip_validation: true
+          exclude_types_from_init_exports: true
+
+  ts-sdk:
+    generators:
+      - name: fernapi/fern-typescript-node-sdk
+        version: 1.4.0
+        output:
+          location: npm
+          package-name: doordash
+        github:
+          repository: fern-demo/doordash-typescript-sdk
+          mode: pull-request
+        config:
+          namespaceExport: Doordash

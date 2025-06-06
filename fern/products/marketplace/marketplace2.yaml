@@ -1,0 +1,284 @@
+tabs:
+  api:
+    display-name: API Reference
+    icon: fa-solid fa-code
+  guides:
+    display-name: Guides
+    icon: fa-solid fa-book
+
+navigation:
+  - tab: guides
+    layout:
+      - section: Overview
+        contents:
+          - page: About Marketplace
+            path: ./overview/about_marketplace.mdx
+          - page: Integration Requirements
+            path: ./overview/integration_requirements.mdx
+          - page: Onboarding Requirements
+            path: ./overview/onboarding_requirements.mdx
+          - page: Preferred Integrations
+            path: ./overview/preferred_integrations.mdx
+          - page: Integration Discovery
+            path: ./overview/integration_discovery.mdx
+          - page: Terms of Use
+            path: ./overview/terms_of_use.mdx
+          - page: Release Notes
+            path: ./overview/release_notes.mdx
+      - section: How-to Guides
+        contents:
+          - page: Add Members
+            path: ./how_to/add_members.mdx
+          - page: Bulk Onboarding Tool
+            path: ./how_to/bulk_onboarding_tool.mdx
+          - page: Create a Provider
+            path: ./how_to/create_a_provider.mdx
+          - page: Create a Test Order
+            path: ./how_to/create_a_test_order.mdx
+          - page: Create a Test Store
+            path: ./how_to/create_a_test_store.mdx
+          - page: Create Webhook Subscription
+            path: ./how_to/create_webhook_subscription.mdx
+          - page: Dasher Status Webhooks
+            path: ./how_to/dasher_status_webhooks.mdx
+          - page: Get DoorDash Menu
+            path: ./how_to/get_doordash_menu.mdx
+          - page: Get Menu and Store Info
+            path: ./how_to/get_menu_and_store_info.mdx
+          - page: How to Build Dual Pricing
+            path: ./how_to/how_to_build_dual_pricing.mdx
+          - page: Ingest and Update Menus
+            path: ./how_to/ingest_and_update_menus.mdx
+          - page: Integrated Images
+            path: ./how_to/integrated_images.mdx
+          - page: Integrated Modifier Images
+            path: ./how_to/integrated_modifier_images.mdx
+          - page: Integrated Order Updates
+            path: ./how_to/integrated_order_updates.mdx
+          - page: Integrated Promotions
+            path: ./how_to/integrated_promotions.mdx
+          - page: Item Level Hours
+            path: ./how_to/item_level_hours.mdx
+          - page: Item Status
+            path: ./how_to/item_status.mdx
+          - page: JWTs
+            path: ./how_to/JWTs.mdx
+          - page: Masked CX Phone Number
+            path: ./how_to/masked_cx_phone_number.mdx
+          - page: Menu Integration
+            path: ./how_to/menu_integration.mdx
+          - page: Menu Pull
+            path: ./how_to/menu_pull.mdx
+          - page: Menu Push
+            path: ./how_to/menu_push.mdx
+          - page: Menu Status Callback
+            path: ./how_to/menu_status_callback.mdx
+          - page: Merchant Order Adjustment
+            path: ./how_to/merchant_order_adjustment.mdx
+          - page: Merchant Order Cancellation
+            path: ./how_to/merchant_order_cancellation.mdx
+          - page: Nutritional Info
+            path: ./how_to/nutritional_info.mdx
+          - page: Order Cancellation Webhook
+            path: ./how_to/order_cancellation_webhook.mdx
+          - page: Order Integration
+            path: ./how_to/order_integration.mdx
+          - page: Order Ready Signal
+            path: ./how_to/order_ready_signal.mdx
+          - page: Pickup Instructions
+            path: ./how_to/pickup_instructions.mdx
+          - page: Plasticware Toggle
+            path: ./how_to/plasticware-toggle.mdx
+          - page: POS Webview Plugin
+            path: ./how_to/pos_webview_plugin.mdx
+          - page: Production Access
+            path: ./how_to/production_access.mdx
+          - page: Receive Bag Fees
+            path: ./how_to/receive_bag_fees.mdx
+          - page: Recipes
+            path: ./how_to/recipes.mdx
+          - page: Request Support
+            path: ./how_to/request_support.mdx
+          - page: Self Delivery
+            path: ./how_to/self_delivery.mdx
+          - page: Setup SSIO
+            path: ./how_to/setup_ssio.mdx
+          - page: Store and Item Status
+            path: ./how_to/store_and_item_status.mdx
+          - page: Store Status Case Study
+            path: ./how_to/store_status_case_study.mdx
+          - page: Store Temp Deac
+            path: ./how_to/store_temp_deac.mdx
+          - page: Table of Contents
+            path: ./how_to/table_of_contents.mdx
+          - page: Test Integration
+            path: ./how_to/test_integration.mdx
+      - section: Tutorials
+        contents:
+          - page: Get Started
+            path: ./tutorials/get_started.mdx
+      - section: Explainers
+        contents:
+          - page: Menu Configuration Reference
+            path: ./explainers/menu_configuration_reference.mdx
+          - page: Integrating for Voice
+            path: ./explainers/integrating_for_voice.mdx
+      - section: Reference
+        contents:
+          - page: Retry Pattern
+            path: ./reference/retry_pattern.mdx
+          - page: Roles
+            path: ./reference/roles.mdx
+          - page: Sample Auto Order Release Event
+            path: ./reference/sample_auto_order_release_event.mdx
+          - page: Sample Get Store Information Response
+            path: ./reference/sample_get_store_information_response.mdx
+          - page: Sample Get Store Menu Details Response
+            path: ./reference/sample_get_store_menu_details_response.mdx
+          - page: Sample Get Store Menu Details Response Partner
+            path: ./reference/sample_get_store_menu_details_response_partner.mdx
+          - page: Sample Item Activation Request
+            path: ./reference/sample_item_activation_request.mdx
+          - page: Sample Menu
+            path: ./reference/sample_menu.mdx
+          - page: Sample Order
+            path: ./reference/sample_order.mdx
+          - page: Sample Order Confirmation
+            path: ./reference/sample_order_confirmation.mdx
+          - page: Sample Self-Delivery Order
+            path: ./reference/sample_self-delivery_order.mdx
+      - section: FAQ
+        contents:
+          - page: Substitutions
+            path: ./faq/Substitutions.mdx
+          - page: Store Activation Webhooks
+            path: ./faq/store_activation_webhooks.mdx
+          - page: Order Cancel and Adjustment Endpoints
+            path: ./faq/order_cancel_and_adjustment_endpoints.mdx
+          - page: Order
+            path: ./faq/order.mdx
+          - page: MQI Solutions
+            path: ./faq/mqi_solutions.mdx
+          - page: Menu Setup Content
+            path: ./faq/menu_setup_content.mdx
+          - page: Menu Processing
+            path: ./faq/menu_processing.mdx
+          - page: Menu Hours
+            path: ./faq/menu_hours.mdx
+          - page: Legacy Partner Migration
+            path: ./faq/legacy_partner_migration.mdx
+          - page: Item Activation Item Updates
+            path: ./faq/item_activation_item_updates.mdx
+          - page: Getting Started
+            path: ./faq/getting_started.mdx
+          - page: Get Store and Menu Details
+            path: ./faq/get_store_and_menu_details.mdx
+          - page: Dasher Status Webhook
+            path: ./faq/dasher_status_webhook.mdx
+      - section: Inventory Feed Integration
+        contents:
+          - page: Overview
+            path: ./inventory_feed_integration/overview.mdx
+          - page: How It Works
+            path: ./inventory_feed_integration/how_it_works.mdx
+          - page: IFI FAQ
+            path: ./inventory_feed_integration/ifi_faq.mdx
+          - section: Explainer
+            contents:
+              - page: Product Catalog
+                path: ./inventory_feed_integration/explainer/product_catalog.mdx
+              - page: Inventory Feed
+                path: ./inventory_feed_integration/explainer/inventory_feed.mdx
+      - section: Retail
+        contents:
+          - section: About
+            contents:
+              - page: Integration Options
+                path: ./retail/about/integration_options.mdx
+              - page: Terminology
+                path: ./retail/about/terminology.mdx
+          - section: Promotion Management
+            contents:
+              - page: Overview
+                path: ./retail/promotion_management/overview.mdx
+          - section: How To
+            contents:
+              - page: Third Party Providers
+                path: ./retail/how_to/third_party_providers.mdx
+              - page: Third Party Providers V2
+                path: ./retail/how_to/third_party_providers_v2.mdx
+              - page: Store Item Pull Job
+                path: ./retail/how_to/store_item_pull_job.mdx
+              - page: Store Hours Pull Job
+                path: ./retail/how_to/store_hours_pull_job.mdx
+              - page: Retail SOW V2
+                path: ./retail/how_to/retail_sow_v2.mdx
+              - page: Retail SOW
+                path: ./retail/how_to/retail_sow.mdx
+              - page: Catalog Pull Job
+                path: ./retail/how_to/catalog_pull_job.mdx
+          - section: Inventory Pricing
+            contents:
+              - page: Overview
+                path: ./retail/inventory_pricing/overview.mdx
+              - page: Reference
+                path: ./retail/inventory_pricing/reference.mdx
+              - page: Modifiers
+                path: ./retail/inventory_pricing/modifiers.mdx
+              - page: Inventory Feedback
+                path: ./retail/inventory_pricing/inventory_feedback.mdx
+          - section: Orders
+            contents:
+              - page: Overview
+                path: ./retail/orders/overview.mdx
+              - section: Features
+                contents:
+                  - page: Self Delivery Enhancement
+                    path: ./retail/orders/features/self_delivery_enhancement.mdx
+                  - page: Self Delivery
+                    path: ./retail/orders/features/self_delivery.mdx
+                  - page: Receive Cancel
+                    path: ./retail/orders/features/receive_cancel.mdx
+                  - page: Promos
+                    path: ./retail/orders/features/promos.mdx
+                  - page: Pickup Instructions
+                    path: ./retail/orders/features/pickup_instructions.mdx
+                  - page: Order Ready
+                    path: ./retail/orders/features/order_ready.mdx
+                  - page: Order Cancel
+                    path: ./retail/orders/features/order_cancel.mdx
+                  - page: Order Adjustment
+                    path: ./retail/orders/features/order_adjustment.mdx
+                  - page: Masked Number
+                    path: ./retail/orders/features/masked_number.mdx
+                  - page: Dasher Status
+                    path: ./retail/orders/features/dasher_status.mdx
+                  - page: Bag Fees
+                    path: ./retail/orders/features/bag_fees.mdx
+              - section: Reference
+                contents:
+                  - page: Self Delivery
+                    path: ./retail/orders/reference/self_delivery.mdx
+                  - page: Order Confirm
+                    path: ./retail/orders/reference/order_confirm.mdx
+                  - page: Order
+                    path: ./retail/orders/reference/order.mdx
+          - section: Catalog Management
+            contents:
+              - page: Overview
+                path: ./retail/catalog_management/overview.mdx
+              - page: Reference
+                path: ./retail/catalog_management/reference.mdx
+              - page: Supported Attribute
+                path: ./retail/catalog_management/supported_attribute.mdx
+          - section: Store Management
+            contents:
+              - page: Overview
+                path: ./retail/store_management/overview.mdx
+              - page: Reference
+                path: ./retail/store_management/reference.mdx
+  - tab: api
+    layout:
+      - api: Marketplace 2 API Reference
+        api-name: marketplace2
+        flattened: true 

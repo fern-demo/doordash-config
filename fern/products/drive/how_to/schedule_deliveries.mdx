@@ -1,0 +1,59 @@
+
+
+# Schedule deliveries for later
+
+By default, deliveries you create are picked up and delivered as soon as possible (ASAP). If you want to enable your customers to order ahead for a later delivery time, you can use scheduled deliveries.
+
+tip
+
+Scheduled deliveries are generally best for when you're delivering perishable goods like food and drinks. If you're delivering non-perishable goods that don't need to be picked up or delivered at a specific time, [delivery windows](/en-US/docs/drive/how_to/use_delivery_windows) can help DoorDash more efficiently batch your deliveries together.
+
+## 1. Prerequisites[​](#1-prerequisites "Direct link to heading")
+
+If you're new to Drive and haven't yet created your first delivery, you should start with one of our tutorials. The tutorials will walk you through getting the credentials you need to call the APIs and making some basic API calls.
+
+* [Get started by making API calls](/en-US/docs/drive/tutorials/get_started)
+* If you're writing an app in Node.js (using JavaScript or TypeScript), [get started using our Node.js SDK](/en-US/docs/drive/tutorials/get_started_sdk)
+* If you'd like to try our APIs interactively, [get started using our Postman collection](/en-US/docs/drive/tutorials/get_started_postman)
+
+## 2. Set up delivery quotes[​](#2-set-up-delivery-quotes "Direct link to heading")
+
+For scheduled deliveries, we recommend using delivery quotes; if you're not already using quotes, you should follow the [quotes how-to guide](/en-US/docs/drive/how_to/quote_deliveries) before this one.
+
+When you create a quote for a scheduled delivery, DoorDash's fulfillment systems will evaluate if we can meet the requested pickup or dropoff time and provide our estimated pickup and dropoff times in the response to your quote request. You can then validate whether these estimated times meet your requirements, either using logic built into your app or by showing the estimated times to the end customer.
+
+## 3. Schedule a delivery[​](#3-schedule-a-delivery "Direct link to heading")
+
+To create a scheduled delivery, include either the `pickup_time` or `dropoff_time` field (**but not both**) in your quote request. Pickup\_time or dropoff\_time is [required](https://developer.doordash.com/en-US/docs/drive/how_to/build_for_restaurants/#d-important-fields) if you are allowing scheduled deliveries on your platform. You may also want to enable SMS notifications for the dropoff contact.
+
+* `pickup_time`: A Dasher will show up at this time, collect your order, and deliver it
+* `dropoff_time`: A Dasher will show up early enough to collect the order and get to the dropoff location by this time
+* `dropoff_contact_send_notifications`: When this is set to `true`, DoorDash will send SMS notifications to the `dropoff_phone_number` with updates on the status of the order and a link to the tracking page
+
+The times are validated according to the following rules:
+
+* Each time must be formatted in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) using the "complete date plus hours, minutes, and seconds" format that looks like this: "2023-05-02T17:00:00Z"
+
+```
+{  
+    ... // other fields  
+    "pickup_time": "2023-05-02T17:00:00Z"  
+    // or  
+    "dropoff_time": "2023-05-02T17:00:00Z"  
+}  
+
+```
+
+The response to your quote request will include a few estimated time fields that you can reference to see when DoorDash can fulfill the delivery.
+
+* `estimated_pickup_time`: When we expect the Dasher will arrive at the pickup location
+* `estimated_dropoff_time`: When we expect the Dasher will arrive the dropoff location
+
+## 4. Set up webhooks[​](#4-set-up-webhooks "Direct link to heading")
+
+When using scheduled deliveries, it's important to have [set up webhooks](/en-US/docs/drive/how_to/webhooks) so that you receive real-time notifications when a Dasher is assigned and on the way to pick up your delivery.
+
+## Next steps[​](#next-steps "Direct link to heading")
+
+* [Customize the SMS messages](/en-US/docs/drive/how_to/configure_sms) that are sent to the `dropoff_phone_number`
+

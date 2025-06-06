@@ -1,0 +1,61 @@
+# Receiving menu status updates
+
+Limited access
+
+<Warning>
+Marketplace APIs are not yet generally available. Please record interest in early access [here](https://docs.google.com/forms/d/e/1FAIpQLSfggU_NjGWCdi9vyWUicrnzJmtu9vC4zgbfSC3ROwSvW4eV2g/viewform).
+</Warning>
+
+DoorDash has a webhook that will send status updates once your menu is finished processing. This is a required webhook and can be subscribed to within Developer Portal.
+
+You will need to set this webhook up in Developer Portal by following our [Create a Webhook Subscription guide](https://developer.doordash.com/en-US/docs/marketplace/how_to/create_webhook_subscription).
+
+These requests will contain payloads with the following format:
+
+```
+{  
+ "event": {  
+   "type": "<MenuCreate> or <MenuUpdate>",  
+   "status": "<SUCCESS> or <FAILURE>",  
+   "reference": "<either a client-provided or automatically generated reference UUID>",  
+   "details": "<String of information on why it failed. Provided only when it fails."  
+ },  
+  "store": {  
+        "merchant_supplied_id": "<client's store id>"  
+     },  
+  "menu": {  
+        "id": "<the UUID used to identify the menu id on DoorDash's end>"  
+  }  
+}  
+  
+
+```
+
+Please save the `id` field as this will be needed to update the menu in the future. If the `id` field is returned in the Menu Status Notification, this means the core menu was successfully created. There can be situations where the `"status": "FAILURE"`, but the `id` is returned. This means that the menu was created successfully, but the store hours phase of menu creation failed. In this case, please save the `id` field to update the menu in the future and validate that the store hours are correct. Please avoid using a menu POST for the same menu as this will create duplicate menus.
+
+The `details` field in the Menu Status Callback Webhook response body provides a simple, actionable failure reason, enabling external partners to understand why the menu job failed DoorDash validation.
+
+Please go through all the required scenarios in the testing plan [here](https://docs.google.com/spreadsheets/d/1es21nyRuVfX0oYi8XmWGx9G10_BbmemZICE6A8aO2Lo/edit?gid=969310481#gid=969310481) to validate you are receiving the `details` field successfully. To trigger menu pulls refer to this [guide](https://developer.doordash.com/en-US/docs/marketplace/how_to/ingest_and_update_menus) on how to ingest and update menus using the Developer Portal.
+
+Below are possible menu job failure reasons that may be returned in the `details` field:
+
+| Possible Failure Details | Category | Meaning |
+| --- | --- | --- |
+| Invalid menu input: [menu[null].categories[Classics].item[Wings].extra[wing flavor].option[]: name is null] | Null item / modifier Name | Extra / Option "name" is null |
+| Invalid menu input: [menu[FOOD].categories[Sandwiches, Wraps & Biscuits].item[ ]: name is null | Null item / modifier Name | Item "name" is null |
+| No menu data in the menu pull response. Please check the menu data and try again. | Menu Data | Menu is null. |
+| [menu[Menu Pull 06.06]: find duplicated children with merchant supplied id:sandwitchs\_1, name:[Sandwitchs, lunch]]" | Menu Data | 2+ extras/options have the same merchant supplied ID. Each extra / option needs to have a unique MSID. |
+| No store specified, please check store ID and try again | Menu Data | Store ID needs to be specified. |
+| Cannot update menu as store has more than 1 menus | Menu Data | Store has multiple menus |
+| Menu ${MenuId} not found, please check menu ID and try again | Store/Menu ID mismatch | The menu UUID is not valid for this store. |
+| Menu for store ${StoreID} not found | Store/Menu ID mismatch | The menu UUID and store ID in the menu payload do not match. |
+| Menu upsert failure, please try again | Technical Error | Menu error - please wait & try again |
+| Unable to process the request. Please try again later or reach out to your doordash contact. | Technical Error | Technical error - please wait & try again. |
+| Invalid hours format. Please correct and try again. | Invalid Hours | Invalid hours format, review formatting here |
+| Invalid hours format: Cannot save because menu must be open for more than half hour. Please update and try again. | Invalid Hours | Store hours need to be updated to be open for more than 30 minutes. |
+| Invalid hours format: Cannot save due to overlapping hours: $cur and $next | Invalid Hours | Store hours need to be updated so they are not overlapping. |
+
+*Please note: If you are a Partner who is already live on the integration, please reach out to our [support team](https://developer.doordash.com/en-US/docs/marketplace/how_to/request_support) to start receiving the `details` field within the Menu Status Callback payload.*
+
+*If you are a new partner who is currently building, the `details` field should already be within the Menu Status Callback payload.*
+

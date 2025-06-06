@@ -1,0 +1,277 @@
+**How to build a DoorDash Retail Marketplace integration as a Third-Party Provider**
+
+
+
+## Mission[​](#mission "Direct link to heading")
+
+**DoorDash Mission:** Grow and Empower local economies
+
+**Shared Goal:** Deliver value to Merchants by building an integration that delivers *seamless order fulfillment, real-time catalog and inventory updates, and efficient store onboarding.*
+
+# Terminology
+
+This section provides definitions for key terms used in the DoorDash Retail UI integration documentation. Familiarizing yourself with these terms will help you better understand the concepts and processes involved in integrating with DoorDash.
+
+## Key Terms[​](#key-terms "Direct link to heading")
+
+* **Store:** A single brick-and-mortar location that sells items.
+* **Business:** A single business entity that can have multiple stores and shares a single Catalog.
+* **Catalog:** The comprehensive list of all items ever possibly available for sale.
+* **Inventory:** A list of stock status and pricing for items at a particular Store.
+* **Menu:** The customer-facing list of items for sale at a particular Store.
+* **Order:** The list of items a particular Customer ordered on one occasion.
+* **Provider:** A third-party entity that facilitates a Merchant’s integrated offering on DoorDash.
+* **Merchant:** A seller of items on DoorDash.
+* **Customer:** A buyer of items on DoorDash.
+* **Dasher:** A deliverer of items.
+
+Understanding these terms is crucial for a seamless integration process. Refer to this page whenever you encounter unfamiliar terminology in the documentation.
+
+## Steps to Start API Integration[​](#steps-to-start-api-integration "Direct link to heading")
+
+> **Note:** API integration is required for Third-Party Providers. to share item-specific and store-level data as it enables near real-time data sharing, allowing us to closely mirror the in-store shopping experience on DoorDash.
+
+1. **Join the Developer Portal:**
+
+   * Create a [Developer Portal](https://developer.doordash.com/portal?Marketplace=true) account to establish a Developer Portal organization.
+     + **Note:** If you already have a DoorDash account with their associated email, you can just “Sign-In” using the existing account OR you can use a different email address to create a new account.
+   * Follow [these steps](https://developer.doordash.com/en-US/docs/marketplace/how_to/add_members) to add additional members to the development team.
+2. **Add a Marketplace Integration:**
+
+   * Reach out to your DoorDash technical account manager to add a Marketplace integration.
+3. **Create a Provider:**
+
+   * Configure a sandbox provider using the guide [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/create_a_provider).
+4. **Create Credentials:**
+
+   * Create sandbox credentials following these [instructions](https://developer.doordash.com/en-US/docs/drive/how_to/manage_credentials/).
+5. **Configure JWT Authentication:**
+
+   * Follow the DoorDash guide to configure the JWT authentication method required for API interaction. [Guide to Configure JWT Authentication](https://developer.doordash.com/en-US/docs/marketplace/how_to/JWTs)
+6. **Test Store Setup:**
+
+   * Reach out to your DoorDash technical account manager to have a test store added to the Developer Portal.
+
+## Store Onboarding Process[​](#store-onboarding-process "Direct link to heading")
+
+Follow the steps outlined in detail in [Merchant Onboarding Requirements for API-Integrated Retail Stores](https://developer.doordash.com/en-US/docs/marketplace/retail/how_to/retail_sow/).
+
+## Integrations[​](#integrations "Direct link to heading")
+
+### Catalog Integration[​](#catalog-integration "Direct link to heading")
+
+Automatically ingest/update items sold by a business
+
+Respond to typical events:
+
+* New item added - Whenever a new item is added to the POS by a merchant, add that item to the merchant’s DoorDash catalog
+* Item details changed - Whenever an item is changed in one of the following ways by a merchant within the POS, update that item within the Merchant’s DoorDash catalog
+
+**Resources**
+
+* [Guide](https://developer.doordash.com/en-US/docs/marketplace/retail/catalog_management/overview)
+* [API Documentation](https://developer.doordash.com/en-US/api/marketplace_v2#tag/ItemManagementEndpoints)
+* [Supported Product Attributes](https://developer.doordash.com/en-US/docs/marketplace/retail/catalog_management/supported_attribute)
+
+### Inventory Integration[​](#inventory-integration "Direct link to heading")
+
+Automatically ingest/update pricing/availability on an active DoorDash menu
+
+Respond to typical events:
+
+* Pricing change - Whenever the price of an item is changed, update the price within DoorDash
+* Availability change - Whenever an item goes in or out of stock at a store, update the availability within DoorDash
+* New item added - Whenever a new item is added to a store’s menu, add that item to the store’s DoorDash menu
+
+**Resources**
+
+* [Guide](https://developer.doordash.com/en-US/docs/marketplace/retail/inventory_pricing/overview)
+* [API Documentation](https://developer.doordash.com/en-US/api/marketplace_v2#tag/InventoryManagementEndpoints)
+
+#### Inventory Pull [REQUIRED][​](#inventory-pull-required "Direct link to heading")
+
+Enable faster merchant onboarding by exposing an endpoint from which DoorDash can pull any store's inventory
+
+Nightly full menu refresh:
+
+* Every night, for every store, trigger an inventory pull to fully refresh their inventory
+
+**Resources**
+
+* [Guide](https://developer.doordash.com/en-US/docs/marketplace/retail/how_to/store_item_pull_job)
+* [API Documentation](https://developer.doordash.com/en-US/api/marketplace_v2#tag/JobManagementEndpoints)
+  + [Model: CreateJobRequest](https://developer.doordash.com/en-US/api/marketplace_v2/#tag/ItemManagementModels/CreateJobRequest)
+  + [Model: CreatePullStoreItemsJobParameters](https://developer.doordash.com/en-US/api/marketplace_v2/#tag/ItemManagementModels/CreatePullStoreItemsJobParameters)
+
+### Store Hours Integration[​](#store-hours-integration "Direct link to heading")
+
+Automatically update store hours to ensure Customers are able to successfully place orders
+
+Merchant-triggered store hours updates
+
+* Whenever a Merchant changes their store hours within the POS, update that store’s hours within DoorDash
+
+Nightly store hours update
+
+* Every night, update every store’s hours
+
+**Resources**
+
+* [Guide](https://developer.doordash.com/en-US/docs/marketplace/retail/store_management/overview)
+* [API Documentation](https://developer.doordash.com/en-US/api/marketplace_v2#tag/StoreManagementEndpoints)
+
+### Orders Integration[​](#orders-integration "Direct link to heading")
+
+> **Note:** An orders integration may not be required. If the Partner's platform doesn't provide merchants with tools to pick and pack orders, an orders integration will be impossible.
+
+Receive orders from DoorDash and present to merchants for fulfillment right within the Partner's order fulfillment system
+
+**Resources**
+
+* [Guide](https://developer.doordash.com/en-US/docs/marketplace/retail/orders/overview)
+* [API Documentation](https://developer.doordash.com/en-US/api/marketplace#tag/Order-Endpoints)
+
+#### Mandatory Orders Integration Features[​](#mandatory-orders-integration-features "Direct link to heading")
+
+The following features are mandatory for all Third-Party Provider orders integrations serving Retail merchants.
+
+* Auto-confirm orders - [instructions](https://developer.doordash.com/en-US/docs/marketplace/retail/orders/overview#asynchronous-order-confirmation)
+* Order adjustments
+  + Implement merchant order adjustment - [instructions](https://developer.doordash.com/en-US/docs/marketplace/retail/orders/features/order_adjustment)
+  + Implement merchant order cancellation - [instructions](https://developer.doordash.com/en-US/docs/marketplace/retail/orders/features/order_cancel)
+* Receive updated order payloads
+  + Following a successful order adjustment, DoorDash will fire a webhook with an updated order payload reflected the adjustment
+  + Subscribe to the "Order Adjustment" event type in the Developer Portal
+  + Parse updated order payload and surface to merchants in partner portal: the new "event" object descirbes what type of adjustment was performed and when; the "order" object is exactly the same as a typical [order](https://developer.doordash.com/en-US/docs/marketplace/retail/orders/reference/order), it simply reflects the adjusted order.
+* "Ready for Pickup" signal - [instructions](https://developer.doordash.com/en-US/docs/marketplace/retail/orders/features/order_ready)
+  + Improves order delivery speed
+* DoorDash order cancellations - [instructions](https://developer.doordash.com/en-US/docs/marketplace/retail/orders/features/receive_cancel)
+  + Allows DoorDash to send notifications to the Partner whenever an already submitted order is canceled downstream within the DoorDash ecosystem
+* Masked customer phone number - [instructions](https://developer.doordash.com/en-US/docs/marketplace/retail/orders/features/masked_number)
+  + Enables merchants to contact customers directly (helpful for substitutions)
+
+#### Optional Orders Integration Features[​](#optional-orders-integration-features "Direct link to heading")
+
+The following features are optional for Third-Party Provider orders integration serving Retail merchants.
+
+* Dasher flows - enable merchants to better interact with Dashers to improve fulfillment rates
+  + Send order pickup instructions to Dasher - [instructions](https://developer.doordash.com/en-US/docs/marketplace/retail/orders/features/pickup_instructions)
+  + Track your Dashers to keep merchants informed - [instructions](https://developer.doordash.com/en-US/docs/marketplace/retail/orders/features/dasher_status)
+* Self-delivery - enable merchants to deliver their own orders (useful for states that don't allow third-party delivery)
+  + [Overview](https://developer.doordash.com/en-US/docs/marketplace/retail/orders/features/self_delivery)
+  + Send self-delivery order statuses to DoorDash to surface to the customer in the app - [instructions](https://developer.doordash.com/en-US/docs/marketplace/retail/orders/features/self_delivery_enhancement/)
+* Receive Bag Fees - allow merchants to collect a bag fee and any necessary taxes related to the fee to meet any specific government regulations - [instructions](https://developer.doordash.com/en-US/docs/marketplace/retail/orders/features/bag_fees)
+
+### Useful Additional Features[​](#useful-additional-features "Direct link to heading")
+
+#### Store Temporary Deactivation[​](#store-temporary-deactivation "Direct link to heading")
+
+Give your merchants the ability to pause their DoorDash storefront to accommodate for unexpected issues: busy periods, internet outages, natural disasters, etc. Follow these [instructions](https://developer.doordash.com/en-US/docs/marketplace/how_to/store_and_item_status/#store-activation-status-change) to enable this feature.
+
+> **Note:** Be sure to set *temporary* deactivations (by setting an end date when deactivating) so stores don't lose revenue.
+
+#### Item Level Promotions[​](#item-level-promotions "Direct link to heading")
+
+Add and update promotions for existing items at the store level
+
+**Resources**
+
+* [Sending Integrated Promotion Data in Inventory](https://developer.doordash.com/en-US/docs/marketplace/retail/promotion_management/overview)
+* [Promotion Creation - API Documentation](https://developer.doordash.com/en-US/api/marketplace_v2/#tag/PromotionManagementEndpoints/operation/createPromotion)
+* [Receive Integrated Promotion Data in Orders](https://developer.doordash.com/en-US/docs/marketplace/retail/orders/features/promos)
+
+## Testing[​](#testing "Direct link to heading")
+
+Contact DoorDash to request a test store. Indicate which of the 2 options below you prefer. Your technical account manager will configure a store for testing and notify you when ready.
+
+**Testing will be done with a Partner-provided test catalog**
+
+```
+* You will deliver test catalog data via [catalog integration](#catalog-integration). DoorDash will build a new catalog attached to a new test business using that data. DoorDash will then create a test store on that business that you can test using item IDs from your system.  
+
+```
+
+**Testing Orders Integrations** After you have a test store, follow these [instructions](https://developer.doordash.com/en-US/docs/marketplace/how_to/create_a_test_order/)
+
+```
+* _Important note:_ For order adjustment requests in the sandbox environment, you *must* include the following header - `"dd-tenant-id": "doortest:default"`  
+
+```
+
+## Merchant Enablement Material[​](#merchant-enablement-material "Direct link to heading")
+
+Produce instructions for merchants to onboard and manage their integration and host them on your merchant help center by following this [guide](https://drive.google.com/open?id=1KOBteSmqxCZGR3KZsqEQ0qA0tjxx52XC).
+
+## Certification[​](#certification "Direct link to heading")
+
+Once your integration is built and tested, request production access from DoorDash. Your DoorDash technical account manager will schedule a 2-hour live session to certify your integration. Certification will cover the following requirements.
+
+| **PHASE** | **REQUIREMENT** | **MANDATORY** |
+| --- | --- | --- |
+| CATALOG VALIDATIONS | Confirm new SKUs requests are stored in baseline table so Catalog Ops can build | Required |
+| CATALOG VALIDATIONS | Verify SKUs marked as alcohol are going through ID check during checkout | Recommended |
+| CATALOG VALIDATIONS | Verify SKUs are receiving merchant category information to rely on auto SKU build | Recommended |
+| CATALOG VALIDATIONS | Verify SKU update requests for existing attributes is being processed in baseline latest | Required |
+| CATALOG VALIDATIONS | Verify SKUs marked as SNAP are eligible for checkout | Optional |
+| INVENTORY VALIDATIONS | Update item level hours successfully | Recommended |
+| INVENTORY VALIDATIONS | Update item activation status from unavailable to available | Required |
+| INVENTORY VALIDATIONS | Update item activation status from available to unavailable | Required |
+| INVENTORY VALIDATIONS | Update item activation status from available to unavailable with a price change | Required |
+| INVENTORY VALIDATIONS | Update item activation status from unavailable to available with a price change | Required |
+| INVENTORY VALIDATIONS | Update item activation status for item not in catalog | Required |
+| INVENTORY VALIDATIONS | Update item price (no availability change) | Required |
+| INVENTORY VALIDATIONS | Cart validation upon checkout when item goes OOS | Optional |
+| INVENTORY VALIDATIONS | Cart validation upon checkout when item's price is updated | Optional |
+| INVENTORY VALIDATIONS | Ingestion check with aisle information | Dasher Pick Required |
+| INVENTORY VALIDATIONS | Inventory endpoint supports pull | Required |
+| INVENTORY VALIDATIONS | Successfully add items with Modifiers via Inventory Pull | Optional |
+| INVENTORY VALIDATIONS | Demonstrate Modifier (aka Item Option) Deactivation/Reactivation (86'ing) (Webhook) | Optional |
+| STORE HOURS VALIDATIONS | Standard store hours is honored by Mx payload | Required |
+| STORE HOURS VALIDATIONS | Special hours is honored by Mx payload | Required |
+| PROMOTIONS VALIDATIONS | Strikethrough pricing reflected on DD | Recommended |
+| PROMOTIONS VALIDATIONS | Strikethrough pricing reflected on DD when sale price is higher than base price | Optional |
+| PROMOTIONS VALIDATIONS | Item Promos reflected on DD | Optional |
+| PROMOTIONS VALIDATIONS | Redemption Cap honored by Mx payload | Optional |
+| ORDER VALIDATIONS | Successfully Place and Confirm an Incoming Order | Merchant Pick Required |
+| ORDER VALIDATIONS | Demonstrate correct use of order confirmation for both Success and Failed orders | Merchant Pick Required |
+| ORDER VALIDATIONS | Validate Merchant Tips | Optional |
+| ORDER VALIDATIONS | Demonstrate Order Cxl webhooks from DD to Mx | Merchant Pick Required |
+| ORDER VALIDATIONS | Demonstrate Order Cxl webhooks from Mx to DD | Merchant Pick Required |
+| ORDER VALIDATIONS | Demonstrate Store Availability Deactivation/Reactivation | Recommended |
+| ORDER VALIDATIONS | Successfully consume and surface Customer Substitution Preferences | Merchant Pick Required |
+| ORDER VALIDATIONS | Order Cart Adjustment - substitution | Merchant Pick Required |
+| ORDER VALIDATIONS | Order Cart Adjustment - item deletion (fulfill the rest of the order) | Merchant Pick Required |
+| ORDER VALIDATIONS | Order Cart Adjustment - item quantity change | Merchant Pick Required |
+| ORDER VALIDATIONS | Order Cart Adjustment - Updated Order Payloads | Merchant Pick Required |
+| ORDER VALIDATIONS | Masked Customer Phone Number | Merchant Pick Required |
+| ORDER VALIDATIONS | Order Ready for Pickup | Merchant Pick Required |
+| ORDER VALIDATIONS | Self Delivery APIs | Optional |
+| TOOLING | Order Failure Reason Documentation | Merchant Pick Required |
+| ONBOARDING | “Integrate with DoorDash” button? | Required |
+| ONBOARDING | “Live on DD already?” question? | Required |
+| ONBOARDING | “Enter code” + “DoorDash2013”? | Required |
+| ONBOARDING | Net new redirected to sales referral form? | Required |
+| ONBOARDING | SOW sent with proper location\_id, address fields, etc. | Required |
+| ONBOARDING | Realtime webhook cadence  *Note: Not Applicable for Direct to Merchant integrations* | Required |
+| ONBOARDING | Acknowledgment of programmatic webhook contents sourcing requirement | Required |
+| ONBOARDING | Get store info call to confirm store onboarded to integration | Required |
+| ONBOARDING | Push catalog until successfully submitted | Required |
+| ONBOARDING | Get store menu details call to confirm store inventory ingested and menu live | Required |
+| MERCHANT ENABLEMENT CONTENT | Overview | Required |
+| MERCHANT ENABLEMENT CONTENT | Get started | Required |
+| MERCHANT ENABLEMENT CONTENT | Add or Enable the DoorDash Integration | Required |
+| MERCHANT ENABLEMENT CONTENT | Inventory Management | Required |
+| MERCHANT ENABLEMENT CONTENT | Order Management | Merchant Pick Required |
+
+* [Mission](#mission)
+* [Steps to Start API Integration](#steps-to-start-api-integration)
+* [Store Onboarding Process](#store-onboarding-process)
+* [Integrations](#integrations)
+  + [Catalog Integration](#catalog-integration)
+  + [Inventory Integration](#inventory-integration)
+  + [Store Hours Integration](#store-hours-integration)
+  + [Orders Integration](#orders-integration)
+  + [Useful Additional Features](#useful-additional-features)
+* [Testing](#testing)
+* [Merchant Enablement Material](#merchant-enablement-material)
+* [Certification](#certification)

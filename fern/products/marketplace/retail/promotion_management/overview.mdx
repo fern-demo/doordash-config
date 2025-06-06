@@ -1,0 +1,68 @@
+## Promotion Management API[​](#promotion-management-api "Direct link to heading")
+
+### Overview[​](#overview-1 "Direct link to heading")
+
+The Promotion Management API is designed for DoorDash partners to manage item level promotions they offer on the platform. It allows partners to add and update promotions for existing items at the store level.
+
+**Endpoint URL:** `https://openapi.doordash.com/marketplace/api/v2/promotions/stores/{store_location_id}`
+
+### Getting Started[​](#getting-started "Direct link to heading")
+
+#### Request[​](#request "Direct link to heading")
+
+* **HTTP Method:**
+
+  + POST: Create new promotion for store
+  + PATCH: Update promotions in store
+* **Headers:**
+
+  + Refer to the [JWT authentication documentation](https://developer.doordash.com/en-US/docs/marketplace/how_to/JWTs) for authentication details.
+* **Payload Example:** [View Example JSON](https://developer.doordash.com/en-US/api/marketplace_v2/#tag/PromotionManagementEndpoints/operation/createPromotion)
+
+#### Response[​](#response "Direct link to heading")
+
+* **Success Response:**
+
+```
+{  
+  "operation_id": "string",  
+  "operation_status": "SUCCESS"  
+  "message": "string"  
+}  
+
+```
+
+* **Fail Response Details:**
+
+| Response Code | Code | Message | field\_errors.field | field\_errors.error |
+| --- | --- | --- | --- | --- |
+| 400 | validation\_error | One or more request values couldn't be validated. | Name of the field whose value couldn't be validated. | The error that was encountered when validating the field's value. |
+| 401 | authentication\_error | Default: The [exp] is in the past; the JWT is expired | - | - |
+| 403 | authorization\_error | Default: Authorization error: the credentials provided with the request don't work | - | - |
+| 404 | unknown\_business\_id | - | - | - |
+| 422 | request\_rate\_limited | - | - | - |
+| 429 | request\_rate\_limited | - | - | - |
+| 500 | service\_fault | Default: Internal service failure, please try again later. | - | - |
+
+### Verification:[​](#verification "Direct link to heading")
+
+Once you believe you have made a successful call to the endpoint, reach out to your DoorDash technical account manager to verify. Please provide an example of the payload used in the request.
+
+### FAQ[​](#faq "Direct link to heading")
+
+1. **Can we leverage the same openAPI provider type as the other endpoints?**
+
+   * Yes, you will need to use the same provider type.
+2. **How long will it take for a new promotion to be created and updated?**
+
+   * Creating and updating an existing promotion may take up to 30 minutes.
+3. \*What will happen if we PATCH a promotion that doesn't exist? \*\*
+
+   * If you send the request in the correct format, we will return a 202 Accepted response but drop the promotion during the async validation process. We plan on sharing additional feedback in the future.
+4. **How do I remove a promotion that is no longer running intra-day?**
+
+   * You can remove the promotion by sharing with us a PATCH request.
+5. **Do you support multiple different item promos on a single item?**
+
+   * We currently only support one promo on a single item.
+

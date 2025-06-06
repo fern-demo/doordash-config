@@ -1,0 +1,271 @@
+## Prerequisites[​](#prerequisites "Direct link to heading")
+
+DoorDash has developed new functionality for OpenAPI merchants to adjust orders that have
+already been accepted.
+
+DoorDash has enhanced the Open API contract by creating a new endpoint and enhancing the
+order API contract that will allow for adjustments at the line level. Integration partners must be able to send requests to this endpoint once added to the allow-list by their Technical Account
+Manager (TAM).
+
+The endpoint URL requires the DoorDash order UUID that is being adjusted and the body of the
+request should include a JSON that details its reasoning.
+
+## Overview[​](#overview "Direct link to heading")
+
+POS-integrated merchants are typically set up to accept and confirm orders as long as the order
+passes through a set of validations. Occasionally, there are orders that are automatically
+confirmed by the merchant, but then need to be subsequently adjusted due to a variety of
+reasons (lack of capacity, item unavailability, etc).
+
+In this scenario, merchants must call DoorDash support to have the order canceled entirely and
+can’t fulfill the remainder of the Customer’s order. This can be time-consuming for both sides and gets amplified during peak hours.
+
+This feature aims to increase flexibility with orders and cut down on order cancellations.
+
+## Get Started[​](#get-started "Direct link to heading")
+
+---
+
+### Step 1[​](#step-1 "Direct link to heading")
+
+Reach out to your technical account manager to ensure you are added to the allowlist for Merchant Induced Order adjustments
+
+### Step 2[​](#step-2 "Direct link to heading")
+
+Route adjustment request to new endpoint using the specified format and receive a response back from DoorDash
+
+[Adjust Order endpoint](https://developer.doordash.com/en-US/api/marketplace#tag/Order-Endpoints/operation/adjustOrderItems)
+
+**PATCH**
+[https://openapi.doordash.com/marketplace/api/v1/orders/{"{id}"}/adjustment](https://openapi.doordash.com/marketplace/api/v1/orders/%7Bid%7D/adjustment)
+
+## Request Fields[​](#request-fields "Direct link to heading")
+
+| Request Field | Definition |
+| --- | --- |
+| external\_id | Alphanumeric UUID for the order shared in the payload that will be used in the adjustment endpoint URL |
+| adjustment\_type | Either *“ITEM\_UPDATE”* or *“ITEM\_REMOVE”* |
+| line\_item\_id | Alphanumeric UUID for a specific line item in the order JSON which will be followed by *“line\_item\_id”* |
+| line\_option\_id | Alphanumeric UUID for a specific line item in the order JSON which will be followed by “line\_option\_id |
+| quantity | New adjustment quantity that will be set by merchants |
+
+## Example Payloads[​](#example-payloads "Direct link to heading")
+
+**Adjust Item Quantity:**
+
+```
+{  
+    "items": [  
+        {  
+            "line_item_id": "c45b3754-03b2-4da6-ae7f-164d5f8f587b",  
+            "adjustment_type": "ITEM_UPDATE",  
+            "quantity": 3  
+        }  
+    ]  
+}  
+
+```
+
+**Adjust Item Option Quantity:**
+
+```
+{  
+    "items": [  
+        {  
+            "line_item_id": "c45b3754-03b2-4da6-ae7f-164d5f8f587b",  
+            "adjustment_type": "ITEM_UPDATE",  
+            "options": [  
+                {             
+                    "line_option_id": "5Cef3fg-7bb2-43fb-8c13-fcf564223910",  
+                    "adjustment_type": "ITEM_UPDATE",  
+                    "quantity": 1  
+                }  
+            ]  
+        }  
+  
+    ]  
+}  
+
+```
+
+**Cancel Item:**
+
+```
+{  
+    "items": [  
+        {         
+            "line_item_id": "c45b3754-03b2-4da6-ae7f-164d5f8f587b",  
+            "adjustment_type": "ITEM_REMOVE",  
+        }  
+    ]  
+}  
+
+```
+
+**Example Order Payload Snippet:**
+
+```
+..."{  
+   "items":[  
+      {  
+         "name":"Sandwiches - Turkey",  
+         "quantity":1,  
+         "price":679,  
+         "merchant_supplied_id":"849",  
+         "consumer_name":"Test User",  
+         "extras":[  
+            {  
+               "merchant_supplied_id":"4479",  
+               "name":"Bread",  
+               "options":[  
+                  {  
+                     "name":"White Toast",  
+                     "quantity":1,  
+                     "price":0,  
+                     "merchant_supplied_id":"824",  
+                     "extras":[  
+                          
+                     ],  
+                     "id":"7117374961",  
+                     "operation_info":{  
+                        "is_recipe":false  
+                     },  
+                     "line_item_id":"83632867-9cf6-4657-a48f-9504cc70864a"  
+                  }  
+               ],  
+               "id":"1102235772"  
+            },  
+            {  
+               "merchant_supplied_id":"4481",  
+               "name":"Cheeses",  
+               "options":[  
+                  {  
+                     "name":"Provolone",  
+                     "quantity":1,  
+                     "price":0,  
+                     "merchant_supplied_id":"8",  
+                     "extras":[  
+                          
+                     ],  
+                     "id":"6708095326",  
+                     "operation_info":{  
+                        "is_recipe":false  
+                     },  
+                     "line_option_id":"5e33538e-0b4c-4642-b3ed-20c40369b7e9"  
+                  }  
+               ],  
+               "id":"1102235773"  
+            }"...  
+
+```
+
+#### Response and Error Codes[​](#response-and-error-codes "Direct link to heading")
+
+Once a request is received, DoorDash will respond with one of the following status codes
+
+| Response | Error Code |
+| --- | --- |
+| 202 | Return a 202 status to indicate that the data was received successfully |
+| 404 | Order not found |
+| 400 | Bad request, order not confirmed, order already cancelled, syntax |
+| 500 | Other, if line\_item\_id or line\_option\_id doesn't match with what’s in the order JSON |
+
+## Substitution adjustment[​](#substitution-adjustment "Direct link to heading")
+
+DoorDash also has the functionality that will allow merchants integrated via order API to
+share substitutions for order post checkout.
+
+If the original item is unavailable during the picking process, merchants can select the next best
+available option. We will need to receive the following information via the adjustment endpoint to
+update the customer and final receipt.
+
+| Request Field | Definition |
+| --- | --- |
+| item\_substitute | Newly introduced adjustment\_type, which will replace the original line item / line option |
+| name | Substitute items name |
+| merchant\_supplied\_id | Merchant’s internal item ID for substitute item |
+| price | Price of substitute item |
+| quantity | New quantity of substituted item |
+
+#### Customer Journey[​](#customer-journey "Direct link to heading")
+
+
+
+#### Endpoint[​](#endpoint "Direct link to heading")
+
+**PATCH**
+[https://openapi.doordash.com/marketplace/api/v1/orders/{"{id}"}/adjustment](https://openapi.doordash.com/marketplace/api/v1/orders/%7Bid%7D/adjustment)
+
+**Example Substitute Items:**
+
+```
+{  
+   "items":[  
+      {  
+         "line_item_id":"94b653e4-e394-4330-a714-43e764abe843",  
+         "adjustment_type":"ITEM_SUBSTITUTE",  
+         "substituted_item":{  
+            "name":"string",  
+            "merchant_supplied_id":"string",  
+            "price":0,  
+            "quantity":0  
+         }  
+      }  
+
+```
+
+**Example Order Payload Snippet:**
+
+```
+"items":[  
+   {  
+      "line_item_id":""83632867-9cf6-4657-a48f-9504cc70864a"",  
+      "adjustment_type":"ITEM_SUBSTITUTE",  
+      "substituted_item":{  
+         "name":"Diet Coke",  
+         "merchant_supplied_id":"179",  
+         "price":179,  
+         "quantity":1  
+      }  
+   },  
+
+```
+
+## FAQs[​](#faqs "Direct link to heading")
+
+**How will reimbursement work for orders canceled via this feature?**
+
+Following our [reimbursement](https://help.doordash.com/merchants/s/article/Do-I-get-paid-for-cancelled-orders?language=en_US) policy, Merchants are not reimbursed for cancellations
+initiated/induced by them.
+
+**Is there any sort of punishment for canceling orders?**
+
+There is not a punishment for canceling orders, however if a high number of
+cancellations is detected, the store may be deactivated temporarily to preserve the
+customer experience.
+
+**Can I adjust orders using my system’s unique identifier that is sent back on order
+confirmation?**
+
+No, we can only accept order adjustments referencing the DoorDash order UUID.
+
+**Can I adjust orders/modifiers using my system’s unique identifier (Merchant Supplied ID) of
+the product that is sent in the menu?**
+
+No. We need our integration partners to maintain the new unique ID of the item and
+option line items so we can process the cancellation or adjustment for the correct
+product.
+
+**How will customers be notified that their order is being adjusted?**
+
+Customers will be notified of their adjustments via email.
+
+**Can I adjust the quantity of the only item in a cart to 0?**
+
+While you will receive an “OK” when carrying out this function, the cart will not be
+adjusted. Please use the order cancellation endpoint instead.
+
+---
+
+*last modified 5/4/20223*
+

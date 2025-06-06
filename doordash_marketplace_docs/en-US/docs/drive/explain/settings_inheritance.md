@@ -1,0 +1,42 @@
+# Settings & inheritance
+
+API: Drive
+
+This doc covers the Drive API. If you're using the Drive (classic) API, see the [explainer for settings & inheritance in Drive (classic)](/en-US/docs/drive_classic/explain/settings_inheritance).
+
+You can customize various aspects of how the Drive product works using settings pages like the one for [SMS updates](/en-US/docs/drive/how_to/configure_sms). When you do so, you may notice an "Inherited" badge next to some settings. This document outlines how settings inheritance works.
+
+## 3 levels of inheritance[​](#3-levels-of-inheritance "Direct link to heading")
+
+Drive settings can be set at 3 levels:
+
+1. All settings have a global default that's used until you configure a setting at a lower level
+2. You can configure a setting for all businesses in an environment: "All Sandbox Businesses"/"All Production Businesses"
+3. If you [use businesses & stores](/en-US/docs/drive/how_to/use_businesses_and_stores_api), you can also configure a setting for a specific business
+
+flowchart BT
+A[A particular business] -->|inherits| B[All Businesses]
+B -->|inherits| C[Default]
+
+This enables you to configure a setting once and have it used across all of your deliveries while also giving you the control for more granular configuration, if you need it. For example, a business you're creating deliveries for might have its own support phone number that you want to include in SMS messages.
+
+## Inheritance in the settings UI[​](#inheritance-in-the-settings-ui "Direct link to heading")
+
+If a setting supports inheritance, you'll sometimes see an "Inherited" indicator next to the setting.
+
+![A screenshot of the SMS settings page with the Inheritance indicator highlighted](/en-US/assets/images/configure-sms-inheritance-b43c9ef6f28136def9a4ce550c4d7152.png)
+
+This indicates that current value of the setting is being inherited from a higher level. If you're configuring a setting:
+
+* For all businesses in an environment, the Inherited indicator means that the setting was inherited from the default.
+* For an individual business, the Inherited indicator means that the setting was inherited either from the default or from the all businesses configuration.
+
+## Overriding and resetting inheritance[​](#overriding-and-resetting-inheritance "Direct link to heading")
+
+When you configure a setting, the setting is stored at the level where you configure it. If you later want to reset back to use the inherited value (either the all businesses value or the default), you can click "Inherit from all businesses" or "Reset to default" when configuring a setting.
+
+[Previous
+
+Schedule deliveries using windows](/en-US/docs/drive/how_to/use_delivery_windows)[Next
+
+Businesses and stores](/en-US/docs/drive/reference/businesses_and_stores)

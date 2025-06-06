@@ -1,0 +1,369 @@
+### WHAT[​](#what "Direct link to heading")
+
+DoorDash has built new functionality in our Open API to share asynchronous updates following [order adjustments](https://developer.doordash.com/en-US/docs/marketplace/how_to/merchant_order_adjustment). The updated order details will be sent to a partner-provided endpoint once the adjustment has been completed on the DoorDash side.
+
+### WHY[​](#why "Direct link to heading")
+
+This new enhancement allows partners to receive async confirmation once an update has been processed. Currently, partners only receive confirmation that an adjustment was received, not that it’s been processed. The enhancement also provides an updated version of the order payload to include taxes, subtotals, and item quantities which can be required for successful adjustments on the partner side.
+
+### HOW[​](#how "Direct link to heading")
+
+Once a partner-triggered `ITEM_UPDATE`, `ITEM_REMOVE`, or `ITEM_SUBSTITUTE` request is sent to the adjustment endpoint, DoorDash will handle the requested adjustment and send an async update to the partner-provided endpoint.
+
+Within Developer Portal you will need to set up the **"Order Adjustment"** webhook subscription to receive this information.
+
+Example order update payload can be found here. The payload will contain the same fields as the original order in addition to the `order_adjustment_metadata` object.
+
+### FAQ[​](#faq "Direct link to heading")
+
+**How long will it take to get the async updated order?**  
+Expected latency is a few seconds with a maximum expected latency of 10 seconds.
+
+**Where can I configure the subscription for the order updates to be sent?**  
+Once the enhancement is live, the subscription can be configured through the developer portal where all other subscriptions are set.
+
+### APPENDIX[​](#appendix "Direct link to heading")
+
+#### Example Order Update Payload[​](#example-order-update-payload "Direct link to heading")
+
+```
+{  
+  "event": {  
+    "type": "OrderAdjustment",  
+    "event_timestamp": "2024-05-06T19:50:43+00:00"  
+  },  
+  "order": {  
+    "id": "cd268e73-824a-4a23-8730-02c41eb6393a",  
+    "store_order_cart_id": "3000005000762452",  
+    "tax": 68,  
+    "subtotal": 1080,  
+    "estimated_pickup_time": "2024-05-06T19:50:43+00:00",  
+    "is_pickup": false,  
+    "order_special_instructions": "",  
+    "delivery_address": "REDACTED",  
+    "consumer": {  
+      "id": "REDACTED",  
+      "first_name": "REDACTED",  
+      "last_name": "REDACTED",  
+      "email": "REDACTED",  
+      "phone": "REDACTED"  
+    },  
+    "store": {  
+      "merchant_supplied_id": "test",  
+      "provider_type": "example",  
+      "timezone": "US/Central",  
+      "store_business": {  
+        "auto_release_enabled": false  
+      },  
+      "id": "00000"  
+    },  
+    "categories": [  
+      {  
+        "merchant_supplied_id": "c_1255",  
+        "name": "Sodas",  
+        "items": [  
+          {  
+            "name": "Unlucky Ducky",  
+            "quantity": 1,  
+            "price": 280,  
+            "merchant_supplied_id": "p_1553",  
+            "consumer_name": "Alec",  
+            "extras": [  
+              {  
+                "merchant_supplied_id": "m_4343",  
+                "name": "Splashes",  
+                "options": [  
+                  {  
+                    "name": "Mountain Dew Splash",  
+                    "quantity": 1,  
+                    "price": 0,  
+                    "merchant_supplied_id": "m_4491",  
+                    "extras": [],  
+                    "line_option_id": "eb050156-832d-4e30-ba05-285ba0ad0065"  
+                  }  
+                ]  
+              },  
+              {  
+                "merchant_supplied_id": "m_4348",  
+                "name": "Purees, Creams & More",  
+                "options": [  
+                  {  
+                    "name": "Gummy Sharks",  
+                    "quantity": 1,  
+                    "price": 40,  
+                    "merchant_supplied_id": "m_4460",  
+                    "extras": [],  
+                    "line_option_id": "868b8c6f-858e-453b-965b-e6822f5ec8b7"  
+                  }  
+                ]  
+              },  
+              {  
+                "merchant_supplied_id": "m_4320",  
+                "name": "Flavor & Fresh Fruit",  
+                "options": [  
+                  {  
+                    "name": "Strawberry",  
+                    "quantity": 1,  
+                    "price": 40,  
+                    "merchant_supplied_id": "m_4632",  
+                    "extras": [],  
+                    "line_option_id": "4155ba04-0bc9-497c-b3a0-88dc93d09d77"  
+                  }  
+                ]  
+              },  
+              {  
+                "merchant_supplied_id": "m_4335",  
+                "name": "Sodas",  
+                "options": [  
+                  {  
+                    "name": "Lemonade",  
+                    "quantity": 1,  
+                    "price": 0,  
+                    "merchant_supplied_id": "m_5203",  
+                    "extras": [],  
+                    "line_option_id": "c8a33345-eb18-450f-8868-af61b0d7cbe8"  
+                  }  
+                ]  
+              },  
+              {  
+                "merchant_supplied_id": "m_4335",  
+                "name": "Sodas",  
+                "options": [  
+                  {  
+                    "name": "Sprite",  
+                    "quantity": 1,  
+                    "price": 0,  
+                    "merchant_supplied_id": "m_4624",  
+                    "extras": [],  
+                    "line_option_id": "b36524e6-2903-4608-b2ba-7b53f4003ddc"  
+                  }  
+                ]  
+              },  
+              {  
+                "merchant_supplied_id": "m_4341",  
+                "name": "Drink Size",  
+                "options": [  
+                  {  
+                    "name": "16oz",  
+                    "quantity": 1,  
+                    "price": 200,  
+                    "merchant_supplied_id": "m_4350",  
+                    "extras": [],  
+                    "line_option_id": "68742885-68e3-4a25-90a3-9e507e4f3270"  
+                  }  
+                ]  
+              }  
+            ],  
+            "special_instructions": "",  
+            "line_item_id": "85056783-767e-4be4-ae59-91f9f98d64d1",  
+            "snap_amount": 0  
+          },  
+          {  
+            "name": "The Rocket",  
+            "quantity": 1,  
+            "price": 440,  
+            "merchant_supplied_id": "p_1549",  
+            "consumer_name": "Cassidy",  
+            "extras": [  
+              {  
+                "merchant_supplied_id": "m_4348",  
+                "name": "Purees, Creams & More",  
+                "options": [  
+                  {  
+                    "name": "Vanilla Cream",  
+                    "quantity": 1,  
+                    "price": 70,  
+                    "merchant_supplied_id": "m_4659",  
+                    "extras": [],  
+                    "line_option_id": "bf1a036d-f8c4-46d7-a188-138419d546bb"  
+                  }  
+                ]  
+              },  
+              {  
+                "merchant_supplied_id": "m_4320",  
+                "name": "Flavor & Fresh Fruit",  
+                "options": [  
+                  {  
+                    "name": "Raspberry",  
+                    "quantity": 1,  
+                    "price": 40,  
+                    "merchant_supplied_id": "m_4588",  
+                    "extras": [],  
+                    "line_option_id": "1589fbce-98bb-4e30-ad48-3ef19f0df8d6"  
+                  }  
+                ]  
+              },  
+              {  
+                "merchant_supplied_id": "m_4320",  
+                "name": "Flavor & Fresh Fruit",  
+                "options": [  
+                  {  
+                    "name": "Coconut",  
+                    "quantity": 1,  
+                    "price": 40,  
+                    "merchant_supplied_id": "m_4396",  
+                    "extras": [],  
+                    "line_option_id": "d829c08b-560c-4acc-b98f-9272891f2dd3"  
+                  }  
+                ]  
+              },  
+              {  
+                "merchant_supplied_id": "m_4320",  
+                "name": "Flavor & Fresh Fruit",  
+                "options": [  
+                  {  
+                    "name": "Blackberry",  
+                    "quantity": 1,  
+                    "price": 40,  
+                    "merchant_supplied_id": "m_4374",  
+                    "extras": [],  
+                    "line_option_id": "d0d656af-569b-4a01-9de9-551207a51ca2"  
+                  }  
+                ]  
+              },  
+              {  
+                "merchant_supplied_id": "m_4335",  
+                "name": "Sodas",  
+                "options": [  
+                  {  
+                    "name": "Mountain Dew",  
+                    "quantity": 1,  
+                    "price": 0,  
+                    "merchant_supplied_id": "m_4490",  
+                    "extras": [],  
+                    "line_option_id": "f7c6822c-7472-42b5-ba26-b157ebdf25d1"  
+                  }  
+                ]  
+              },  
+              {  
+                "merchant_supplied_id": "m_4341",  
+                "name": "Drink Size",  
+                "options": [  
+                  {  
+                    "name": "32oz",  
+                    "quantity": 1,  
+                    "price": 250,  
+                    "merchant_supplied_id": "m_4363",  
+                    "extras": [],  
+                    "line_option_id": "81bb0c10-974b-49e6-babc-d6677eedf978"  
+                  }  
+                ]  
+              }  
+            ],  
+            "special_instructions": "",  
+            "line_item_id": "d7e2be14-3f47-475f-ad44-b188c41d99b2",  
+            "snap_amount": 0  
+          },  
+          {  
+            "name": "Texas Tab",  
+            "quantity": 1,  
+            "price": 360,  
+            "merchant_supplied_id": "p_1545",  
+            "consumer_name": "Misael",  
+            "extras": [  
+              {  
+                "merchant_supplied_id": "m_4348",  
+                "name": "Purees, Creams & More",  
+                "options": [  
+                  {  
+                    "name": "Coconut Cream",  
+                    "quantity": 1,  
+                    "price": 70,  
+                    "merchant_supplied_id": "m_4399",  
+                    "extras": [],  
+                    "line_option_id": "59adea76-49d2-4e45-a133-2f4c99b2a4cc"  
+                  }  
+                ]  
+              },  
+              {  
+                "merchant_supplied_id": "m_4320",  
+                "name": "Flavor & Fresh Fruit",  
+                "options": [  
+                  {  
+                    "name": "Vanilla",  
+                    "quantity": 1,  
+                    "price": 40,  
+                    "merchant_supplied_id": "m_4657",  
+                    "extras": [],  
+                    "line_option_id": "95d5fb06-12f7-40de-adec-e00eac01d70e"  
+                  }  
+                ]  
+              },  
+              {  
+                "merchant_supplied_id": "m_4335",  
+                "name": "Sodas",  
+                "options": [  
+                  {  
+                    "name": "Dr. Pepper",  
+                    "quantity": 1,  
+                    "price": 0,  
+                    "merchant_supplied_id": "m_4425",  
+                    "extras": [],  
+                    "line_option_id": "3a182e92-04f7-4c48-9cdd-e30ac7d507e0"  
+                  }  
+                ]  
+              },  
+              {  
+                "merchant_supplied_id": "m_4341",  
+                "name": "Drink Size",  
+                "options": [  
+                  {  
+                    "name": "32oz",  
+                    "quantity": 1,  
+                    "price": 250,  
+                    "merchant_supplied_id": "m_4363",  
+                    "extras": [],  
+                    "line_option_id": "2f78606a-8219-4526-8e08-35c218192a7e"  
+                  }  
+                ]  
+              }  
+            ],  
+            "special_instructions": "",  
+            "line_item_id": "b2438d8c-f8ff-4c35-88aa-ad1c5852798f",  
+            "snap_amount": 0  
+          }  
+        ]  
+      }  
+    ],  
+    "delivery_short_code": "2ff901b3",  
+    "tax_transaction_id": "",  
+    "is_demand_gen": false,  
+    "commission_type": "regular",  
+    "is_tax_remitted_by_doordash": false,  
+    "tax_amount_remitted_by_doordash": 0,  
+    "fulfillment_type": "dx_delivery",  
+    "merchant_tip_amount": 0,  
+    "experience": "DOORDASH"  
+  },  
+  "order_adjustment_metadata": {  
+    "adjustment_source": "MERCHANT",  
+    "adjustment_timestamp": "2024-05-06T19:50:43+00:00",  
+    "adjusted_order_items": [  
+      {  
+        "line_item_id": "94b653e4-e394-4330-a714-43e764aergjn",  
+        "adjustment_type": "ITEM_UPDATE",  
+        "quantity": 2,  
+        "substituted_item": {}  
+      },  
+      {  
+        "line_item_id": "94b653e4-e394-4330-a714-43e764a223",  
+        "adjustment_type": "ITEM_REMOVE",  
+        "substituted_item": {},  
+        "options": []  
+      },  
+      {  
+        "line_item_id": "94b653e4-e394-4330-a714-43e764ab113",  
+        "adjustment_type": "ITEM_SUBSTITUTE",  
+        "substituted_item": {  
+          "name": "Diet Coke",  
+          "merchant_supplied_id": "179",  
+          "price": 2,  
+          "quantity": 1  
+        }  
+      }  
+    ]  
+  }  
+}  
+
+```
+

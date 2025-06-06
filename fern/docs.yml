@@ -1,27 +1,35 @@
 instances:
-  - url: plantstore.docs.buildwithfern.com # update this to {yourorg}.docs.buildwithfern.com
+  - url: doordash01.docs.buildwithfern.com # update this to {yourorg}.docs.buildwithfern.com
     # custom-domain: plantstore.dev # specify your custom domain when you are ready to go live
 
-title: Plant Store
+title: DoorDash Developer Portal
 
 layout:
   searchbar-placement: header
   page-width: full
+  tabs-placement: header
 
-navigation:
-  - section: Get Started
-    contents:
-      - page: Welcome
-        path: docs/pages/welcome.mdx
-      - page: Concepts
-        path: docs/pages/concepts.mdx
-      - page: SDKs
-        path: docs/pages/sdks.mdx
-        slug: sdks
-  - api: API Reference
-    api-name: marketplace
-  - api: API Reference
-    api-name: drive
+products:
+  - display-name: Drive
+    path: products/drive/drive-v2.yaml # default to latest (V2)
+    icon: fa-solid fa-truck-fast
+    slug: drive
+    subtitle: DoorDash Drive API
+    versions:
+      - display-name: Version 2
+        path: products/drive/drive-v2.yaml
+      - display-name: Version 1
+        path: products/drive/drive-classic.yaml
+  - display-name: Marketplace
+    path: products/marketplace/marketplace2.yaml # default to latest (Marketplace 2)
+    icon: fa-solid fa-store
+    slug: marketplace
+    subtitle: DoorDash Marketplace API
+    versions:
+      - display-name: Version 2
+        path: products/marketplace/marketplace2.yaml
+      - display-name: Version 1
+        path: products/marketplace/marketplace.yaml
 
 navbar-links:
   - type: minimal
@@ -35,16 +43,19 @@ navbar-links:
 
 colors:
   accentPrimary:
-    dark: "#81C784"
-    light: "#1B5E20"
+    dark: "#EB1700"
+    light: "#EB1700"
+  background:
+    dark: "#191919"
+    light: "#FFFFFF"
 
 logo:
-  dark: docs/assets/logo-dark.svg
-  light: docs/assets/logo-light.svg
+  dark: docs/assets/light.png
+  light: docs/assets/light.png
   height: 20
   href: https://buildwithfern.com/?utm_campaign=demo&utm_medium=plantstore&utm_source=logo
 
-favicon: docs/assets/favicon.svg
+favicon: docs/assets/favicon.png
 
 experimental:
   openapi-parser-v3: true

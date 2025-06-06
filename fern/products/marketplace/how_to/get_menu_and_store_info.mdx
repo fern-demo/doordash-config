@@ -1,0 +1,172 @@
+## Prerequisites[​](#prerequisites "Direct link to heading")
+
+By default, all developers that have an active integration with DoorDash will be able to request information from our Get Store and Menu Info endpoints. There are no pre-requesites at this time.
+
+## Overview[​](#overview "Direct link to heading")
+
+These two endpoints have been created to allow OpenAPI integrated partners to retrieve live info for both their stores and
+the menus that are associated with them. Both of these endpoints will provide partners with a new level of visibility, which in
+turn will enable them to answer common questions such as:
+
+**Store**
+
+* Which order protocol (tablet, POS, etc) is this store currently using?
+* What is the max length for special instructions set for this store?
+* Is my store temporarily/permanently deactivated? Why?
+* Is Auto-Order Release (AOR) enabled at this store?
+
+**Menu**
+
+* What is the menu ID tied to this location?
+* Is this menu currently active?
+* When was the last successful update for this menu?
+* What are the Special/Regular hours for this menu?
+* Was this menu created via POS or another method?
+* Is the menu preview url?
+
+## Get Started[​](#get-started "Direct link to heading")
+
+---
+
+### GET Store Info[​](#get-store-info "Direct link to heading")
+
+**URL** `api/v1/stores/{merchant_supplied_id}/store_details`
+
+*Store Info Request Details*
+
+| **Parameter** | **Description** |
+| --- | --- |
+| Authorization [header] | Token provided by DoorDash |
+| User-Agent [header] | “SampleIntegration/1.0” |
+
+*Sample Response Payload*
+
+```
+{  
+   "provider_name":"MyProvider",  
+   "merchant_supplied_id":"12345",  
+   "is_active":false,  
+   "is_order_protocol_pos":true,  
+   "auto_release_enabled":true,  
+   "auto_release_distance":123,  
+   "auto_release_from_store_enabled":true,  
+   "special_instructions_max_length":128,  
+   "current_deactivations":[  
+      {  
+         "reason":"Merchant requested take down",  
+         "notes":"",  
+         "created_at":"2020-12-12T12:00:00.123Z",  
+         "end_time":null  
+      },  
+      {  
+         "reason":"POS Outage Auto Temp Deactivation",  
+         "notes":"",  
+         "created_at":"2020-12-12T12:00:00.123Z",  
+         "end_time":"2020-12-12T12:30:123Z"  
+      }  
+   ]  
+}  
+
+```
+
+---
+
+### GET Menu Info[​](#get-menu-info "Direct link to heading")
+
+**URL** `api/v1/stores/{merchant_supplied_id}/menu_details`
+
+*Menu Info Request Details*
+
+| **Parameter** | **Description** |
+| --- | --- |
+| Authorization [header] | Token provided by DoorDash |
+| User-Agent [header] | “SampleIntegration/1.0” |
+
+*Sample Response Payload*
+
+```
+{  
+   "provider_name":"MyProvider",  
+   "merchant_supplied_id":"12345",  
+   "menus":[  
+      {  
+         "menu_id":"q1w2e3r4t5-y6u7-i8o9-q1w2e3r4t5y6",  
+         "name":"Dinner",  
+         "subtitle":"Dinner",  
+         "is_active":true,  
+         "is_pos_menu":true,  
+         "url":"https://www.doordash.com/store/123456/12323",  
+         "latest_menu_update":{  
+            "created_at":"2021-02-14T04:30:00.121734Z",  
+            "status":"FAILED"  
+         },  
+         "last_successful_menu_update_at":"2021-02-14T02:13:56.121734Z",  
+         "open_hours":[  
+            {  
+               "start_time":"08:00",  
+               "end_time":"15:00",  
+               "day_index":"MON"  
+            }  
+         ],  
+         "special_hours":[  
+            {  
+               "date":"2020-12-12",  
+               "start_time":"08:00",  
+               "end_time":"15:00",  
+               "closed":true  
+            }  
+         ]  
+      },  
+      {  
+         "menu_id":"a1s2d3f4-a1s2-d3f4-g5h6j7k8l9zqxw",  
+         "name":"Breakfast",  
+         "subtitle":"Breakfast",  
+         "is_active":false,  
+         "is_pos_menu":true,  
+         "url":"https://www.doordash.com/store/54321",  
+         "latest_menu_update":{  
+            "created_at":"2020-08-14T02:13:56.121734Z",  
+            "status":"SUCCESS"  
+         },  
+         "last_successful_menu_update_at":"2020-08-14T02:13:56.121734Z",  
+         "open_hours":[  
+            {  
+               "start_time":"08:00:00",  
+               "end_time":"15:00:00",  
+               "day_index":"TUE"  
+            }  
+         ],  
+         "special_hours":[  
+            {  
+               "date":"2020-12-12",  
+               "start_time":"08:00",  
+               "end_time":"15:00",  
+               "closed":false  
+            }  
+         ]  
+      }  
+   ]  
+}  
+
+```
+
+---
+
+## FAQs[​](#faqs "Direct link to heading")
+
+* Is a Menu callback endpoint still needed to receive the DoorDash generated UUID that is used to patch the menu?
+
+  + Yes, the existing endpoint for Menu processing notifications should remain as the primary method to receive and store the Menu UUID that is needed to update the menu due to performance constraints. There will be a rate limit applied for this new endpoint, and if exceeded, any functionality reliant on it will fail.
+* Is it possible to determine the current items that are 86 'd for each store/menu using these endpoints?
+
+  + These endpoints unfortunately do not capture the activation status of items and item-options. The status of these should continue to be tracked by the partner whenever deactivation/reactivation events are sent.
+* Why are there two current\_deactivations returned for one location? What is the difference?
+
+  + There are two types of deactivations in DoorDash. One is called a temporary deactivation, where an end\_time is set automatically. Once the end\_time condition is met, the store is automatically reactivated. Temp deactivations can always be ended manually in the Merchant Portal. The second type is called a permanent deactivation, where an end\_time is not set automatically. This requires a secondary reactivation event to be sent or manual intervention by DoorDash support to bring the store back online. Our Open API Store Availability webhook triggers what we call a permanent deactivation. For a store to appear online, there must be 0 current\_deactivations.
+* Why is there a menu with is\_pos\_menu = false active at my POS store?
+
+  + This is unexpected and may result in order errors. Please reach out to DoorDash support to deactivate the non-POS menu.
+* How can I deactivate/reactivate POS menus at a store?
+
+  + You can set the is\_active field to true or false in the menu PATCH request to control the status of the POS menus.
+

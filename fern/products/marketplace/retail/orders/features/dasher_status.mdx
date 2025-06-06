@@ -1,0 +1,113 @@
+# Dasher Status Webhooks
+
+# Track your Dashers
+
+Limited access
+
+<Warning>
+Marketplace APIs are not yet generally available. Please record interest in early access [here](https://docs.google.com/forms/d/e/1FAIpQLSfggU_NjGWCdi9vyWUicrnzJmtu9vC4zgbfSC3ROwSvW4eV2g/viewform).
+</Warning>
+
+## Prerequisites[​](#prerequisites "Direct link to heading")
+
+DoorDash has enhanced the Open API contract by adding a new webhook. Integration partners can subscribe to this webhook by providing their Technical Account Manager with an endpoint and authorization details.
+
+## Overview[​](#overview "Direct link to heading")
+
+The Dasher Status webhook contains a status indicator, reference to the specific order, and Dasher information. A webhook event will be triggered each time a specific dasher status is reached, so multiple events are expected to trigger for an order.
+
+By giving POS Merchants insight into the full lifecycle of an order, we can increase operational efficiency by allowing Merchants to:
+
+* Add final touches to an order just before the Dasher walks into the store, while still ensuring food quality (finish bagging, pull ice cream from freezer etc.)
+* Understand the current status of an order, and remove the need to contact support
+* Prioritize in progress orders, completing the order with the earliest arriving Dasher
+* Improve the order handoff experience with visibility to Dasher details.
+
+## Get Started[​](#get-started "Direct link to heading")
+
+---
+
+### Step 1: Set up your [Webhook Subscription](https://developer.doordash.com/portal/integration/marketplace/webhook_subscriptions)[​](#step-1-set-up-your-webhook-subscription "Direct link to heading")
+
+Make sure to use the `"Dasher Status Updates"` event type
+
+
+### Step 2: Understand the Webhook Fields[​](#step-2-understand-the-webhook-fields "Direct link to heading")
+
+`dasher_status`: string value indicating the current Dasher status. Values include `dasher_confirmed`, `arriving_at_store`, `arrived_at_store`, `dasher_out_for_delivery`,`dropoff`.
+
+`external_order_id`: unique UUID of the order sent to the Merchant from DoorDash
+
+`client_order_id`: `merchant_supplied_id` from the order confirmation payload. When a merchant confirms the order, they can pass their internal order id in the `merchant_supplied_id` field, then we save this value as client\_order\_id. This is the value that we send back in the payload as `client_order_id`. If this value is not passed during order confirmation, it will be set to null in the payload
+
+`created_at`: timestamp of the Dasher status event
+
+`location_id`: the merchant supplied identifier of a store
+
+`Phone_number`: masked phone number of the Dasher (Note: The Dasher can only be reached if the call is initiated from the store phone number)
+
+### Step 3: Set up the Webhook Payload[​](#step-3-set-up-the-webhook-payload "Direct link to heading")
+
+Below is a sample payload:
+
+```
+{  
+  "event": {  
+    "type": "dasher_status_update",  
+    "status": "<SUCCESS> OR <FAILURE>",  
+    "reference": "<reference_uuid>"  
+  },  
+  "created_at": "2021-06-02T17:41:29.996321Z",  
+  "delivery": {  
+    "external_order_id": "7424215690108_2",  
+    "client_order_id": "12321444",  
+    "location_id": "123852",  
+    "dasher_status": "arrived_at_store",  
+    "dasher": {  
+      "phone_number": "(586) 381-6148",  
+      "first_name": "Jude",  
+      "last_name": "D.",  
+      "vehicle": {  
+        "color": "",  
+        "make": "Dodge",  
+        "model": "Dakota"  
+      }  
+    }  
+  }  
+}  
+
+```
+
+### Step 4: Understand the Response & Error Codes[​](#step-4-understand-the-response--error-codes "Direct link to heading")
+
+Once a webhook is received, the provider is expected to return the following response codes
+
+| Status Code | Details |
+| --- | --- |
+| 200 | Return a 200 status to indicate that the data was received successfully |
+| 401 | Unauthorized. DoorDash does not have an auth token for this endpoint |
+| 403 | Forbidden, DoorDash does not have access to this endpoint |
+| 500 | Internal Server Error - something went wrong on the Mx side |
+| 503 | Service not available - Mx endpoint is partially or totally down |
+
+## Next Steps[​](#next-steps "Direct link to heading")
+
+Ensure that store operators are aware of this functionality is available to them and that it is being used properly to get the full benefits of it.
+
+## FAQs[​](#faqs "Direct link to heading")
+
+1. When is the ‘arriving\_at\_store’ notification triggered?
+
+   * The notification is triggered when a Dasher is 400 meters from the store. This value is not configurable.
+2. What happens if a dasher is unassigned?
+
+   * The dasher\_assigned notification would be triggered twice in this scenario.
+3. How does this event differ from Auto Order Release (AOR)?
+
+   * This Dasher status webhook is an informational event aimed at improving the handoff between Merchant and Dasher. AOR is only designed for Quick Service Restaurants and is tied to more complex Dasher assignment logic on the
+     DoorDash side.
+
+---
+
+*Modified: 5/1/2023*
+

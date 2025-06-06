@@ -1,0 +1,55 @@
+
+
+# Create deliveries with item details
+
+Drive API Production Access is Limited
+
+<Warning>
+Production access to the Drive API is currently restricted, and we cannot provide a timeline for certification following development. If you have not completed development and submitted a production access request, we recommend pausing development. Contact us [here](https://docs.google.com/forms/d/e/1FAIpQLSfggU_NjGWCdi9vyWUicrnzJmtu9vC4zgbfSC3ROwSvW4eV2g/viewform) to record your interest.
+</Warning>
+
+Providing DoorDash information about the specific items that you're delivering is [recommended](https://developer.doordash.com/en-US/docs/drive/how_to/build_for_restaurants/#d-important-fields) for all partners and required for partners delivering restricted items like alcohol. Passing item-level details enables a few key benefits:
+
+* When picking up the order, Dashers use item details can verify that they've grabbed all the items in the order
+* If you're delivering regulated items like alcohol, providing item details helps us ensure that every delivery is compliant with all applicable regulations
+* In the rare case that something goes wrong with a delivery, providing item details enables us to provide partial refunds per the [refund matrix](/en-US/docs/drive/overview/pricing_payment#refunds)
+
+## 1. Prerequisites[​](#1-prerequisites "Direct link to heading")
+
+If you're new to Drive and haven't yet created your first delivery, you should start with one of our tutorials. The tutorials will walk you through getting the credentials you need to call the APIs and making some basic API calls.
+
+* [Get started by making API calls](/en-US/docs/drive/tutorials/get_started)
+* If you're writing an app in Node.js (using JavaScript or TypeScript), [get started using our Node.js SDK](/en-US/docs/drive/tutorials/get_started_sdk)
+* If you'd like to try our APIs interactively, [get started using our Postman collection](/en-US/docs/drive/tutorials/get_started_postman)
+
+## 2. Create a delivery with basic item details[​](#2-create-a-delivery-with-basic-item-details "Direct link to heading")
+
+When you create a delivery, include the `items` field with one or more items:
+
+* (Required) `name`: a short string that identifies the item
+* (Required) `quantity`: the amount of this item in the order
+* (Optional) `external_id`: your internal identifier for this item; this can help you connect the items you provide in your delivery request to items in your internal system
+* (Optional) `description`: this field is reserved for future use; you can provide this detail if you like but it is not required
+
+```
+{  
+    ... // other fields  
+    "items": [  
+        {  
+            // required  
+            "name": "Chicken Burrito",  
+            "quantity": 2,  
+            // optional  
+            "description": "A tasty oversized burrito with chicken, rice, beans, and cheese.",  
+            // optional for regular deliveries, required for Dasher Shop & Stage and Dasher Shop & Deliver  
+            "external_id": "418575",  
+        }  
+    ]  
+}  
+
+```
+
+## Next steps[​](#next-steps "Direct link to heading")
+
+* Learn how to [request a refund via API](/en-US/docs/drive/how_to/request_refunds_api)
+

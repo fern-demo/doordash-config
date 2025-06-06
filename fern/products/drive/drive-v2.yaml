@@ -1,0 +1,95 @@
+tabs:
+  api:
+    display-name: API Reference
+    icon: fa-solid fa-code
+  guides:
+    display-name: Guides
+    icon: fa-solid fa-book
+
+navigation:
+  - tab: guides
+    layout:
+      - section: Overview
+        contents:
+          - page: About Drive
+            path: ./overview/about_drive.mdx
+          - page: Integration Requirements
+            path: ./overview/integration_requirements.mdx
+          - page: FAQs
+            path: ./overview/faqs.mdx
+          - page: Pricing & Payment
+            path: ./overview/pricing_payment.mdx
+          - page: Release Notes
+            path: ./overview/release_notes.mdx
+      - section: How To
+        contents:
+          - page: Add Members
+            path: ./how_to/add_members.mdx
+          - page: Build for Restaurants
+            path: ./how_to/build_for_restaurants.mdx
+          - page: Deliver Alcohol
+            path: ./how_to/deliver_alcohol.mdx
+          - page: Deliver High Value Items
+            path: ./how_to/deliver_high_value_items.mdx
+          - page: Deliveries with Tips
+            path: ./how_to/deliveries_with_tips.mdx
+          - page: Grow with Promotions
+            path: ./how_to/grow_with_promotions.mdx
+          - page: Include Item Details
+            path: ./how_to/include_item_details.mdx
+          - page: JWTs
+            path: ./how_to/JWTs.mdx
+          - page: Pickup Dropoff Info
+            path: ./how_to/pickup_dropoff_info.mdx
+          - page: Quote Deliveries
+            path: ./how_to/quote_deliveries.mdx
+          - page: Return to Pickup
+            path: ./how_to/return_to_pickup.mdx
+          - page: Schedule Deliveries
+            path: ./how_to/schedule_deliveries.mdx
+          - page: Use Businesses and Stores API
+            path: ./how_to/use_businesses_and_stores_api.mdx
+          - page: Use Delivery Windows
+            path: ./how_to/use_delivery_windows.mdx
+          - page: Webhooks
+            path: ./how_to/webhooks.mdx
+          - section: Drive DSX
+            contents:
+              - page: Build for DSX
+                path: ./how_to/Drive_DSX/build_for_dsx.mdx
+              - page: How To DSX Delivery Tracking
+                path: ./how_to/Drive_DSX/how_to_dsx_delivery_tracking.mdx
+              - page: How To Shopping Complete Webhook
+                path: ./how_to/Drive_DSX/how_to_shopping_complete_webhook.mdx
+              - page: How To Subs Other Shopping Use Cases
+                path: ./how_to/Drive_DSX/how_to_subs_other_shopping_use_cases.mdx
+              - page: How To Checkout Audit
+                path: ./how_to/Drive_DSX/how_to_checkout_audit.mdx
+      - section: Tutorials
+        contents:
+          - page: Get Started
+            path: ./tutorials/get_started.mdx
+          - page: Get Started with Postman
+            path: ./tutorials/get_started_postman.mdx
+          - page: Get Started with SDK
+            path: ./tutorials/get_started_sdk.mdx
+          - page: Get Started with WooCommerce
+            path: ./tutorials/get_started_woocommerce.mdx
+      - section: Explain
+        contents:
+          - page: Settings Inheritance
+            path: ./explain/settings_inheritance.mdx
+      - section: Reference
+        contents:
+          - page: Businesses and Stores
+            path: ./reference/businesses_and_stores.mdx
+      - section: Support
+        contents:
+          - page: Support
+            path: ./support.mdx
+
+  - tab: api
+    layout:
+      - api: Drive V2 API Reference
+        api-name: drive2
+        flattened: true

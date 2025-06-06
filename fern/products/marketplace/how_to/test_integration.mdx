@@ -1,0 +1,49 @@
+Limited access
+
+<Warning>
+Marketplace APIs are not yet generally available. Please record interest in early access [here](https://docs.google.com/forms/d/e/1FAIpQLSfggU_NjGWCdi9vyWUicrnzJmtu9vC4zgbfSC3ROwSvW4eV2g/viewform).
+</Warning>
+
+## Test Order Flow[​](#test-order-flow "Direct link to heading")
+
+### How It Works[​](#how-it-works "Direct link to heading")
+
+DoorDash provides a user account that can be used to order from your test store. The login must be used to order, since even our test stores are live in DoorDash production (in an inactive market). All menus can be accessed for testing via Web or app. DoorDash will auto-cancel test orders 90 minutes after the order placement time.
+
+### DoorDash Login Information[​](#doordash-login-information "Direct link to heading")
+
+Please log in to your Developer Account and reach out to DoorDash using the Support form to get testing information.
+
+### Steps to Submit an Order[​](#steps-to-submit-an-order "Direct link to heading")
+
+1. Go to doordash.com, or download the DoorDash app via the App Store or Google Play Store.
+2. Click `Sign In`
+3. Login using the information above.
+4. Ensure your address is set to the store address.
+
+   1. For pilot stores, the address can be found at the bottom of the menu URL when viewed on web. This shows in the top left hand corner of the web browser.
+   2. For test stores, address is:
+
+```
+   - 498 Airport Beach Rd, Unalaska AK 99685, United States  
+   - 11 2nd St, Unalaska, AK 99692, United States  
+   - Inuit St, Kugluktuk, NU X0B 0E0, Canada  
+
+```
+
+5. Navigate to the Developer Portal “Stores” page and click the popup link to navigate to your test store
+   
+6. The menu that is available for the store’s local hours will display automatically.
+7. Select one or more items from the menu and click `Add to cart`.
+8. Once ready, click `Checkout` on the far right side of the web browser.
+9. Confirm the following, and click `Place Order`.
+
+* Time = ASAP
+* Address = test store address
+* Payment = Should already be linked to the account
+
+10. After submitting your order you will be sent to an `order tracking` page.
+
+    1. DoorDash & Brands will both be able to verify successful orders in our system. If the order fails or times out, it will not show in the POS or KDS.
+    2. No dashers will be sent, as this is not a real market
+

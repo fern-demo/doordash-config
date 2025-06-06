@@ -1,0 +1,173 @@
+Limited access
+
+<Warning>
+Marketplace APIs are not yet generally available. Please record interest in early access [here](https://docs.google.com/forms/d/e/1FAIpQLSfggU_NjGWCdi9vyWUicrnzJmtu9vC4zgbfSC3ROwSvW4eV2g/viewform).
+</Warning>
+
+The image below presents a high level overview of how Menu creation and update work via our API.
+
+
+
+## Creating Menus (Pull)[​](#creating-menus-pull "Direct link to heading")
+
+**GET** `/{merchant_pull_menu_endpoint}/{location_id}`
+
+As part of the integration workflow, partners must implement an endpoint that allows DoorDash to pull menus. This enables a more streamlined process when onboarding new stores. With this, the DoorDash team can configure the store and pull the corresponding menu all at one time, rather than coordinating with our partners for the menu push. The response for the menu ingestion process will match what is described below for the push method. The response to this GET request will differ from your Push request. Regardless of if multiple menus need to be returned as part of the response, the menus should be included as an array. Example below.
+
+```
+{  
+    "store": {  
+        "merchant_supplied_id": "<client's store id>",  
+        "provider_type": "<client’s DoorDash provider type>"  
+    },  
+    "menus": [  
+        {...},  
+        {...}  
+    ]  
+}  
+
+```
+
+**Note:** As the sample response above indicates, the response on Menu Pull request must return the menu(s) as an array, even if there is only one menu being returned.
+
+Partners are expected to return appropriate response codes if the Menu Pull request fails for streamlined triage and escalation if needed.
+
+Once our service is finished creating your menu or if the menu creation fails, the service will send out a POST webhook request with the menu creation result. You need to create an endpoint and provide us with its URL in order to receive the webhook notification. This request will contain the same "reference" as the response to your initial request, allowing you to keep track of which requests have been completely processed. You can find more details about this webhook in the section `Know when your menu is ready`.
+
+## Creating Menus (Push)[​](#creating-menus-push "Direct link to heading")
+
+**POST** `/api/v1/menus`
+
+DoorDash’s menu creation pipeline works asynchronously. Upon making a successful request to the POST endpoint, you will receive a response with status code `200` indicating that we’ve successfully received the request to create the menu. The result of this request will be sent back to you later via a menu status webhook. Menu processing time can differ depending on the size of the queue at the time the menu job was created. Average menu processing time is less than 1 minute.
+
+The menu request body contains a `reference` field, which is optional. This could be any merchant supplied id that references the menu create request and will be returned back in the menu status webhook to identify the original request for which the status is. If not provided, DoorDash will populate this id and the DoorDash generated id will be sent back via the response to the MENU POST. Do not leave it as an empty string or null value.
+
+The menu request body contains a provider\_type field which should pass your provider type without any version number. For example, if your header is `"User-Agent": DoordashClient/1.0` then the value to pass in the `provider_type` field in the body of the call would simply be `"provider_type": "doordash_client"`.
+
+Once our service is finished creating your menu or if the menu creation fails, the service will send out a POST webhook request with the menu creation result. You need to create an endpoint and provide us with its URL in order to receive the webhook notification. This request will contain the same `reference` as the response to your initial request, allowing you to keep track of which requests have been completely processed. You can find more details about this webhook in the section `Receiving Menu Status Updates`.
+
+### Preventing Duplicate Menus[​](#preventing-duplicate-menus "Direct link to heading")
+
+To prevent duplicate menus from being created for stores, DoorDash examines the `menu.merchant_supplied_id` within the [menu payload](https://developer.doordash.com/en-US/api/marketplace#tag/Models/StoreMenu) for **POST** requests to determine if an active menu already exists with the same value for this field. This works similiarly as if you try to save a file to a folder that already contains a file with the same name, in which case you're prompted to either rename the file or overwrite the existing file.
+
+If a match is found (using `menu.merchant_supplied_id`), the existing menu will be overwritten using the payload in the request. Additionally a new `menu.id` will be generated for the menu and [sent back](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_status_callback) once the update is done processing. This new `menu.id` as well as the original `menu.id` for the menu can be used to update the menu (backwards compatible).
+
+*The below example demonstrates what would happen if a duplicate menu-create request was received without this logic:*
+
+
+
+*The next example demonstrates the current logic DoorDash has that prevents the above scenario from happening:*
+
+
+
+## Updating Menus (Push)[​](#updating-menus-push "Direct link to heading")
+
+**PATCH** `/api/v1/menus/{id}`
+
+Upon creating a menu, you will receive the `"id": "menu-id"` (UUID) in the POST request sent out by DoorDash’s menu status webhook. When updating a menu, you should include that menu’s ID in the URL parameters. Menu processing time can differ depending on the size of the queue at the time the menu job was created, but average menu processing time is less than 1 minute.
+
+The menu update pipeline works identically to the menu creation pipeline. When updating a menu, you will need to include the full menu in your request, not just the specific fields you wish to update. Hence, the data validation for the PATCH endpoint will be identical to the POST endpoint because it uses the same model. Just as with POST, you can also provide a `reference` field in the payload to identify your request or rely on the DoorDash generated reference.
+
+Once our service is finished updating your menu or if the menu update fails, our webhook will send a POST request to the endpoint you provide us with. Details can be found in the following section, `Receiving Menu Status Updates`.
+
+## Updating Menus (Pull)[​](#updating-menus-pull "Direct link to heading")
+
+**GET** `/{merchant_pull_menu_endpoint}/{location_id}[?ids=external_menu_ids]`
+
+*Note: Updating Menus via the Menu Pull method is part of the Menu Pull requirement*
+
+Partners can utilize the same pull endpoint to allow DoorDash to request menu updates based on a list of external menu ids. This allows for flexibility on the DoorDash side to ensure menus are in sync. The recommendation is that Push logic is still built out on the provider’s side to automatically trigger menu updates when changes are made within the POS. Upon creating a menu, you will receive the `"id": "menu-id"` (UUID) in the POST request sent out by DoorDash’s menu status webhook.
+
+**Please Note:**
+
+**The `"id": "menu-id"` (UUID) field is required for Updating Menus via Menu Pull & it must be included within the menu payload.**
+
+The `"id": "menu-id"`(UUID) field is to be placed within the menus array. Please see the sample below:
+
+```
+{  
+    "store": {  
+        "merchant_supplied_id": "",  
+        "provider_type": ""  
+    },  
+    "menus": [  
+        {  
+            "id": "string",  
+            "reference": "string",  
+            "open_hours": [  
+                {  
+                    "day_index": "MON",  
+                    "start_time": "00:00",  
+                    "end_time": "23:59"  
+                }  
+            ],  
+            "special_hours": [],  
+            "menu": {  
+                "name": "string",  
+                "subtitle": "string",  
+                "merchant_supplied_id": "string",  
+                "active": true,  
+                "categories": [  
+                ]  
+            }  
+        }  
+    ]  
+}  
+
+```
+
+## Menu Response Codes[​](#menu-response-codes "Direct link to heading")
+
+| Status Code | Details |
+| --- | --- |
+| 200 | Success |
+| 400 | Bad Request |
+| 403 | Forbidden |
+| 429 | Too Many Requests |
+| 500 | Internal Server Error |
+
+If you receive a `429`, please retry after 1 minute. If you receive a `500`, please retry with exponential backoff. If you receive a `400` response, please do not retry. There should be an associated error message with a `400` status code that will help with diagnosing the origin of the issue (example below).
+
+`400 Bad Request: Invalid menu payload: [StoreMenu.menu.MenuCategory[IcedBeverages]: find duplicate merchant id:5757, name:Freshly Brewed Iced Coffee - Create Your Own - Custom.]`
+
+In the above example, there is already an item with the `merchant_supplied_id` of `5757`. This is stating that there are duplicate IDs for an item within the same level of the Menu. To resolve this error, you must have unique `merchant_supplied_ids` for items within the same Menu Level.
+
+## Menu Job Failure Reason Examples[​](#menu-job-failure-reason-examples "Direct link to heading")
+
+| Status Code | Body | Description |
+| --- | --- | --- |
+| 200 | INVALID\_ARGUMENT::INVALID\_ARGUMENT: Already have a job IN\_PROGRESS | A menu job is already in progress for this location. Please wait a few minutes to trigger another job. |
+| 400 | INVALID\_ARGUMENT::INVALID\_ARGUMENT: Store does not exist for the menu | The menu.json includes a store "merchant\_supplied\_id" that does not exist. Please make sure the store "merchant\_supplied\_id" in the menu.json is correct. |
+| 403 | INVALID\_ARGUMENT::INVALID\_ARGUMENT: Mismatch menu id and store id | The menu ID within the menu.json to run a [menu update](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_integration/#updating-menus-pull) is incorrect and does not exist for the store. Please make sure the menu ID within the payload is correct. This ID was returned when the menu was created and should have been stored. |
+| 429 | Developer account endpoint rate limit exceeded | The rate limit has been exceeded. Please retry the job after 1 minute. |
+| 400 | INVALID\_ARGUMENT::INVALID\_ARGUMENT: Store under active onboarding and not ready to receive menu push | Please use the correct [Menu Create/Update Endpoint for SSIO](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/#menu-creationupdate) to trigger a Menu Pull. |
+
+## Menu Fields Max Length[​](#menu-fields-max-length "Direct link to heading")
+
+If a field within the menu payload exceeds the allowed Max Length, the menu will fail with a 400 Bad Request response. Please adhere to the max length fields listed below.
+
+| Field | Max Length |
+| --- | --- |
+| Menu |  |
+| name | 500 |
+| subtitle | 500 |
+| merchant\_supplied\_id | 1024 |
+| Category |  |
+| name | 500 |
+| subtitle | 500 |
+| merchant\_supplied\_id | 1024 |
+| Item, ItemExtra and ItemExtraOption |  |
+| name | 500 |
+| description | 1000 |
+| merchant\_supplied\_id | 1024 |
+
+## Notable Menu Fields[​](#notable-menu-fields "Direct link to heading")
+
+* `reference`: Required field in menu pull response. It is a merchant menu identifier which will be linked to the id (external menu id)
+* `id` (external menu id): Required is event type is `MenuUpdate`. Returned when the menu is created and must be stored by the merchant after MenuCreate.
+* `original_image_url`: Used to automatically pull in images via the Menu API. More details included in the FAQ section.
+* `nutritional_info`: Used to define calorie information for items and modifiers.
+* `classification_tags`: Used to designate nutritional dietary tags for items and modifiers.
+* `tax_rate`: Optional field to define tax rate at the item and the item extra option level for non-Marketplace facilitator states. The rate should be sent as a whole number. For example, my tax rate is 5% for an item. The `tax_rate` should be sent as `5` in the menu payload (not `.05`). If tax rates are not sent in the menu, DoorDash third party tax engine will be used for tax calculations. Please reach out to your DoorDash contact for more information if you plan to send tax rates in the menu.
+* `tax_category`: Optional field to define tax category at the item and the item extra option level for non-Marketplace facilitator states. Please reach out to your DoorDash contact for more information if you plan to send tax category in the menu.
+

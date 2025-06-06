@@ -1,0 +1,115 @@
+## Store Management API Payload[​](#store-management-api-payload "Direct link to heading")
+
+### Example JSON Payload[​](#example-json-payload "Direct link to heading")
+
+Example Payload
+
+```
+{  
+  "open_hours": [  
+    {  
+      "day_index": "MON",  
+      "start_time": "07:00",  
+      "end_time": "15:00"  
+    },  
+    {  
+      "day_index": "TUE",  
+      "start_time": "07:00",  
+      "end_time": "15:00"  
+    },  
+    {  
+      "day_index": "WED",  
+      "start_time": "07:00",  
+      "end_time": "15:00"  
+    },  
+    {  
+      "day_index": "THU",  
+      "start_time": "07:00",  
+      "end_time": "15:00"  
+    },  
+    {  
+      "day_index": "FRI",  
+      "start_time": "07:00",  
+      "end_time": "15:00"  
+    }  
+  ],  
+  "special_hours": [  
+    {  
+      "date": "2023-11-24",  
+      "closed": false,  
+      "start_time": "12:00:00",  
+      "end_time": "23:59:59"  
+    }  
+  ]  
+}  
+
+```
+
+## Store Open Hours[​](#store-open-hours "Direct link to heading")
+
+* `open_hours.start_time`: Local start time for when orders can successfully be placed.
+* `open_hours.end_time`: Local end time for when orders can successfully be placed.
+* `open_hours.day_index`: Day of the week for specified hours.
+
+### Considerations when setting hours:[​](#considerations-when-setting-hours "Direct link to heading")
+
+* DoorDash deducts 20 minutes from `open_hours.end_time` to determine the true ordering hours for our Marketplace. This allows Dashers ample time to pick up the order before the restaurant closes.
+* To display hours as ‘All Day’ on Marketplace, set hours to the following:
+
+  ```
+  "start_time": "00:00:00",  
+  "end_time": "23:59:59"  
+
+  ```
+* If `open_hours.end_time` is less than `open_hours.start_time`, this is interpreted as hours that extend into the next day. As an example, the below would translate to the store being open from 8:00 am to 1:40 am:
+
+  ```
+  "start_time": "08:00:00",  
+  "end_time": "02:00:00"  
+
+  ```
+* Hours for a single menu cannot have separate specified hour periods that overlap. As an example, these hours below would be considered invalid:
+
+  ```
+  {  
+      "day_index": "FRI",  
+      "start_time": "08:00:00",  
+      "end_time": "02:00:00"  
+  },  
+  {  
+      "day_index": "SAT",  
+      "start_time": "01:00:00",  
+      "end_time": "22:00:00"  
+  }  
+
+  ```
+
+## Store Special Hours[​](#store-special-hours "Direct link to heading")
+
+Store Special Hours can be used to specify operating hours for a distinct date that differ from your typical hours. You may use special hours to either close, shorten, or extend operating hours.
+
+* `special_hours.start_time`: Local start time for when orders can successfully be placed.
+* `special_hours.end_time`: Local end time for when orders can successfully be placed.
+* `special_hours.date`: Discrete date of when special hours will be enforced.
+* `special_hours.closed`: Boolean indicating whether the store is closed or not on this date.
+
+Because Store Special Hours are date-specific, if you wish to specify interday special hours, separate dates must be used:
+
+```
+"special_hours": [  
+   {  
+       "date": "2022-11-24",  
+       "closed": false,  
+       "start_time": "12:00:00",  
+       "end_time": "23:59:59"  
+   },  
+   {  
+       "date": "2022-11-25",  
+       "closed": false,  
+       "start_time": "00:00:00",  
+       "end_time": "00:30:00"  
+   }  
+]  
+
+```
+

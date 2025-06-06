@@ -1,0 +1,279 @@
+## Catalog Management API Payload[​](#catalog-management-api-payload "Direct link to heading")
+
+### Example JSON Payload[​](#example-json-payload "Direct link to heading")
+
+Click to expand JSON Payload Example
+
+```
+{  
+  "scope": {  
+    "business_ids": [  
+      "string"  
+    ]  
+  },  
+  "items": [  
+    {  
+      "merchant_supplied_item_id": "string",  
+      "name": "string",  
+      "description": "string",  
+      "product_traits": [  
+        "ALCOHOL"  
+      ],  
+      "other_identifiers": [  
+        {  
+          "identifier_type": "UPC",  
+          "identifier_value": "string"  
+        }  
+      ],  
+      "images": [  
+        {  
+          "url": "string",  
+          "sort_id": 0  
+        }  
+      ],  
+      "size": {  
+        "details": {  
+          "dimensions": {  
+            "length": {  
+              "value": 2.50,  
+              "unit": "inch"  
+            },  
+            "width": {  
+              "value": 1.25,  
+              "unit": "inch"  
+            },  
+            "height": {  
+              "value": 4.50,  
+              "unit": "inch"  
+            }  
+          },  
+          "weight": {  
+            "value": 1.12,  
+            "unit": "lbs"  
+          },  
+          "volume": {  
+            "value": 3.10,  
+            "unit": "oz"  
+          },  
+          "product_specific_size_definition": {  
+            "value": "string",  
+            "description": "string"  
+          }  
+        },  
+        "pack_size_details": {  
+          "count_per_pack": 0,  
+          "per_item_size_details": {  
+            "dimensions": {  
+              "length": {  
+                "value": 0,  
+                "unit": "inch"  
+              },  
+              "width": {  
+                "value": 0,  
+                "unit": "inch"  
+              },  
+              "height": {  
+                "value": 0,  
+                "unit": "inch"  
+              }  
+            },  
+            "weight": {  
+              "value": 0,  
+              "unit": "lbs"  
+            },  
+            "volume": {  
+              "value": 0,  
+              "unit": "oz"  
+            },  
+            "product_specific_size_definition": {  
+              "value": "string",  
+              "description": "string"  
+            }  
+          }  
+        }  
+      },  
+      "weighted_item_info": {  
+        "average_weight_per_each": 0,  
+        "average_weight_measurement_unit": "ea",  
+        "shop_by_measurement_unit": "kg",  
+        "price_by_measurement_unit": "kg"  
+      },  
+      "brand_info": {  
+        "name": "string"  
+      },  
+      "program_eligibility": [  
+        "SNAP"  
+      ],  
+      "item_categorizations": [  
+        {  
+          "category": {  
+            "name": "string",  
+            "sub_category": {}  
+          }  
+        }  
+      ],  
+      "product_attributes": [  
+        {  
+          "attribute_name": "string",  
+          "attribute_value": {  
+            "single_select_string": "string"  
+          }  
+        },  
+        {  
+          "attribute_name": "string",  
+          "attribute_value": {  
+            "multi_select_string": [  
+              "string"  
+            ]  
+          }  
+        },  
+        {  
+          "attribute_name": "string",  
+          "attribute_value": {  
+            "single_select_bool": true  
+          }  
+        },  
+        {  
+          "attribute_name": "string",  
+          "attribute_value": {  
+            "multi_select_bool": [  
+              true  
+            ]  
+          }  
+        }  
+      ]  
+    }  
+  ]  
+}  
+
+```
+
+### Overview of Parameters[​](#overview-of-parameters "Direct link to heading")
+
+| Parameter Name | Type | Description | Accepted Values | Required |
+| --- | --- | --- | --- | --- |
+| merchant\_supplied\_item\_id | string | Merchant supplied ID to identify an item uniquely within business across all stores. Every item can be shopped by customer must be represented as an unique item | - | Yes |
+| name | string | Item name provided without any additional attributes (size, brand) OR Item name provided exactly as how it should be uploaded into catalog (including brand, size info) - in the following order: brand > item name > size. | - | Yes |
+| description | string | Description provided in HTML or plain text | - | No |
+| product\_traits | Array of strings | Specifies the type of product(s) | "ALCOHOL," "MEDICATION," "WEIGHTED" | No |
+| other\_identifiers | Array of objects | Other identifiers associated with the item. UPC = UPC provided per SKU | - | No |
+| images | Array of objects | Images of the item | - | Yes |
+| size | object | Size of the item | - | No |
+| weighted\_item\_info | object | Attributes related to items sold by weights | - | No |
+| brand\_info | object | Brand of the item if applicable | - | No |
+| program\_eligibility | Array of strings | Program eligibility of the item | "SNAP," "HSA," "FSA" | No |
+| item\_categorizations | Array of objects | SKU path received in separate fields in L1 - L5 category. Must be granular (e.g. Not 'Makeup' but instead 'Bronzer') | - | No |
+
+### Object Tables[​](#object-tables "Direct link to heading")
+
+Values for dimensions, weight, and volume must not exceed two decimal places.
+
+#### Other Identifiers Object[​](#other-identifiers-object "Direct link to heading")
+
+| Parameter Name | Type | Description | Accepted Values | Required |
+| --- | --- | --- | --- | --- |
+| identifier\_type | string | Type of identifier | "UPC," "PLU," "NSC2," "GTIN" | No |
+| identifier\_value | string | Identifier value | - | No |
+
+#### Images Object[​](#images-object "Direct link to heading")
+
+| Parameter Name | Type | Description | Accepted Values | Required |
+| --- | --- | --- | --- | --- |
+| url | string | Item image URL in JPG or PNG format, min resolution (1400 x 800px), aspect ratio 16:9, max size 2MB. | - | Yes |
+| sort\_id | integer | Order in which images should be displayed | - | No |
+
+#### Size Object[​](#size-object "Direct link to heading")
+
+| Parameter Name | Type | Description | Accepted Values | Required |
+| --- | --- | --- | --- | --- |
+| details | object | Size details of the item | - | No |
+| pack\_size\_details | object | Item size details per pack | - | No |
+
+##### Size Details Object[​](#size-details-object "Direct link to heading")
+
+| Parameter Name | Type | Description | Accepted Values | Required |
+| --- | --- | --- | --- | --- |
+| dimensions | object | Dimension of the product | - | No |
+| weight | object | Weight of the product | - | No |
+| volume | object | Volume of the product | - | No |
+| product\_specific\_size\_definition | object | Product-specific size definition | - | No |
+
+###### Dimensions Object[​](#dimensions-object "Direct link to heading")
+
+| Parameter Name | Type | Description | Accepted Values | Required |
+| --- | --- | --- | --- | --- |
+| length | object | Length of the product | - | No |
+| width | object | Width of the product | - | No |
+| height | object | Height of the product | - | No |
+
+###### Weight Object[​](#weight-object "Direct link to heading")
+
+| Parameter Name | Type | Description | Accepted Values | Required |
+| --- | --- | --- | --- | --- |
+| value | number | Weight value of the product | - | No |
+| unit | string | Unit of weight (lbs, gm) | "lbs," "gm" | No |
+
+##### Volume Object[​](#volume-object "Direct link to heading")
+
+| Parameter Name | Type | Description | Accepted Values | Required |
+| --- | --- | --- | --- | --- |
+| value | number | Volume value of the product | - | No |
+| unit | string | Unit of volume (oz) | "oz" | No |
+
+##### Product-Specific Size Definition Object[​](#product-specific-size-definition-object "Direct link to heading")
+
+| Parameter Name | Type | Description | Accepted Values | Required |
+| --- | --- | --- | --- | --- |
+| value | string | Value of the product-specific size definition | - | No |
+| description | string | Description of the product-specific size | - | No |
+
+##### Pack Size Details Object[​](#pack-size-details-object "Direct link to heading")
+
+| Parameter Name | Type | Description | Accepted Values | Required |
+| --- | --- | --- | --- | --- |
+| count\_per\_pack | number | Number of items per pack | - | No |
+| per\_item\_size\_details | object | Size details per item in the pack | - | No |
+
+##### Per Item Size Details Object[​](#per-item-size-details-object "Direct link to heading")
+
+| Parameter Name | Type | Description | Accepted Values | Required |
+| --- | --- | --- | --- | --- |
+| dimensions | object | Dimension of the product | - | No |
+| weight | object | Weight of the product | - | No |
+| volume | object | Volume of the product | - | No |
+| product\_specific\_size\_definition | object | Product-specific size definition | - | No |
+
+#### Weighted Item Info Object[​](#weighted-item-info-object "Direct link to heading")
+
+| Parameter Name | Type | Description | Accepted Values | Required |
+| --- | --- | --- | --- | --- |
+| average\_weight\_per\_each | number | Average weight per each item or pack | - | No |
+| average\_weight\_measurement\_unit | string | Unit of measurement (ea, kg, lb, gm, oz) | "ea", "kg," "lb," "gm," "oz" | No |
+| shop\_by\_measurement\_unit | string | How the item is shown to customers | "ea", "kg," "lb," "gm," "oz" | No |
+| price\_by\_measurement\_unit | string | How the item is priced | "ea", "kg," "lb," "gm," "oz" | No |
+
+#### Brand Info Object[​](#brand-info-object "Direct link to heading")
+
+| Parameter Name | Type | Description | Accepted Values | Required |
+| --- | --- | --- | --- | --- |
+| name | string | Name of the brand | - | No |
+
+#### Category Object[​](#category-object "Direct link to heading")
+
+| Parameter Name | Type | Description | Accepted Values | Required |
+| --- | --- | --- | --- | --- |
+| name | string | Name of the cateogry | - | No |
+| sub\_category | object | Recursive object allowing for multiple levels of cateogry data | - | No |
+
+### Recommended for Alcohol Items[​](#recommended-for-alcohol-items "Direct link to heading")
+
+| Attribute | Type | Description | Payload JSON Snippet | Required |
+| --- | --- | --- | --- | --- |
+| Alcoholic item flag | array of strings | Flag alcohol items | `..."product_traits": ["ALCOHOL"],...` | Required |
+| Item size and unit of measurement | string | Indicate size of item | `..."size": {"details": {"product_specific_size_definition": {"value": "750","description": "ml"} } }...` | Required |
+| Container type (with pack size) | object | Indicate type of container (along with pack size) | `..."product_attributes": [ { "attribute_name": "item_count", "attribute_value": { "multi_select_string": [ "6pk cans" ] } }]...` | Recommended |
+| Pack size | object | Indicate number of items in each pack as sold | `..."size": {"pack_size_details": {"count_per_pack": 6} }...` | Recommended |
+| Product volume and unit of measurement (only ounces "oz" accepted) | number | Indicate overall volume sold | `..."size": {"details": {"volume": {"value": 12,"unit": "oz"} } }...` | Recommended |
+| Bottle deposit fee eligible | boolean | Flag items as eligible for bottle deposit fee | `..."product_attributes": [ { "attribute_name": "is_package_fee_eligible", "attribute_value": { "single_select_bool": true } }]...` | Recommended |
+| CBD flag | boolean | Flag CBD items | `..."product_attributes": [ { "attribute_name": "restriction_type", "attribute_value": { "multi_select_string": ["CBD"] } }]...` | Required for CBD items |
+

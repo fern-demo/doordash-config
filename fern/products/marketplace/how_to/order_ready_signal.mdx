@@ -1,0 +1,181 @@
+## Overview[​](#overview "Direct link to heading")
+
+### What is Order Ready Signal?[​](#what-is-order-ready-signal "Direct link to heading")
+
+* Order Ready Signal (ORS) is a timestamp integration partners can share with DoorDash that captures when an order is complete and ready for pickup by the Dasher (delivery orders) or the Customer (pickup orders).
+* Order Ready Signal can typically be mapped to existing signals in your integration (Order Ready button from a hardware device, or a bump from a KDS screen), we can also partner with you to develop an easy way to pass this signal.
+
+### Why Implement Order Ready Signal?[​](#why-implement-order-ready-signal "Direct link to heading")
+
+* Order Ready Signal is an easy-to-implement way to prevent late Dasher arrivals, a core Merchant pain point.
+* With just a few lines of code, integration partners can leverage existing endpoints to improve the Merchant experience and increase revenue.
+* If an order is ready faster than expected, Order Ready Signal acts as a trigger that immediately assigns the closest Dasher available, leading to a more efficient delivery.
+
+### Benefits[​](#benefits "Direct link to heading")
+
+**For Merchants:**
+
+* **Fewer order-remakes & customer refunds:** Dashers arrive on time, saving the restaurant time and money.
+* **Increased Sales:** Partners that implemented this feature have seen an increase in order volume up to 0.2%.
+
+**For Customers:**
+
+* **Faster deliveries:** Dashers pickup and deliver orders more quickly.
+* **Better food quality:** Increased customer satisfaction as food arrives fresh.
+
+**Real World Example:**
+
+A case study conducted with a top DoorDash integration partner who implemented Order Ready Signal to improve their pickup time precision resulted in:
+
+* **6%** reduction in late Dasher Arrivals
+* **22 second** reduction in total delivery time
+* **2.3%** reduction in Customer-reported food quality issues
+
+### Who Should Implement?[​](#who-should-implement "Direct link to heading")
+
+This feature is recommended for all restaurant partners integrated with DoorDash’s Menu and Orders APIs, including POS providers, order aggregators, and directly integrated Merchants focused on delivering a high quality online ordering and delivery experience.
+
+### What makes a successful Order Ready Signal launch?[​](#what-makes-a-successful-order-ready-signal-launch "Direct link to heading")
+
+**Clear understanding of Order Ready Signal Mapping**
+
+* Understand where the signal comes from, how it’s generated (automated vs merchant action required)
+
+**Ease of Access**
+
+* Build order ready signal in the lowest-friction way to drive more wins for our shared partners. Treat any settings that enable ORS at the business or store level as default “on” (vs a toggle partners must turn on via a portal) to drive the best outcomes for your customers.
+
+**Improve Customer Experience**
+
+* Get credit for improving your integration offerings
+* Share launch news with your customers via your communication channels
+
+## Feature Requirements[​](#feature-requirements "Direct link to heading")
+
+### Technical Requirements[​](#technical-requirements "Direct link to heading")
+
+* You will need to [generate a JWT Auth token](https://developer.doordash.com/en-US/docs/marketplace/how_to/JWTs).
+* Endpoint: PATCH `https://openapi.doordash.com/marketplace/api/v1/orders/{id}/events/{event_type}`
+* Required components:
+  + `id`: this value is passed from DoorDash on the order object. This is the same id field that is required to confirm the order.
+  + `merchant_supplied_id`: this value is passed from the provider to DoorDash when the provider confirms the order. This is usually the internal POS order ID.
+  + `event_type`: `order_ready_for_pickup` is the value included in the URL parameters.
+
+### Implementation Checklist[​](#implementation-checklist "Direct link to heading")
+
+#### Step 1: Receive an order[​](#step-1-receive-an-order "Direct link to heading")
+
+Refer to the [order confirmation documentation](http://localhost:3000/docs/marketplace/how_to/order_integration) on how to receive and confirm an order.
+
+#### Step 2: Notify DoorDash the order is ready[​](#step-2-notify-doordash-the-order-is-ready "Direct link to heading")
+
+The below request should be sent to the endpoint whenever in-store operators are finished preparing the order and it is ready for pickup by the Dasher or Customer.
+
+PATCH
+`https://openapi.doordash.com/marketplace/api/v1/orders/{id}/events/order_ready_for_pickup`
+
+**Example Payload:**
+
+```
+{  
+"merchant_supplied_id": "1dfa934a-190c-43a9-b2e0-449e5b8cccde"  
+}  
+
+```
+
+### Response Status Codes[​](#response-status-codes "Direct link to heading")
+
+| Status Code | Details |
+| --- | --- |
+| 202 | OK |
+| 400 | Order has expired |
+| 401 | Request is unauthenticated |
+| 403 | Access is denied |
+| 404 | Order with provided ID does not exist |
+| 429 | Request is rate limited |
+| 500 | Internal Server Error |
+
+### Testing and Validation[​](#testing-and-validation "Direct link to heading")
+
+1. [Place a pickup test order via the developer portal](https://developer.doordash.com/en-US/docs/marketplace/how_to/create_a_test_order)
+2. [Confirm the test order.](https://developer.doordash.com/en-US/api/marketplace#tag/Order-Endpoints/operation/confirmOrder)
+3. Using the `id`(order) received in Step 1 and the `merchant_supplied_id` sent in Step 2, send an `order_ready_for_pickup` request to DoorDash.
+4. If a `202` status response is received, the request was successfully processed by DoorDash.
+5. Check that the status of the test order has updated to ‘Ready for Pickup’ in the order tracking page:
+
+   * Before the order ready signal is received, the status should say "Preparing your order":
+     
+   * After the order ready signal is received, the status will update to “Ready for pickup”:
+     
+
+## User Flow Recommendations[​](#user-flow-recommendations "Direct link to heading")
+
+**Intended Users:**
+
+* All restaurant staff that interact with an order should have permissions to mark an order ready for pickup, including:
+  + Non-managerial store operators
+  + Expediters
+  + Cashiers
+  + Line cooks
+  + Managers
+* Scenarios where the feature will be most valuable.
+  + ORS is most valuable at the end of the cooking and bagging process to indicate the time when an order is ready to hand off to a Dasher
+  + Example: Dashers arriving late → Merchant can send Order Ready Signal that will prompt DoorDash to immediately start dispatching the nearest Dasher for the order.
+
+**Optimal User Experience:**
+
+* **KDS**
+
+  + Button to mark “order ready for pickup”
+  + Swipe “order complete”
+* **Leverage existing order ready signal available in your UI**
+
+  + If the restaurant already captures this signal in the POS or KDS, use this to send the signal to DoorDash.
+  + Example below:
+
+
+
+**Key features of "good Order Ready Signal"**
+
+* The signal should integrate with existing operational flows (for example: If merchants swipe orders off their KDS, or tap, “completed” on their Point of Sale).
+* Order Ready Signal should be accessible for every order
+
+**Example Store Operator workflows**
+
+* The operator would hit “order ready” when it is packed and ready to hand off
+* The operator can swipe the order off the screen once it is complete and ready to hand off
+* The operator can click "yes" to close an "order complete?" pop up
+
+## Feature Rollout and Announcement[​](#feature-rollout-and-announcement "Direct link to heading")
+
+**Best Practices for Announcing the Feature**
+
+* Recommend timing announcements 1 week prior to go-live date
+* What to include in an announcement
+  + **Overview:** Brief description of Order Ready Signal, include screenshots and links as available *(Example: Order Ready Signal is an easy-to-implement solution that allows restaurants to mark an order as ready for pickup in real-time, increasing order efficiency.)*
+  + **Why use Order Ready Signal:** Details on the benefit of using Order Ready Signal
+  + **Get started with Order Ready Signal:** Details on how Merchants can access the feature from their POS system
+  + **Additional Resources / Guidance:** Include FAQs and details on how Merchants can contact support to troubleshoot
+
+**Documentation and Resources for Restaurants**
+
+* Publish a help article on your website, informing Merchants about how to use this functionality.
+
+## FAQ[​](#faq "Direct link to heading")
+
+* **Who can I reach out to for support with implementation?** 
+  + Reach out to [DoorDash Developer Portal support](https://developer.doordash.com/en-US/docs/marketplace/how_to/request_support).
+* **Are there any best practices for optimizing performance during integration?**
+  + If a feature already exists to mark an order as ready, it should be extended to pass that signal to DoorDash, rather than creating a net-new feature specifically for DoorDash orders.
+  + If you do not have this functionality already, DoorDash can help provide guidance on best practices, if requested.
+* **Why is Order Ready Signal important to implement?**
+  + Order Ready Signal is a low lift signal that can get dashers to your customers faster. Faster delivery times lead to happier customers and customers who will return to order again. This is a low lift feature that can help boost sales and improve the customer experience.
+* **Do I need to reach out to DoorDash to enable this feature?** 
+  + No, this feature should be fully self-serve. Please follow the steps in this guide.
+
+## Appendix[​](#appendix "Direct link to heading")
+
+* How to create a JWT - More details [here](https://developer.doordash.com/en-US/docs/drive/how_to/JWTs)
+* How to place a test order - More details [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/create_a_test_order)
+* Sample order ready signal payload - More details [here](https://developer.doordash.com/en-US/docs/marketplace/reference/sample_order)
+

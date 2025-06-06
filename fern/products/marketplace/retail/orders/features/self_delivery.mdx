@@ -1,0 +1,208 @@
+# Enable Self Delivery
+
+# Enable self-delivery
+
+## Prerequisites[​](#prerequisites "Direct link to heading")
+
+Some merchants with an in-house fleet prefer using their own drivers. We launched
+self-delivery to allow merchants to benefit from our marketing service by featuring their
+restaurant on our platform.
+
+## Overview[​](#overview "Direct link to heading")
+
+DoorDash rolled-out a new product called ‘Self-Delivery’ that allows restaurants to be featured
+on doordash.com, but fulfill orders with their own delivery fleet. Additional information is passed
+through to the merchant to guarantee a smooth Self-Delivery experience.
+
+## Get Started[​](#get-started "Direct link to heading")
+
+### How[​](#how "Direct link to heading")
+
+Self-Delivery is configured at the store level in DoorDash. When a store is configured for
+Self-Delivery, DoorDash will send additional fields on the order payload (sample). This
+information will give the merchant the details that are required to deliver an order. These
+fields include:
+
+* `address_instructions` : Any delivery level instructions entered by the customer (example: Gate Code to enter apartment building is 1234)
+* `delivery_address` : Customer’s delivery address information
+* `delivery_fee` : Delivery fee that was charged to the customer
+
+Additionally, some POS systems and merchants require that these orders are sent with a type
+of ‘delivery’ rather than the usual ‘pickup’ order type. If required by the merchant, aggregators
+will need to send this delivery type to the POS system.
+
+## FAQ[​](#faq "Direct link to heading")
+
+1. **How is a store’s delivery radius determined?**
+
+In addition to marking the store as Self-Delivery, merchants set their own delivery radius for the store. Merchants can set a simple circular radius around the store, or if they provide a map, a custom delivery zone. In order to set up a custom delivery zone DoorDash will need a KML file showing the borders they want.
+
+2. **Can merchants toggle between in-house and Doordash fulfillment?**
+
+In the current state, a store must be able to complete 100% of deliveries. There is
+no toggling between in-house and DoorDash fulfillment. However, we are looking to
+introduce a ruled based ‘toggle functionality’ in early 2021.
+
+3. **If the store receives an order that it cannot deliver, what should be done?**
+
+The store can either manually request a DoorDash Driver for fulfillment through our web
+based Drive Form or cancel the order (discouraged).
+
+4. **If the store’s delivery radius is set eg. 1 mile around the store, will orders outside
+   of 1 mile be delivered by DoorDash?**
+
+No .Currently there is no ‘toggle functionality’ that allows merchants to automatically
+fulfill orders by DoorDash. However, we are planning to build a rule based logic in early
+FY21 that allows merchants to automatically assign orders outside x miles to DoorDash
+drivers.
+
+5. **What is ‘rule based logic’?**
+
+Rule based logic will allow merchants to automatically assign orders to in-house or
+DoorDash drivers based on predefined rules. The first rules we are going to build are
+time and distance based. Eg. a merchant can set up their store to use in-house drivers
+from 10am to 6pm and DoorDash drivers from 6pm to 10pm. Similarly, the merchant can
+automatically assign orders outside of eg. 5 miles to DoorDash drivers but use in-house
+Drivers for orders within 5 miles.
+
+**Example Order**
+
+```
+{  
+   "order":{  
+      "id":"6db24d02-e25f-4acb-aeb0-e387b1335791",  
+      "tax":94,  
+      "subtotal":1564,  
+      "estimated_pickup_time":"2020-12-16T13:00:04.261429+00:00",  
+      "is_pickup":false,  
+      "tip_amount":100,  
+      "delivery_address":{  
+         "city":"Atlanta",  
+         "subpremise":"205",  
+         "address_instructions":"Leave at my door:Building 23 Red doormat",  
+         "state":"GA",  
+         "street":"1234 May Ave SE",  
+         "lat":"42.1234567",  
+         "lng":"-83.1234567",  
+         "zip_code":"30316",  
+         "country_code":"US"  
+      },  
+      "consumer":{  
+         "id":42298631,  
+         "first_name":"Kelley",  
+         "last_name":"B",  
+         "email":"[email protected]",  
+         "phone":"1231234567"  
+      },  
+      "store":{  
+         "merchant_supplied_id":"601135",  
+         "provider_type":"posprovider1",  
+         "timezone":"US/Eastern"  
+      },  
+      "categories":[  
+         {  
+            "merchant_supplied_id":"10054",  
+            "name":"Sides & Spreads",  
+            "items":[  
+               {  
+                  "name":"Plain Cream Cheese",  
+                  "quantity":1,  
+                  "price":139,  
+                  "merchant_supplied_id":"P:781122",  
+                  "consumer_name":"Kelley",  
+                  "extras":[  
+                       
+                  ],  
+                  "special_instructions":""  
+               }  
+            ]  
+         },  
+         {  
+            "merchant_supplied_id":"10033",  
+            "name":"Breakfast",  
+            "items":[  
+               {  
+                  "name":"Plain Bagel",  
+                  "quantity":1,  
+                  "price":149,  
+                  "merchant_supplied_id":"P:780709",  
+                  "consumer_name":"Kelley",  
+                  "extras":[  
+                     {  
+                        "merchant_supplied_id":"Toast & Slice",  
+                        "name":"Toast & Slice",  
+                        "options":[  
+                           {  
+                              "name":"Sliced & Toasted",  
+                              "quantity":1,  
+                              "price":0,  
+                              "merchant_supplied_id":"X:780471",  
+                              "extras":[  
+                                   
+                              ]  
+                           }  
+                        ]  
+                     }  
+                  ],  
+                  "special_instructions":""  
+               },  
+               {  
+                  "name":"Bacon, Scrambled Egg & Cheese on Brioche",  
+                  "quantity":1,  
+                  "price":678,  
+                  "merchant_supplied_id":"P:90556",  
+                  "consumer_name":"Kelley",  
+                  "extras":[  
+                     {  
+                        "merchant_supplied_id":"Customize Your Selection?",  
+                        "name":"Customize Your Selection?",  
+                        "options":[  
+                           {  
+                              "name":"No Folded Scrambled Egg",  
+                              "quantity":1,  
+                              "price":0,  
+                              "merchant_supplied_id":"I:802610",  
+                              "extras":[  
+                                   
+                              ]  
+                           }  
+                        ]  
+                     },  
+                     {  
+                        "merchant_supplied_id":"Eggs",  
+                        "name":"Eggs",  
+                        "options":[  
+                           {  
+                              "name":"Folded Egg White (30 Cal.)",  
+                              "quantity":1,  
+                              "price":109,  
+                              "merchant_supplied_id":"I:90136",  
+                              "extras":[  
+                                   
+                              ]  
+                           }  
+                        ]  
+                     }  
+                  ],  
+                  "special_instructions":""  
+               }  
+            ]  
+         }  
+      ],  
+      "delivery_short_code":"897176",  
+      "tax_transaction_id":"6db24d02-e25f-4acb-aeb0-e387b1335791",  
+      "delivery_fee":299,  
+      "taxes_on_fees":18,  
+      "extra_cart_order_fee":0,  
+      "commission_type":"dashpass",  
+      "is_tax_remitted_by_doordash":true,  
+      "tax_amount_remitted_by_doordash":94  
+   }  
+}                            
+
+```
+
+---
+
+*Modified: 5/01/2023*
+

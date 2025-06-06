@@ -1,0 +1,38 @@
+# Release notes
+
+Limited access
+
+<Warning>
+Marketplace APIs are not yet generally available. Please record interest in early access [here](https://docs.google.com/forms/d/e/1FAIpQLSfggU_NjGWCdi9vyWUicrnzJmtu9vC4zgbfSC3ROwSvW4eV2g/viewform).
+</Warning>
+
+| Date Updated | Release Notes |
+| --- | --- |
+| 2/22/24 | * **Search AI Tool** - Save Time by quickly finding the information you need without manual searches and streamline your troubleshooting skills using existing Developer Tools on top of the new doc navigation assistant for instant responses. * **Production Test Orders** - test ordering functionality has been extended for production stores More details [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/create_a_test_order/) * **Simplified Menu Updates** - A new feature in our Developer Portal that allows you to trigger menu updates seamlessly for both test and production stores within your integration.More details [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/ingest_and_update_menus/) * **Event Log Enhancements** - filters have undergone enhancements, enabling easy search by date and time. Additional events related to onboarding APIs/Webhooks have been added. * **Streamlined Bulk Onboarding via CSV Upload** - new tool designed to streamline the onboarding process for partners managing multiple locations with single location SSIO integration. More details [here](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/) |
+| 8/29/23 | Updated Special Hours Logic. Special hours can now be used to extend regular store hours. More details [here](https://developer.doordash.com/en-US/docs/marketplace/explainers/menu_configuration_reference/#store-special-hours). |
+| 7/21/23 | Updated Menu Mapping Logic. Our menu creation flow has been modified to prevent the creation of duplicate menus for a store on our Marketplace! More details [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_integration/#preventing-duplicate-menus) |
+| 7/21/23 | Added GET Menu API. We have released a new endpoint for integration partners to get the active menu(s) of a merchant who is onboarding to a new integration via SSIO or is already live on the integration. Please note that if this data is currently being accessed via any other method, integration partners must adopt this new endpoint as part of our secure OpenAPI offering. More details [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/get_doordash_menu/). |
+| 6/13/23 | Updated Menu Configuration Reference. DoorDash has enhanced our Developer Portal Documentation to include a detailed Menu Configuration Guide and Postman Collection to assist our partners in interacting with our Menu API. More details [here](https://developer.doordash.com/en-US/docs/marketplace/explainers/menu_configuration_reference/) |
+| 6/13/23 | Updated Store Availability Webhook Updates. DoorDash has enhanced our Store Availability webhook handling to more accurately record deactivation events within the DoorDash system as a ‘Temporary Closure’. More details [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/store_and_item_status/#store-activation-status-change) |
+| 6/13/23 | Updated Business Level Auto Temporary Deactivation (ATD). DoorDash has enhanced our outage-handling procedures to mitigate the negative impact that outages have on our shared customers and merchants, a new version of our Auto-Temporary Deactivation solution will be deployed. No action is required by our integration partners. Please reach out to your DoorDash Technical Account Manager with any questions. |
+| 3/1/23 | Updated Order Adjustment Endpoints to include Substituion support. If you are interested in building support, please reach out to your Technical Account Manager. More details [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/open_api_one_pager/) |
+| 2/1/23 | Added Store Deactivation Webhook Notifications. If you are interested in building support, configure the subscription in Developer Portal. More details [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/store_temp_deac/) |
+| 1/5/23 | Updated Scheduled Order Immediate Transmission - We have enhanced our order logic and can now support the ability to send Scheduled Orders to the POS Integration Partner as soon as the order is placed on DoorDash to allow our POS Partners to control. Please reach out to your Technical Account Manager if you are interested in enabling this feature. |
+| 1/5/23 | Added Dasher Status Webhooks - New Dropoff Status. DoorDash has added a new status as part of our Dasher Status Updates to include a notification when the order has been dropped off at the customer’s location. More details [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/dasher_status_webhooks/) |
+| 9/20/22 | Added Pick Up Instructions information. More details [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/pickup_instructions) |
+| 8/17/22 | Added Masked Customer Phone Number information. More details [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/masked_cx_phone_number) |
+| 3/3/22 | Added Order Cancel Endpoints information. More details [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/merchant_order_cancellation) |
+| 3/3/22 | Added Order Adjustment Endpoints information. More details [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/merchant_order_adjustment) |
+| 2/8/22 | Added Calorie and Dietary Tag information. If you are interested in building support, you can start sending these fields in the Menu API today. More details [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/nutritional_info#step-1-alter-menu-payload) |
+| 2/8/22 | Added Order Cancellation Webhook, Plasticware Opt-In, and Recipe Feature details. If you are interested in building support, please reach out to your Technical Account Manager, as this requires additional configuration. |
+| 10/12/21 | Added Order Patch Event details for the Food Ready for Pickup Signal. If you are interested in building support, please reach out to your Technical Account Manager, as this requires additional token setup. |
+| 9/28/21 | Updated payload to add event header in dasher status webhooks |
+| 9/27/21 | Updated `delivery_short_code` to UUID format |
+| 8/24/21 | Added support for dasher status webhooks. More details [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/dasher_status_webhooks) |
+| 7/12/21 | Added `experience` and `merchant_tip_amount` for orders |
+| 4/26/21 | Updated details for `delivery_fee` and `tip_amount` for Marketplace Orders |
+| 4/15/21 | Updated GET Store Info endpoint response payload to remove `is_active` flag. More details linked [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/get_menu_and_store_info). |
+| 3/23/21 | Added additional info for the Menu Pulling Webhook. More details [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_pull). |
+| 3/08/21 | Updated Auto Order Release information to include Dasher Vehicle Information. More details linked [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/order_integration#auto-order-release-aor). |
+| 2/25/21 | Added GET Store Info endpoint and GET Store Menu Info endpoint. More details linked [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/get_menu_and_store_info). |
+

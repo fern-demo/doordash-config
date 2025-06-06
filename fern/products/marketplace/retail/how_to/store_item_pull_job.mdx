@@ -1,0 +1,137 @@
+## Overview[​](#overview "Direct link to heading")
+
+As part of the integration workflow, partners can implement an endpoint that allows DoorDash to pull and replace all StoreItems sold in a store location. This effectively refreshes the item availability and pricing visible to Customers shopping on DoorDash.
+
+The response from this endpoint should match [BatchAddOrUpdateStoreItemRequest request model](https://developer.doordash.com/en-US/api/marketplace_v2/#tag/ItemManagementModels/BatchAddOrUpdateStoreItemRequest).
+
+Partners can trigger the job creating a StoreItem pull job by [POST /api/v2/jobs](https://developer.doordash.com/en-US/api/marketplace_v2/#tag/JobManagementEndpoints/operation/createJobs) with [CreateJob request](https://developer.doordash.com/en-US/api/marketplace_v2/#tag/ItemManagementModels/CreateJobRequest) by using one of the two job types:
+
+* "PULL\_STORE\_ITEMS" - if you can return all items in one pull call for one store
+* "PULL\_STORE\_ITEMS\_WITH\_PAGINATION" - if cannot return all items in a single pull and need to use a paginated version
+
+The job parameters in CreateJobRequest should match [CreatePullStoreItemsJobParameters](https://developer.doordash.com/en-US/api/marketplace_v2/#tag/ItemManagementModels/CreatePullStoreItemsJobParameters).
+
+## Get Started[​](#get-started "Direct link to heading")
+
+---
+
+### Step 1: Set up Endpoint Specification to Pull StoreItem[​](#step-1-set-up-endpoint-specification-to-pull-storeitem "Direct link to heading")
+
+The set up of the endpoint is:
+
+**GET**
+`/{merchant_pull_endpoint}/{store_location_id}`
+
+or, for paginated flow:
+
+**GET**
+`/{merchant_pull_endpoint}/{store_location_id}?page_num={page_number}`
+
+`store_location_id` is the unique Merchant Supplied ID that is configured for that store location. The endpoint will deliver the full inventory for 1 single location at a time.
+`page_number` is the page of the data that needs to be fetched. Data will be fetched page by page if using the paginated flow.
+
+**Once the endpoint is ready, reach out to your Technical Account Manager to register the endpoint with DoorDash.**
+
+Currently we support static tokens and Oauth authentication mechanisms when calling Pull Store Item endpoint. If DoorDash needs to authenticate with your endpoint using Oauth, please share the oauth endpoint with Technical Account Manager to register in DoorDash.
+
+### Step 2: Ensure that storeItems.json response from endpoint has the correct format[​](#step-2-ensure-that-storeitemsjson-response-from-endpoint-has-the-correct-format "Direct link to heading")
+
+As mentioned above, the StoreItem Pull request must return the response that matches [BatchAddOrUpdateStoreItemRequest request model](https://developer.doordash.com/en-US/api/marketplace_v2/#tag/ItemManagementModels/BatchAddOrUpdateStoreItemRequest)
+
+*Note: The response should contain all StoreItems in a store. DoorDash will replace all StoreItem attributes of the store with the ones from the json response when calling the pull job endpoint.*
+
+Sample response expected from endpoint:
+
+```
+{  
+  "items": [  
+      
+    {  
+      "merchant_supplied_item_id": "1",  
+      "item_availability": "ACTIVE",  
+      "price_info": {  
+        "base_price": 1099,  
+        "sale_price": 999,  
+      }  
+    },   
+    {  
+      "merchant_supplied_item_id": "2",  
+      "item_availability": "INACTIVE",  
+      "price_info": {  
+        "base_price": 599,  
+        "sale_price": 599,  
+      }  
+    }  
+    .  
+    .  
+    .  
+    {  
+      "merchant_supplied_item_id": "10000",  
+      "item_availability": "ACTIVE",  
+      "price_info": {  
+        "base_price": 499,  
+        "sale_price": 499,  
+      }  
+    },   
+  ]  
+}  
+  
+
+```
+
+If you are using the paginated pull flow, expect additional response in the "meta" fields:
+
+```
+{  
+  "meta":  
+      
+    {  
+      "current_page": "1",  
+      "page_size": "500", //number of items on the page  
+      "total_page": "100" //total number of pages  
+    }  
+}  
+  
+
+```
+
+### Step 3: Trigger StoreItem Pull by creating pull Job[​](#step-3-trigger-storeitem-pull-by-creating-pull-job "Direct link to heading")
+
+You can trigger a StoreItem pull by POST [`/api/v2/jobs`](https://developer.doordash.com/en-US/api/marketplace_v2/#tag/JobManagementEndpoints/operation/createJobs) with [CreateJob request](https://developer.doordash.com/en-US/api/marketplace_v2/#tag/ItemManagementModels/CreateJobRequest) and job parameters in CreateJobRequest should match [CreatePullStoreItemsJobParameters](https://developer.doordash.com/en-US/api/marketplace_v2/#tag/ItemManagementModels/CreatePullStoreItemsJobParameters). The CreateJob request can accept only 1 location. To pull inventory for multiple locations, you will make multiple requests to the /api/v2/jobs endpoint, one for each location.
+
+Following is a sample CreateJob request to trigger StoreItem pull *without pagination*
+
+```
+{  
+  "job_type": "PULL_STORE_ITEMS",  
+  "job_parameters": {  
+    "store_location_id": "100",  
+    "pull_mode": "REPLACE"  
+  }  
+}  
+  
+
+```
+
+Sample CreateJob request to trigger StoreItem pull *with pagination*
+
+```
+{  
+  "job_type": "PULL_STORE_ITEMS_WITH_PAGINATION",  
+  "job_parameters": {  
+    "store_location_id": "100",  
+    "pull_mode": "REPLACE"  
+  }  
+}  
+  
+
+```
+
+## Next Steps[​](#next-steps "Direct link to heading")
+
+To ensure that StoreItem Pull is working as expected, please reach out to support via Developer Portal or your Technical Account Manager (if applicable) to test StoreItem Pull.
+
+---
+
+*Modified: 3/28/2025*
+

@@ -1,0 +1,76 @@
+This page provides an in depth guide into the Inventory Feed Integration process between merchants and DoorDash. In this process, merchants take charge of creating and uploading their data files, while DoorDash expertly handles the transformation and ingestion of the data to ensure your offerings remain up to date on the DoorDash platform. Whether you're a merchant or a developer, this resource will guide you through the process, highlighting the distinct roles in achieving successful integration.
+
+**Note** The graphic below displays the preferred method of integration and may not be applicable to all.
+
+
+
+### Key Details[​](#key-details "Direct link to heading")
+
+* Data is shared via [Secure File Transfer Protocol (SFTP)](https://developer.doordash.com/en-US/docs/marketplace/inventory_feed_integration/overview#sftp-set-up)
+  + Data can include Inventory Feed and Product Catalog Files.
+  + File transfer includes store-level pricing, taxes and availability.
+* Data is transferred at least once per day.
+* Includes three options to fulfill orders.
+
+### Requirements To Begin Integration[​](#requirements-to-begin-integration "Direct link to heading")
+
+1. Security credentials for SFTP connectivity.
+   * Up to 10 OpenSSH public keys used to authenticate as the provisioned user account.
+2. Sample [Inventory Feed](/en-US/docs/marketplace/inventory_feed_integration/explainer/inventory_feed) data file
+3. Comprehensive [Product Catalog](/en-US/docs/marketplace/inventory_feed_integration/explainer/product_catalog) data file
+
+### Connectivity[​](#connectivity "Direct link to heading")
+
+#### SSH Key Generation[​](#ssh-key-generation "Direct link to heading")
+
+DoorDash provides an SFTP server to be used for file sharing between DoorDash and our external partners. To onboard a new user account on our SFTP server, we need the following:
+
+1. The IP address(es) / CIDR used to access the SFTP server. These will be added to our firewall to grant you access.
+2. Up to 10 SSH public keys used to authenticate as the provisioned user account.
+
+**Public Keys for AWS Transfer**
+Due to AWS standards, the public keys provided **must be generated in OpenSSH format**, which should look like below. You can follow [these instructions](https://cloud.google.com/compute/docs/connect/create-ssh-keys#linux-and-macos) to generate a compatible key pair and store the private key in the password vault of your choice. The public key of this pair contains no sensitive information and can be shared via any method (email, slack, etc). However, **do not share the private key with DoorDash or any external entity** under any circumstances.
+
+#### ssh-keygen[​](#ssh-keygen "Direct link to heading")
+
+Below is a command you can use on your device’s command line to generate a key pair:
+**ssh-keygen -t rsa -P "your\_pass\_phrase" -m PEM -f your\_key\_name**
+
+Note that while OpenSSH and SSH2 keys look similar, an SSH2 key cannot be used for AWS file transfer. Please check that your generated public key has the following structure before sending it to DoorDash, complete with an ssh-rsa prefix, “AAAA” leadoff, and local computer signature.
+
+Once you’ve created your key pair, send the public key to DoorDash and save the private key in the .ssh directory of the appropriate user account on the machine (server) that will perform the scheduled file delivery.
+
+##### Sample OpenSSH Public Key[​](#sample-openssh-public-key "Direct link to heading")
+
+```
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC4O+E4pZgZE5slRjXiZIeU6rAnauhf+I5Z2IXk9CK5YcB0RjmS+Wb0DkNyeFbDrb+Ci2AVRV60mlQKykdJRS/766B1rW3uF11SaALaPLhyjf/j2egdTPJwS3jiZUHUXmYO0ZyRxoQ91h2nciFDw7EFk2PKb4ceYA1tjCUjfrP2wtK/LgKJ0chIqgcHZs6ePjwGnI/ixhOPNfxtMDEHYeexIGUywcq/XA9j5nswAnmfQm02zoHBGtBQONy2jGoxrUGDQK7Yi4dx94y10oSLe6eE9Bcm9WBEms1JH1FK3FJgC24FuHnKdZH/MwrbFWbMIkplqEAHdYnFBG6Yjhy0oGKz {CREATOR LOCAL EMAIL}  
+
+```
+
+### Your Team[​](#your-team "Direct link to heading")
+
+#### Account Owner (AO)[​](#account-owner-ao "Direct link to heading")
+
+Your DoorDash AO is your point of contact for all business and operational needs.
+
+Responsibilities
+
+* Serve as a project manager for integration launch.
+* Manage operational aspects of launch.
+* Manage Ongoing partner Relationship and business growth strategy.
+
+#### Technical Account Manager (TAM)[​](#technical-account-manager-tam "Direct link to heading")
+
+Your DoorDash TAM is your point of contact for all technical questions or issues.
+
+Responsibilities:
+
+* Help set up SFTP connectivity
+* Assist with data review and mapping
+* Build inventory Feed Integration
+* Manage ongoing integration quality and potential technical issues.
+
+#### Reporting[​](#reporting "Direct link to heading")
+
+Reporting is a large part of ensuring that the integration is successful and efficient. For information on how to create reports check [here](https://developer.doordash.com/en-US/docs/reporting/overview/about_reporting)
+

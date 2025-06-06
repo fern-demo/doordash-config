@@ -1,0 +1,65 @@
+Limited access
+
+<Warning>
+Marketplace APIs are not yet generally available. Please record interest in early access [here](https://docs.google.com/forms/d/e/1FAIpQLSfggU_NjGWCdi9vyWUicrnzJmtu9vC4zgbfSC3ROwSvW4eV2g/viewform).
+</Warning>
+
+Stores on our Marketplace can be temporarily deactivated for a variety of reasons, spanning from self pausing via Merchant Portal to being automatically temporarily deactivated for quality reasons (dasher reported store as closed, high cancels, etc.). We've created webhooks that can be sent to partners whenever a store on their integration has been temporarily deactivated, either by themselves or by DoorDash.
+
+## Webhook Format[​](#webhook-format "Direct link to heading")
+
+`store`: json object w/ store information
+
+`doordash_store_id`: DD ID for store, can be inserted into "https/doordash.com/store/{"{doordash_store_id}"}" to navigate to the store **(int)**
+
+`merchant_supplied_id`: ID of store as specified by provider **(varchar)**
+
+`event`: json object w/ event information
+
+`type`: "Store Temporarily Deactivated" **(string)**
+
+`reason_id`: Internal DD ID for temp deactivation reason **(int)**
+
+`reason`: description of reason **(varchar)**
+
+`notes`: additional notes associated w/ temp deactivation **(varchar)**
+
+`start_time`: temp deactivation start time (UTC) **(datetime)**
+
+`end_time`: temp deactivation end time (UTC) **(datetime)**
+
+## Webhook Payload[​](#webhook-payload "Direct link to heading")
+
+Below is a sample payload:
+
+```
+{  
+    "store": {  
+        "doordash_store_id": 1,  
+        "merchant_supplied_id": "2"  
+    },  
+    "event": {  
+        "type": "Store Temporarily Deactivated"  
+    },  
+    "reason_id": 22,  
+    "reason": "Incorrect Store Hours",  
+    "notes": "Notes here",  
+    "start_time": "2022-11-28T22:30:19Z",  
+    "end_time": "2022-11-29T03:30:19Z",  
+}  
+  
+
+```
+
+## Response & Error Codes[​](#response--error-codes "Direct link to heading")
+
+Once a webhook is received, the provider is expected to return the following response codes
+
+| Status Code | Details |
+| --- | --- |
+| 200 | Return a 200 status to indicate that the data was received successfully |
+| 401 | Unauthorized. DoorDash does not have an auth token for this endpoint |
+| 403 | Forbidden, DoorDash does not have access to this endpoint |
+| 500 | Internal Server Error - something went wrong on the Mx side |
+| 503 | Service not available - Mx endpoint is partially or totally down |
+

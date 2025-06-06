@@ -1,0 +1,19 @@
+## Overview[​](#overview "Direct link to heading")
+
+For integration partners who have a single-brand integration with DoorDash (a direct to brand integration or a third-party system used exclusively for a single brand or parent group of brands), the onboarding flow can be standardized with two core components:
+
+1. Enterprise Partner Manager (EPM)
+   The integration/merchant must have a DoorDash-designated EPM in order to be the liaison between the merchant locations being onboarded and DoorDash. The EPM will collect the onboarding requests directly and submit them to our Bulk Activation Tooling onboarding platform to be processed. If the merchant partner does not have an EPM for any reason or at any point in time, the integration must support [SSIO](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio) or [Store Onboarding Webhooks](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/sow).
+2. Menu Pull
+   In order for the onboarding requests to be processed on our Bulk Activation Tooling onboarding platform, the integration must support (Menu Pull)[https://developer.doordash.com/en-US/docs/marketplace/reference/sample\_get\_store\_menu\_details\_response\_partner]. Onboarding requests processed through our onboarding platform are expected to see 10x higher likelihood of being activated within the expected activation timeline as compared to integrations who do not support Menu Pull. Additionally, Menu Pull reduces the back-and-forth required between the merchant partner and EPM when working through onboarding issues such as menuu ingestion failures.
+
+* **Note:** If the direct to merchant integration is a custom integration, all expected OpenAPI menu functionality is expected to be supported, including menu hours.
+
+## Specification Updates[​](#specification-updates "Direct link to heading")
+
+| Release | Notes |
+| --- | --- |
+| 1.0 (current) | Soft launch EPM spec |
+
+* [Overview](#overview)
+* [Specification Updates](#specification-updates)

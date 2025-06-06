@@ -1,0 +1,145 @@
+Limited access
+
+<Warning>
+Marketplace APIs are not yet generally available. Please record interest in early access [here](https://docs.google.com/forms/d/e/1FAIpQLSfggU_NjGWCdi9vyWUicrnzJmtu9vC4zgbfSC3ROwSvW4eV2g/viewform).
+</Warning>
+
+## Where can I find sample order data?[​](#where-can-i-find-sample-order-data "Direct link to heading")
+
+[Sample order data](/en-US/docs/marketplace/reference/sample_order)
+
+## What is a POS Order Error?[​](#what-is-a-pos-order-error "Direct link to heading")
+
+A POS Order error is when we send an order to the POS but the order failed to be injected into the POS. This can be for many reasons including POS connectivity issues, item is out of stock, menu misconfiguration, etc.
+
+## How can I tell the difference between a Customer Pickup Order and a regular Dasher Delivery Order?[​](#how-can-i-tell-the-difference-between-a-customer-pickup-order-and-a-regular-dasher-delivery-order "Direct link to heading")
+
+There is a field on the order payload called `is_pickup`. This field will be true for Customer Pickup orders. Additionally there is a field on the order payload called `fulfillment_type`. This field can be used to understand if the order is for Dasher Delivery, Merchant Delivery (Self Delivery), or Customer Pickup.
+
+## How can I tell the difference between a Dasher Fulfilled Order and a Self Delivery (Merchant Delivered) Order?[​](#how-can-i-tell-the-difference-between-a-dasher-fulfilled-order-and-a-self-delivery-merchant-delivered-order "Direct link to heading")
+
+There is a field on the order payload called `fulfillment_type`. This field can be used to understand if the order is for Dasher Delivery, Merchant Delivery (Self Delivery), or Customer Pickup.
+
+## Is there a maximum order size (basket size)?[​](#is-there-a-maximum-order-size-basket-size "Direct link to heading")
+
+There is no maximum order size based on quantity, but we do have the ability to set a maximum dollar amount on a store level basis. This can be configured by the DoorDash team when onboarding up stores. Please reach out to your DoorDash contact to configure this.
+
+## Is there a minimum dollar amount for an order?[​](#is-there-a-minimum-dollar-amount-for-an-order "Direct link to heading")
+
+If the Order Subtotal is $0, the order will fail validation in DoorDash. Besides that, there is no minimum dollar amount for an order.
+
+## How do scheduled orders work?[​](#how-do-scheduled-orders-work "Direct link to heading")
+
+DoorDash maintains logic to determine when to dispatch Scheduled Orders to our merchants depending on the estimated pickup time, the size of the order, and the store’s open hours. Based on this, DoorDash will hold the order and only fire when the order can be treated as an ASAP order by the Merchant.
+
+## Can we accept orders via Tablet with OpenAPI integration?[​](#can-we-accept-orders-via-tablet-with-openapi-integration "Direct link to heading")
+
+Once you are integrated with Open API, you should no longer be using the Tablet to accept orders. The tablet should just be used to view orders as a backup. In special cases, a store can be set up with Tablet as the fallback protocol in the case that POS order injection fails. Please reach out to the DoorDash team if you are interested in this to determine if it is a good fit.
+
+## If a store has multiple menus, is there a way to know which menu the order is from?[​](#if-a-store-has-multiple-menus-is-there-a-way-to-know-which-menu-the-order-is-from "Direct link to heading")
+
+Currently there is no flag on the order payload that notates the menu that an order was ordered from.
+
+## How can I enable the Order Cancellation Notification webhook?[​](#how-can-i-enable-the-order-cancellation-notification-webhook "Direct link to heading")
+
+You will need to provide an endpoint with the associated authorization token to be configured by the DoorDash team. After this has been configured, the DoorDash team will assist in placing a test order. Once confirmed by the Merchant, the DoorDash team will initiate a cancellation. You can then confirm the receipt of the cancellation notification.
+
+## How does Auto Release work for pickup orders?[​](#how-does-auto-release-work-for-pickup-orders "Direct link to heading")
+
+The flow for pickup is the same as delivery if the customer has location services enabled on their device. Once the customer crosses store geofence, the order release will be triggered. If the customer does not have location services enabled, then they have the option to manually check-in by clicking a button on the app. Once that Check In button is clicked, the release event will be triggered.
+
+## Will DoorDash ever retry the order POST if it is not successfully processed by the partner?[​](#will-doordash-ever-retry-the-order-post-if-it-is-not-successfully-processed-by-the-partner "Direct link to heading")
+
+Doordash will retry orders, order cancellations, and menu callbacks up to 3 times with 0.3s in between if the partner returns a 5xx response status to the initial request.
+
+## For asynchronous order confirmation, is any sort of payload body required in the initial response?[​](#for-asynchronous-order-confirmation-is-any-sort-of-payload-body-required-in-the-initial-response "Direct link to heading")
+
+No, only a 202 status is necessary for the initial acknowledgement during asynchronous order confirmation. This needs to be followed up by a valid response to successfully confirm the order.
+
+## How is the price of an item communicated in the order payload?[​](#how-is-the-price-of-an-item-communicated-in-the-order-payload "Direct link to heading")
+
+The price of an item in the order payload is calculated as the price of the item plus the sum of the price(s) of all modifiers selected within that item. In the below sample order JSON snippet, the price of the Burrito Scram Bowl is $5.00 (as designated by the menu), so the price of the item in the order payload is calculated as $5.00 + $0.10 [ketchup] + $0.00 [salt] = $5.10.
+
+```
+{  
+  "items": [  
+    {  
+      "extras": [  
+        {  
+          "merchant_supplied_id": "INDIVIDUAL_SAUCES",  
+          "name": "Signature Sauces",  
+          "options": [  
+            {  
+              "extra": [  
+                {  
+                  "merchant_supplied_id": "BREAKFAST_CONDIMENTS",  
+                  "name": "Breakfast Condiments",  
+                  "options": [  
+                    {  
+                      "merchant_supplied_id": "ADD_SALT",  
+                      "name": "Salt",  
+                      "price": 0,  
+                      "quantity": 1  
+                    }  
+                  ]  
+                }  
+              ],  
+              "merchant_supplied_id": "ADD_KETCHUP_INDIVIDUAL",  
+              "name": "KETCHUP",  
+              "price": 10,  
+              "quantity": 1  
+            }  
+          ]  
+        }  
+      ],  
+      "merchant_supplied_id": "26d3fce0-efd2-46d3-832c-ced5bc956401",  
+      "name": "Burrito Scram-Bowl",  
+      "price": 510,  
+      "quantity": 1  
+    }  
+  ]  
+}  
+
+```
+
+## How can I tell if the order was placed on Doordash, Caviar or Storefront?[​](#how-can-i-tell-if-the-order-was-placed-on-doordash-caviar-or-storefront "Direct link to heading")
+
+There is a field on the order payload called `experience` which indicates which platform the order was placed on.
+
+## How can I tell if a customer tipped on an order?[​](#how-can-i-tell-if-a-customer-tipped-on-an-order "Direct link to heading")
+
+There is a field on the order payload called `merchant_tip_amount` which will be greater than 0 (relevant only for
+pickup orders) if the customer has tipped.
+
+## How are promotions sent on the order?[​](#how-are-promotions-sent-on-the-order "Direct link to heading")
+
+Certain types of Promotions can allow for discount information to be sent on the Order Payload. Please reach out to your Technical Account Manager for more information.
+
+## How do customer cancellations work?[​](#how-do-customer-cancellations-work "Direct link to heading")
+
+Please review our cancellations policy [here](https://help.doordash.com/merchants/s/article/Do-I-get-paid-for-cancelled-orders?language=en_US) for more details around customer cancellations and how it impacts the merchant.
+
+## Should merchants manually accept or fail orders with a POS Integration?[​](#should-merchants-manually-accept-or-fail-orders-with-a-pos-integration "Direct link to heading")
+
+No, orders sent from DoorDash to the POS should be auto-confirmed or auto-rejected as part of the integration. Merchants should not have the ability to manually accept or deny orders.
+
+## How can I contact the customer about their order?[​](#how-can-i-contact-the-customer-about-their-order "Direct link to heading")
+
+By default, the order contains a general DoorDash Support phone number in the 'consumer.phone' field which can be used by Merchants to get help with an order. If additional communication with the Customer is desired, the Masked Customer Phone number feature can be enabled. This results in the order containing a phone number specific to the individual order. A successful connection through the masked number can only be made if the call originates from the store’s phone number that DoorDash has configured. To enable this feature, please contact your technical account manager
+
+## What’s the time window in which the store operator can contact the customer?[​](#whats-the-time-window-in-which-the-store-operator-can-contact-the-customer "Direct link to heading")
+
+The phone number is valid once the order has been accepted by the store to 30 minutes after the delivery is either completed or canceled.
+
+## Can store operators make masked custom calls crossing international borders?[​](#can-store-operators-make-masked-custom-calls-crossing-international-borders "Direct link to heading")
+
+This is not possible, both the store and the customer must be using the same international country codes.
+
+## What phone number does DoorDash have for my store(s)?[​](#what-phone-number-does-doordash-have-for-my-stores "Direct link to heading")
+
+The phone number associated with the store is the value shared with DoorDash during store onboarding. If you believe the phone number is correct or needs to be updated, you can update the value in the DoorDash Merchant Portal within ‘Settings’.
+
+## Can I still contact DoorDash Support via the support phone number?[​](#can-i-still-contact-doordash-support-via-the-support-phone-number "Direct link to heading")
+
+Yes, DoorDash Support can still be contacted if the masked customer number feature is enabled and the phone number won’t change. The value will just no longer be present in the order payload.
+
