@@ -4,12 +4,16 @@ api:
   specs:
     - openapi: ../marketplace/openapi.yaml
       overrides: overrides.yml
+      namespace: marketplace
     - openapi: ../drive2/openapi.yaml
       overrides: overrides.yml
+      namespace: driveV2
     - openapi: ../driveclassic/openapi.yaml
       overrides: overrides.yml
+      namespace: drive
     - openapi: ../marketplace2/openapi.yaml
       overrides: overrides.yml
+      namespace: marketplaceV2
 
 groups:
   go-sdk:
@@ -48,7 +52,7 @@ groups:
   dotnet-sdk:
     generators:
       - name: fernapi/fern-csharp-sdk
-        version: 1.17.5
+        version: 1.18.0
         output:
           location: nuget
           package-name: Doordash

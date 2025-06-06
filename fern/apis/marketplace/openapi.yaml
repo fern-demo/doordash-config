@@ -39,7 +39,7 @@ components:
         JWT Token authentication. See the [JWT Token guide](https://developer.doordash.com/en-US/docs/drive/api/token) 
         for more information.
   schemas:
-    CreateMenuRequest:
+    CreateMenuRequestBody:
       type: object
       properties:
         reference:
@@ -56,7 +56,7 @@ components:
             $ref: '#/components/schemas/StoreSpecialHour'
         menu:
           $ref: '#/components/schemas/StoreMenu'
-    UpdateMenuRequest:
+    UpdateMenuRequestBody:
       type: object
       properties:
         reference:

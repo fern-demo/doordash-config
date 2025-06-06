@@ -1256,12 +1256,6 @@ paths:
           schema:
             type: string
           description: "Unique, caller-selected ID of the business. Validated using the following regular expression: /^[A-Za-z0-9_-]{3,64}$/ ."
-        - name: external_store_id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: "Unique, caller-selected ID for the store. Validated using the following regular expression: /^[A-Za-z0-9_-]{3,64}$/ ."
       requestBody:
         required: true
         content:
