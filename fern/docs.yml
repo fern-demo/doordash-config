@@ -16,9 +16,9 @@ products:
     slug: drive
     subtitle: DoorDash Drive API
     versions:
-      - display-name: Version 2
+      - display-name: v2
         path: products/drive/drive-v2.yaml
-      - display-name: Version 1
+      - display-name: v1
         path: products/drive/drive-classic.yaml
   - display-name: Marketplace
     path: products/marketplace/marketplace2.yaml # default to latest (Marketplace 2)
@@ -26,9 +26,9 @@ products:
     slug: marketplace
     subtitle: DoorDash Marketplace API
     versions:
-      - display-name: Version 2
+      - display-name: v2
         path: products/marketplace/marketplace2.yaml
-      - display-name: Version 1
+      - display-name: v1
         path: products/marketplace/marketplace.yaml
 
 navbar-links:
@@ -59,3 +59,6 @@ favicon: docs/assets/favicon.png
 
 experimental:
   openapi-parser-v3: true
+
+css:
+  - ./assets/styles.css
