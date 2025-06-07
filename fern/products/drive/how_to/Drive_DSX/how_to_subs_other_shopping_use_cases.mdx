@@ -20,7 +20,7 @@ During ecommerce shopping, allow customers to select if they want an item to be 
 
 Send through substitution instructions for an item in a few different ways:
 
-### Item-specific option[​](#item-specific-option "Direct link to heading")
+### Item-specific option [#item-specific-option]
 
 You can send item-specific substitution options for the Dasher to choose from as part of the Delivery Creation payload as well as the PATCH Update API endpoint (until dasher assignment).
 
@@ -55,7 +55,7 @@ Substitution_source = "dasher"
 
 *Note: please reach out to the DoorDash Integrations team to enable this option via a configuration.*
 
-### "Contact Me" option[​](#contact-me-option "Direct link to heading")
+### "Contact Me" option [#contact-me-option]
 
 You can request that the Dasher contact the customer during the pick process to agree on a suitable substitution
 
@@ -67,7 +67,7 @@ You can request that the Dasher contact the customer during the pick process to 
 
 *Note: if you want to disable customer communications during dasher shop time, please reach out to DoorDash.*
 
-### "Refund me" option[​](#refund-me-option "Direct link to heading")
+### "Refund me" option [#refund-me-option]
 
 You can ask the Dasher not to pick another option and mark the item out of stock, in the event that the requested item is unavailable.
 
@@ -75,7 +75,7 @@ You can ask the Dasher not to pick another option and mark the item out of stock
 | --- | --- |
 | items.item_options.substitution_preference | "refund" |
 
-### White-label post checkout option[​](#white-label-post-checkout-option "Direct link to heading")
+### White-label post checkout option [#white-label-post-checkout-option]
 
 
 
@@ -94,7 +94,7 @@ Customers, via a link, can update their substitution preferences to "contact me"
         *[if Merchant owns customer communications]*
     - We recommend you send the subs link right after the ecommerce checkout so the customers have the ability to fill in substitution instructions well in advance.
 
-### Force Overrides[​](#force-overrides "Direct link to heading")
+### Force Overrides [#force-overrides]
 
 Allow the dasher pick up an item by asserting the item they have picked up is correct, regardless of a failed barcode scan. This feature is useful when the barcode is damaged or there is a UPC mismatch with the catalog data previously sent. To override, the dasher will click the button "I have the correct item", take a photo and proceed.
 
@@ -112,7 +112,7 @@ Configuration options: Reach out to DoorDash if you want to allow dasher to pick
   + Substitution_source = "dasher"
   + Scanned_barcode = overridden item's barcode
 
-### Dasher-addition of new items to cart[​](#dasher-addition-of-new-items-to-cart "Direct link to heading")
+### Dasher-addition of new items to cart [#dasher-addition-of-new-items-to-cart]
 
 This is the ability for a dasher to add net new items to the cart upon customer request during shop time. Activating the dasher-addition flow requires a call or text between the customer and dasher during the shopping process. This feature can help customers add items they may have forgotten when they first created the order. The dasher can add up to 5 new items (configurable). Maximum weight for an item can also be configured. A consideration for the merchant would be to plan for the incremental charges.
 
@@ -123,7 +123,7 @@ addition_source = "dasher"
 
 *Note: Reach out to the DoorDash Integrations team to enable this feature.*
 
-### Multiple instance of same item[​](#multiple-instance-of-same-item "Direct link to heading")
+### Multiple instance of same item [#multiple-instance-of-same-item]
 
 You can add multiple instances of the same item (same item id) to an order if there are item-level differences for each instance. For example: allowing your customers to add two types of bananas (yellow bananas, green bananas) or two cuts of meat with different weights.
 

@@ -1,12 +1,12 @@
-## Overview[​](#overview "Direct link to heading")
+## Overview [#overview]
 
-### What is Live Order Manager for POS?[​](#what-is-live-order-manager-for-pos "Direct link to heading")
+### What is Live Order Manager for POS? [#what-is-live-order-manager-for-pos]
 
 DoorDash's POS Order Manager enables merchants to manage live orders directly from their POS systems. This streamlined experience enables Merchants to manage live orders from a single screen, reducing their reliance on DoorDash Support and eliminating their need for companion tablets, which in turn boosts staff efficiency.
 
 DoorDash has built a low code solution through which merchants can directly interact with Doordash systems to view, update, and manage their DoorDash orders from their POS devices. It’s best for platforms who are looking to move fast and not adopt (and maintain) multiple solutions such as order adjustment API and order cancellation signals. With the launch of Live Order Manager for POS we have seen a reduction in cancellations of up to 7% relative and a reduction in Missing and Incorrect reports of up to 1.5% relative.
 
-### Why Implement Live Order Manager for POS?[​](#why-implement-live-order-manager-for-pos "Direct link to heading")
+### Why Implement Live Order Manager for POS? [#why-implement-live-order-manager-for-pos]
 
 Live Order Manager for POS provides POS integrated Merchants with order management features directly to their POS hardware to reduce quality defects and reliance on support. Features include:
 
@@ -16,40 +16,40 @@ Live Order Manager for POS provides POS integrated Merchants with order manageme
 * **Refund and replace items:** Merchants can refund or replace entire items or sub-quantities directly through the POS Order Manager. Modifications are reported back to the POS system to reduce future reconciliation issues.
 * **Adjust prep time and mark orders as ready for pickup:** Merchants can let Dashers know when they need more time to prepare an order or if an order is ready ahead of schedule.
 
-### Benefits[​](#benefits "Direct link to heading")
+### Benefits [#benefits]
 
-#### For Restaurants:[​](#for-restaurants "Direct link to heading")
+#### For Restaurants: [#for-restaurants]
 
 * **Reduce quality defects & reliance on support**: Empower operators to self-serve when issues arise, freeing up more time to focus on growing their business
 * **Fewer “Incorrect Order” reports, Fewer Cancellations**: & less time spent on the phone with support
 
-#### For Providers:[​](#for-providers "Direct link to heading")
+#### For Providers: [#for-providers]
 
 * **Build once; get multiple features**: DoorDash can add new features as we build them without requiring additional API calls, and provider engineering work
 * **Low Tech Lift**: ~2 weeks development work for partners to implement
 
-#### For Customers:[​](#for-customers "Direct link to heading")
+#### For Customers: [#for-customers]
 
 * **Fewer cancelled orders**: -7% reduction in cancellation rate
 * **Less orders with missing items**: -1.5% reduction in Missing and Incorrect orders
 
-### Who Should Implement?[​](#who-should-implement "Direct link to heading")
+### Who Should Implement? [#who-should-implement]
 
 * This is ideal for integrations with Merchants that have a screen to display the plugin in-store (can be POS, KDS, supplemental tablet, mobile) to maximize impact of the feature.
   + Display doesn’t have to be one-screen only - Live Order Manager can be implemented across multiple screens, but Merchants should have access to display the feature on at least one screen.
 * This is particularly ideal for Providers that work with Merchants that have high cancellation rates and/or pain points related to order management, e.g. they want ability to contact Customers and Dashers directly, the ability to adjust prep times, etc.
 
-## Feature Requirements[​](#feature-requirements "Direct link to heading")
+## Feature Requirements [#feature-requirements]
 
-### Technical Requirements[​](#technical-requirements "Direct link to heading")
+### Technical Requirements [#technical-requirements]
 
 * To start integrating with the plugin, you should have either a certified DoorDash Marketplace integration, or be approved by DoorDash to develop a Marketplace integration.
 * You need credentials from DoorDash to get started.
 * You will need to [generate a JWT Auth token](https://developer.doordash.com/en-US/docs/marketplace/how_to/JWTs).
 
-### Implementation Checklist[​](#implementation-checklist "Direct link to heading")
+### Implementation Checklist [#implementation-checklist]
 
-#### Step 1: Get the JWT Authentication Key from Doordash and store it securely[​](#step-1-get-the-jwt-authentication-key-from-doordash-and-store-it-securely "Direct link to heading")
+#### Step 1: Get the JWT Authentication Key from Doordash and store it securely [#step-1-get-the-jwt-authentication-key-from-doordash-and-store-it-securely]
 
 * For each provider, you will utilize JWT Authentication. Staging and production each have separate secret keys. Please store these keys securely.
 * Set the secret key as a Bearer token in the Authentication header when initializing the webview.
@@ -58,7 +58,7 @@ Live Order Manager for POS provides POS integrated Merchants with order manageme
 
 Using the Authentication Key, generate JWTs for requests to Doordash following these [steps](https://developer.doordash.com/en-US/docs/marketplace/how_to/JWTs).
 
-#### Step 2: Construct and render the URL on your POS device using JWT Auth[​](#step-2-construct-and-render-the-url-on-your-pos-device-using-jwt-auth "Direct link to heading")
+#### Step 2: Construct and render the URL on your POS device using JWT Auth [#step-2-construct-and-render-the-url-on-your-pos-device-using-jwt-auth]
 
 Use the url format below to construct the plugin url
 
@@ -70,7 +70,7 @@ Set the JWT in the Authorization header when initializing the webview.
 
 *Refer to sample code below for setting up a webview.*
 
-#### Android webview solution code example[​](#android-webview-solution-code-example "Direct link to heading")
+#### Android webview solution code example [#android-webview-solution-code-example]
 
 1. Initialize the clicking button
 
@@ -207,7 +207,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
 
 ```
 
-#### Recommendations[​](#recommendations "Direct link to heading")
+#### Recommendations [#recommendations]
 
 1. It is better to preload behavior when you do binding order modal:
 
@@ -245,7 +245,7 @@ private fun preloadWebView(order: OrderPresentationModel) {
 
 3. Based on [Google's Android Help doc](https://support.google.com/android/thread/197496702/android-webview-is-very-slow-after-the-recent-update-that-came-on-30th-november?hl=en) some specific webview versions will face a webview loading slowly issue, make sure that you update to the latest webview version
 
-#### iOS WebView integration example[​](#ios-webview-integration-example "Direct link to heading")
+#### iOS WebView integration example [#ios-webview-integration-example]
 
 **1. Set Up the WebView in iOS**
 
@@ -255,7 +255,7 @@ In iOS, we will use `WKWebView`, which is the preferred WebView component for iO
 
 Create a view controller that will contain the `WKWebView` and handle the passed URL and Authorization header.
 
-#### WebViewController.swift[​](#webviewcontrollerswift "Direct link to heading")
+#### WebViewController.swift [#webviewcontrollerswift]
 
 ```
 import UIKit  
@@ -319,7 +319,7 @@ class WebViewController: UIViewController {
 
 Next, you need to open the **WebViewController** from another view controller, passing the Authorization header and the target URL.
 
-#### MainViewController.swift[​](#mainviewcontrollerswift "Direct link to heading")
+#### MainViewController.swift [#mainviewcontrollerswift]
 
 ```
 import UIKit  
@@ -397,7 +397,7 @@ To provide a seamless user experience, a close button allows users to dismiss th
 
 By using WKWebView in iOS, you can implement a WebView that mirrors the functionality of the Android WebView. The main steps involve setting up a WKWebView to load a URL with the Authorization header, passing the JWT token securely, and providing options for preloading and caching. With these steps, you can ensure seamless integration of the POS Order Management WebView in your iOS application.
 
-#### Web Iframe integration example[​](#web-iframe-integration-example "Direct link to heading")
+#### Web Iframe integration example [#web-iframe-integration-example]
 
 This guide details the process for POS Providers to integrate and display DoorDash’s POS Plugin using an iFrame. By following these steps, providers can seamlessly embed the Live Order Management system into their platform.
 
@@ -457,13 +457,13 @@ By following these steps, POS Providers can integrate the DoorDash POS Plugin vi
 
 *Note: For security purposes, we require a list of domains that will integrate the WebView in an iFrame. These domains will be added to an allowlist to prevent cross-origin issues*
 
-### Receiving order adjustment notifications via Order Adjustment webhook[​](#receiving-order-adjustment-notifications-via-order-adjustment-webhook "Direct link to heading")
+### Receiving order adjustment notifications via Order Adjustment webhook [#receiving-order-adjustment-notifications-via-order-adjustment-webhook]
 
 Providers can receive notifications for order adjustments made via POS-plugin by subscribing to our Order Adjustment webhook. This webhook payload includes complete order payload along with the delta on specific items adjusted. Please follow below steps to set up the webhook.
 
-#### Sample format of order-adjustment webhook:[​](#sample-format-of-order-adjustment-webhook "Direct link to heading")
+#### Sample format of order-adjustment webhook: [#sample-format-of-order-adjustment-webhook]
 
-```
+```json
 {  
 {  
   "event": {  
@@ -569,15 +569,15 @@ Providers can receive notifications for order adjustments made via POS-plugin by
 
 ```
 
-#### Step 1: Configure order adjustment webhook via the Developer portal for your provider.[​](#step-1-configure-order-adjustment-webhook-via-the-developer-portal-for-your-provider "Direct link to heading")
+#### Step 1: Configure order adjustment webhook via the Developer portal for your provider. [#step-1-configure-order-adjustment-webhook-via-the-developer-portal-for-your-provider]
 
 Login to the developer portal and go to [Webhook Subscription](https://developer.doordash.com/portal/integration/marketplace/webhook_subscriptions) page to set this up. This set up is similar to setting up any other webhooks you currently have.
 
-#### Step 2: Make order adjustments via open-api or pos-plugin to test the webhook integration[​](#step-2-make-order-adjustments-via-open-api-or-pos-plugin-to-test-the-webhook-integration "Direct link to heading")
+#### Step 2: Make order adjustments via open-api or pos-plugin to test the webhook integration [#step-2-make-order-adjustments-via-open-api-or-pos-plugin-to-test-the-webhook-integration]
 
 You can adjust test orders either via the API or the plugin to test. You can also verify webhooks being received via Developer Portal [event logs](https://developer.doordash.com/portal/integration/marketplace/event_log) here.
 
-### Testing and validation[​](#testing-and-validation "Direct link to heading")
+### Testing and validation [#testing-and-validation]
 
 1. [Create a Test Order](https://developer.doordash.com/en-US/docs/marketplace/how_to/create_a_test_order) on one of your Developer Portal Test Stores
 2. Click the button in your UI that will open the POS Webview app
@@ -586,7 +586,7 @@ You can adjust test orders either via the API or the plugin to test. You can als
    
 4. Done and ready for merchants to manage DoorDash orders on your device!
 
-## User Flow Recommendations[​](#user-flow-recommendations "Direct link to heading")
+## User Flow Recommendations [#user-flow-recommendations]
 
 **Intended Users:**
 
@@ -606,11 +606,11 @@ You can adjust test orders either via the API or the plugin to test. You can als
   
   *Sample User Experience*
 
-#### Error Handling for Users:[​](#error-handling-for-users "Direct link to heading")
+#### Error Handling for Users: [#error-handling-for-users]
 
 * Utilize messaging that resembles “Order Manager is unavailable at this time. Please reach out to support to update this order.”
 
-## Feature Rollout and Announcement[​](#feature-rollout-and-announcement "Direct link to heading")
+## Feature Rollout and Announcement [#feature-rollout-and-announcement]
 
 **Best Practices for Announcing the Feature**
 
@@ -625,7 +625,7 @@ You can adjust test orders either via the API or the plugin to test. You can als
 
 * Share this [help article](https://get.doordash.com/en-us/learning-center/pos-order-manager) with Merchants to increase adoption.
 
-## FAQ[​](#faq "Direct link to heading")
+## FAQ [#faq]
 
 * **What features does the DoorDash POS Webview Integration offer?**
   + **Call customers and Dashers:** Our most requested update, Merchants can call customers and Dashers directly from their POS system.
@@ -647,7 +647,7 @@ You can adjust test orders either via the API or the plugin to test. You can als
 
 If you cannot find the answer to your question in our FAQ please reach out to [Developer Portal Support](https://developer.doordash.com/en-US/docs/marketplace/how_to/request_support).
 
-## Appendix[​](#appendix "Direct link to heading")
+## Appendix [#appendix]
 
 * How to integrate DoorDash Marketplace - More details [here](https://developer.doordash.com/en-US/docs/marketplace/overview/about_marketplace)
 * Receiving orders from DoorDash - More details [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/order_integration)

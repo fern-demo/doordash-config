@@ -6,7 +6,7 @@ Marketplace APIs are not yet generally available. Please record interest in earl
 
 Stores on our Marketplace can be temporarily deactivated for a variety of reasons, spanning from self pausing via Merchant Portal to being automatically temporarily deactivated for quality reasons (dasher reported store as closed, high cancels, etc.). We've created webhooks that can be sent to partners whenever a store on their integration has been temporarily deactivated, either by themselves or by DoorDash.
 
-## Webhook Format[​](#webhook-format "Direct link to heading")
+## Webhook Format [#webhook-format]
 
 `store`: json object w/ store information
 
@@ -28,11 +28,11 @@ Stores on our Marketplace can be temporarily deactivated for a variety of reason
 
 `end_time`: temp deactivation end time (UTC) **(datetime)**
 
-## Webhook Payload[​](#webhook-payload "Direct link to heading")
+## Webhook Payload [#webhook-payload]
 
 Below is a sample payload:
 
-```
+```json
 {  
     "store": {  
         "doordash_store_id": 1,  
@@ -51,7 +51,7 @@ Below is a sample payload:
 
 ```
 
-## Response & Error Codes[​](#response--error-codes "Direct link to heading")
+## Response & Error Codes [#response--error-codes]
 
 Once a webhook is received, the provider is expected to return the following response codes
 

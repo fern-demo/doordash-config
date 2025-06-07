@@ -4,25 +4,25 @@ Limited access
 Marketplace APIs are not yet generally available. Please record interest in early access [here](https://docs.google.com/forms/d/e/1FAIpQLSfggU_NjGWCdi9vyWUicrnzJmtu9vC4zgbfSC3ROwSvW4eV2g/viewform).
 </Warning>
 
-## What will happen if an item/item option is marked out of stock and a deactivation webhook is sent?​[​](#what-will-happen-if-an-itemitem-option-is-marked-out-of-stock-and-a-deactivation-webhook-is-sent "Direct link to heading")
+## What will happen if an item/item option is marked out of stock and a deactivation webhook is sent?​ [#what-will-happen-if-an-itemitem-option-is-marked-out-of-stock-and-a-deactivation-webhook-is-sent]
 
 DoorDash will return a 200 Success response and the item will remain deactivated.
 
-## What happens when an item is in-stock and an item activation webhook is sent?[​](#what-happens-when-an-item-is-in-stock-and-an-item-activation-webhook-is-sent "Direct link to heading")
+## What happens when an item is in-stock and an item activation webhook is sent? [#what-happens-when-an-item-is-in-stock-and-an-item-activation-webhook-is-sent]
 
 DoorDash will return a 200 Success response and the item will remain active.
 
-## If an Item exists multiple times in my menu what is the expected response if I send the merchant\_supplied\_id only once?​[​](#if-an-item-exists-multiple-times-in-my-menu-what-is-the-expected-response-if-i-send-the-merchant_supplied_id-only-once "Direct link to heading")
+## If an Item exists multiple times in my menu what is the expected response if I send the merchant\_supplied\_id only once?​ [#if-an-item-exists-multiple-times-in-my-menu-what-is-the-expected-response-if-i-send-the-merchant_supplied_id-only-once]
 
 DoorDash will return a 200 Success response for each time the item was successfully deactivated within the menu
 
-## What happens if I had an item 1 modifier and I only mark the modifier out of stock?[​](#what-happens-if-i-had-an-item-1-modifier-and-i-only-mark-the-modifier-out-of-stock "Direct link to heading")
+## What happens if I had an item 1 modifier and I only mark the modifier out of stock? [#what-happens-if-i-had-an-item-1-modifier-and-i-only-mark-the-modifier-out-of-stock]
 
 If the modifier is required, the item will be deactivated.
 
 If the modifier is not required, the item will remain active, but the out of stock modifier will remain hidden.
 
-## What happens if I deactivate an item through the item activation endpoint? Can I reactivate it using a menu update request?[​](#what-happens-if-i-deactivate-an-item-through-the-item-activation-endpoint-can-i-reactivate-it-using-a-menu-update-request "Direct link to heading")
+## What happens if I deactivate an item through the item activation endpoint? Can I reactivate it using a menu update request? [#what-happens-if-i-deactivate-an-item-through-the-item-activation-endpoint-can-i-reactivate-it-using-a-menu-update-request]
 
 No. the two requests deactivate items in a different manner. The item activation/deactivation request acts as a suspension of a specific item, whereas a menu update marking the item as inactive will affect the existence of the item.
 
@@ -30,7 +30,7 @@ If you mark an item as inactive via a menu push you will need to activate it thr
 
 If you mark an item as inactive via our item/item option activation endpoints you must reactivate it using the same endpoints.
 
-## How can I activate or deactivate an item based on hours?[​](#how-can-i-activate-or-deactivate-an-item-based-on-hours "Direct link to heading")
+## How can I activate or deactivate an item based on hours? [#how-can-i-activate-or-deactivate-an-item-based-on-hours]
 
 [Item Level Hours](https://developer.doordash.com/en-US/docs/marketplace/how_to/item_level_hours) can be used to achieve this please refer to the following documentation.
 

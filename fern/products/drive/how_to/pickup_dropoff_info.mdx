@@ -10,7 +10,7 @@ Production access to the Drive API is currently restricted, and we cannot provid
 
 You can help DoorDash ensure that every order is picked up and dropped off quickly and accurately by providing details about the pickup and delivery, like the name of the person or business sending or receiving the order. We recommend providing as much of this information as possible to help deliveries go smoothly. [See guide here](https://developer.doordash.com/en-US/docs/drive/how_to/build_for_restaurants/#b-what-should-be-communicated-to-the-customer) for a list of required delivery information to be surfaced to the customer and store.
 
-## 1. Prerequisites[​](#1-prerequisites "Direct link to heading")
+## 1. Prerequisites [#1-prerequisites]
 
 If you're new to Drive and haven't yet created your first delivery, you should start with one of our tutorials. The tutorials will walk you through getting the credentials you need to call the APIs and making some basic API calls.
 
@@ -18,7 +18,7 @@ If you're new to Drive and haven't yet created your first delivery, you should s
 * If you're writing an app in Node.js (using JavaScript or TypeScript), [get started using our Node.js SDK](/en-US/docs/drive/tutorials/get_started_sdk)
 * If you'd like to try our APIs interactively, [get started using our Postman collection](/en-US/docs/drive/tutorials/get_started_postman)
 
-## 2. Create a delivery with pickup information[​](#2-create-a-delivery-with-pickup-information "Direct link to heading")
+## 2. Create a delivery with pickup information [#2-create-a-delivery-with-pickup-information]
 
 When you create a delivery, you can specify more information about the pickup location, including:
 
@@ -26,7 +26,7 @@ When you create a delivery, you can specify more information about the pickup lo
 * `pickup_instructions`: Concise written instructions about how to find the exact spot where the Dasher should pick up the order
 * `pickup_reference_tag`: A unique identifier or reference code that the Dasher should look for when identifying the order on a shelf
 
-```
+```json
 {  
     ... // other fields  
     "pickup_business_name": "Neighborhood Deli",  
@@ -36,7 +36,7 @@ When you create a delivery, you can specify more information about the pickup lo
 
 ```
 
-## 3. Create a delivery with dropoff information[​](#3-create-a-delivery-with-dropoff-information "Direct link to heading")
+## 3. Create a delivery with dropoff information [#3-create-a-delivery-with-dropoff-information]
 
 When you create a delivery, you can also specify more information about the dropoff location, including:
 
@@ -44,7 +44,7 @@ When you create a delivery, you can also specify more information about the drop
 * `dropoff_instructions`: Concise written instructions about how to find the exact spot where the Dasher should drop off the order
 * `dropoff_contact_given_name` and `dropoff_contact_family_name`: The name of the person to whom the Dasher should hand the order
 
-```
+```json
 {  
     ... // other fields  
     "dropoff_business_name": "ABC Accounting",  

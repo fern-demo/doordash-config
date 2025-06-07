@@ -1,14 +1,14 @@
-## Overview[​](#overview "Direct link to heading")
+## Overview [#overview]
 
 As part of the integration workflow, partners can implement an endpoint that allows DoorDash to pull the opening hours for a store location. This refreshes the store hours for a store, changing when Customers are able to order items from the store.
 
 The response from this endpoint should match the [Store model](https://developer.doordash.com/en-US/api/marketplace_v2/#tag/ItemManagementModels/Store).
 
-## Get Started[​](#get-started "Direct link to heading")
+## Get Started [#get-started]
 
 ---
 
-### Step 1: Set up Endpoint Specification to Pull Store Hours[​](#step-1-set-up-endpoint-specification-to-pull-store-hours "Direct link to heading")
+### Step 1: Set up Endpoint Specification to Pull Store Hours [#step-1-set-up-endpoint-specification-to-pull-store-hours]
 
 The set up of the endpoint is:
 
@@ -17,7 +17,7 @@ The set up of the endpoint is:
 
 `store_location_id` is the unique Merchant Supplied ID that is configured for that store location. The endpoint will deliver the store hours for 1 single location at a time. This endpoint should be different from the Inventory pull endpoint.
 
-### Step 2: Ensure that store.json response from endpoint has the correct format[​](#step-2-ensure-that-storejson-response-from-endpoint-has-the-correct-format "Direct link to heading")
+### Step 2: Ensure that store.json response from endpoint has the correct format [#step-2-ensure-that-storejson-response-from-endpoint-has-the-correct-format]
 
 As mentioned above, the Store Hours pull request must return the response that matches [Store request model](https://developer.doordash.com/en-US/api/marketplace_v2#tag/ItemManagementModels/Store)
 
@@ -25,7 +25,7 @@ As mentioned above, the Store Hours pull request must return the response that m
 
 Model response expected from endpoint:
 
-```
+```json
 {  
   "merchant_supplied_store_id": "string",  
   "open_hours": [  
@@ -48,7 +48,7 @@ Model response expected from endpoint:
 
 ```
 
-### Step 3: Enroll your endpoint in the Developer Portal[​](#step-3-enroll-your-endpoint-in-the-developer-portal "Direct link to heading")
+### Step 3: Enroll your endpoint in the Developer Portal [#step-3-enroll-your-endpoint-in-the-developer-portal]
 
 Once the endpoint is ready, enroll it using the Developer Portal:
 
@@ -67,7 +67,7 @@ Once the endpoint is ready, enroll it using the Developer Portal:
 
 
 
-## Next Steps[​](#next-steps "Direct link to heading")
+## Next Steps [#next-steps]
 
 To ensure that Store Hours pull is working as expected, please reach out to support via Developer Portal or your Technical Account Manager (if applicable) to test.
 

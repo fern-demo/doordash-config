@@ -8,11 +8,11 @@ If you’re building for restaurants, see the [How to Build for Restaurants Guid
 
 When the receiver of a delivery is unavailable, DoorDash's default action is to have the Dasher safely dispose of the delivery. If you're delivering non-perishable or higher-value goods, you can instead request that the Dasher return the delivery to the pickup location if the receiver is unavailable.
 
-## 1. Create a return-to-pickup delivery[​](#1-create-a-return-to-pickup-delivery "Direct link to heading")
+## 1. Create a return-to-pickup delivery [#1-create-a-return-to-pickup-delivery]
 
 When you create a delivery, you can indicate what should occur if the receiver is unavailable by including the `action_if_unavailable` field in your call to the [delivery creation API](/en-US/api/drive#operation/CreateDelivery) and setting the field's value to `return_to_pickup`.
 
-```
+```json
 {  
     ... // other fields  
   
@@ -21,7 +21,7 @@ When you create a delivery, you can indicate what should occur if the receiver i
 
 ```
 
-## 2. Receive return-to-pickup webhooks[​](#2-receive-return-to-pickup-webhooks "Direct link to heading")
+## 2. Receive return-to-pickup webhooks [#2-receive-return-to-pickup-webhooks]
 
 If you request return-to-pickup deliveries, you should update your app to handle several new webhook events:
 
@@ -33,7 +33,7 @@ You should also update your app to handle a new reason that may be sent with the
 
 * `failed_to_return`
 
-## Next steps[​](#next-steps "Direct link to heading")
+## Next steps [#next-steps]
 
 * See the [Pricing & payment doc](/en-US/docs/drive/overview/pricing_payment) to learn how return deliveries are charged.
 

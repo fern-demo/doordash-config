@@ -2,7 +2,7 @@
 
 # [Explainer] Dasher Shop Delivery Tracking
 
-### SMS to Customers[​](#sms-to-customers "Direct link to heading")
+### SMS to Customers [#sms-to-customers]
 
 DoorDash sends SMS messages with updates on the progress of a delivery to help the person receiving that delivery (the dropoff\_contact) keep track of the delivery and prepare for its arrival. You can customize these messages on the Developer Portal: whether they are sent at all, and the precise text that is sent.
 
@@ -27,7 +27,7 @@ In Developer Portal, if you want to customize the SMS based on the delivery meta
 | PIN Code Required | When a PIN code is required for the customer to receive the delivery. |
 | Dasher Arrived At Store | When the dasher arrives at the store to begin shopping for items. |
 
-### Webhooks[​](#webhooks "Direct link to heading")
+### Webhooks [#webhooks]
 
 Webhooks enable near-real-time information flow from DoorDash and our Dashers to your application and your customers. Subscribe to webhooks [here](https://developer.doordash.com/en-US/docs/drive/reference/webhooks/). With webhooks, you can enable real-time scenarios like a map view showing your customers how far away their Dasher is, push notifications telling your customers the latest status of their order, and much more.
 
@@ -51,7 +51,7 @@ Similar to SMS text messages, webhooks are triggered at pre-defined events. Here
 
 *With the exception of the DASHER\_COMPLETED\_SHOPPING and DASHER\_COMPLETED\_STAGING events, all webhooks follow the same format.*
 
-```
+```json
 {  
   "created_at": "2025-03-06T01:41:30.266973Z",  
   "event_name": "DASHER_DROPPED_OFF",  

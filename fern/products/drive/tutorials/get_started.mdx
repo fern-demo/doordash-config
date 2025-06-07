@@ -12,7 +12,7 @@ This tutorial will introduce you to the Drive API, DoorDash's API for requesting
 
 If you're using Node.js, you should use the [Get started (Node.js SDK) tutorial](/en-US/docs/drive/tutorials/get_started_sdk) instead.
 
-## Table of contents[​](#table-of-contents "Direct link to heading")
+## Table of contents [#table-of-contents]
 
 1. [Sign into the Developer Portal](#sign-into-the-developer-portal)
 2. [Create an access key](#create-an-access-key)
@@ -23,13 +23,13 @@ If you're using Node.js, you should use the [Get started (Node.js SDK) tutorial]
 7. [Get the status of your delivery](#get-the-status-of-your-delivery)
 8. [Finish up](#finish-up)
 
-## Sign into the Developer Portal[​](#sign-into-the-developer-portal "Direct link to heading")
+## Sign into the Developer Portal [#sign-into-the-developer-portal]
 
 Go to the [Developer Portal](/en-US/portal) using the link in the top right corner of this page. If you already have a DoorDash account, enter your email and password and sign in; if not, or if you want to use a different account for development, click Sign Up and follow the process to create an account.
 
 
 
-## Create an access key[​](#create-an-access-key "Direct link to heading")
+## Create an access key [#create-an-access-key]
 
 In the left navigation, click Credentials.
 
@@ -47,7 +47,7 @@ Click Copy to copy the access key to your clipboard and then paste it somewhere 
 
 
 
-## Install pre-requisites and create a project[​](#install-pre-requisites-and-create-a-project "Direct link to heading")
+## Install pre-requisites and create a project [#install-pre-requisites-and-create-a-project]
 
 * Node.js
 * Python
@@ -75,15 +75,15 @@ If you don't already have it, [install .NET](https://dotnet.microsoft.com/en-us/
 
 Create a directory for your project called `test-app` and then run `dotnet new console`. Alternatively, you can create, build, and run your sample application in variety of IDEs, including [Visual Studio Code](https://code.visualstudio.com/), [Visual Studio](https://visualstudio.microsoft.com/), and [JetBrains Rider](https://www.jetbrains.com/rider/).
 
-## Make a JWT[​](#make-a-jwt "Direct link to heading")
+## Make a JWT [#make-a-jwt]
 
-### Prerequisites[​](#prerequisites "Direct link to heading")
+### Prerequisites [#prerequisites]
 
 Before getting started, ensure you have created and saved an access key from the Developer Portal.
 
 To continue, you will need: **developer\_id**, **key\_id** and **signing\_secret**
 
-### Install a JWT library[​](#install-a-jwt-library "Direct link to heading")
+### Install a JWT library [#install-a-jwt-library]
 
 Most programming languages provide support for creating JSON Web Tokens (JWTs) either directly in the language or as a package. Select your language and then follow the instructions to install the package, if needed.
 
@@ -148,7 +148,7 @@ dotnet add package System.IdentityModel.Tokens.Jwt
 
 ```
 
-### Generate a JWT[​](#generate-a-jwt "Direct link to heading")
+### Generate a JWT [#generate-a-jwt]
 
 JWTs are created using an access key. Use these code snippets to generate a correctly-formatted JWT from your access key.
 
@@ -385,7 +385,7 @@ If you were successful, you should see output like this:
 
 
 
-## Create a delivery[​](#create-a-delivery "Direct link to heading")
+## Create a delivery [#create-a-delivery]
 
 Now that you have a JWT, you can create a delivery by making a request to the Drive API.
 
@@ -613,7 +613,7 @@ If you were successful, you should see output like this:
 
 
 
-## Use the Delivery Simulator[​](#use-the-delivery-simulator "Direct link to heading")
+## Use the Delivery Simulator [#use-the-delivery-simulator]
 
 You can use the Delivery Simulator to advance your delivery through the stages of the delivery process, from creation to Dasher assignment to pickup to delivery.
 
@@ -625,7 +625,7 @@ Find the delivery you created by looking for the identifier `#D-12345`. Click Ad
 
 
 
-## Get the status of your delivery[​](#get-the-status-of-your-delivery "Direct link to heading")
+## Get the status of your delivery [#get-the-status-of-your-delivery]
 
 You can always get the latest status of a delivery by making a request to the Drive API.
 
@@ -789,7 +789,7 @@ If you were successful, you should see output like this. Notice that the `delive
 
 
 
-## Finish up[​](#finish-up "Direct link to heading")
+## Finish up [#finish-up]
 
 If you'd like, continue to use the Delivery Simulator to advance your delivery through the stages of the delivery process and then re-run your app to see how the delivery details change.
 
@@ -800,7 +800,7 @@ The code in this tutorial was designed to help you quickly get started with the 
 1. **Don't** check the access key into a source control system like Git, and instead use a secret manager or secret store to securely store it
 2. **Do** remove the line that prints your JWT to the console
 
-### Sample applications on GitHub[​](#sample-applications-on-github "Direct link to heading")
+### Sample applications on GitHub [#sample-applications-on-github]
 
 You can download and clone sample applications that communicate with the DoorDash API from GitHub.
 
@@ -823,7 +823,7 @@ View the [DoorDash API Kotlin Sample](https://github.com/JoshAtDoorDash/DoorDash
 
 View the [DoorDash API C# / .NET Sample](https://github.com/JoshAtDoorDash/DoorDashAPI-CSharp-Dotnet-Sample) on GitHub.
 
-## Next steps[​](#next-steps "Direct link to heading")
+## Next steps [#next-steps]
 
 Now that you're familiar with the Drive API, you're ready to start adding delivery capabilities to your app! To learn more, use the "How-to guides" section in the navigation on the left side of this page and the [How to Build for Restaurants guide](https://developer.doordash.com/en-US/docs/drive/how_to/build_for_restaurants/#a-validation-checklist-prior-to-requesting-a-demo).
 

@@ -1,4 +1,4 @@
-## Prerequisites[​](#prerequisites "Direct link to heading")
+## Prerequisites [#prerequisites]
 
 Before proceeding with this guide, ensure that you have the following prerequisites:
 
@@ -6,27 +6,27 @@ Before proceeding with this guide, ensure that you have the following prerequisi
 * Capability to perform inventory updates through the [pull job management](https://developer.doordash.com/en-US/docs/marketplace/retail/how_to/store_item_pull_job) process.
 * Notification to your DoorDash technical account manager regarding your intention to implement modifiers and confirmation of proper store configuration.
 
-## Overview[​](#overview "Direct link to heading")
+## Overview [#overview]
 
 Modifiers, facilitated through the Pull Job Management API, enable items on the Retail UI to incorporate modifiers. This functionality is particularly essential for partners managing stores offering hot and prepared items.
 
-## Getting Started[​](#getting-started "Direct link to heading")
+## Getting Started [#getting-started]
 
 Follow these steps to configure and employ modifiers effectively:
 
-### Step 1: Configure Items with Modifiers[​](#step-1-configure-items-with-modifiers "Direct link to heading")
+### Step 1: Configure Items with Modifiers [#step-1-configure-items-with-modifiers]
 
 Ensure that items are appropriately configured with modifiers as per provided [specifications.](https://developer.doordash.com/en-US/api/8e7b425df2/#tag/InventoryManagementEndpoints/operation/batchAddStoreItem)
 
-### Step 2: Trigger a Pull Job[​](#step-2-trigger-a-pull-job "Direct link to heading")
+### Step 2: Trigger a Pull Job [#step-2-trigger-a-pull-job]
 
 Initiate a [pull job](https://developer.doordash.com/en-US/docs/marketplace/retail/how_to/store_item_pull_job) to update DoorDash's inventory, encompassing the modifier items.
 
-### Step 3: Configure Usage of V1 Endpoints[​](#step-3-configure-usage-of-v1-endpoints "Direct link to heading")
+### Step 3: Configure Usage of V1 Endpoints [#step-3-configure-usage-of-v1-endpoints]
 
 Configure the utilization of item and item option activation [endpoints](https://developer.doordash.com/en-US/docs/marketplace/how_to/store_and_item_status#batch-item-activation-status-change).
 
-## Progress Check[​](#progress-check "Direct link to heading")
+## Progress Check [#progress-check]
 
 To verify your progress:
 
@@ -35,17 +35,17 @@ To verify your progress:
 * Place a test order to validate modifier functionality.
 * Attempt deactivation/reactivation of items and options using [PUT Item and Item Option endpoints](https://developer.doordash.com/en-US/docs/marketplace/how_to/store_and_item_status#batch-item-activation-status-change) to ensure proper functionality.
 
-## Frequently Asked Questions[​](#frequently-asked-questions "Direct link to heading")
+## Frequently Asked Questions [#frequently-asked-questions]
 
-### How can I update attributes for items with modifiers?[​](#how-can-i-update-attributes-for-items-with-modifiers "Direct link to heading")
+### How can I update attributes for items with modifiers? [#how-can-i-update-attributes-for-items-with-modifiers]
 
 The Pull Job endpoint [Pull Job endpoint](https://developer.doordash.com/en-US/docs/marketplace/retail/how_to/store_item_pull_job) is the only way to add, delete, or update attributes for items with modifiers, including parent items as well as extras/options.
 
-### Can I directly activate or suspend modifiers or the parent item?[​](#can-i-directly-activate-or-suspend-modifiers-or-the-parent-item "Direct link to heading")
+### Can I directly activate or suspend modifiers or the parent item? [#can-i-directly-activate-or-suspend-modifiers-or-the-parent-item]
 
 Yes, the OpenAPI endpoint [PUT Item and Item Option](https://developer.doordash.com/en-US/docs/marketplace/how_to/store_and_item_status#batch-item-activation-status-change) activation/suspension can be used for items and modifiers (extras/options) if partners require direct activation or suspension.
 
-### What will happen if I send a POST/PATCH request to the Inventory/Pricing endpoint for an item with modifiers?[​](#what-will-happen-if-i-send-a-postpatch-request-to-the-inventorypricing-endpoint-for-an-item-with-modifiers "Direct link to heading")
+### What will happen if I send a POST/PATCH request to the Inventory/Pricing endpoint for an item with modifiers? [#what-will-happen-if-i-send-a-postpatch-request-to-the-inventorypricing-endpoint-for-an-item-with-modifiers]
 
 If a request contains an item with modifiers, the entire request will fail. None of the items included in the request will be updated.
 

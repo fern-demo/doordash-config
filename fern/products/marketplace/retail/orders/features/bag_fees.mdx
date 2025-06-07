@@ -2,25 +2,25 @@
 
 # Receive bag fees
 
-## Prerequisites[​](#prerequisites "Direct link to heading")
+## Prerequisites [#prerequisites]
 
 DoorDash has functionality within our Open API Order to allow Merchants to
 collect a bag fee and any necessary taxes related to the fee to meet any specific government
 regulations.
 
-## Overview[​](#overview "Direct link to heading")
+## Overview [#overview]
 
 Certain regional legislatures require Merchants to charge customers a bag fee during
 checkout. Enabling this feature will allow Merchants to comply with the requirements
 set by their stores' jurisdictions.
 
-## Get Started[​](#get-started "Direct link to heading")
+## Get Started [#get-started]
 
-### Step 1: Enable Bag Fee at Checkout[​](#step-1-enable-bag-fee-at-checkout "Direct link to heading")
+### Step 1: Enable Bag Fee at Checkout [#step-1-enable-bag-fee-at-checkout]
 
 The Merchant will provide a list of stores and the associated bag fee to [DoorDash Merchant Support](https://help.doordash.com/merchants/s/?language=en_US) to have the bag fee manually configured.
 
-### Step 2: Implement - Order Payload[​](#step-2-implement---order-payload "Direct link to heading")
+### Step 2: Implement - Order Payload [#step-2-implement---order-payload]
 
 The Order payload will contain the custom\_fee field populated by an array with a
 single object.
@@ -29,7 +29,7 @@ single object.
 * `custom_fee.price`: non-decimal currency based on the value manually configured (e.g. 30 = $0.30)
 * `custom_fee.tax`: non-decimal currency based on the store's individual tax requirements based on location
 
-```
+```json
 {  
 "custom_fee": [  
   
@@ -43,11 +43,11 @@ single object.
 
 ```
 
-## Progress Check[​](#progress-check "Direct link to heading")
+## Progress Check [#progress-check]
 
 A test order can be placed at a store with bag fee enabled. Within the order, the custom\_fee array will be populated.
 
-## Next Steps - FAQ[​](#next-steps---faq "Direct link to heading")
+## Next Steps - FAQ [#next-steps---faq]
 
 **Will the bag fee/quantity change based on the size of the order?**  
 No, the customer will be charged for a single bag regardless of the cart size.

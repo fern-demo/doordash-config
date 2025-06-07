@@ -1,4 +1,4 @@
-## Overview[​](#overview "Direct link to heading")
+## Overview [#overview]
 
 DoorDash has updated their [Onboarding requirements](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding_requirements) for Marketplace integration partners. Dopending on the Integration type, we would recommend the Onboarding requirements that you would need to comply to.
 
@@ -10,15 +10,15 @@ To empower developers in aligning the integration build with the onboarding prod
 
 If you are building SSIO, please follow the provided steps to setup and configure a test environment.
 
-## New Integration[​](#new-integration "Direct link to heading")
+## New Integration [#new-integration]
 
-### Step 1: Setup organization details for Marketplace integration through [developer portal](https:developer.doordash.com)[​](#step-1-setup-organization-details-for-marketplace-integration-through-developer-portal "Direct link to heading")
+### Step 1: Setup organization details for Marketplace integration through [developer portal](https:developer.doordash.com) [#step-1-setup-organization-details-for-marketplace-integration-through-developer-portal]
 
 Upon choosing the Marketplace integration, partners will be directed to the Marketplace "Get started" page, displaying the onboarding tracker. This tracker outlines the steps partners need to follow to set up their organization details and align with integration requirements as they prepare their build for a production review. Partners are prompted to specify the industry and purpose of the integration, aiding in the determination of required features for implementation.
 
 
 
-### Step 2: Setup integration Environment[​](#step-2-setup-integration-environment "Direct link to heading")
+### Step 2: Setup integration Environment [#step-2-setup-integration-environment]
 
 After the confirmation, partners need to set up their environment.
 
@@ -28,7 +28,7 @@ After the confirmation, partners need to set up their environment.
 
 
 
-### Step 3: Setup Integration Onboarding Requirements[​](#step-3-setup-integration-onboarding-requirements "Direct link to heading")
+### Step 3: Setup Integration Onboarding Requirements [#step-3-setup-integration-onboarding-requirements]
 
 During this step, Partners are required to furnish links to documents that are used to setup the Partners application on DoorDash. The provided links will be prominently featured on the Integration tab in DoorDash Merchant Portal, serving as valuable resources for merchants to gain insights into their integration.
 
@@ -52,7 +52,7 @@ Once the OAuth Client ID is setup, the [OAuth exchange token](https://developer.
 * After a successful login, you will be directed to a URL resembling `https://www.doordash.com/?state=test&code=[CODE_-_UUID]&action=Login&method=[Email]`
 * Save the `CODE_UUID` from the above URL. This is the exchange token which needs to be used to generate the Merchant JWT token in [SSIO API calls](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/#api-list).
 
-### Step 4: Build Integration[​](#step-4-build-integration "Direct link to heading")
+### Step 4: Build Integration [#step-4-build-integration]
 
 DoorDash generates a list of features - both required and recommended, depending on the integration purpose. These features must be built before partners can request for production access.
 Additionally, test stores are created to assist with integration testing.
@@ -68,20 +68,20 @@ If you are an administrator of your organizations Developer Portal you will also
 
 
 
-### Step 5: Certification & Production Access[​](#step-5-certification--production-access "Direct link to heading")
+### Step 5: Certification & Production Access [#step-5-certification--production-access]
 
 After completing the onboarding build as per the [SSIO spec](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/#onboarding-store-to-integration). partners are required to reach out to their Technical Account Manager to review and approve the build.
 
 During this step the DoorDash team will evaluate the readiness to go-live and will be configuring the [URL](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/#oauth), that will be used for redirecting the Merchants to the partner portal page from the DoorDash identity web page.
 
-## Existing Integration[​](#existing-integration "Direct link to heading")
+## Existing Integration [#existing-integration]
 
 To comply to the new onboarding standards, existing integrations will be prompted to review the onboarding product requirements at the time of login.
 Upon selecting *Set up requirements*, users will be prompted to setup the onboarding requirements document links that will be utilized to configure an OAuth Client ID for the partner, as described in **Step 3**
 
 
 
-## Next Steps[​](#next-steps "Direct link to heading")
+## Next Steps [#next-steps]
 
 For any questions regarding the setup process, please reach out to support via Developoer Portal or your Technical Account Manager.
 

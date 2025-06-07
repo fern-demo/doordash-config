@@ -1,4 +1,4 @@
-## Prerequisites[​](#prerequisites "Direct link to heading")
+## Prerequisites [#prerequisites]
 
 Integrated Modifier Images is a new DoorDash feature that enables Merchants to directly add and update modifier (option-level) menu photos on DoorDash. We have enhanced our Menu API to pull modifier photos directly from the source along, as we do for item-level images today.
 
@@ -7,7 +7,7 @@ In order to utilize:
 * Merchants must already be using [integrated images](https://developer.doordash.com/en-US/docs/marketplace/how_to/integrated_images) as this feature relies on image auto-linking.
 * Merchants must be added to allowlist for Integrated Modifier Images by a DD technical account manager
 
-## Overview[​](#overview "Direct link to heading")
+## Overview [#overview]
 
 Photos are extremely important for Merchants on DoorDash as they are a primary driver for order conversion and AOV. Further, Merchants want consistency and accuracy in how their brand is portrayed across their stores on Doordash. Integrated Modifier Images allow Merchants to further increase their menu photo coverage and enhance the customer experience. We’ve seen as much as a 4% lift in customer conversion for merchants who have already adopted this feature.
 
@@ -16,13 +16,13 @@ This new feature includes two versions:
 * An auto-approval version **[Recommended]** that will pull photos from the Mx’s POS integration, crop them to meet DoorDash specifications, upload them to your DoorDash store, and link the photo to all associated items on DoorDash.
 * A manual-approval version that will pull photos from the merchant’s POS integration, then pass the images to our dedicated Photos team to approve the photos, crop them to meet DoorDash specifications, and link the photos to all associated items on DoorDash.
 
-## Get Started[​](#get-started "Direct link to heading")
+## Get Started [#get-started]
 
-### How?[​](#how "Direct link to heading")
+### How? [#how]
 
 Start by reaching out to a DD Technical Manager or Employee to let them know you’re interested in the integrated modifier photos product. Once you’re enabled from the DD end, you’ll be able to begin testing by adding the additional field **‘original\_image\_url’** to the menu payload on an item-option level.
 
-### Auto Approval Flow[​](#auto-approval-flow "Direct link to heading")
+### Auto Approval Flow [#auto-approval-flow]
 
 When a menu update or ingestion is triggered our product will now pull in photo URLs from the Merchant, in addition to the rest of the menu data.
 If the system recognizes that the photo URL provided with a modifier is the same URL as the last menu update we will not ingest a new photo. If the system recognizes a new photo URL the product will:
@@ -31,7 +31,7 @@ If the system recognizes that the photo URL provided with a modifier is the same
 * Once all photos are entered into DoorDash systems, a linking process is kicked off.
   + This process utilizes the mapping of Item to PhotoURL from the POS menu payload to determine what photo needs to be linked to what item modifier.
 
-### Manual Approval Flow[​](#manual-approval-flow "Direct link to heading")
+### Manual Approval Flow [#manual-approval-flow]
 
 When a menu update or ingestion is triggered our product will now pull in photo URLs from the Merchant, in addition to the rest of the menu data.
 If the system recognizes that the photo URL provided with a modifier is the same URL as the last menu update we will not ingest a new photo. If the system recognizes a new photo URL the product will:
@@ -41,14 +41,14 @@ If the system recognizes that the photo URL provided with a modifier is the same
 * Once the photos have been reviewed, an email will be sent to the Merchant notifying them of the status of their images.
   + All approved images will be linked utilizing the mapping of the Item to PhotoURL from the POS menu payload to determine what photo needs to be linked to what item modifier.
 
-### URL Requirements[​](#url-requirements "Direct link to heading")
+### URL Requirements [#url-requirements]
 
 * Http or https format
 * No query parameters in url
 * Ends in .JPG, .JPEG, or .PNG
 * URL publicly accessible
 
-### Photo Specifications[​](#photo-specifications "Direct link to heading")
+### Photo Specifications [#photo-specifications]
 
 The DoorDash platform requires that photos meet certain criteria to display properly on the site. These requirements are as follows:
 
@@ -61,15 +61,15 @@ If the file size or file format criteria are not met, this new feature will fail
 
 *For auto-approval*, if a photo does not meet the aspect ratio requirements, DoorDash will crop the middle section of the photo to meet this requirement. This **cropping is not ideal, so we suggest the Mx change the source photos in their POS system to meet this aspect ratio requirement** so that no cropping is needed on the DoorDash end.
 
-### Implementation Details[​](#implementation-details "Direct link to heading")
+### Implementation Details [#implementation-details]
 
 Integrated Modifier Images is not enabled by default for stores, given not all POS systems support this capability. To enable this functionality, please contact your technical account manager.
 
-### Technical Details - EXAMPLE MENU[​](#technical-details---example-menu "Direct link to heading")
+### Technical Details - EXAMPLE MENU [#technical-details---example-menu]
 
 Below is a snippet of the menu payload with the new photo URL included on the Item Option Level for OpenAPI integrations.
 
-```
+```json
 {  
   "reference": "string",  
   "store": {  

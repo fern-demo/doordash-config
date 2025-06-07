@@ -1,8 +1,8 @@
-## Overview[​](#overview "Direct link to heading")
+## Overview [#overview]
 
 Dual Pricing allows integration partners to pass two prices on an item, option, or option extra. This allows merchants to pass an uninflated price for first-party ordering or for in-store Pickup orders placed through DoorDash. This functionality is required to be built by all partners to ensure merchants have a way to offer in-store pricing on Marketplace Pickup orders. The `price` field is used for Marketplace Delivery prices, and the `base_price` is used for Marketplace Pickup prices, as well as both Storefront Delivery and Pickup prices.
 
-## How[​](#how "Direct link to heading")
+## How [#how]
 
 When creating or updating a menu through your DoorDash integration, including a `base_price` will mean that value is used for:
 
@@ -12,16 +12,16 @@ When creating or updating a menu through your DoorDash integration, including a 
 
 See [here](https://developer.doordash.com/en-US/api/marketplace#tag/Menu-Endpoints/operation/menuCreate) for details on how to implement.
 
-### Progress Check[​](#progress-check "Direct link to heading")
+### Progress Check [#progress-check]
 
 A new menu can be created for a store. Once the menu is created you can verify that the base\_price field correlates to the Marketplace pickup menu prices and all Storefront menu prices and the price field correlates to the Marketplace delivery menu prices.
 
-### FAQ[​](#faq "Direct link to heading")
+### FAQ [#faq]
 
 **Can a merchant offer separate pricing for Delivery order types on Storefront vs Marketplace (i.e Burrito Bowl offered for $10 for Delivery on Marketplace, $9 for Delivery on Storefront, & $8 for all Pickup orders on both Marketplace/Storefront)?**  
 At this time, a merchant is recommended to use a single menu as a source of truth and DoorDash does NOT support the ability for a merchant to specify different delivery pricing on Storefront vs Marketplace. The `base_price` sent in the Menu API will be leveraged for all order types (delivery & pickup) on the Storefront ordering experience.
 
-### Next Steps[​](#next-steps "Direct link to heading")
+### Next Steps [#next-steps]
 
 Present to your Merchants on how they can leverage this functionality. Such as enabling your merchants to send a single menu with two sets of pricing (in-store vs delivery) for use on both Storefront and Marketplace.
 

@@ -1,4 +1,4 @@
-## Prerequisites[​](#prerequisites "Direct link to heading")
+## Prerequisites [#prerequisites]
 
 DoorDash has the OpenAPI functionality to allow merchants to cancel orders that have previously been accepted.
 
@@ -7,20 +7,20 @@ DoorDash has enhanced the Open API contract by creating a new endpoint. Integrat
 The endpoint URL requires the DoorDash order ID that is being canceled and the body of the
 request should include a JSON that details why the order is being canceled.
 
-## Overview[​](#overview "Direct link to heading")
+## Overview [#overview]
 
 Many of our POS-integrated merchants are set up to automatically accept and confirm orders as
 as long as the order passes a set of validations. Occasionally, there are orders that are automatically confirmed by the merchant initially, but then need to be subsequently canceled due to a variety of reasons (lack of capacity, item unavailability, etc). In this scenario, the merchant must call DoorDash support to have the order canceled, which can be a time-consuming process for both sides, especially during peak business hours.
 
-## Get Started[​](#get-started "Direct link to heading")
+## Get Started [#get-started]
 
 ---
 
-### Step 1:[​](#step-1 "Direct link to heading")
+### Step 1: [#step-1]
 
 Reach out to your technical account manager to ensure you are added to the allowlist for Merchant Induced Order Cancellations
 
-### Step 2:[​](#step-2 "Direct link to heading")
+### Step 2: [#step-2]
 
 Route cancellation request to new endpoint using the specified format and receive a response back from DoorDash
 
@@ -29,7 +29,7 @@ Route cancellation request to new endpoint using the specified format and receiv
 **PATCH**
 [https://openapi.doordash.com/marketplace/api/v1/orders/{"{id}"}/cancellation](https://openapi.doordash.com/marketplace/api/v1/orders/%7Bid%7D/cancellation)
 
-#### Request Fields[​](#request-fields "Direct link to heading")
+#### Request Fields [#request-fields]
 
 **cancel\_reason** (required) = (string) Enum: [“ITEM\_OUT\_OF\_STOCK”,”STORE\_CLOSED”,
 “KITCHEN\_BUSY”, “OTHER”].
@@ -41,11 +41,11 @@ the two cancel\_reasons are used:
 
 **cancel\_details** (optional) = (string) “Store closed due to low capacity”
 
-#### Example Payload[​](#example-payload "Direct link to heading")
+#### Example Payload [#example-payload]
 
 Below is a sample payload:
 
-```
+```json
 {  
 "cancel_reason": "ITEM_OUT_OF_STOCK",  
 "cancel_details": "anything"  
@@ -53,7 +53,7 @@ Below is a sample payload:
 
 ```
 
-#### Response and Error Codes[​](#response-and-error-codes "Direct link to heading")
+#### Response and Error Codes [#response-and-error-codes]
 
 Once a request is received, DoorDash will respond with one of the following status codes
 
@@ -64,7 +64,7 @@ Once a request is received, DoorDash will respond with one of the following stat
 | 400 | Bad request, order not confirmed, order already cancelled |
 | 500 | Other |
 
-## FAQs[​](#faqs "Direct link to heading")
+## FAQs [#faqs]
 
 **How will reimbursement work for orders cancelled via this feature?**
 

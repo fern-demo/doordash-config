@@ -8,13 +8,13 @@ The image below presents a high level overview of how Menu creation and update w
 
 
 
-## Creating Menus (Pull)[​](#creating-menus-pull "Direct link to heading")
+## Creating Menus (Pull) [#creating-menus-pull]
 
 **GET** `/{merchant_pull_menu_endpoint}/{location_id}`
 
 As part of the integration workflow, partners must implement an endpoint that allows DoorDash to pull menus. This enables a more streamlined process when onboarding new stores. With this, the DoorDash team can configure the store and pull the corresponding menu all at one time, rather than coordinating with our partners for the menu push. The response for the menu ingestion process will match what is described below for the push method. The response to this GET request will differ from your Push request. Regardless of if multiple menus need to be returned as part of the response, the menus should be included as an array. Example below.
 
-```
+```json
 {  
     "store": {  
         "merchant_supplied_id": "<client's store id>",  
@@ -34,7 +34,7 @@ Partners are expected to return appropriate response codes if the Menu Pull requ
 
 Once our service is finished creating your menu or if the menu creation fails, the service will send out a POST webhook request with the menu creation result. You need to create an endpoint and provide us with its URL in order to receive the webhook notification. This request will contain the same "reference" as the response to your initial request, allowing you to keep track of which requests have been completely processed. You can find more details about this webhook in the section `Know when your menu is ready`.
 
-## Creating Menus (Push)[​](#creating-menus-push "Direct link to heading")
+## Creating Menus (Push) [#creating-menus-push]
 
 **POST** `/api/v1/menus`
 
@@ -46,7 +46,7 @@ The menu request body contains a provider\_type field which should pass your pro
 
 Once our service is finished creating your menu or if the menu creation fails, the service will send out a POST webhook request with the menu creation result. You need to create an endpoint and provide us with its URL in order to receive the webhook notification. This request will contain the same `reference` as the response to your initial request, allowing you to keep track of which requests have been completely processed. You can find more details about this webhook in the section `Receiving Menu Status Updates`.
 
-### Preventing Duplicate Menus[​](#preventing-duplicate-menus "Direct link to heading")
+### Preventing Duplicate Menus [#preventing-duplicate-menus]
 
 To prevent duplicate menus from being created for stores, DoorDash examines the `menu.merchant_supplied_id` within the [menu payload](https://developer.doordash.com/en-US/api/marketplace#tag/Models/StoreMenu) for **POST** requests to determine if an active menu already exists with the same value for this field. This works similiarly as if you try to save a file to a folder that already contains a file with the same name, in which case you're prompted to either rename the file or overwrite the existing file.
 
@@ -60,7 +60,7 @@ If a match is found (using `menu.merchant_supplied_id`), the existing menu will 
 
 
 
-## Updating Menus (Push)[​](#updating-menus-push "Direct link to heading")
+## Updating Menus (Push) [#updating-menus-push]
 
 **PATCH** `/api/v1/menus/{id}`
 
@@ -70,7 +70,7 @@ The menu update pipeline works identically to the menu creation pipeline. When u
 
 Once our service is finished updating your menu or if the menu update fails, our webhook will send a POST request to the endpoint you provide us with. Details can be found in the following section, `Receiving Menu Status Updates`.
 
-## Updating Menus (Pull)[​](#updating-menus-pull "Direct link to heading")
+## Updating Menus (Pull) [#updating-menus-pull]
 
 **GET** `/{merchant_pull_menu_endpoint}/{location_id}[?ids=external_menu_ids]`
 
@@ -84,7 +84,7 @@ Partners can utilize the same pull endpoint to allow DoorDash to request menu up
 
 The `"id": "menu-id"`(UUID) field is to be placed within the menus array. Please see the sample below:
 
-```
+```json
 {  
     "store": {  
         "merchant_supplied_id": "",  
@@ -116,7 +116,7 @@ The `"id": "menu-id"`(UUID) field is to be placed within the menus array. Please
 
 ```
 
-## Menu Response Codes[​](#menu-response-codes "Direct link to heading")
+## Menu Response Codes [#menu-response-codes]
 
 | Status Code | Details |
 | --- | --- |
@@ -132,7 +132,7 @@ If you receive a `429`, please retry after 1 minute. If you receive a `500`, ple
 
 In the above example, there is already an item with the `merchant_supplied_id` of `5757`. This is stating that there are duplicate IDs for an item within the same level of the Menu. To resolve this error, you must have unique `merchant_supplied_ids` for items within the same Menu Level.
 
-## Menu Job Failure Reason Examples[​](#menu-job-failure-reason-examples "Direct link to heading")
+## Menu Job Failure Reason Examples [#menu-job-failure-reason-examples]
 
 | Status Code | Body | Description |
 | --- | --- | --- |
@@ -142,7 +142,7 @@ In the above example, there is already an item with the `merchant_supplied_id` o
 | 429 | Developer account endpoint rate limit exceeded | The rate limit has been exceeded. Please retry the job after 1 minute. |
 | 400 | INVALID\_ARGUMENT::INVALID\_ARGUMENT: Store under active onboarding and not ready to receive menu push | Please use the correct [Menu Create/Update Endpoint for SSIO](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/#menu-creationupdate) to trigger a Menu Pull. |
 
-## Menu Fields Max Length[​](#menu-fields-max-length "Direct link to heading")
+## Menu Fields Max Length [#menu-fields-max-length]
 
 If a field within the menu payload exceeds the allowed Max Length, the menu will fail with a 400 Bad Request response. Please adhere to the max length fields listed below.
 
@@ -161,7 +161,7 @@ If a field within the menu payload exceeds the allowed Max Length, the menu will
 | description | 1000 |
 | merchant\_supplied\_id | 1024 |
 
-## Notable Menu Fields[​](#notable-menu-fields "Direct link to heading")
+## Notable Menu Fields [#notable-menu-fields]
 
 * `reference`: Required field in menu pull response. It is a merchant menu identifier which will be linked to the id (external menu id)
 * `id` (external menu id): Required is event type is `MenuUpdate`. Returned when the menu is created and must be stored by the merchant after MenuCreate.

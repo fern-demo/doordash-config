@@ -6,21 +6,21 @@ API: Drive
 
 This doc covers the Drive API. If you're using the Drive (classic) API, see the [how-to guide for using businesses & stores with Drive (classic)](/en-US/docs/drive_classic/how_to/use_businesses_and_stores_api).
 
-## 1. Prerequisites[​](#1-prerequisites "Direct link to heading")
+## 1. Prerequisites [#1-prerequisites]
 
 Make sure you've [created an access key](/en-US/docs/drive/how_to/manage_credentials) and [generated a JWT](/en-US/docs/drive/how_to/JWTs).
 
-## 2. Map your data model to DoorDash's data model[​](#2-map-your-data-model-to-doordashs-data-model "Direct link to heading")
+## 2. Map your data model to DoorDash's data model [#2-map-your-data-model-to-doordashs-data-model]
 
 DoorDash uses **businesses** to represent a legal entity or owner and **stores** to represent a single location that makes deliveries (learn more in the [business & store reference guide](/en-US/docs/drive/reference/businesses_and_stores)). If your system has a similar two-tier data model, you can create a business for each legal entity and as many stores as needed under that entity. If your system has a one-tier data model, you can just create a business and a single store for each corresponding store in your data model. [See guide here](https://developer.doordash.com/en-US/docs/drive/how_to/build_for_restaurants/#a-onboarding) for examples of different tiered data models.
 
-## 3. Create a business[​](#3-create-a-business "Direct link to heading")
+## 3. Create a business [#3-create-a-business]
 
 Create a business using an external identifier of your choice. We recommend using the same identifier that you use to represent the business in your own systems to make it easier to troubleshoot issues.
 
 > **HTTP POST** `/developer/v1/businesses`
 
-```
+```json
 {  
     "external_business_id": "a0720d55-7cbe-41ce-8185-58285b7985cd",  
     "name": "Neighborhood Deli",  
@@ -30,13 +30,13 @@ Create a business using an external identifier of your choice. We recommend usin
 
 ```
 
-## 4. Create a store[​](#4-create-a-store "Direct link to heading")
+## 4. Create a store [#4-create-a-store]
 
 Create a store, or as many stores as needed, under the business you created in the last step.
 
 > **HTTP POST** `/developer/v1/businesses/{{external-business-id}}/stores`
 
-```
+```json
 {  
     "external_store_id": "ed178ef3-b486-4ce8-8baa-5bc9f0f3fa4a",  
     "name": "Neighborhood Deli #10",  
@@ -46,13 +46,13 @@ Create a store, or as many stores as needed, under the business you created in t
 
 ```
 
-## 5. Create a delivery[​](#5-create-a-delivery "Direct link to heading")
+## 5. Create a delivery [#5-create-a-delivery]
 
 Once you've created a business and a store, you can associate deliveries with those stores by providing the external IDs of the business and the store. DoorDash will then take pickup delivery details, such as `pickup_address` and `pickup_phone_number`, from the store's configuration. When you create a delivery for a store, you don't need to pass these fields in the request body.
 
 > POST `/drive/v2/deliveries`
 
-```
+```json
 {  
     "external_delivery_id": "D-1763",  
     // other fields  
@@ -63,7 +63,7 @@ Once you've created a business and a store, you can associate deliveries with th
 
 ```
 
-## Next steps[​](#next-steps "Direct link to heading")
+## Next steps [#next-steps]
 
 Now that you know how to use businesses and stores, you can:
 

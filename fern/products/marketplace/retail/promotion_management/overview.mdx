@@ -1,14 +1,14 @@
-## Promotion Management API[​](#promotion-management-api "Direct link to heading")
+## Promotion Management API [#promotion-management-api]
 
-### Overview[​](#overview-1 "Direct link to heading")
+### Overview [#overview-1]
 
 The Promotion Management API is designed for DoorDash partners to manage item level promotions they offer on the platform. It allows partners to add and update promotions for existing items at the store level.
 
 **Endpoint URL:** `https://openapi.doordash.com/marketplace/api/v2/promotions/stores/{store_location_id}`
 
-### Getting Started[​](#getting-started "Direct link to heading")
+### Getting Started [#getting-started]
 
-#### Request[​](#request "Direct link to heading")
+#### Request [#request]
 
 * **HTTP Method:**
 
@@ -19,11 +19,11 @@ The Promotion Management API is designed for DoorDash partners to manage item le
   + Refer to the [JWT authentication documentation](https://developer.doordash.com/en-US/docs/marketplace/how_to/JWTs) for authentication details.
 * **Payload Example:** [View Example JSON](https://developer.doordash.com/en-US/api/marketplace_v2/#tag/PromotionManagementEndpoints/operation/createPromotion)
 
-#### Response[​](#response "Direct link to heading")
+#### Response [#response]
 
 * **Success Response:**
 
-```
+```json
 {  
   "operation_id": "string",  
   "operation_status": "SUCCESS"  
@@ -44,11 +44,11 @@ The Promotion Management API is designed for DoorDash partners to manage item le
 | 429 | request\_rate\_limited | - | - | - |
 | 500 | service\_fault | Default: Internal service failure, please try again later. | - | - |
 
-### Verification:[​](#verification "Direct link to heading")
+### Verification: [#verification]
 
 Once you believe you have made a successful call to the endpoint, reach out to your DoorDash technical account manager to verify. Please provide an example of the payload used in the request.
 
-### FAQ[​](#faq "Direct link to heading")
+### FAQ [#faq]
 
 1. **Can we leverage the same openAPI provider type as the other endpoints?**
 

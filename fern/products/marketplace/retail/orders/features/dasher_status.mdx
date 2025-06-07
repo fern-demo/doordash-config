@@ -8,11 +8,11 @@ Limited access
 Marketplace APIs are not yet generally available. Please record interest in early access [here](https://docs.google.com/forms/d/e/1FAIpQLSfggU_NjGWCdi9vyWUicrnzJmtu9vC4zgbfSC3ROwSvW4eV2g/viewform).
 </Warning>
 
-## Prerequisites[​](#prerequisites "Direct link to heading")
+## Prerequisites [#prerequisites]
 
 DoorDash has enhanced the Open API contract by adding a new webhook. Integration partners can subscribe to this webhook by providing their Technical Account Manager with an endpoint and authorization details.
 
-## Overview[​](#overview "Direct link to heading")
+## Overview [#overview]
 
 The Dasher Status webhook contains a status indicator, reference to the specific order, and Dasher information. A webhook event will be triggered each time a specific dasher status is reached, so multiple events are expected to trigger for an order.
 
@@ -23,16 +23,16 @@ By giving POS Merchants insight into the full lifecycle of an order, we can incr
 * Prioritize in progress orders, completing the order with the earliest arriving Dasher
 * Improve the order handoff experience with visibility to Dasher details.
 
-## Get Started[​](#get-started "Direct link to heading")
+## Get Started [#get-started]
 
 ---
 
-### Step 1: Set up your [Webhook Subscription](https://developer.doordash.com/portal/integration/marketplace/webhook_subscriptions)[​](#step-1-set-up-your-webhook-subscription "Direct link to heading")
+### Step 1: Set up your [Webhook Subscription](https://developer.doordash.com/portal/integration/marketplace/webhook_subscriptions) [#step-1-set-up-your-webhook-subscription]
 
 Make sure to use the `"Dasher Status Updates"` event type
 
 
-### Step 2: Understand the Webhook Fields[​](#step-2-understand-the-webhook-fields "Direct link to heading")
+### Step 2: Understand the Webhook Fields [#step-2-understand-the-webhook-fields]
 
 `dasher_status`: string value indicating the current Dasher status. Values include `dasher_confirmed`, `arriving_at_store`, `arrived_at_store`, `dasher_out_for_delivery`,`dropoff`.
 
@@ -46,11 +46,11 @@ Make sure to use the `"Dasher Status Updates"` event type
 
 `Phone_number`: masked phone number of the Dasher (Note: The Dasher can only be reached if the call is initiated from the store phone number)
 
-### Step 3: Set up the Webhook Payload[​](#step-3-set-up-the-webhook-payload "Direct link to heading")
+### Step 3: Set up the Webhook Payload [#step-3-set-up-the-webhook-payload]
 
 Below is a sample payload:
 
-```
+```json
 {  
   "event": {  
     "type": "dasher_status_update",  
@@ -78,7 +78,7 @@ Below is a sample payload:
 
 ```
 
-### Step 4: Understand the Response & Error Codes[​](#step-4-understand-the-response--error-codes "Direct link to heading")
+### Step 4: Understand the Response & Error Codes [#step-4-understand-the-response--error-codes]
 
 Once a webhook is received, the provider is expected to return the following response codes
 
@@ -90,11 +90,11 @@ Once a webhook is received, the provider is expected to return the following res
 | 500 | Internal Server Error - something went wrong on the Mx side |
 | 503 | Service not available - Mx endpoint is partially or totally down |
 
-## Next Steps[​](#next-steps "Direct link to heading")
+## Next Steps [#next-steps]
 
 Ensure that store operators are aware of this functionality is available to them and that it is being used properly to get the full benefits of it.
 
-## FAQs[​](#faqs "Direct link to heading")
+## FAQs [#faqs]
 
 1. When is the ‘arriving\_at\_store’ notification triggered?
 

@@ -1,18 +1,18 @@
-## Merchant Onboarding Flow[​](#merchant-onboarding-flow "Direct link to heading")
+## Merchant Onboarding Flow [#merchant-onboarding-flow]
 
 The image below presents the merchant onboarding flow.
 
 
 
-## Overview[​](#overview "Direct link to heading")
+## Overview [#overview]
 
 Building a merchant onboarding process that meets these requirements will deliver a fast and smooth onboarding experience for your merchants.
 
 > **Onboarding Service Level Agreement:** Partner will onboard the Merchant to data delivery within 2 business days of gaining access to the Merchant’s data. For Merchants new to Partner’s platform, it is understood that it will take time to gain access to the Merchants’ data. Onboarding SLAs for net new Merchants will be provided by Partner to DoorDash during Onboarding Process Build.
 
-### **Flow**[​](#flow "Direct link to heading")
+### **Flow** [#flow]
 
-#### *Initiation*[​](#initiation "Direct link to heading")
+#### *Initiation* [#initiation]
 
 1. Merchant starts from external Partner environment.
 2. Merchant initiates the process (e.g. “Add the DoorDash integration”).
@@ -23,7 +23,7 @@ Building a merchant onboarding process that meets these requirements will delive
      + If "yes", proceed to [*New Merchant Signup*](#new-merchant-signup)
      + If "no", proceed to [*Contacting DoorDash Support*](#contacting-doordash-support)
 
-#### *Verifying Existing Merchants*[​](#verifying-existing-merchants "Direct link to heading")
+#### *Verifying Existing Merchants* [#verifying-existing-merchants]
 
 
 
@@ -32,7 +32,7 @@ Merchant is asked to enter the DoorDash integration code
 * If the merchant enters "DoorDash2013", proceed to [*Onboarding*](#onboarding)
 * If the merchant enters anything else, proceed to [*Contacting DoorDash Support*](#contacting-doordash-support)
 
-#### *New Merchant Signup*[​](#new-merchant-signup "Direct link to heading")
+#### *New Merchant Signup* [#new-merchant-signup]
 
 1. Partner presents merchant with a DoorDash-provided sales sign-up form.
 
@@ -41,12 +41,12 @@ Merchant is asked to enter the DoorDash integration code
 2. DoorDash sales staff will contact the merchant and present a contract.
 3. After the merchant completes the sign-up form, partner informs them to return to this DoorDash integration sign-up form within the partner's portal after they've signed their contract with DoorDash.
 
-#### *Contacting DoorDash Support*[​](#contacting-doordash-support "Direct link to heading")
+#### *Contacting DoorDash Support* [#contacting-doordash-support]
 
 Partner instructs merchants:
 *"Please reach out to DoorDash Support for the integration code at [https://help.doordash.com/merchants/s/merchant-support?language=en\_US."](https://help.doordash.com/merchants/s/merchant-support?language=en_US.%22)*
 
-#### *Onboarding*[​](#onboarding "Direct link to heading")
+#### *Onboarding* [#onboarding]
 
 1. Partner enables [Inventory Pull](https://developer.doordash.com/en-US/docs/marketplace/retail/how_to/store_item_pull_job) for the store(s) so that DoorDash can pull inventory to generate menus to launch the store(s)
 2. *IN PARALLEL WITH BELOW* Partner sends [GET Store Info](https://developer.doordash.com/en-US/api/marketplace#tag/Store-Endpoints/operation/getStoreInfo) call
@@ -73,9 +73,9 @@ Partner instructs merchants:
    * If menus[0].is\_active = FALSE or does not exist, repeat every 24 hours until the above condition is true
 6. DoorDash will work with the merchant to activate the store
 
-## API List[​](#api-list "Direct link to heading")
+## API List [#api-list]
 
-### Store Onboarding Webhook[​](#store-onboarding-webhook "Direct link to heading")
+### Store Onboarding Webhook [#store-onboarding-webhook]
 
 * **Note:** This endpoint does not support sending multiple stores in a single call. Partners must send one webhook per location; if this is not possible then Partners must use the Developer Portal CSV upload route for bulk onboarding requests. Please note that the CSV upload functionality is only available upon a granted exception. Please work with your Technical Account Manager for details.
 
@@ -104,7 +104,7 @@ POST: https://openapi.doordash.com/webhooks/stores/onboarding
 
 ```
 
-### Request Fields Details[​](#request-fields-details "Direct link to heading")
+### Request Fields Details [#request-fields-details]
 
 | Name | Type | Required? | Details |
 | --- | --- | --- | --- |
@@ -127,11 +127,11 @@ POST: https://openapi.doordash.com/webhooks/stores/onboarding
 | expected\_go\_live\_date | String | false | Partners to indicate an expected date to go live. If this value is not provided, the store will be onboarded as the DoorDash Activations specialist processes the request. If provided, the DoorDash activations team will attempt to honor the date, however, timelines can be delayed owing to issues on the Partner / Merchant’s end. |
 | merchant\_decision\_maker\_email | string | true | Email address of the merchant being onboarded. This email address will receive the merchant consent email for them to authenticate the onboarding request. This user must be a Business Admin user in DoorDash Merchant Portal to authenticate the request. |
 
-### Response[​](#response "Direct link to heading")
+### Response [#response]
 
 Response Code `200`
 
-```
+```json
 {  
    "message": "OK"  
 }  
@@ -140,38 +140,38 @@ Response Code `200`
 
 Response Code `400`: Validation error or malformed request, caused because of missing information
 
-```
+```json
 {  
    "message": "INVALID_ARGUMENT: X is required"  
 }  
 
 ```
 
-## Prerequisites & Other Requirements [​](#prerequisites--other-requirements "Direct link to heading")
+## Prerequisites & Other Requirements  [#prerequisites--other-requirements]
 
 ---
 
-#### [Prerequisite] Developer Portal Sign Up[​](#prerequisite-developer-portal-sign-up "Direct link to heading")
+#### [Prerequisite] Developer Portal Sign Up [#prerequisite-developer-portal-sign-up]
 
 To enhance our partner experience, DoorDash has launched a DoorDash Developer Portal. The Developer Portal allows partners to manage their integration, view integration metrics, integrated store information, and more. With regards to Store Onboarding Webhooks, DoorDash may reach out with issues that are dependent on the provider to resolve.
 
-#### [Prerequisite] Inventory Pull[​](#prerequisite-inventory-pull "Direct link to heading")
+#### [Prerequisite] Inventory Pull [#prerequisite-inventory-pull]
 
 You are required to build [Inventory Pull](https://developer.doordash.com/en-US/docs/marketplace/retail/how_to/store_item_pull_job) capability as part of the DoorDash integration. This enables a streamlined onboarding experience for the merchant and ensures there is an optimal rescue path for any escalated cases needing manual action by DoorDash.
 
-#### [Requirement] Webhook Content Source[​](#requirement-webhook-content-source "Direct link to heading")
+#### [Requirement] Webhook Content Source [#requirement-webhook-content-source]
 
 The values provided in the webhook **required fields** should be programmatically populated based on existing data within your system. These values should not be populated via manual entry by a user to help mitigate the risk of typos and incorrect information being entered. It is an acceptable implementation if you wish to allow merchants to enter the *optional* fields manually as part of the process triggering the Store Onboarding Webhook.
 
-#### [Requirement] Webhook Cadence[​](#requirement-webhook-cadence "Direct link to heading")
+#### [Requirement] Webhook Cadence [#requirement-webhook-cadence]
 
 Webhooks must be sent in real-time (e.g. merchants self-trigger) or once per day if sending in a batch. Webhooks should not be sent any less frequently than daily to ensure an acceptable time between when the merchant requests on the partner side and when DoorDash receives that request. *Partner must continue sending the Store Onboarding Webhook daily for 30 days after initial merchant request.*
 
-#### [Requirement] Webhook Prerequisites[​](#requirement-webhook-prerequisites "Direct link to heading")
+#### [Requirement] Webhook Prerequisites [#requirement-webhook-prerequisites]
 
 Partners should take reasonable steps to ensure that the merchant's menu in the partner environment is ready to be pulled before the webhook is sent. This will help ensure a seamless merchant experience and prevent any avoidable delays.
 
-#### [Requirement] Stakeholder Enablement[​](#requirement-stakeholder-enablement "Direct link to heading")
+#### [Requirement] Stakeholder Enablement [#requirement-stakeholder-enablement]
 
 In order to ensure that DoorDash has adequate content to share with merchants on how to trigger the webhook, we require partners share resources outlining the end-to-end flow from the partner environment. A merchant-facing help document (hosted on the partner site so information does not get outdated across parties) must be provided to share visuals and context around how merchants can trigger the Store Onboarding Webhook from the Partner environment. Note: Single-merchant, direct-to-brand integrations are not required to provide this documentation. Middleware integrations must provide this documentation.
 
@@ -179,23 +179,23 @@ In order to ensure that DoorDash has adequate content to share with merchants on
 * The help article must be formatted as either a web page (strongly preferred) or PDF document accessible in a web browser
 * The help article must be hosted and maintained by the partner
 
-#### [Requirement] Real-time Inventory Updates[​](#requirement-real-time-inventory-updates "Direct link to heading")
+#### [Requirement] Real-time Inventory Updates [#requirement-real-time-inventory-updates]
 
 To rescue a case that is in the blocked state because of menu validation issues, DoorDash will be sharing the errors and how to resolve them with the merchants via email. Providers are required to support inventory push in real time or near real time when a inventory update is made so that store activation can proceed with minimal delays.
 
-#### [FYI] Virtual Brands[​](#fyi-virtual-brands "Direct link to heading")
+#### [FYI] Virtual Brands [#fyi-virtual-brands]
 
 If merchants in your partner ecosystem have unique location\_id values for each virtual concept they have, those merchants can seamlessly integrate their virtual concepts through Store Onboarding Webhooks just as any other store would. However, if merchants in your partner ecosystem do **NOT** have unique location\_id values for each virtual concept they have, we will block those virtual concepts from onboarding through Store Onboarding Webhooks since DoorDash does not support having multiple stores sharing the same provider\_type / location\_id combination.
 
-### Certification Details[​](#certification-details "Direct link to heading")
+### Certification Details [#certification-details]
 
 ---
 
-#### E2E Test Store Activation Proof of Concept [​](#e2e-test-store-activation-proof-of-concept "Direct link to heading")
+#### E2E Test Store Activation Proof of Concept  [#e2e-test-store-activation-proof-of-concept]
 
 When your implementation of Store Onboarding Webhook is considered dev-complete, please coordinate with your Technical Account Manager to schedule a live certification ([certification tracker](https://docs.google.com/spreadsheets/d/1EQEcz9NQXX2JOncb8BsHXkpTbL8hBJRu2Qq6UnK2Mu8/edit#gid=0)) and review of your implementation of Store Onboarding Webhook. This will help ensure the API best practices are being followed, you are not missing any critical piece of the process, and help empower our internal teams with context around how it works in your environment.
 
-## Terminology[​](#terminology "Direct link to heading")
+## Terminology [#terminology]
 
 * POS
 

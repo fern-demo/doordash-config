@@ -4,27 +4,27 @@ Limited access
 Marketplace APIs are not yet generally available. Please record interest in early access [here](https://docs.google.com/forms/d/e/1FAIpQLSfggU_NjGWCdi9vyWUicrnzJmtu9vC4zgbfSC3ROwSvW4eV2g/viewform).
 </Warning>
 
-## Where can I see sample configurations for a menu?​[​](#where-can-i-see-sample-configurations-for-a-menu "Direct link to heading")
+## Where can I see sample configurations for a menu?​ [#where-can-i-see-sample-configurations-for-a-menu]
 
 Please see our [Menu Configuration Reference](https://developer.doordash.com/en-US/docs/marketplace/explainers/menu_configuration_reference).
 
-## Is there a max menu size that will be accepted?[​](#is-there-a-max-menu-size-that-will-be-accepted "Direct link to heading")
+## Is there a max menu size that will be accepted? [#is-there-a-max-menu-size-that-will-be-accepted]
 
 We can successfully process menus with a file size up to 25MB.
 
-## How is the “Most Popular” section populated?​[​](#how-is-the-most-popular-section-populated "Direct link to heading")
+## How is the “Most Popular” section populated?​ [#how-is-the-most-popular-section-populated]
 
 This section is populated based on a calculation by DoorDash via Machine Learning and an item’s order history.
 
-## How do I control the status of a menu?​[​](#how-do-i-control-the-status-of-a-menu "Direct link to heading")
+## How do I control the status of a menu?​ [#how-do-i-control-the-status-of-a-menu]
 
 To activate a menu, submit a MenuUpdate request (PATCH) setting the `active` field to `true`. To deactivate a menu, submit a MenuUpdate request (PATCH) setting the `active` to `false`.
 
-## What is the difference between price and base\_price?[​](#what-is-the-difference-between-price-and-base_price "Direct link to heading")
+## What is the difference between price and base\_price? [#what-is-the-difference-between-price-and-base_price]
 
 `base_price` is a second pricing field available on the item, item extra, and item extra option level. When a `base_price` is populated, that price will be used for DoorDash Marketplace Pickup, as well as on DoorDash first-party channels such as Storefront and Voice. When a customer toggles between Pickup and Delivery on Marketplace, the prices will update accordingly between `base_price` (Pickup) and `price` (Delivery). On Storefront and Voice, `base_price` will always be used for both Pickup and Delivery.
 
-## What is an Item / Extra / Option?[​](#what-is-an-item--extra--option "Direct link to heading")
+## What is an Item / Extra / Option? [#what-is-an-item--extra--option]
 
 
 
@@ -32,55 +32,55 @@ Item Extras are the equivalent of categories, but instead of containing items, t
 
 Item Extra Options act as modifiers for each item.
 
-## How do I specify a tax rate?[​](#how-do-i-specify-a-tax-rate "Direct link to heading")
+## How do I specify a tax rate? [#how-do-i-specify-a-tax-rate]
 
 We support sending tax rates at the item level and the item extra option level in the menu. If this value is sent, DoorDash will use this tax rate to calculate the taxes for non-Marketplace Facilitator states. For merchants in MPF states, we use DoorDash tax calculations since DoorDash is responsible to remit and pay that tax amount on behalf of the merchant.
 
 The rate should be sent as a whole number. For example, my tax rate is 5% for an item. The `tax_rate` should be sent as 5 in the menu payload (not .05). If tax rates are not sent in the menu, we will rely on the DoorDash third party tax engine for tax calculations.
 
-## Will DoorDash respect my tax rates sent for Merchants in MPF states?[​](#will-doordash-respect-my-tax-rates-sent-for-merchants-in-mpf-states "Direct link to heading")
+## Will DoorDash respect my tax rates sent for Merchants in MPF states? [#will-doordash-respect-my-tax-rates-sent-for-merchants-in-mpf-states]
 
 No, DoorDash will ignore what is sent and we will calculate our own tax.
 
-## Where can I find a list of Marketplace Facilitator states?[​](#where-can-i-find-a-list-of-marketplace-facilitator-states "Direct link to heading")
+## Where can I find a list of Marketplace Facilitator states? [#where-can-i-find-a-list-of-marketplace-facilitator-states]
 
 You can find the current list of Marketplace Facilitator states [here](https://help.doordash.com/merchants/s/article/Marketplace-Facilitator-FAQ?language=en_US).
 
-## Does DoorDash’s tax engine include surcharges such as sugary-drink tax and bottle deposits?[​](#does-doordashs-tax-engine-include-surcharges-such-as-sugary-drink-tax-and-bottle-deposits "Direct link to heading")
+## Does DoorDash’s tax engine include surcharges such as sugary-drink tax and bottle deposits? [#does-doordashs-tax-engine-include-surcharges-such-as-sugary-drink-tax-and-bottle-deposits]
 
 DoorDash’s tax engine will include a sugary drink tax in applicable jurisdictions for MPF states/provinces. DoorDash does not collect the bottle fee on applicable items unless they are specified in the menu by the merchant.
 
-## How do I create a default itemOption?[​](#how-do-i-create-a-default-itemoption "Direct link to heading")
+## How do I create a default itemOption? [#how-do-i-create-a-default-itemoption]
 
 In order to have an `itemOption` selected by default, please include default as a parameter with the value set to `true` in the Menu payload.
 
-## If I don’t want to use a field, can I use a null value?[​](#if-i-dont-want-to-use-a-field-can-i-use-a-null-value "Direct link to heading")
+## If I don’t want to use a field, can I use a null value? [#if-i-dont-want-to-use-a-field-can-i-use-a-null-value]
 
 If you want to omit a field, omit the key completely. If you pass in a null value, the data validation and subsequent Menu Job will fail.
 
-## How are Categories Sorted?[​](#how-are-categories-sorted "Direct link to heading")
+## How are Categories Sorted? [#how-are-categories-sorted]
 
 Categories and Items are sorted according to the `sort_id` defined in the menu payload. If this field is not defined, by default they will be sorted alphabetically. Please note, DoorDash may apply sorting override to promote more popular categories and items first which, when applied, overrides the sort order defined in the menu payload.
 
-## Can I set a price upcharge for a modifier that is a Quantity Selector?[​](#can-i-set-a-price-upcharge-for-a-modifier-that-is-a-quantity-selector "Direct link to heading")
+## Can I set a price upcharge for a modifier that is a Quantity Selector? [#can-i-set-a-price-upcharge-for-a-modifier-that-is-a-quantity-selector]
 
 Yes you can set a price associated with a modifier that follows the Quantity Selector behavior, but the upcharge will not display on the menu. The upcharge will display in the red pill button on the Item page once the quantity is adjusted.
 
-## How do I maintain multiple menus (day parting)?[​](#how-do-i-maintain-multiple-menus-day-parting "Direct link to heading")
+## How do I maintain multiple menus (day parting)? [#how-do-i-maintain-multiple-menus-day-parting]
 
 If you create multiple menus with separate hours (day parted menus), the menu that applies to the current hours will display by default. Continuous menu logic will apply to these menus if the time between Menu 1’s end time and Menu 2’s start time is less than 1 minute, meaning that DoorDash would not apply the 20 minute buffer on Menu 1’s end time.
 
 If you create multiple menus with overlapping hours, they will all be displayed on DoorDash’s platform in a drop down menu. The most recently created menu will display by default during the period of time when hours are overlapping. For example: If you have a Breakfast menu and an All Day menu, the menu defaulted to display on DoorDash will be the one which is created most recently.
 
-## Can I sell alcohol on my DoorDash menu?[​](#can-i-sell-alcohol-on-my-doordash-menu "Direct link to heading")
+## Can I sell alcohol on my DoorDash menu? [#can-i-sell-alcohol-on-my-doordash-menu]
 
 DoorDash allows merchants to sell alcohol on the platform once an alcohol addendum is signed. Please reach out to your DoorDash contact to review and sign the alcohol addendum. Once this is completed, we have a flag in the menu payload called `is_alcohol` to notate alcoholic items. When this is set to true, we mark the item as 21+ in our backend. Please ensure that any alcohol items are marked as true in the menu to avoid any legal issues.
 
-## Can merchants edit their menu in DoorDash?[​](#can-merchants-edit-their-menu-in-doordash "Direct link to heading")
+## Can merchants edit their menu in DoorDash? [#can-merchants-edit-their-menu-in-doordash]
 
 Technically, merchants have the ability to edit their menu in the DoorDash Merchant Portal. However, this is discouraged behavior since the POS menu should be the source of truth, and most changes will be overwritten by a subsequent menu update received. There are some exceptions to this:
 
-### Sticky Values[​](#sticky-values "Direct link to heading")
+### Sticky Values [#sticky-values]
 
 If the menu payload has the attribute, honor that value as the source of truth. If the menu payload does not have the attribute, fetch the manually set change in DoorDash and apply on top of the ingested Menu. These values include:
 
@@ -89,7 +89,7 @@ If the menu payload has the attribute, honor that value as the source of truth. 
 * Dietary tags
 * Active flag (category, item, options)
 
-### Override Values[​](#override-values "Direct link to heading")
+### Override Values [#override-values]
 
 Respect attribute if manually set no matter what exists in the menu payload. If a user sets a value in DoorDash, this value cannot be updated via integration. These values include:
 

@@ -4,11 +4,11 @@ This information is shared with DoorDash at least daily (max 3x per day). When a
 
 
 
-## Sample File Requirements[​](#sample-file-requirements "Direct link to heading")
+## Sample File Requirements [#sample-file-requirements]
 
 To kickoff an Integration build, DoorDash requires a sample of the file that will be used as the Inventory Feed. Ideally inventory data will be sent in the format outlined under ‘Inventory Feed Setup’, however these are not strict requirements. If you are unable to meet these requirements, please work with your Technical Account Manager to align on a path forward. We will build the ETL logic based on this sample, so ensure that the production file you intend to send matches this format.
 
-## Inventory Feed Setup[​](#inventory-feed-setup "Direct link to heading")
+## Inventory Feed Setup [#inventory-feed-setup]
 
 Once your sample file has been approved, DoorDash requires a daily, automated transfer of the file to our SFTP server. The following expectations are in place for Inventory Feeds:
 
@@ -17,7 +17,7 @@ Once your sample file has been approved, DoorDash requires a daily, automated tr
 * Transfer Path: daily\_feed/v1/{yyyy}{mm}{dd}
 * File Cadence: Minimum daily refresh of Inventory Feed data (availability & pricing). This process should be automated and occur on a set scheduled time.
 
-## Inventory File Fields[​](#inventory-file-fields "Direct link to heading")
+## Inventory File Fields [#inventory-file-fields]
 
 | Field Name | Description | Required/Optional | Format |
 | --- | --- | --- | --- |
@@ -42,7 +42,7 @@ Once your sample file has been approved, DoorDash requires a daily, automated tr
 
 Required\* = Required in certain situations depending on integration
 
-## Inventory Sample File[​](#inventory-sample-file "Direct link to heading")
+## Inventory Sample File [#inventory-sample-file]
 
 | store\_id | sku\_id | upc | category | name | description | price | sale\_price | loyalty\_price | bottle\_deposit\_fee | tax\_rate | is\_active | last\_sold\_date | is\_alcohol | is\_weighted\_item | approximate\_sold\_as \_quantity | item\_location | bottle\_deposit\_fee | promotion\_type | promotion\_purchase\_quantity | promotion\_quantity | promotion\_total\_price | promotion\_percentage | promotion\_price\_off | promotion\_quantity\_limit\_per\_cart | promotion\_start\_time | promotion\_end\_time |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |

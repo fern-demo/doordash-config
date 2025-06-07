@@ -2,7 +2,7 @@
 
 
 
-## Mission[​](#mission "Direct link to heading")
+## Mission [#mission]
 
 **DoorDash Mission:** Grow and Empower local economies
 
@@ -12,7 +12,7 @@
 
 This section provides definitions for key terms used in the DoorDash Retail UI integration documentation. Familiarizing yourself with these terms will help you better understand the concepts and processes involved in integrating with DoorDash.
 
-## Key Terms[​](#key-terms "Direct link to heading")
+## Key Terms [#key-terms]
 
 * **Store:** A single brick-and-mortar location that sells items.
 * **Business:** A single business entity that can have multiple stores and shares a single Catalog.
@@ -27,7 +27,7 @@ This section provides definitions for key terms used in the DoorDash Retail UI i
 
 Understanding these terms is crucial for a seamless integration process. Refer to this page whenever you encounter unfamiliar terminology in the documentation.
 
-## Steps to Start API Integration[​](#steps-to-start-api-integration "Direct link to heading")
+## Steps to Start API Integration [#steps-to-start-api-integration]
 
 > **Note:** API integration is required for Third-Party Providers. to share item-specific and store-level data as it enables near real-time data sharing, allowing us to closely mirror the in-store shopping experience on DoorDash.
 
@@ -52,7 +52,7 @@ Understanding these terms is crucial for a seamless integration process. Refer t
 
    * Reach out to your DoorDash technical account manager to have a test store added to the Developer Portal.
 
-## Steps to Build API Integration[​](#steps-to-build-api-integration "Direct link to heading")
+## Steps to Build API Integration [#steps-to-build-api-integration]
 
 1. Build the [Catalog API integration](#catalog-integration)
 
@@ -105,9 +105,9 @@ Understanding these terms is crucial for a seamless integration process. Refer t
 
 * Once you're satisfied with the performance of the integration for the pilot merchants, launch it to all of your merchants more generally.
 
-## Integrations[​](#integrations "Direct link to heading")
+## Integrations [#integrations]
 
-### Catalog Integration[​](#catalog-integration "Direct link to heading")
+### Catalog Integration [#catalog-integration]
 
 Automatically ingest/update items sold by a business
 
@@ -122,7 +122,7 @@ Respond to typical events:
 * [API Documentation](https://developer.doordash.com/en-US/api/marketplace_v2#tag/ItemManagementEndpoints)
 * [Supported Product Attributes](https://developer.doordash.com/en-US/docs/marketplace/retail/catalog_management/supported_attribute)
 
-#### Catalog Pull [REQUIRED][​](#catalog-pull-required "Direct link to heading")
+#### Catalog Pull [REQUIRED] [#catalog-pull-required]
 
 Enable faster merchant onboarding by exposing an endpoint from which DoorDash can pull any business' Catalog
 
@@ -130,7 +130,7 @@ Enable faster merchant onboarding by exposing an endpoint from which DoorDash ca
 
 * [Guide](https://developer.doordash.com/en-US/docs/marketplace/retail/how_to/catalog_pull_job)
 
-### Inventory Integration[​](#inventory-integration "Direct link to heading")
+### Inventory Integration [#inventory-integration]
 
 Automatically ingest/update pricing/availability on an active DoorDash menu
 
@@ -153,7 +153,7 @@ Recommended item availability logic:
 * [Guide](https://developer.doordash.com/en-US/docs/marketplace/retail/inventory_pricing/overview)
 * [API Documentation](https://developer.doordash.com/en-US/api/marketplace_v2#tag/InventoryManagementEndpoints)
 
-#### Inventory Pull [REQUIRED][​](#inventory-pull-required "Direct link to heading")
+#### Inventory Pull [REQUIRED] [#inventory-pull-required]
 
 Enable faster merchant onboarding by exposing an endpoint from which DoorDash can pull any store's inventory
 
@@ -168,7 +168,7 @@ Nightly full menu refresh:
   + [Model: CreateJobRequest](https://developer.doordash.com/en-US/api/marketplace_v2/#tag/ItemManagementModels/CreateJobRequest)
   + [Model: CreatePullStoreItemsJobParameters](https://developer.doordash.com/en-US/api/marketplace_v2/#tag/ItemManagementModels/CreatePullStoreItemsJobParameters)
 
-### Store Hours Integration[​](#store-hours-integration "Direct link to heading")
+### Store Hours Integration [#store-hours-integration]
 
 Automatically update store hours to ensure Customers are able to successfully place orders
 
@@ -185,7 +185,7 @@ Nightly store hours update
 * [Guide](https://developer.doordash.com/en-US/docs/marketplace/retail/store_management/overview)
 * [API Documentation](https://developer.doordash.com/en-US/api/marketplace_v2#tag/StoreManagementEndpoints)
 
-#### Store Hours Pull [REQUIRED][​](#store-hours-pull-required "Direct link to heading")
+#### Store Hours Pull [REQUIRED] [#store-hours-pull-required]
 
 Enable faster merchant onboarding by exposing an endpoint from which DoorDash can pull any store's hours
 
@@ -193,7 +193,7 @@ Enable faster merchant onboarding by exposing an endpoint from which DoorDash ca
 
 * [Guide](https://developer.doordash.com/en-US/docs/marketplace/retail/how_to/store_hours_pull_job)
 
-### Orders Integration[​](#orders-integration "Direct link to heading")
+### Orders Integration [#orders-integration]
 
 > **Note:** An orders integration may not be required. If the Partner's platform doesn't provide merchants with tools to pick and pack orders, an orders integration will be impossible.
 
@@ -204,7 +204,7 @@ Receive orders from DoorDash and present to merchants for fulfillment right with
 * [Guide](https://developer.doordash.com/en-US/docs/marketplace/retail/orders/overview)
 * [API Documentation](https://developer.doordash.com/en-US/api/marketplace#tag/Order-Endpoints)
 
-#### Mandatory Orders Integration Features[​](#mandatory-orders-integration-features "Direct link to heading")
+#### Mandatory Orders Integration Features [#mandatory-orders-integration-features]
 
 The following features are mandatory for all Third-Party Provider orders integrations serving Retail merchants.
 
@@ -225,7 +225,7 @@ The following features are mandatory for all Third-Party Provider orders integra
 * Masked customer phone number - [instructions](https://developer.doordash.com/en-US/docs/marketplace/retail/orders/features/masked_number)
   + Enables merchants to contact customers directly (helpful for substitutions)
 
-#### Optional Orders Integration Features[​](#optional-orders-integration-features "Direct link to heading")
+#### Optional Orders Integration Features [#optional-orders-integration-features]
 
 The following features are optional for Third-Party Provider orders integration serving Retail merchants.
 
@@ -237,15 +237,15 @@ The following features are optional for Third-Party Provider orders integration 
   + Send self-delivery order statuses to DoorDash to surface to the customer in the app - [instructions](https://developer.doordash.com/en-US/docs/marketplace/retail/orders/features/self_delivery_enhancement/)
 * Receive Bag Fees - allow merchants to collect a bag fee and any necessary taxes related to the fee to meet any specific government regulations - [instructions](https://developer.doordash.com/en-US/docs/marketplace/retail/orders/features/bag_fees)
 
-### Useful Additional Features[​](#useful-additional-features "Direct link to heading")
+### Useful Additional Features [#useful-additional-features]
 
-#### Store Temporary Deactivation[​](#store-temporary-deactivation "Direct link to heading")
+#### Store Temporary Deactivation [#store-temporary-deactivation]
 
 Give your merchants the ability to pause their DoorDash storefront to accommodate for unexpected issues: busy periods, internet outages, natural disasters, etc. Follow these [instructions](https://developer.doordash.com/en-US/docs/marketplace/how_to/store_and_item_status/#store-activation-status-change) to enable this feature.
 
 > **Note:** Be sure to set *temporary* deactivations (by setting an end date when deactivating) so stores don't lose revenue.
 
-#### Item Level Promotions **[RECOMMENDED]**[​](#item-level-promotions-recommended "Direct link to heading")
+#### Item Level Promotions **[RECOMMENDED]** [#item-level-promotions-recommended]
 
 Add and update promotions for existing items at the store level
 
@@ -255,11 +255,11 @@ Add and update promotions for existing items at the store level
 * [Promotion Creation - API Documentation](https://developer.doordash.com/en-US/api/marketplace_v2/#tag/PromotionManagementEndpoints/operation/createPromotion)
 * [Receive Integrated Promotion Data in Orders](https://developer.doordash.com/en-US/docs/marketplace/retail/orders/features/promos)
 
-## Store Onboarding Process[​](#store-onboarding-process "Direct link to heading")
+## Store Onboarding Process [#store-onboarding-process]
 
 Follow the steps outlined in detail in [Merchant Onboarding Requirements for API-Integrated Retail Stores](https://developer.doordash.com/en-US/docs/marketplace/retail/how_to/retail_sow_v2/).
 
-## Testing[​](#testing "Direct link to heading")
+## Testing [#testing]
 
 Contact DoorDash to request a test store. Your technical account manager will configure a store for testing and notify you when ready.
 
@@ -272,11 +272,11 @@ Contact DoorDash to request a test store. Your technical account manager will co
 * After you have a test store with a menu and hours, follow these [instructions](https://developer.doordash.com/en-US/docs/marketplace/how_to/create_a_test_order/)
 * *Important note:* For order adjustment requests in the sandbox environment, you *must* include the following header - `"dd-tenant-id": "doortest:default"`
 
-## Merchant Enablement Material[​](#merchant-enablement-material "Direct link to heading")
+## Merchant Enablement Material [#merchant-enablement-material]
 
 Produce instructions for merchants to onboard and manage their integration and host them on your merchant help center by following this [guide](https://drive.google.com/open?id=1KOBteSmqxCZGR3KZsqEQ0qA0tjxx52XC).
 
-## Certification[​](#certification "Direct link to heading")
+## Certification [#certification]
 
 Once your integration is built and tested, request production access from DoorDash. Your DoorDash technical account manager will schedule a 2-hour live session to certify your integration. Certification will cover the following requirements.
 
@@ -349,7 +349,7 @@ Once your integration is built and tested, request production access from DoorDa
 | MERCHANT ENABLEMENT CONTENT | Inventory Management | Describe how the merchant can create or edit their inventory to ensure it is ready for ingestion, in addition to including how they can manage their inventory after the integration is complete. | Required |
 | MERCHANT ENABLEMENT CONTENT | Order Management | Describe how the merchant can manage orders via the integration if this is done via the integration. | Merchant Pick Required |
 
-## Pre-launch Preparation[​](#pre-launch-preparation "Direct link to heading")
+## Pre-launch Preparation [#pre-launch-preparation]
 
 1. Once certified, confirm your production provider type has been generated
 2. Generate a production set of credentials following these [instructions](https://developer.doordash.com/en-US/docs/drive/how_to/manage_credentials/)

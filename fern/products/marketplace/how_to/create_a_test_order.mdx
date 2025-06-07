@@ -1,4 +1,4 @@
-## Prerequisites[​](#prerequisites "Direct link to heading")
+## Prerequisites [#prerequisites]
 
 In order to create test orders the user attempting to place the test order must have:
 
@@ -6,13 +6,13 @@ In order to create test orders the user attempting to place the test order must 
 * An **active** test store with an **active menu**, both can be confirmed using the [Store and Menu Info Endpoints](https://developer.doordash.com/en-US/docs/marketplace/how_to/get_menu_and_store_info)
   + If the store is not activated yet or there is no active menu on the store, you will be redirected to the DoorDash home-page when trying to complete the below steps
 
-## Overview[​](#overview "Direct link to heading")
+## Overview [#overview]
 
 To ensure that order integration functionality works as expected as part of the Marketplace integration, users are able to place test orders in DoorDash's test environment via the Developer Portal for their test stores. These test orders will flow through the integration to allow partners to ensure everything is functioning as expected downstream.
 
-## Developer Test Order Walkthrough[​](#developer-test-order-walkthrough "Direct link to heading")
+## Developer Test Order Walkthrough [#developer-test-order-walkthrough]
 
-### Step 1: Navigate to Stores within Developer Portal[​](#step-1-navigate-to-stores-within-developer-portal "Direct link to heading")
+### Step 1: Navigate to Stores within Developer Portal [#step-1-navigate-to-stores-within-developer-portal]
 
 Login to the DoorDash Developer Portal. Navigate to the [stores page](https://developer.doordash.com/portal/integration/marketplace/stores) in the Marketplace dropdown menu to view your test stores. For each store, there is an option to "Create Test Order" after selecting the three dots to view more options next to the test store:
 
@@ -22,18 +22,18 @@ Test Orders can also be placed for stores on your production integrations, howev
 
 
 
-### Step 2: Create and Copy Login Link[​](#step-2-create-and-copy-login-link "Direct link to heading")
+### Step 2: Create and Copy Login Link [#step-2-create-and-copy-login-link]
 
 For the store where you wish to place a test order, click **Create test order** from the 3 dot menu; a modal will then appear with instructions on next steps. Once ready to proceed with the test order, click the **Create and copy login link** button.
 
 
 
-### Step 3: Open Link and Create Order[​](#step-3-open-link-and-create-order "Direct link to heading")
+### Step 3: Open Link and Create Order [#step-3-open-link-and-create-order]
 
 After the link has been successfully opened, you will be redirected to your test store's menu on [http://www.doordashtest.com](http://www.doordashtest.com). Set your delivery address near the store (this can be found by clicking **See More** under Store Info) and create your desired test order and navigate through the checkout flow. At this stage, you will be prompted to add a payment method, as shown below:
 
 
-### Step 4: Add Test Credit Card Credentials[​](#step-4-add-test-credit-card-credentials "Direct link to heading")
+### Step 4: Add Test Credit Card Credentials [#step-4-add-test-credit-card-credentials]
 
 **This step only needs to be completed during the first time your test account is used.**
 
@@ -41,13 +41,13 @@ Once being prompted to add a payment method, please associate one of Stripe's te
 
 
 
-### Step 5: Place Order[​](#step-5-place-order "Direct link to heading")
+### Step 5: Place Order [#step-5-place-order]
 
 Once the Stripe credit card information has been saved you can press the "Place Order" button to complete the test order process. At this point, the order will be transmitted from DoorDash to the partner for order confirmation.
 
 
 
-### Step 6: Progress Check[​](#step-6-progress-check "Direct link to heading")
+### Step 6: Progress Check [#step-6-progress-check]
 
 Once the test order has been appropriately confirmed by the partner, the status will be updated on the test order to show that it is now being prepared by the test store:
 
@@ -55,17 +55,17 @@ Once the test order has been appropriately confirmed by the partner, the status 
 
 ---
 
-## Merchant Test Order Walkthrough[​](#merchant-test-order-walkthrough "Direct link to heading")
+## Merchant Test Order Walkthrough [#merchant-test-order-walkthrough]
 
 **Please note:** If you are a Developer and have access to Developer Portal, you must utilize the testing process outlined [above](https://developer.doordash.com/en-US/docs/marketplace/how_to/create_a_test_order#step-1-navigate-to-stores-within-developer-portal). The below process is *only for **Merchants who do not have access to Developer Portal.***
 
-### Step 1: Access Your Test Store[​](#step-1-access-your-test-store "Direct link to heading")
+### Step 1: Access Your Test Store [#step-1-access-your-test-store]
 
 Navigate to your test store on [www.doordashtest.com](http://www.doordashtest.com). You can access this by updating your locations DoorDash URL from **DoorDash.com** to **DoorDashTest.com**.
 
 For example: Update [https://www.doordash.com/store/test-store-123456/](https://www.doordash.com/store/test-store-123456/) to [https://www.doordashtest.com/store/test-store-123456/](https://www.doordashtest.com/store/test-store-123456/)
 
-### Step 2: Sign Up or Log In[​](#step-2-sign-up-or-log-in "Direct link to heading")
+### Step 2: Sign Up or Log In [#step-2-sign-up-or-log-in]
 
 Once you're on your test store page:
 
@@ -74,7 +74,7 @@ Once you're on your test store page:
 
 This account will be used to place test orders and save your test payment information.
 
-### Step 3: Add Items to Your Cart[​](#step-3-add-items-to-your-cart "Direct link to heading")
+### Step 3: Add Items to Your Cart [#step-3-add-items-to-your-cart]
 
 Browse your test store's menu and add one or more items to your cart. This is a good way to test:
 
@@ -83,7 +83,7 @@ Browse your test store's menu and add one or more items to your cart. This is a 
 * Pricing accuracy
 * Upsells or combos (if configured)
 
-### Step 4: Proceed to Checkout & Add Payment[​](#step-4-proceed-to-checkout--add-payment "Direct link to heading")
+### Step 4: Proceed to Checkout & Add Payment [#step-4-proceed-to-checkout--add-payment]
 
 Continue through the checkout process. When prompted for payment, enter **Stripe test credit card credentials**. These are test cards provided by Stripe that simulate real transactions without using actual funds. You can find valid test card numbers [here](https://stripe.com/docs/testing?testing-method=card-numbers#cards).
 
@@ -91,7 +91,7 @@ Continue through the checkout process. When prompted for payment, enter **Stripe
 
 
 
-### Step 5: Place the Test Order[​](#step-5-place-the-test-order "Direct link to heading")
+### Step 5: Place the Test Order [#step-5-place-the-test-order]
 
 Click **Place Order** to submit your test order. The order will flow through to your store just like a live order:
 
@@ -100,11 +100,11 @@ Click **Place Order** to submit your test order. The order will flow through to 
 
 
 
-### Step 6: Monitor Order Progress[​](#step-6-monitor-order-progress "Direct link to heading")
+### Step 6: Monitor Order Progress [#step-6-monitor-order-progress]
 
 Once the order is placed, you can track the order status directly on the test site. It will show each stage of the process, including confirmation and preparation.
 
-#### Note: all test orders will automatically be canceled 15 minutes after the order has been placed. When the order is auto-canceled, the following will be shown within the DoorDash Test UI:[​](#note-all-test-orders-will-automatically-be-canceled-15-minutes-after-the-order-has-been-placed--when-the-order-is-auto-canceled-the-following-will-be-shown-within-the-doordash-test-ui "Direct link to heading")
+#### Note: all test orders will automatically be canceled 15 minutes after the order has been placed. When the order is auto-canceled, the following will be shown within the DoorDash Test UI: [#note-all-test-orders-will-automatically-be-canceled-15-minutes-after-the-order-has-been-placed--when-the-order-is-auto-canceled-the-following-will-be-shown-within-the-doordash-test-ui]
 
 
 
@@ -112,11 +112,11 @@ Additionally, the user who placed the test order will receive an email alerting 
 
 
 
-### Next Steps[​](#next-steps "Direct link to heading")
+### Next Steps [#next-steps]
 
 In addition to testing order functionality on [www.doordashtest.com](http://www.doordashtest.com) you can also preview menu changes and test menu functionality.
 
-## FAQs[​](#faqs "Direct link to heading")
+## FAQs [#faqs]
 
 1. **What can I do if I am getting an error stating "This page isn't working. [www.doordashtest.com](http://www.doordashtest.com) redirected you too many times"?**
 

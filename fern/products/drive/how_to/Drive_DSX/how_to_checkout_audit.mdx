@@ -1,6 +1,6 @@
 # [Explainer] Checkout & Audit
 
-### Checkout Barcode / QR Code Enablement[​](#checkout-barcode--qr-code-enablement "Direct link to heading")
+### Checkout Barcode / QR Code Enablement [#checkout-barcode--qr-code-enablement]
 
 At checkout, the Dasher will present a QR code or barcode of your choosing to identify the order. You have the ability to send through a value that will be rendered on the Dasher's phone as a barcode or QR code for the cashier to scan to facilitate payment. Optionally, DoorDash can configure a default value of available attributes (for example: order ID + store ID).
 
@@ -11,7 +11,7 @@ To set your own checkout barcode or QR code, populate the following fields in th
 | shopping\_options.payment\_method | "barcode" |
 | shopping\_options.payment\_barcode | barcode vaue (i.e. "123456789") |
 
-### Audit API[​](#audit-api "Direct link to heading")
+### Audit API [#audit-api]
 
 Once the Dasher has finished shopping, you can temporarily pause the checkout process in the Dasher App until an audit is conducted at the point of sale. After the store associate completes the audit, your POS system can send a signal via the Audit API to notify us. This signal will enable the Dasher to proceed with the delivery flow in the Dasher App.
 

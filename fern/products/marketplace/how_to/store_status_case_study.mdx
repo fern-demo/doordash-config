@@ -1,17 +1,17 @@
-## Using the Store Status Webhook Function[​](#using-the-store-status-webhook-function "Direct link to heading")
+## Using the Store Status Webhook Function [#using-the-store-status-webhook-function]
 
-### The Challenge[​](#the-challenge "Direct link to heading")
+### The Challenge [#the-challenge]
 
 From losing connectivity to receiving too many orders at once, there's no shortage of challenges merchants need to tackle on the fly. When these kinds of issues arise, merchants need a simple way to pause their stores on DoorDash, so they can ensure behind-the-scenes challenges don't result in avoidable cancellations.
 
-### What are Avoidable Cancellations?[​](#what-are-avoidable-cancellations "Direct link to heading")
+### What are Avoidable Cancellations? [#what-are-avoidable-cancellations]
 
 Avoidable cancellations are canceled orders that could have been prevented with a high-quality integration and dedicated operational training. Two types of avoidable cancellations that may occur without the Store Status Webhook are:
 
 * **POS Cancellations**: When an order is automatically canceled because a store is not accepting orders.
 * **Store Closed Cancellations**: When a Dasher cancels an order because the store is closed when they arrive.
 
-### The Solution[​](#the-solution "Direct link to heading")
+### The Solution [#the-solution]
 
 The Store Status Webhook lets merchants disable their stores when an unavoidable issue comes up, ensuring customers can’t place an order a merchant is unable to fulfill.
 
@@ -20,7 +20,7 @@ To address a high rate of Store Closed cancellations, a fast food chain with tho
 * **Automated Deactivation**: The fast food chain proactively checks store uptime to detect any intermittent changes to POS connectivity. After recognizing a change in online status, the integration automatically sends an update to DoorDash using the Store Status Webhook to pause the store.
 * **Manual Deactivation**: The fast food chain allows store managers to manually pause the Online Ordering integration using internal tooling. After the operator executes the workflow to trigger the deactivation in-store, the integration sends an update to DoorDash using the Store Status Webhook.
 
-### The Results[​](#the-results "Direct link to heading")
+### The Results [#the-results]
 
 Thanks to their direct integration with the DoorDash OpenAPI, the fast food chain adopted the Store Status Webhook across 2404 stores, resulting in a 12.5% reduction in the number of POS cancellations from late May through August of 2023\*, and a statistically significant reduction in the number of Store Closed cancellations over the same period.
 

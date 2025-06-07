@@ -1,8 +1,8 @@
-## Prerequisites[​](#prerequisites "Direct link to heading")
+## Prerequisites [#prerequisites]
 
 By default, all developers that have an active integration with DoorDash will be able to request information from our Get Store and Menu Info endpoints. There are no pre-requesites at this time.
 
-## Overview[​](#overview "Direct link to heading")
+## Overview [#overview]
 
 These two endpoints have been created to allow OpenAPI integrated partners to retrieve live info for both their stores and
 the menus that are associated with them. Both of these endpoints will provide partners with a new level of visibility, which in
@@ -24,11 +24,11 @@ turn will enable them to answer common questions such as:
 * Was this menu created via POS or another method?
 * Is the menu preview url?
 
-## Get Started[​](#get-started "Direct link to heading")
+## Get Started [#get-started]
 
 ---
 
-### GET Store Info[​](#get-store-info "Direct link to heading")
+### GET Store Info [#get-store-info]
 
 **URL** `api/v1/stores/{merchant_supplied_id}/store_details`
 
@@ -41,7 +41,7 @@ turn will enable them to answer common questions such as:
 
 *Sample Response Payload*
 
-```
+```json
 {  
    "provider_name":"MyProvider",  
    "merchant_supplied_id":"12345",  
@@ -71,7 +71,7 @@ turn will enable them to answer common questions such as:
 
 ---
 
-### GET Menu Info[​](#get-menu-info "Direct link to heading")
+### GET Menu Info [#get-menu-info]
 
 **URL** `api/v1/stores/{merchant_supplied_id}/menu_details`
 
@@ -84,7 +84,7 @@ turn will enable them to answer common questions such as:
 
 *Sample Response Payload*
 
-```
+```json
 {  
    "provider_name":"MyProvider",  
    "merchant_supplied_id":"12345",  
@@ -152,7 +152,7 @@ turn will enable them to answer common questions such as:
 
 ---
 
-## FAQs[​](#faqs "Direct link to heading")
+## FAQs [#faqs]
 
 * Is a Menu callback endpoint still needed to receive the DoorDash generated UUID that is used to patch the menu?
 

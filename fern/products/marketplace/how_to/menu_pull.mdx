@@ -1,4 +1,4 @@
-## Prerequisites[​](#prerequisites "Direct link to heading")
+## Prerequisites [#prerequisites]
 
 The response on Menu Pull request must return the menu(s) as an array, even if there is only one menu being returned. The menu.json must be in the correct format and includes:
 
@@ -6,17 +6,17 @@ The response on Menu Pull request must return the menu(s) as an array, even if t
 * `"special_hours"`
 * `"id"` (external menu id/Menu UUID) field is required if event type is MenuUpdate
 
-## Overview[​](#overview "Direct link to heading")
+## Overview [#overview]
 
 Partners are required to implement an endpoint that allows DoorDash to pull menus directly. Menu Pull is a vital component of both efficient merchant onboarding and ensuring ongoing menu freshness.
 
 This functionality streamlines the onboarding process by enabling DoorDash to configure new stores and retrieve their menus simultaneously, eliminating the need for partners to coordinate a separate menu push. Additionally, Menu Pull plays a crucial role in maintaining up-to-date menu information for stores post-launch.
 
-## Get Started[​](#get-started "Direct link to heading")
+## Get Started [#get-started]
 
 ---
 
-### Step 1: Set up Endpoint Specification to Pull Menus[​](#step-1-set-up-endpoint-specification-to-pull-menus "Direct link to heading")
+### Step 1: Set up Endpoint Specification to Pull Menus [#step-1-set-up-endpoint-specification-to-pull-menus]
 
 This endpoint can be set up within Developer Portal by [setting up a webhook subscription](https://developer.doordash.com/en-US/docs/marketplace/how_to/create_webhook_subscription). The Event type that should be used is `Menu Request`. This endpoint will allow Doordash to trigger the ingestion or updates of menus.
 The set up of the endpoint is:
@@ -31,13 +31,13 @@ The set up of the endpoint is:
 * Correct: [http://doordash.test.com/api/menu](http://doordash.test.com/api/menu)
 * Incorrect: [http://doordash.test.com/api/menu/](http://doordash.test.com/api/menu/)
 
-### Step 2: Ensure the menu.json has the correct format[​](#step-2-ensure-the-menujson-has-the-correct-format "Direct link to heading")
+### Step 2: Ensure the menu.json has the correct format [#step-2-ensure-the-menujson-has-the-correct-format]
 
 As mentioned above, the Menu Pull request must return the menu(s) as an array for the Pull to be successful.
 
 Below is a sample menu.json for Menu Pull:
 
-```
+```json
 {  
     "store": {  
         "merchant_supplied_id": "",  
@@ -127,7 +127,7 @@ Below is a sample menu.json for Menu Pull:
 
 Partners are expected to return appropriate response codes if the Menu Pull request fails for streamlined triage and escalation if needed.
 
-### Step 3: Allow Menu Pull to be used for Menu updates[​](#step-3-allow-menu-pull-to-be-used-for-menu-updates "Direct link to heading")
+### Step 3: Allow Menu Pull to be used for Menu updates [#step-3-allow-menu-pull-to-be-used-for-menu-updates]
 
 **Updating Menus (Pull)**
 
@@ -139,7 +139,7 @@ Partners can utilize the same pull endpoint to allow DoorDash to request menu up
 
 Refer to the [Menu Update (Pull) section](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_integration#updating-menus-pull) in the Create & update menus page for a sample Menu Update (pull) payload.
 
-### Step 4: Set up Menu status webhook[​](#step-4-set-up-menu-status-webhook "Direct link to heading")
+### Step 4: Set up Menu status webhook [#step-4-set-up-menu-status-webhook]
 
 Once our service is finished creating your menu or if the menu creation fails, the service will send out a POST webhook request with the menu creation result. You need to create an endpoint and provide us with its URL in order to receive the webhook notification. This request will contain the same "reference" as the response to your initial request, allowing you to keep track of which requests have been completely processed.
 
@@ -147,11 +147,11 @@ This endpoint can be set up within Developer Portal by [setting up a webhook sub
 
 ---
 
-## Progress Check[​](#progress-check "Direct link to heading")
+## Progress Check [#progress-check]
 
 Partners will get a menu job webhook call for each menu upon menu ingestion completion from DoorDash. Reference of menu job webhook format:
 
-```
+```json
 {  
    "event":{  
       "type":"MenuCreate",  
@@ -173,32 +173,32 @@ The menu.id in that webhook must be stored and should be used for the subsequent
 We require the reference field in menus.reference field in the menu pull response. Doordash will include the
 reference on the menu job webhook for merchants to correlate menu pull and menu job status webhooks.
 
-## Auto Menu Pull[​](#auto-menu-pull "Direct link to heading")
+## Auto Menu Pull [#auto-menu-pull]
 
 Auto Menu Pull is a feature designed to ensure that menu data used on the DoorDash Marketplace remains up-to-date. This service automatically pulls menu data from partners if they have not pushed an update in the last 24 hours. By maintaining fresh menu data, we aim to improve service quality and both Customer and Merchant satisfaction.
 
-### Key Benefits[​](#key-benefits "Direct link to heading")
+### Key Benefits [#key-benefits]
 
 * Ensures that menu data used on the DoorDash Marketplace remains up-to-date.
 * Supports better order accuracy by reducing outdated menu data, leading to fewer order cancellations
 * Works with existing Menu Pull API implementations without additional integration work
 
-### How It Works[​](#how-it-works "Direct link to heading")
+### How It Works [#how-it-works]
 
 * Runs every 24 hours to check the last menu update timestamp from each integration partner.
 * If no update has been received in the past 24 hours, the service will pull the latest menu data using the partner's existing Menu Request endpoint.
 * The response structure remains consistent with the standard menu data model. No changes to existing models are anticipated, but validation is required.
 
-### Configuration & Dependencies[​](#configuration--dependencies "Direct link to heading")
+### Configuration & Dependencies [#configuration--dependencies]
 
 * **Execution Process:** Scheduled automated process (cron job)
 * **Frequency:** Every 24 hours
 
-### API Requirements[​](#api-requirements "Direct link to heading")
+### API Requirements [#api-requirements]
 
 Partners must provide a functional Menu Pull API endpoint.
 
-## Support[​](#support "Direct link to heading")
+## Support [#support]
 
 For support or questions, contact our Integrations Support team via the [Developer Portal](https://developer.doordash.com/portal/support) or reach out to your DoorDash Technical Account Manager.
 

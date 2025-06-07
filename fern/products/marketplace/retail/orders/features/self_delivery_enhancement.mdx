@@ -1,21 +1,21 @@
-## Prerequisites[​](#prerequisites "Direct link to heading")
+## Prerequisites [#prerequisites]
 
 This feature is built for merchants utilizing our self-delivery offering. You must have successfully built out the ability to ingest the self-delivery orders as outlined [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/self_delivery)
 
-## Overview[​](#overview "Direct link to heading")
+## Overview [#overview]
 
 DoorDash has enhanced our self-delivery offering to allow merchants with an in-house fleet to provide status updates once an order is out for delivery. This includes both status updates and location tracking.
 
-## Get Started[​](#get-started "Direct link to heading")
+## Get Started [#get-started]
 
-### Step 1: Identify endpoint[​](#step-1-identify-endpoint "Direct link to heading")
+### Step 1: Identify endpoint [#step-1-identify-endpoint]
 
 Identify the [order events endpoint](https://developer.doordash.com/en-US/api/marketplace/#tag/Order-Endpoints/operation/storeConfirmOrderReadyForPickup)
 
 **PATCH**
 [https://openapi.doordash.com/marketplace/api/v1/orders/{"{id}"}/events/{"{event_type}"}](https://openapi.doordash.com/marketplace/api/v1/orders/%7Bid%7D/events/%7Bevent_type%7D)
 
-### Step 2: Understand the event types[​](#step-2-understand-the-event-types "Direct link to heading")
+### Step 2: Understand the event types [#step-2-understand-the-event-types]
 
 Self-delivery order event updates can have the following event types: `ORDER_READY_FOR_PICKUP`, `ORDER_PICKED_UP`, `ORDER_IS_ARRIVING`, and `ORDER_DELIVERED`
 
@@ -26,7 +26,7 @@ Self-delivery order event updates can have the following event types: `ORDER_REA
 | ORDER\_IS\_ARRIVING | Sent when the courier is approxiamtely 400 meters from the desired delivery location. |
 | ORDER\_DELIVERED | Sent when the order has been dropped off |
 
-### Step 3: Understand the possible webhook fields[​](#step-3-understand-the-possible-webhook-fields "Direct link to heading")
+### Step 3: Understand the possible webhook fields [#step-3-understand-the-possible-webhook-fields]
 
 `merchant_supplied_id`: (required) When a merchant initially confirms a self-delivery order, they pass their internal order id in the `merchant_supplied_id` field. This is the same value that we send back in the payload.
 
@@ -40,11 +40,11 @@ Self-delivery order event updates can have the following event types: `ORDER_REA
 
 `isBatched`: (optional) Inform DoorDash if the order has been batched. Will allow DoorDash to communicate to customer that a courier is completing a nearby delivery.
 
-### Step 4: Implement[​](#step-4-implement "Direct link to heading")
+### Step 4: Implement [#step-4-implement]
 
 Route order to the endpoint using the specified format.
 
-#### Update with status `ORDER_READY_FOR_PICKUP` or `ORDER_DELIVERED`[​](#update-with-status-order_ready_for_pickup-or-order_delivered "Direct link to heading")
+#### Update with status `ORDER_READY_FOR_PICKUP` or `ORDER_DELIVERED` [#update-with-status-order_ready_for_pickup-or-order_delivered]
 
 ```
     {  
@@ -53,7 +53,7 @@ Route order to the endpoint using the specified format.
 
 ```
 
-#### Update with status `ORDER_PICKED_UP` or `ORDER_IS_ARRIVING`[​](#update-with-status-order_picked_up-or-order_is_arriving "Direct link to heading")
+#### Update with status `ORDER_PICKED_UP` or `ORDER_IS_ARRIVING` [#update-with-status-order_picked_up-or-order_is_arriving]
 
 ```
    {  
@@ -71,7 +71,7 @@ Route order to the endpoint using the specified format.
 
 ```
 
-## FAQ[​](#faq "Direct link to heading")
+## FAQ [#faq]
 
 1. **How often can I send courier location updates?**
 

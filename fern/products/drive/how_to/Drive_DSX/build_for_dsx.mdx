@@ -22,7 +22,7 @@ This document covers how to integrate by:
 
 You will build to our [Marketplace for Retailers APIs](https://developer.doordash.com/en-US/api/marketplace_v2) (to push through your catalog & inventory items data) and [DoorDash Drive APIs](https://developer.doordash.com/en-US/api/drive) (to book your deliveries).
 
-## Getting Started[​](#getting-started "Direct link to heading")
+## Getting Started [#getting-started]
 
 **Step 1 - Account Set Up:** Get started by [creating a Developer Portal account](https://developer.doordash.com/en-US/docs/drive/tutorials/get_started/#sign-into-the-developer-portal). The Developer Portal is the tool you’ll use to build and manage your integration. You can also [add other members](https://developer.doordash.com/en-US/docs/drive/how_to/add_members/) to your organization and assign permissions for each user based on your organization’s needs.
 
@@ -44,14 +44,14 @@ You will build to our [Marketplace for Retailers APIs](https://developer.doordas
 * Subscribe to [webhooks](https://developer.doordash.com/en-US/docs/drive/reference/webhooks/) from the Drive APIs to receive updates about each delivery. If you need these events sent to multiple systems, reach out to the DoorDash Integrations team to get help with configuring the additional webhook urls.
 * Use the [Delivery Simulator](https://developer.doordash.com/en-US/docs/drive/how_to/use_delivery_simulator/) within the Drive section of the Developer Portal to test your integration during and post development. This tool will not dispatch real dashers, but will be a way to progress through the different stages of an order receiving all the relevant webhooks / SMS notifications.
 
-## Core Topics[​](#core-topics "Direct link to heading")
+## Core Topics [#core-topics]
 
 * **Substitutions:** Instructions on how and what to substitute can be passed through in a few different ways. Refer to the Substitutions Explainer ([reference](https://developer.doordash.com/en-US/docs/drive/how_to/Drive_DSX/how_to_subs_other_shopping_use_cases)).
 * **Checkout / Audit:** Instructions on how to use the checkout Barcode/QR code, utilizing the Audit API, Refer to the Checkout Explainer ([reference](https://developer.doordash.com/en-US/docs/drive/how_to/Drive_DSX/how_to_checkout_audit)).
 * **Picked Items:** For guidance on how to interpret the Dasher Completed Shopping workbook, refer to the Shopping Completed Webhook Explainer ([reference](https://developer.doordash.com/en-US/docs/drive/how_to/Drive_DSX/how_to_shopping_complete_webhook)).
 * **Delivery Tracking:** Instruction on how to set up SMS text messages to customers, and all webhooks expected to be sent during an order. Refer to the Delivery Tracking Explainer ([reference](https://developer.doordash.com/en-US/docs/drive/how_to/Drive_DSX/how_to_dsx_delivery_tracking)).
 
-## Optional Functionality[​](#optional-functionality "Direct link to heading")
+## Optional Functionality [#optional-functionality]
 
 You can choose to enable the following functionality for your integration via the APIs or by talking to the DoorDash Integrations Team
 
@@ -62,9 +62,9 @@ You can choose to enable the following functionality for your integration via th
 * **Partial Cart** - Recommended functionality to allow orders to get created with items available in inventory and without items unavailable in inventory. If this functionality is not enabled, a Drive delivery creation request will get rejected, thus failing the entire order, even if one item fails inventory checks.
 * **PATCH Update** - Use this endpoint to update delivery details, item details, and other info after an order has been created until a dasher has been assigned (notified via the DASHER\_CONFIRMED webhook) [reference](https://developer.doordash.com/en-US/api/drive/#tag/Delivery/operation/UpdateDelivery)
 
-## Important API Fields[​](#important-api-fields "Direct link to heading")
+## Important API Fields [#important-api-fields]
 
-### Catalog[​](#catalog "Direct link to heading")
+### Catalog [#catalog]
 
 [Item Management Endpoint](https://developer.doordash.com/en-US/api/marketplace_v2#tag/ItemManagementEndpoints)
 
@@ -92,7 +92,7 @@ You can choose to enable the following functionality for your integration via th
 | brand\_name | brand\_info.name | Recommended | Brand name |
 | Variant | product.variant | Recommended | Product variation - color, flavor, material etc |
 
-### Inventory[​](#inventory "Direct link to heading")
+### Inventory [#inventory]
 
 [Inventory Management Endpoint](https://developer.doordash.com/en-US/api/marketplace_v2#tag/InventoryManagementEndpoints)
 
@@ -111,7 +111,7 @@ You can choose to enable the following functionality for your integration via th
 | side | Recommended | Side of the aisle where the item is located | Clarifies the item's exact position within the aisle, reducing search time and improving order picking efficiency. |
 | additional\_details | Recommended | Additional information about the location of the item | Provides any extra location-related information that may assist Dashers in locating items, ensuring a smoother and more efficient shopping process. |
 
-### Delivery Creation[​](#delivery-creation "Direct link to heading")
+### Delivery Creation [#delivery-creation]
 
 [Create Delivery Endpoint](https://developer.doordash.com/en-US/api/drive/#tag/Delivery/operation/CreateDelivery)
 
@@ -157,7 +157,7 @@ You can choose to enable the following functionality for your integration via th
 | tip | Recommended | dasher tip | improves dasher acceptance rates |
 | order\_contains | Required for all restricted item deliveries per DoorDash Policy (note there is a return fee associated with returns) | Specifies the restricted item(s) contained in the order (i.e. alcohol, otc, etc) | triggers the restricted items flow so the dasher is able to scan ID and take the necessary steps at pickup & dropoff |
 
-## Testing[​](#testing "Direct link to heading")
+## Testing [#testing]
 
 | Topic | Test Case |
 | --- | --- |
@@ -220,7 +220,7 @@ You can choose to enable the following functionality for your integration via th
 | Dropoff | Signature order |
 | Dropoff | Cancellation |
 
-## Get Production Access[​](#get-production-access "Direct link to heading")
+## Get Production Access [#get-production-access]
 
 Once the DoorDash team sets up and approves your production environment, you can generate your credentials directly on your developer portal account.
 

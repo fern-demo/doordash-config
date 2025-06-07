@@ -1,16 +1,16 @@
-## Overview[​](#overview "Direct link to heading")
+## Overview [#overview]
 
-### What is 86ing?[​](#what-is-86ing "Direct link to heading")
+### What is 86ing? [#what-is-86ing]
 
 * Item 86ing & Item Option 86ing refer to the act of marking an item or an item option (i.e. modifier) out of stock, making it temporarily unavailable on the DoorDash menu. This is table stakes functionality for a restaurant to ensure menu accuracy and smooth operations.
 * Partners can send DoorDash a webhook to 86 item(s) and/or item option(s). This feature can also be used to stock the item(s) and/or item option(s) back in when they’re available to order.
 * Note that Item 86ing and Item Option 86ing are immediate and temporary updates to the menu—this is different from permanently deactivating or removing an item using a [menu\_push](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_integration#updating-menus-push).
 
-### Why Implement 86ing?[​](#why-implement-86ing "Direct link to heading")
+### Why Implement 86ing? [#why-implement-86ing]
 
 * Sharing real-time stock updates via item 86ing is essential for maintaining integration quality as it ensures customers are only able to order items currently in stock, reducing friction in restaurant operations and improving the customer experience. This feature is required for all new DoorDash partners, and is a key component of DoorDash’s standards for High Quality Integrations.
 
-### Benefits[​](#benefits "Direct link to heading")
+### Benefits [#benefits]
 
 **For Restaurants:**
 
@@ -35,13 +35,13 @@ To address this, a new integration feature was built, real-time item 86ing, enab
 * Average order failure rate dropped by **75%**
 * Overall cancellation rate decreased by **42%**
 
-### Who Should Implement Item 86ing?[​](#who-should-implement-item-86ing "Direct link to heading")
+### Who Should Implement Item 86ing? [#who-should-implement-item-86ing]
 
 This feature is critical for all restaurant partners integrated with DoorDash’s Menu and Orders APIs, including POS providers, order aggregators, and directly integrated Merchants focused on delivering a high quality online ordering and delivery experience.
 
-## Feature Requirements[​](#feature-requirements "Direct link to heading")
+## Feature Requirements [#feature-requirements]
 
-### Technical Requirements[​](#technical-requirements "Direct link to heading")
+### Technical Requirements [#technical-requirements]
 
 * You will need to [generate a JWT Auth token](https://developer.doordash.com/en-US/docs/marketplace/how_to/JWTs).
 * Endpoints:
@@ -52,7 +52,7 @@ This feature is critical for all restaurant partners integrated with DoorDash’
   + `merchant_supplied_id` in the payload refers to the item or item option identifier.
   + `is_active` must be set to inactive to 86 the item or option, or active to stock in the item or item option.
 
-### Implementation Checklist[​](#implementation-checklist "Direct link to heading")
+### Implementation Checklist [#implementation-checklist]
 
 **Step 1: Create a menu to be featured on DoorDash**
 
@@ -80,7 +80,7 @@ Important: If you have multiple instances of the same item options (i.e. modifie
 
 ```
 
-### Response Status Codes[​](#response-status-codes "Direct link to heading")
+### Response Status Codes [#response-status-codes]
 
 | Status Code | Details |
 | --- | --- |
@@ -92,7 +92,7 @@ Important: If you have multiple instances of the same item options (i.e. modifie
 | 429 | Rate Limit exceeded |
 | 500 | Internal Server Error |
 
-### Response details for each entity[​](#response-details-for-each-entity "Direct link to heading")
+### Response details for each entity [#response-details-for-each-entity]
 
 | Response | Details |
 | --- | --- |
@@ -102,7 +102,7 @@ Important: If you have multiple instances of the same item options (i.e. modifie
 
 Please only retry the Request if there is a 500 Response. We recommend retrying 3 times with exponential backoff 0.5 seconds
 
-### Key Considerations[​](#key-considerations "Direct link to heading")
+### Key Considerations [#key-considerations]
 
 * **Real-Time updates:** Item 86ing and Item Option 86ing webhooks should be sent in real time when a user stocks in/stocks out an item to ensure that the change is immediately reflected on DoorDash.
 * **Menu Updates are not a sufficient workaround:** Permanently deactivating, reactivating, removing, or re-adding a menu item via [PATCH Menu Push Update](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_integration) is a more expensive operation that takes longer to reflect on the DoorDash menu, leading to order failures and cancellations as customers order unavailable items. As a result, menu updates are meant for long term menu changes and are not a sufficient solution to handle 86ing.
@@ -113,7 +113,7 @@ Please only retry the Request if there is a 500 Response. We recommend retrying 
 * **Rate Limiting:** Your integration can send up to 480 requests per min for each endpoint: Item 86’ing and Item Option 86’ing.
   + In the event that you receive a 429 HTTPs status code in response to your webhook request, you should implement a retry strategy with exponential backoff.
 
-### Testing and validation[​](#testing-and-validation "Direct link to heading")
+### Testing and validation [#testing-and-validation]
 
 1. 86 an item in your sandbox environment
 2. In the Developer Portal [Event Logs](https://developer.doordash.com/portal/integration/marketplace/event_log), check that the event was an item activation webhook and not a menu update and received a `200` response.
@@ -122,7 +122,7 @@ Please only retry the Request if there is a 500 Response. We recommend retrying 
 5. In the Developer Portal [Event Logs](https://developer.doordash.com/portal/integration/marketplace/event_log), check that the event was an item activation webhook and not a menu update and received a `200` response.
 6. Go to the DoorDash Menu Preview and confirm the item is visible on the menu.
 
-## User Flow Recommendations[​](#user-flow-recommendations "Direct link to heading")
+## User Flow Recommendations [#user-flow-recommendations]
 
 **Intended Users:**
 
@@ -166,7 +166,7 @@ Please only retry the Request if there is a 500 Response. We recommend retrying 
    * “This item is already marked as unavailable. No changes were made.”
    * “The item is already listed as out of stock. Please review the item status before proceeding.”
 
-## Feature Rollout and Announcement[​](#feature-rollout-and-announcement "Direct link to heading")
+## Feature Rollout and Announcement [#feature-rollout-and-announcement]
 
 **Best Practices for Announcing the Feature**
 
@@ -181,12 +181,12 @@ Please only retry the Request if there is a 500 Response. We recommend retrying 
 
 * Publish a help article on your website, informing Merchants about how to use this functionality.
 
-## FAQ[​](#faq "Direct link to heading")
+## FAQ [#faq]
 
 * Item update FAQs can be found [here](https://developer.doordash.com/en-US/docs/marketplace/faq/item_activation_item_updates)
 * If you cannot find the answer to your question in our FAQ please reach out to [DoorDash Developer Portal Support](https://developer.doordash.com/en-US/docs/marketplace/how_to/request_support).
 
-## Appendix[​](#appendix "Direct link to heading")
+## Appendix [#appendix]
 
 * How to update a menu - More details [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_integration#updating-menus-push)
 * How to create and update a menu - More details [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_integration)

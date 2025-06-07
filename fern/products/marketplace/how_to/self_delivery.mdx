@@ -1,18 +1,18 @@
-## Prerequisites[​](#prerequisites "Direct link to heading")
+## Prerequisites [#prerequisites]
 
 Some merchants with an in-house fleet prefer using their own drivers. We launched
 self-delivery to allow merchants to benefit from our marketing service by featuring their
 restaurant on our platform.
 
-## Overview[​](#overview "Direct link to heading")
+## Overview [#overview]
 
 DoorDash rolled-out a new product called ‘Self-Delivery’ that allows restaurants to be featured
 on doordash.com, but fulfill orders with their own delivery fleet. Additional information is passed
 through to the merchant to guarantee a smooth Self-Delivery experience.
 
-## Get Started[​](#get-started "Direct link to heading")
+## Get Started [#get-started]
 
-### How[​](#how "Direct link to heading")
+### How [#how]
 
 Self-Delivery is configured at the store level in DoorDash. When a store is configured for
 Self-Delivery, DoorDash will send additional fields on the order payload (sample). This
@@ -27,7 +27,7 @@ Additionally, some POS systems and merchants require that these orders are sent 
 of ‘delivery’ rather than the usual ‘pickup’ order type. If required by the merchant, aggregators
 will need to send this delivery type to the POS system.
 
-## FAQ[​](#faq "Direct link to heading")
+## FAQ [#faq]
 
 1. **How is a store’s delivery radius determined?**
 
@@ -63,7 +63,7 @@ Drivers for orders within 5 miles.
 
 **Example Order**
 
-```
+```json
 {  
    "order":{  
       "id":"6db24d02-e25f-4acb-aeb0-e387b1335791",  

@@ -10,7 +10,7 @@ Production access to the Drive API is currently restricted, and we cannot provid
 
 You can change the [price you pay for deliveries](/en-US/docs/drive/overview/pricing_payment) by accepting tips, which is generally [recommended](https://developer.doordash.com/en-US/docs/drive/how_to/build_for_restaurants/#d-important-fields) if tipping is customary in your country.
 
-## 1. Prerequisites[​](#1-prerequisites "Direct link to heading")
+## 1. Prerequisites [#1-prerequisites]
 
 If you're new to Drive and haven't yet created your first delivery, you should start with one of our tutorials. The tutorials will walk you through getting the credentials you need to call the APIs and making some basic API calls.
 
@@ -18,15 +18,15 @@ If you're new to Drive and haven't yet created your first delivery, you should s
 * If you're writing an app in Node.js (using JavaScript or TypeScript), [get started using our Node.js SDK](/en-US/docs/drive/tutorials/get_started_sdk)
 * If you'd like to try our APIs interactively, [get started using our Postman collection](/en-US/docs/drive/tutorials/get_started_postman)
 
-## 2. Collect a tip from the customer during payment[​](#2-collect-a-tip-from-the-customer-during-payment "Direct link to heading")
+## 2. Collect a tip from the customer during payment [#2-collect-a-tip-from-the-customer-during-payment]
 
 Accepting tips starts in your application's checkout or payment process. When your customer chooses to have their order delivered, your application should ask for the tip that will be given to the Dasher. Our [Terms of Use](https://developer.doordash.com/terms/v2/2) require that you pass 100% of this tip amount to DoorDash so that we can provide it to the Dasher.
 
-## 3. Create a delivery with tips[​](#3-create-a-delivery-with-tips "Direct link to heading")
+## 3. Create a delivery with tips [#3-create-a-delivery-with-tips]
 
 When you create a delivery or a [delivery quote](/en-US/docs/drive/how_to/quote_deliveries), specify the full amount of the tip that was given by your customer. Specify the tip amount in cents (or the equivalent lowest currency denomination).
 
-```
+```json
 {  
     ... // other fields  
     "tip": 599, // $5.99 tip  
@@ -34,11 +34,11 @@ When you create a delivery or a [delivery quote](/en-US/docs/drive/how_to/quote_
 
 ```
 
-## 4. Review with DoorDash[​](#4-review-with-doordash "Direct link to heading")
+## 4. Review with DoorDash [#4-review-with-doordash]
 
 Once you've built a tip flow into your application, we need to see the flow in action before we change your delivery price. If your integration isn't already live, you can do this as part of the [process to request production access](/en-US/docs/drive/how_to/get_production_access); if it is live, [submit a support request](/en-US/docs/drive/support) and we'll reach out to set up some time.
 
-## Next steps[​](#next-steps "Direct link to heading")
+## Next steps [#next-steps]
 
 * Learn how tips impact the price you pay for deliveries in the [pricing & payment overview](/en-US/docs/drive/overview/pricing_payment)
 

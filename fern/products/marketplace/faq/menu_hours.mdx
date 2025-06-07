@@ -4,25 +4,25 @@ Limited access
 Marketplace APIs are not yet generally available. Please record interest in early access [here](https://docs.google.com/forms/d/e/1FAIpQLSfggU_NjGWCdi9vyWUicrnzJmtu9vC4zgbfSC3ROwSvW4eV2g/viewform).
 </Warning>
 
-## What timezone should my ‘start\_time’ and ‘end\_time’ be?[​](#what-timezone-should-my-start_time-and-end_time-be "Direct link to heading")
+## What timezone should my ‘start\_time’ and ‘end\_time’ be? [#what-timezone-should-my-start_time-and-end_time-be]
 
 The hours should be set based on the timezone of the restaurant/store.
 
-## How can I send hours if my store is open overnight?[​](#how-can-i-send-hours-if-my-store-is-open-overnight "Direct link to heading")
+## How can I send hours if my store is open overnight? [#how-can-i-send-hours-if-my-store-is-open-overnight]
 
 For specific information on how to configure the store hour fields, please refer to our [Menu Configuration Reference](https://developer.doordash.com/en-US/docs/marketplace/explainers/menu_configuration_reference#hours).
 
-## How can I send hours if my store is open 24/7?[​](#how-can-i-send-hours-if-my-store-is-open-247 "Direct link to heading")
+## How can I send hours if my store is open 24/7? [#how-can-i-send-hours-if-my-store-is-open-247]
 
 For specific information on how to configure the store hour fields, please refer to our [Menu Configuration Reference](https://developer.doordash.com/en-US/docs/marketplace/explainers/menu_configuration_reference#hours).
 
-## What causes a menu job to fail due to store hours?[​](#what-causes-a-menu-job-to-fail-due-to-store-hours "Direct link to heading")
+## What causes a menu job to fail due to store hours? [#what-causes-a-menu-job-to-fail-due-to-store-hours]
 
 DoorDash will fail the menu job if store hours fall into any of the following categories:
 
 * Overlapping Hours across multiple days. For example, the below hours configuration where hours on Friday are `8:00 AM - 2:00 AM` and hours on Saturday are `1:00 AM - 10:00 PM`
 
-```
+```json
 {  
     "day_index": "FRI",  
     "start_time": "08:00:00",  
@@ -38,7 +38,7 @@ DoorDash will fail the menu job if store hours fall into any of the following ca
 
 * Start Time = End Time and times are not 00:00
 
-```
+```json
 {  
     "day_index": "FRI",  
     "start_time": "13:00:00",  
@@ -49,7 +49,7 @@ DoorDash will fail the menu job if store hours fall into any of the following ca
 
 * Store Open Hours are less than 30 minutes
 
-```
+```json
 {  
     "day_index": "FRI",  
     "start_time": "13:00:00",  
@@ -58,7 +58,7 @@ DoorDash will fail the menu job if store hours fall into any of the following ca
 
 ```
 
-## How can I send hours if my store is closed?[​](#how-can-i-send-hours-if-my-store-is-closed "Direct link to heading")
+## How can I send hours if my store is closed? [#how-can-i-send-hours-if-my-store-is-closed]
 
 If a store is closed on a particular day (like a holiday), please use Store Special Hours and set `closed = true`.
 
@@ -66,19 +66,19 @@ If a store is always closed on a particular day of the week, please use Store Op
 
 If a store is temporarily closed on all days (renovation, etc), DoorDash Store Availability webhooks should be used to deactivate the store. Additional infromation on our Store Availability Webhook's can be found [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/store_and_item_status#store-activation-status-change).
 
-## Why is my store on DoorDash closing earlier than the hours sent?[​](#why-is-my-store-on-doordash-closing-earlier-than-the-hours-sent "Direct link to heading")
+## Why is my store on DoorDash closing earlier than the hours sent? [#why-is-my-store-on-doordash-closing-earlier-than-the-hours-sent]
 
 This is a platform wide logic where we apply a buffer to all stores on the DoorDash site. This allows for food prep time, time for dasher arrival, etc. before the store actually closes.
 
-## Can I set hours for a specific item?[​](#can-i-set-hours-for-a-specific-item "Direct link to heading")
+## Can I set hours for a specific item? [#can-i-set-hours-for-a-specific-item]
 
 Yes, there is capability to control hourly availability at an Item and Item Option Level, rather than a menu level. This information will be sent via our Menu API. Store Hours on a menu will remain the default availability if Item Hours are not defined. More details can be found [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/item_level_hours).
 
-## How can I set multiple open hour periods within the same day (mid-day closure)?[​](#how-can-i-set-multiple-open-hour-periods-within-the-same-day-mid-day-closure "Direct link to heading")
+## How can I set multiple open hour periods within the same day (mid-day closure)? [#how-can-i-set-multiple-open-hour-periods-within-the-same-day-mid-day-closure]
 
 If your store needs to be open during two separate time periods in the same day, you will need to create two separate entries for the same `day_index` in your `open_hours` array when making an Update Menu API call.
 
-```
+```json
 {  
     "day_index": "FRI",  
     "start_time": "9:00:00",  

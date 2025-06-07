@@ -2,7 +2,7 @@ The main driver of the images, names, and descriptions of these products is the 
 
 
 
-### Discoverability & Collections[​](#discoverability--collections "Direct link to heading")
+### Discoverability & Collections [#discoverability--collections]
 
 Customers discover items in 3 main ways: Collections, Category Pages, and Search. Below is a detailed description of each as well as a visual guide.
 
@@ -10,7 +10,7 @@ Customers discover items in 3 main ways: Collections, Category Pages, and Search
 2. **Categories** are groupings by “categorical level”, optimized for browsing & user friendliness (clicking into “Drinks” will display all drink items only). Category Pages are defined by the vertical of the merchant (Grocery, Convenience, Alcohol, Retail, Pets, etc.).
 3. **Store Level Search** allows a user to search for a specific item within a store. The search experience is optimized by machine learning and search results improve over time based on successful and unsuccessful searches.
 
-### Catalog Feed Setup[​](#catalog-feed-setup "Direct link to heading")
+### Catalog Feed Setup [#catalog-feed-setup]
 
 To more easily maintain the product catalog as products are added and removed, DoorDash requests a recurring transfer of the entire catalog file. The file should be transferred via SFTP with the following requirements:
 
@@ -23,7 +23,7 @@ This file will be used for adding new items to the catalog. For example, if a ne
 
 DD does not currently have an automated process for updating attributes for existing SKUs, outside of price & availability. Rich fields (item name, description, image, brand, ingredients, UPC, etc.) are not automatically added to DD’s catalog if the merchant updates their catalog file.
 
-## Catalog File Fields[​](#catalog-file-fields "Direct link to heading")
+## Catalog File Fields [#catalog-file-fields]
 
 | Field Name | Field Description | Required | Format |
 | --- | --- | --- | --- |
@@ -70,7 +70,7 @@ DD does not currently have an automated process for updating attributes for exis
 | weight | Prodict weight in LBS | Optional | number |
 | meta\_data | Any additional data needed (ex. JSON formatted data) | Optional | string |
 
-## Catalog Sample File[​](#catalog-sample-file "Direct link to heading")
+## Catalog Sample File [#catalog-sample-file]
 
 | sku | upc | secondary\_upc | plu | consumer\_facing\_item\_name | brand\_name | short\_description | size\_variation | unit\_of\_measure | extended\_size | product\_group\_id | variation | L1\_category | L2\_category | L3\_category | L4\_category | private\_label\_flag | image\_url\_front | image\_url\_back | image\_url\_left\_side | image\_url\_right\_side | image\_url\_ingredients | priority\_rank | rating | rating\_count | is\_alcohol | abv | is\_weighted\_item | average\_weight\_per\_each | average\_weight\_uom | cx\_show\_by | nutritional\_info | ingredients | disclaimer | allergen\_info | dietary\_flags | snap\_eligible | is\_hsa\_fsa\_eligible | is\_package\_fee\_eligible | package\_type | dimensions | weight | meta\_data | wine\_vinatge\_year | place\_of\_origin | manufacturer | alcohol\_accolade | alcohol\_varietal | alcohol\_dry\_sweetness\_level | alcohol\_beer\_segment | alcohol\_food\_pairing | alcohol\_tasting\_notes | alcohol\_tasting\_notes\_locale | alcohol\_appellation | barcode\_type | product\_page\_url |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |

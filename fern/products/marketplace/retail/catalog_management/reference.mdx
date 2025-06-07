@@ -1,10 +1,10 @@
-## Catalog Management API Payload[​](#catalog-management-api-payload "Direct link to heading")
+## Catalog Management API Payload [#catalog-management-api-payload]
 
-### Example JSON Payload[​](#example-json-payload "Direct link to heading")
+### Example JSON Payload [#example-json-payload]
 
 Click to expand JSON Payload Example
 
-```
+```json
 {  
   "scope": {  
     "business_ids": [  
@@ -148,7 +148,7 @@ Click to expand JSON Payload Example
 
 ```
 
-### Overview of Parameters[​](#overview-of-parameters "Direct link to heading")
+### Overview of Parameters [#overview-of-parameters]
 
 | Parameter Name | Type | Description | Accepted Values | Required |
 | --- | --- | --- | --- | --- |
@@ -164,32 +164,32 @@ Click to expand JSON Payload Example
 | program\_eligibility | Array of strings | Program eligibility of the item | "SNAP," "HSA," "FSA" | No |
 | item\_categorizations | Array of objects | SKU path received in separate fields in L1 - L5 category. Must be granular (e.g. Not 'Makeup' but instead 'Bronzer') | - | No |
 
-### Object Tables[​](#object-tables "Direct link to heading")
+### Object Tables [#object-tables]
 
 Values for dimensions, weight, and volume must not exceed two decimal places.
 
-#### Other Identifiers Object[​](#other-identifiers-object "Direct link to heading")
+#### Other Identifiers Object [#other-identifiers-object]
 
 | Parameter Name | Type | Description | Accepted Values | Required |
 | --- | --- | --- | --- | --- |
 | identifier\_type | string | Type of identifier | "UPC," "PLU," "NSC2," "GTIN" | No |
 | identifier\_value | string | Identifier value | - | No |
 
-#### Images Object[​](#images-object "Direct link to heading")
+#### Images Object [#images-object]
 
 | Parameter Name | Type | Description | Accepted Values | Required |
 | --- | --- | --- | --- | --- |
 | url | string | Item image URL in JPG or PNG format, min resolution (1400 x 800px), aspect ratio 16:9, max size 2MB. | - | Yes |
 | sort\_id | integer | Order in which images should be displayed | - | No |
 
-#### Size Object[​](#size-object "Direct link to heading")
+#### Size Object [#size-object]
 
 | Parameter Name | Type | Description | Accepted Values | Required |
 | --- | --- | --- | --- | --- |
 | details | object | Size details of the item | - | No |
 | pack\_size\_details | object | Item size details per pack | - | No |
 
-##### Size Details Object[​](#size-details-object "Direct link to heading")
+##### Size Details Object [#size-details-object]
 
 | Parameter Name | Type | Description | Accepted Values | Required |
 | --- | --- | --- | --- | --- |
@@ -198,7 +198,7 @@ Values for dimensions, weight, and volume must not exceed two decimal places.
 | volume | object | Volume of the product | - | No |
 | product\_specific\_size\_definition | object | Product-specific size definition | - | No |
 
-###### Dimensions Object[​](#dimensions-object "Direct link to heading")
+###### Dimensions Object [#dimensions-object]
 
 | Parameter Name | Type | Description | Accepted Values | Required |
 | --- | --- | --- | --- | --- |
@@ -206,35 +206,35 @@ Values for dimensions, weight, and volume must not exceed two decimal places.
 | width | object | Width of the product | - | No |
 | height | object | Height of the product | - | No |
 
-###### Weight Object[​](#weight-object "Direct link to heading")
+###### Weight Object [#weight-object]
 
 | Parameter Name | Type | Description | Accepted Values | Required |
 | --- | --- | --- | --- | --- |
 | value | number | Weight value of the product | - | No |
 | unit | string | Unit of weight (lbs, gm) | "lbs," "gm" | No |
 
-##### Volume Object[​](#volume-object "Direct link to heading")
+##### Volume Object [#volume-object]
 
 | Parameter Name | Type | Description | Accepted Values | Required |
 | --- | --- | --- | --- | --- |
 | value | number | Volume value of the product | - | No |
 | unit | string | Unit of volume (oz) | "oz" | No |
 
-##### Product-Specific Size Definition Object[​](#product-specific-size-definition-object "Direct link to heading")
+##### Product-Specific Size Definition Object [#product-specific-size-definition-object]
 
 | Parameter Name | Type | Description | Accepted Values | Required |
 | --- | --- | --- | --- | --- |
 | value | string | Value of the product-specific size definition | - | No |
 | description | string | Description of the product-specific size | - | No |
 
-##### Pack Size Details Object[​](#pack-size-details-object "Direct link to heading")
+##### Pack Size Details Object [#pack-size-details-object]
 
 | Parameter Name | Type | Description | Accepted Values | Required |
 | --- | --- | --- | --- | --- |
 | count\_per\_pack | number | Number of items per pack | - | No |
 | per\_item\_size\_details | object | Size details per item in the pack | - | No |
 
-##### Per Item Size Details Object[​](#per-item-size-details-object "Direct link to heading")
+##### Per Item Size Details Object [#per-item-size-details-object]
 
 | Parameter Name | Type | Description | Accepted Values | Required |
 | --- | --- | --- | --- | --- |
@@ -243,7 +243,7 @@ Values for dimensions, weight, and volume must not exceed two decimal places.
 | volume | object | Volume of the product | - | No |
 | product\_specific\_size\_definition | object | Product-specific size definition | - | No |
 
-#### Weighted Item Info Object[​](#weighted-item-info-object "Direct link to heading")
+#### Weighted Item Info Object [#weighted-item-info-object]
 
 | Parameter Name | Type | Description | Accepted Values | Required |
 | --- | --- | --- | --- | --- |
@@ -252,20 +252,20 @@ Values for dimensions, weight, and volume must not exceed two decimal places.
 | shop\_by\_measurement\_unit | string | How the item is shown to customers | "ea", "kg," "lb," "gm," "oz" | No |
 | price\_by\_measurement\_unit | string | How the item is priced | "ea", "kg," "lb," "gm," "oz" | No |
 
-#### Brand Info Object[​](#brand-info-object "Direct link to heading")
+#### Brand Info Object [#brand-info-object]
 
 | Parameter Name | Type | Description | Accepted Values | Required |
 | --- | --- | --- | --- | --- |
 | name | string | Name of the brand | - | No |
 
-#### Category Object[​](#category-object "Direct link to heading")
+#### Category Object [#category-object]
 
 | Parameter Name | Type | Description | Accepted Values | Required |
 | --- | --- | --- | --- | --- |
 | name | string | Name of the cateogry | - | No |
 | sub\_category | object | Recursive object allowing for multiple levels of cateogry data | - | No |
 
-### Recommended for Alcohol Items[​](#recommended-for-alcohol-items "Direct link to heading")
+### Recommended for Alcohol Items [#recommended-for-alcohol-items]
 
 | Attribute | Type | Description | Payload JSON Snippet | Required |
 | --- | --- | --- | --- | --- |

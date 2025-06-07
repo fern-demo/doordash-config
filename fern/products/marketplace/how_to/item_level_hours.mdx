@@ -1,10 +1,10 @@
-## Prerequisites[​](#prerequisites "Direct link to heading")
+## Prerequisites [#prerequisites]
 
 DoorDash has provided new functionality in our Open API Menu to control hourly availability at
 an Item Level, rather than a menu level. This information will be sent via our Menu API. Store
 Hours on a menu will remain the default availability if Item Hours are not defined.
 
-## Overview[​](#overview "Direct link to heading")
+## Overview [#overview]
 
 This new enhancements covers two broad use cases across our current Restaurant and
 Convenience Merchants:
@@ -22,15 +22,15 @@ Convenience Merchants:
 This enhancement to Open API integration allows Merchants to maintain a single menu
 containing all items, with some items unavailable outside of their sellable hours and/or days.
 
-## Get Started[​](#get-started "Direct link to heading")
+## Get Started [#get-started]
 
 ---
 
-### How?[​](#how "Direct link to heading")
+### How? [#how]
 
 DoorDash has amended the Menu API contract with 2 new arrays: `item_special_hours` and `item_extra_option_special_hours`. These arrays will accept information similar to the `open_hours` and `special_hours` arrays, with the exception that the hours will not be applied to the entire menu, but only to the item or option in which they are defined.
 
-### Menu Payload Format[​](#menu-payload-format "Direct link to heading")
+### Menu Payload Format [#menu-payload-format]
 
 Both `item_special_hours` and `item_extra_option_special_hours` arrays will contain the same fields. These fields are interchangeable, and including/excluding each will produce a different result. When a field is excluded, we will default to the store level availability for the menu.
 
@@ -42,9 +42,9 @@ Both `item_special_hours` and `item_extra_option_special_hours` arrays will cont
 
 Below are a few different ways these fields can be used to limit item availability:
 
-#### **Scenario 1:** Item is available from 5AM to 5PM every day of the week[​](#scenario-1-item-is-available-from-5am-to-5pm-every-day-of-the-week "Direct link to heading")
+#### **Scenario 1:** Item is available from 5AM to 5PM every day of the week [#scenario-1-item-is-available-from-5am-to-5pm-every-day-of-the-week]
 
-```
+```json
 {   
 "day_index": "MON",   
 "start_time": "05:00:00",   
@@ -65,9 +65,9 @@ Below are a few different ways these fields can be used to limit item availabili
 
 ```
 
-#### **Scenario 2:** Item is only available on Monday during normal store hours.[​](#scenario-2-item-is-only-available-on-monday-during-normal-store-hours "Direct link to heading")
+#### **Scenario 2:** Item is only available on Monday during normal store hours. [#scenario-2-item-is-only-available-on-monday-during-normal-store-hours]
 
-```
+```json
 {   
 "day_index": "MON",   
 },   
@@ -75,9 +75,9 @@ Below are a few different ways these fields can be used to limit item availabili
 
 ```
 
-#### **Scenario 3:** Item is only available during the month of April (during normal store hours)[​](#scenario-3--item-is-only-available-during-the-month-of-april-during-normal-store-hours "Direct link to heading")
+#### **Scenario 3:** Item is only available during the month of April (during normal store hours) [#scenario-3--item-is-only-available-during-the-month-of-april-during-normal-store-hours]
 
-```
+```json
 {   
 "start_date": "2021-04-01",   
 "end_date": "2021-04-30",   
@@ -86,9 +86,9 @@ Below are a few different ways these fields can be used to limit item availabili
 
 ```
 
-#### **Scenario 4:** Item is available Mondays in April from 5AM to 5PM.[​](#scenario-4-item-is-available-mondays-in-april-from-5am-to-5pm "Direct link to heading")
+#### **Scenario 4:** Item is available Mondays in April from 5AM to 5PM. [#scenario-4-item-is-available-mondays-in-april-from-5am-to-5pm]
 
-```
+```json
 {   
 "day_index": "MON",   
 "start_time": "05:00:00",   
@@ -100,14 +100,14 @@ Below are a few different ways these fields can be used to limit item availabili
 
 ```
 
-## Marketplace Menu Experience[​](#marketplace-menu-experience "Direct link to heading")
+## Marketplace Menu Experience [#marketplace-menu-experience]
 
 If an item with Item Level Hours was added to a customer’s cart prior to it’s sellable cutoff, but the customer is attempting to check out after the sellable hours have passed, the customer will
 receive a similar error below on checkout.
 
 
 
-## Menu and Item Level Hours Interaction[​](#menu-and-item-level-hours-interaction "Direct link to heading")
+## Menu and Item Level Hours Interaction [#menu-and-item-level-hours-interaction]
 
 In this new flow, there are a few ways hours can be defined for a menu item:
 
@@ -120,7 +120,7 @@ In this new flow, there are a few ways hours can be defined for a menu item:
 
 Store Hours will still need to be defined for a menu. The menu will always use the lesser of the 2 hours defined. For example, if Item Level Hours are 7am - 7pm, but Store Hours are 5am - 5pm, Items with defined Item Level Hours will be available 7am - 5pm.
 
-## FAQs[​](#faqs "Direct link to heading")
+## FAQs [#faqs]
 
 1. **What timezone should my start\_time and end\_time be?**
 
@@ -137,7 +137,7 @@ Store Hours will still need to be defined for a menu. The menu will always use t
 
    * If you would like to set an item's hours to be 11:15:00 A.M. to 01:05:00 A.M. (next day) do so in the following format
 
-```
+```json
 {  
     "start_time": "11:15:00",  
     "end_time": "23:59:59",  
@@ -151,11 +151,11 @@ Store Hours will still need to be defined for a menu. The menu will always use t
 
 ```
 
-## EXAMPLE MENU:[​](#example-menu "Direct link to heading")
+## EXAMPLE MENU: [#example-menu]
 
 Below is a snippet of the menu payload with Item and Item Option Level Hours fields
 
-```
+```json
 {   
 "reference": "item_level_test_yc",   
     "store": {   

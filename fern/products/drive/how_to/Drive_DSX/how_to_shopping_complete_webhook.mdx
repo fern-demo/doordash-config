@@ -2,7 +2,7 @@
 
 # [Explainer] Shopping Complete Webhooks
 
-## DASHER\_COMPLETED\_SHOPPING[​](#dasher_completed_shopping "Direct link to heading")
+## DASHER\_COMPLETED\_SHOPPING [#dasher_completed_shopping]
 
 The DASHER\_COMPLETED\_SHOPPING webhook is sent when a Dasher completes in-store shopping for an order, before checking-out. No webhooks are sent while the Dasher is actively shopping. This webhook delivers detailed information about the shopping event, including Dasher details, pickup and dropoff information, and a comprehensive list of items that were shopped.
 
@@ -40,7 +40,7 @@ The shopped\_items section will indicate each item that was shopped, and the ass
 | fulfilled\_substitution\_type | Type of substitution fulfilled, if applicable (may be null). Enum ["no\_substitution","pre\_selected","customer\_contacted","dasher\_override"] | May be null |
 | is\_unknown | Boolean indicating if the item is unknown (may be null). Will be TRUE if the item is not found in the catalog | May be null |
 
-### **Scenario 1:** Item shopped as ordered[​](#scenario-1-item-shopped-as-ordered "Direct link to heading")
+### **Scenario 1:** Item shopped as ordered [#scenario-1-item-shopped-as-ordered]
 
 | Field Name (Shopped Items Section) | Value | Description |
 | --- | --- | --- |
@@ -94,7 +94,7 @@ The barcode scanned by the mobile device is a UPC-A barcode. However, for 13-dig
 * [0] represents the components of the barcode interpreted as a UPC-A code, which is the most likely format; scanned\_data\_list
 * [1] represents the components of the same barcode interpreted as an EAN-13 code, which is also a valid possibility
 
-### **Scenario 2:** Weighted Item shopped as ordered[​](#scenario-2-weighted-item-shopped-as-ordered "Direct link to heading")
+### **Scenario 2:** Weighted Item shopped as ordered [#scenario-2-weighted-item-shopped-as-ordered]
 
 | Field Name (Shopped Items Section) | Value | Description |
 | --- | --- | --- |
@@ -130,7 +130,7 @@ scanned\_data\_list:
 
 ```
 
-### **Scenario 3:** Item substituted when the preference is set to contact customer[​](#scenario-3-item-substituted-when-the-preference-is-set-to-contact-customer "Direct link to heading")
+### **Scenario 3:** Item substituted when the preference is set to contact customer [#scenario-3-item-substituted-when-the-preference-is-set-to-contact-customer]
 
 [(reference)](https://developer.doordash.com/en-US/docs/drive/how_to/Drive_DSX/how_to_subs_other_shopping_use_cases#contact-me-option)
 
@@ -171,7 +171,7 @@ scanned\_data\_list:
 
 ```
 
-### **Scenario 4:** Item substituted using a customer pre-selected substitute[​](#scenario-4-item-substituted-using-a-customer-pre-selected-substitute "Direct link to heading")
+### **Scenario 4:** Item substituted using a customer pre-selected substitute [#scenario-4-item-substituted-using-a-customer-pre-selected-substitute]
 
 [(reference)](https://developer.doordash.com/en-US/docs/drive/how_to/Drive_DSX/how_to_subs_other_shopping_use_cases#item-specific-option)
 
@@ -213,7 +213,7 @@ scanned\_data\_list:
 
 ```
 
-### **Scenario 5:** Item substituted using a merchant recommended substitute[​](#scenario-5-item-substituted-using-a-merchant-recommended-substitute "Direct link to heading")
+### **Scenario 5:** Item substituted using a merchant recommended substitute [#scenario-5-item-substituted-using-a-merchant-recommended-substitute]
 
 [(reference)](https://developer.doordash.com/en-US/docs/drive/how_to/Drive_DSX/how_to_subs_other_shopping_use_cases#item-specific-option)
 
@@ -268,7 +268,7 @@ The barcode scanned by the mobile device is a UPC-A barcode starting with 2, whi
 * scanned\_data\_list[0] represents the components of the barcode interpreted as a UPC-A code, which is the most likely format.
 * scanned\_data\_list[1] represents the components of the same barcode interpreted as an EAN-13 code, which is also a valid possibility"
 
-### **Scenario 6:** Dasher Item Override *(When Overrides As Subs is not enabled)*[​](#scenario-6-dasher-item-override-when-overrides-as-subs-is-not-enabled "Direct link to heading")
+### **Scenario 6:** Dasher Item Override *(When Overrides As Subs is not enabled)* [#scenario-6-dasher-item-override-when-overrides-as-subs-is-not-enabled]
 
 [(reference)](https://developer.doordash.com/en-US/docs/drive/how_to/Drive_DSX/how_to_subs_other_shopping_use_cases#force-overrides)
 
@@ -307,7 +307,7 @@ scanned\_data\_list:
 
 ```
 
-### **Scenario 7:** Dasher Item Override when item is found in the catalog *(When Overrides As Subs is enabled)*[​](#scenario-7-dasher-item-override-when-item-is-found-in-the-catalog-when-overrides-as-subs-is-enabled "Direct link to heading")
+### **Scenario 7:** Dasher Item Override when item is found in the catalog *(When Overrides As Subs is enabled)* [#scenario-7-dasher-item-override-when-item-is-found-in-the-catalog-when-overrides-as-subs-is-enabled]
 
 [(reference)](https://developer.doordash.com/en-US/docs/drive/how_to/Drive_DSX/how_to_subs_other_shopping_use_cases#force-overrides)
 
@@ -348,7 +348,7 @@ scanned\_data\_list:
 
 ```
 
-### **Scenario 8:** Dasher Item Override when item is not found in the catalog *(When Overrides As Subs is enabled)*[​](#scenario-8-dasher-item-override-when-item-is-not-found-in-the-catalog-when-overrides-as-subs-is-enabled "Direct link to heading")
+### **Scenario 8:** Dasher Item Override when item is not found in the catalog *(When Overrides As Subs is enabled)* [#scenario-8-dasher-item-override-when-item-is-not-found-in-the-catalog-when-overrides-as-subs-is-enabled]
 
 [(reference)](https://developer.doordash.com/en-US/docs/drive/how_to/Drive_DSX/how_to_subs_other_shopping_use_cases#force-overrides)
 
@@ -387,7 +387,7 @@ scanned\_data\_list:
 
 ```
 
-## DASHER\_COMPLETED\_STAGING[​](#dasher_completed_staging "Direct link to heading")
+## DASHER\_COMPLETED\_STAGING [#dasher_completed_staging]
 
 In Dasher Shop and Stage Orders, following the DASHER\_COMPLETED\_SHOPPING, a DASHER\_COMPLETED\_STAGING webhook will be sent to confirm the location where the Dasher has staged the order.
 

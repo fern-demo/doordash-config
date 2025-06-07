@@ -1,8 +1,8 @@
 This documentation outlines major error themes and provides targeted recommendations and action items to help reduce POS error rates and avoidable cancellations. Please follow the guidance of the table below to take action to improve the thematic errors of your integration.
 
-## Themes[​](#themes "Direct link to heading")
+## Themes [#themes]
 
-### Timeouts[​](#timeouts "Direct link to heading")
+### Timeouts [#timeouts]
 
 | Recommendation | Action Items |
 | --- | --- |
@@ -10,26 +10,26 @@ This documentation outlines major error themes and provides targeted recommendat
 | **[Store availability webhooks](https://developer.doordash.com/en-US/docs/marketplace/how_to/store_and_item_status)** | * Build store availability webhooks to enable your Merchants to deactivate their store to pause orders. If there is a situation where a store needs to be deactivated, you will be able to deactivate the store immediately and save failed orders. * Review your store availability webhooks functionality and confirm all calls are succeeding. If not, please review this feature and let us know if you need assistance from our side to resolve. * Build store availability webhooks to deactivate a store if they have lost connectivity. If there is a situation where a store loses connectivity, this will deactivate the store immediately and save failed orders. * Review your POS Store loss connectivity store availability webhooks functionality and confirm all calls are succeeding. If not, please review this feature and let us know if you need assistance from our side to resolve. |
 | **Store offboarding Endpoint** | * This endpoint is scheduled to be introduced in Q1 of 2025, enabling Partners to remove a store from the integration and ensure that orders no longer flow through it. Please let us know if you have an interest in building this. * If you have known stores that are no longer on the integration and causing order failures, please let us know and we can work together to manually offboard these stores. |
 
-### Null[​](#null "Direct link to heading")
+### Null [#null]
 
 | Recommendation | Action Items |
 | --- | --- |
 | **[Order Failure Reasons](https://developer.doordash.com/en-US/docs/marketplace/how_to/order_integration#order-failures---desired-failure-reasons)** | * Update order failure reasons to match the outlined ones in our documentation to improve troubleshooting.  * Identify the root causes of these errors, implement solutions to resolve them, and report the actions taken to DoorDash so we can assess their effectiveness. |
 
-### Item is out of stock[​](#item-is-out-of-stock "Direct link to heading")
+### Item is out of stock [#item-is-out-of-stock]
 
 | Recommendation | Action Items |
 | --- | --- |
 | **[Item activation and item option activation webhooks](https://developer.doordash.com/en-US/docs/marketplace/how_to/item_status)** | * Sharing real-time stock updates via item 86ing is essential for maintaining integration quality as it ensures customers are only able to order items currently in stock. This feature is required for all new DoorDash partners, and is a key component of DoorDash’s standards for High Quality Integrations. * Review your item and item option activation webhooks functionality and confirm all calls are succeeding. If not, please review this feature and let us know if you need assistance from our side to resolve. |
 | **[Menu Updates](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_integration#updating-menus-push)** | * Check to see when the last menu update was successful for your Merchants. DoorDash runs an Auto Menu Pull daily and should keep the menu fresh. Review the following: * When building Menu Pull, did your team complete this effort only to support initial store onboarding? * When DoorDash executes a Menu Pull job for an existing live location, does your integration pull up-to-date information that reflects current business operations, such as: *Out of Stock Products, Accurate Pricing, and Seasonal Products* |
 
-### Generic failure reason[​](#generic-failure-reason "Direct link to heading")
+### Generic failure reason [#generic-failure-reason]
 
 | Recommendation | Action Items |
 | --- | --- |
 | **[Order Failure Reasons](https://developer.doordash.com/en-US/docs/marketplace/how_to/order_integration#order-failures---desired-failure-reasons)** | * Update order failure reasons to match the outlined ones in our documentation to improve troubleshooting.  * Identify the root causes of these errors, implement solutions to resolve them, and report the actions taken to DoorDash so we can assess their effectiveness. |
 
-### Store closed[​](#store-closed "Direct link to heading")
+### Store closed [#store-closed]
 
 | Recommendation | Action Items |
 | --- | --- |
@@ -37,14 +37,14 @@ This documentation outlines major error themes and provides targeted recommendat
 | **[Menu Updates](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_integration#updating-menus-push)** | * Check to see when the last menu update was successful for your Merchants. DoorDash runs an Auto Menu Pull daily and should keep the menu fresh. Review the following: * When building Menu Pull, did your team complete this effort only to support initial store onboarding? * When DoorDash executes a Menu Pull job for an existing live location, does your integration pull up-to-date information that reflects current business operations, such as: *Out of Stock Products, Accurate Pricing, and Seasonal Products* |
 | Store offboarding Endpoint | * This endpoint is scheduled to be introduced in Q1 of 2025, enabling Partners to remove a store from the integration and ensure that orders no longer flow through it. Please let us know if you have an interest in building this. * If you have known stores that are no longer on the integration and causing order failures, please let us know and we can work together to manually offboard these stores. |
 
-### Cannot fulfill order[​](#cannot-fulfill-order "Direct link to heading")
+### Cannot fulfill order [#cannot-fulfill-order]
 
 | Recommendation | Action Items |
 | --- | --- |
 | **[Item activation and item option activation webhooks](https://developer.doordash.com/en-US/docs/marketplace/how_to/item_status)** | * Sharing real-time stock updates via item 86ing is essential for maintaining integration quality as it ensures customers are only able to order items currently in stock. This feature is required for all new DoorDash partners, and is a key component of DoorDash’s standards for High Quality Integrations. * Review your item and item option activation webhooks functionality and confirm all calls are succeeding. If not, please review this feature and let us know if you need assistance from our side to resolve. |
 | **[Menu Updates](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_integration#updating-menus-push)** | * Check to see when the last menu update was successful for your Merchants. DoorDash runs an Auto Menu Pull daily and should keep the menu fresh. Review the following: * When building Menu Pull, did your team complete this effort only to support initial store onboarding? * When DoorDash executes a Menu Pull job for an existing live location, does your integration pull up-to-date information that reflects current business operations, such as: *Out of Stock Products, Accurate Pricing, and Seasonal Products* |
 
-### POS is offline[​](#pos-is-offline "Direct link to heading")
+### POS is offline [#pos-is-offline]
 
 | Recommendation | Action Items |
 | --- | --- |

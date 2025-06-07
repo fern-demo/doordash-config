@@ -14,7 +14,7 @@ Providing DoorDash information about the specific items that you're delivering i
 * If you're delivering regulated items like alcohol, providing item details helps us ensure that every delivery is compliant with all applicable regulations
 * In the rare case that something goes wrong with a delivery, providing item details enables us to provide partial refunds per the [refund matrix](/en-US/docs/drive/overview/pricing_payment#refunds)
 
-## 1. Prerequisites[​](#1-prerequisites "Direct link to heading")
+## 1. Prerequisites [#1-prerequisites]
 
 If you're new to Drive and haven't yet created your first delivery, you should start with one of our tutorials. The tutorials will walk you through getting the credentials you need to call the APIs and making some basic API calls.
 
@@ -22,7 +22,7 @@ If you're new to Drive and haven't yet created your first delivery, you should s
 * If you're writing an app in Node.js (using JavaScript or TypeScript), [get started using our Node.js SDK](/en-US/docs/drive/tutorials/get_started_sdk)
 * If you'd like to try our APIs interactively, [get started using our Postman collection](/en-US/docs/drive/tutorials/get_started_postman)
 
-## 2. Create a delivery with basic item details[​](#2-create-a-delivery-with-basic-item-details "Direct link to heading")
+## 2. Create a delivery with basic item details [#2-create-a-delivery-with-basic-item-details]
 
 When you create a delivery, include the `items` field with one or more items:
 
@@ -31,7 +31,7 @@ When you create a delivery, include the `items` field with one or more items:
 * (Optional) `external_id`: your internal identifier for this item; this can help you connect the items you provide in your delivery request to items in your internal system
 * (Optional) `description`: this field is reserved for future use; you can provide this detail if you like but it is not required
 
-```
+```json
 {  
     ... // other fields  
     "items": [  
@@ -49,7 +49,7 @@ When you create a delivery, include the `items` field with one or more items:
 
 ```
 
-## Next steps[​](#next-steps "Direct link to heading")
+## Next steps [#next-steps]
 
 * Learn how to [request a refund via API](/en-US/docs/drive/how_to/request_refunds_api)
 

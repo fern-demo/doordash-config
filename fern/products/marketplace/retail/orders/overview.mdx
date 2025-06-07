@@ -12,11 +12,11 @@ The image below presents a high level overview of how our Order API works.
 
 
 
-## Receiving Orders from DoorDash[​](#receiving-orders-from-doordash "Direct link to heading")
+## Receiving Orders from DoorDash [#receiving-orders-from-doordash]
 
 DoorDash also has a webhook that notifies you of incoming live new orders. This webhook will contain the same authentication header as the webhook described in Receiving Menu Status Updates. The url to receive orders can be either the same as menu’s or a different one. Currently it’s a manual process, so please contact DoorDash to configure the url. These requests will contain payloads with the following format:
 
-```
+```json
 {  
   "event": {  
     "type": "OrderCreate",  
@@ -29,7 +29,7 @@ DoorDash also has a webhook that notifies you of incoming live new orders. This 
 
 The Order object is fully detailed in our API Reference documentation, and we’ve also included a sample instance [here](/en-US/docs/marketplace/reference/sample_order). This Order object will contain an `id` field that you’ll need later to confirm the order with the PATCH endpoint, so please keep track of it. All incoming orders will have a status of NEW.
 
-## Notable Fields[​](#notable-fields "Direct link to heading")
+## Notable Fields [#notable-fields]
 
 `special_instructions` (optional): DoorDash can allow customers to enter special instructions at the item level. This is a store level setting and can be configured to block special instructions from being entered or to allow special instructions up to a specified max length.
 
@@ -49,17 +49,17 @@ The Order object is fully detailed in our API Reference documentation, and we’
 
 `consumer.id`: Your system must be able to support a 64-bit integer value for this field.
 
-## Confirming Orders[​](#confirming-orders "Direct link to heading")
+## Confirming Orders [#confirming-orders]
 
 PATCH `/api/v1/orders/{id}`
 
 Once you’ve received an order, you’ll need to let DoorDash know if you’re able to fulfill it. Include the `id` of the order (which you should have received from the webhook) in the URL parameters. Partners can utilize asynchronous or synchronous order confirmation methods.
 
-### Synchronous Order Confirmation[​](#synchronous-order-confirmation "Direct link to heading")
+### Synchronous Order Confirmation [#synchronous-order-confirmation]
 
 Confirm the order with a DoorDash order webhook call. Return 200 for an order success, a non 2xx will be treated as an order failure. Response payloads are the same as async order confirmation payloads.The current HTTP timeout is >1 minute, but if you anticipate that the calls will regularly take longer than ~20 seconds, we prefer async confirmations instead.
 
-### Asynchronous Order Confirmation[​](#asynchronous-order-confirmation "Direct link to heading")
+### Asynchronous Order Confirmation [#asynchronous-order-confirmation]
 
 If you have received the order, but would like to update the status at a later time, indicate this with a status code of 202. Please follow up by using the order confirmation endpoint to confirm the order status as either success or failure with an associated failure reason. If you do not confirm the order in 3-8 minutes, DoorDash will treat the order as a failure due to an order confirmation timeout. This 3-8 minute SLA will differ per order based on the time the order was created to the time when a scheduler runs on the DoorDash side to mark orders as stale. Please ensure systems are able to meet this 3-8 minute SLA or you will see high order cancellations.
 
@@ -72,7 +72,7 @@ For Async order confirmation, DD will respond:
 | 404 | Order with provided ID does not exist | DD can’t find the order record with given order id |
 | 500 | Error while processing merchant order confirmation | Internal Server Error |
 
-## Notable Fields[​](#notable-fields-1 "Direct link to heading")
+## Notable Fields [#notable-fields-1]
 
 `prep_time` (optional): Driver pickup times are determined by an internal DoorDash algorithm by default and sent in the estimated\_pickup\_time. Additionally, there is a prep\_time parameter available within the order confirmation payload that is a Datetime object. This can be used to determine prep\_time as input to DoorDash’s internal algorithm. This field is optional and should only be used if there is a separate logic dictating a different prep time. Do not echo back DoorDash’s estimated\_pickup\_time in this field, as this is downstream of the DoorDash prep time logic and will lead to excessive prep time estimates.
 
@@ -84,7 +84,7 @@ Option 1: To use DoorDash Model Prep times (recommended)
 
 The payload should have the following format, and is also detailed in the Order Endpoint section:
 
-```
+```json
 {  
   "merchant_supplied_id": merchant provided order id,  
   "order_status": "success" or "fail",  
@@ -97,7 +97,7 @@ Option 2: To use provider / merchant calculated prep times
 
 If there is separate logic to dictate prep times by the provider or Merchant, then you can pass the following payload including a self-calculated prep time.
 
-```
+```json
 {  
   "merchant_supplied_id": merchant provided order id,  
   "order_status": "success" or "fail",  
@@ -107,31 +107,31 @@ If there is separate logic to dictate prep times by the provider or Merchant, th
 
 ```
 
-## Auto Order Release (AOR)[​](#auto-order-release-aor "Direct link to heading")
+## Auto Order Release (AOR) [#auto-order-release-aor]
 
 Auto Order Release (AOR) is a DoorDash feature that merchants can utilize to increase food quality and reduce Dasher wait times. This is implemented by holding an order in staging until a Dasher reaches the designated proximity from the restaurant (i.e. 500 meters). Once the Dasher reaches this proximity, DoorDash will send a release event to the POS system for food preparation. The timing of the Dasher arrival to when food is ready for pickup should be more precise with auto order release and is beneficial primarily for quick service restaurants.
 
 A new call that will be triggered to a configured merchant provided endpoint when a dasher is near the store. When a merchant confirms the order, they can pass their internal order id in the merchant\_supplied\_id field and DoorDash will save this value as client\_order\_id. This will be sent as part of the release payload. This will also include Dasher Vehicle information to support easier handoff for merchants who support Curbside Delivery. Sample can be found in the Reference tab (Sample auto order release event).
 
-## Order Event Updates[​](#order-event-updates "Direct link to heading")
+## Order Event Updates [#order-event-updates]
 
 Today, DoorDash doesn’t know when the food is ready for pick-up and hence cannot pass on this information to Dashers. This results in a stressful pick-up experience for both Dashers and Merchants because all the Dashers who are waiting for their order crowd outside the Merchants expecting the next order to be theirs
 
 To remediate this, we have introduced the ability for merchants to share the
 event. Once the order is ready to be picked up, merchants can let DoorDash know such that dashers can be informed. Merchants will include the "id" of the order (which they should have received from the order create webhook) in the URL parameters. Please see more details in the "Patch Order Events" section within the Order Endpoints.
 
-## Order Failures - Required Failure Reasons[​](#order-failures---required-failure-reasons "Direct link to heading")
+## Order Failures - Required Failure Reasons [#order-failures---required-failure-reasons]
 
 When failing an Order, it is important to include the failure\_reason parameter. This is vital in helping track failures and troubleshooting system issues. Outlined below are the **required detailed failure\_reason errors** and a description of when DoorDash would expect to receive each. Please note that you can provide any custom failure\_reason relevant to specific causes of order failures in addition the required reasons below.
 
-### Store Closed Failure Reasons[​](#store-closed-failure-reasons "Direct link to heading")
+### Store Closed Failure Reasons [#store-closed-failure-reasons]
 
 | POS detailed theme | Description | Failure Reason |
 | --- | --- | --- |
 | Store closed but wrong hours | The order was received when the store was closed. Validate that the store hours are listed correctly. | Store Unavailable - Hours out of Sync |
 | Store closed temporarily | The order was received when the store was closed. Possible reasons include: store closed early, kitchen busy, weather related issues, emergency closure, etc. | Store Unavailable - Closed or Remodel |
 
-### Store Open but Unavailable for POS Orders Failure Reasons[​](#store-open-but-unavailable-for-pos-orders-failure-reasons "Direct link to heading")
+### Store Open but Unavailable for POS Orders Failure Reasons [#store-open-but-unavailable-for-pos-orders-failure-reasons]
 
 | POS detailed theme | Description | Failure Reason |
 | --- | --- | --- |
@@ -140,7 +140,7 @@ When failing an Order, it is important to include the failure\_reason parameter.
 | Stale pickup time | Pickup time sent in the order is no longer available. Validate that the store hours are listed correctly. | Pickup time sent in the order is no longer available. |
 | Store self-disabled online ordering | Store is disabled for online ordering. Store must be enabled to receive orders. | Store is disabled for online ordering. Store must be enabled to receive orders. |
 
-### Item out of stock Failure Reasons[​](#item-out-of-stock-failure-reasons "Direct link to heading")
+### Item out of stock Failure Reasons [#item-out-of-stock-failure-reasons]
 
 | POS detailed theme | Description | Failure Reason |
 | --- | --- | --- |
@@ -149,7 +149,7 @@ When failing an Order, it is important to include the failure\_reason parameter.
 
 *For "out of stock" failure reasons, we recommend partners include the `merchant_supplied_id` of the item or modifier along with the item/modifier name causing the order to fail so that DoorDash internal systems can take automated corrective action to resolve the issue and prevent subsequent failed orders for that merchant.*
 
-### Menu data mismatch/out of sync Failure Reasons[​](#menu-data-mismatchout-of-sync-failure-reasons "Direct link to heading")
+### Menu data mismatch/out of sync Failure Reasons [#menu-data-mismatchout-of-sync-failure-reasons]
 
 | POS detailed theme | Description | Failure Reason |
 | --- | --- | --- |
@@ -157,7 +157,7 @@ When failing an Order, it is important to include the failure\_reason parameter.
 | Pricing validation | Integration partner validates prices. The DoorDash menu prices are not in sync with what the partner has listed. | Pricing Mismatch - [Item Name] - [Item ID] |
 | Store configuration/denied | Store is misconfigured with incorrect integration ID | Store is misconfigured with incorrect integration ID |
 
-## Post Order Confirmation Updates[​](#post-order-confirmation-updates "Direct link to heading")
+## Post Order Confirmation Updates [#post-order-confirmation-updates]
 
 DoorDash has added new functionality to OpenAPI to allow merchants to cancel orders that have previously been accepted. Many of our POS-integrated merchants are set up to automatically accept and confirm orders as long as the order passes a set of validations. Occasionally orders are initially automatically confirmed, but then need to be subsequently cancelled due to a variety of reasons. In this scenario, the merchant must call DoorDash support to initiate the cancellation, which can be a time-consuming process for both parties. With this feature we will allow merchants to initiate order level cancellations through the POS Integration.
 

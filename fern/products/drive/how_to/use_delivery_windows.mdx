@@ -8,7 +8,7 @@ tip
 
 Delivery windows are generally best for when you're delivering non-perishable goods that don't need to be picked up or delivered at a specific time. If you're delivering perishable goods like food and drinks that you want to schedule for a specific time in the future, use [scheduled deliveries](/en-US/docs/drive/how_to/schedule_deliveries).
 
-## 1. Prerequisites[​](#1-prerequisites "Direct link to heading")
+## 1. Prerequisites [#1-prerequisites]
 
 If you're new to Drive and haven't yet created your first delivery, you should start with one of our tutorials. The tutorials will walk you through getting the credentials you need to call the APIs and making some basic API calls.
 
@@ -16,13 +16,13 @@ If you're new to Drive and haven't yet created your first delivery, you should s
 * If you're writing an app in Node.js (using JavaScript or TypeScript), [get started using our Node.js SDK](/en-US/docs/drive/tutorials/get_started_sdk)
 * If you'd like to try our APIs interactively, [get started using our Postman collection](/en-US/docs/drive/tutorials/get_started_postman)
 
-## 2. Set up delivery quotes[​](#2-set-up-delivery-quotes "Direct link to heading")
+## 2. Set up delivery quotes [#2-set-up-delivery-quotes]
 
 For delivery windows, we recommend using delivery quotes; if you're not already using quotes, you should follow the [quotes how-to guide](/en-US/docs/drive/how_to/quote_deliveries) before this one.
 
 When you create a quote for a windowed delivery, DoorDash's fulfillment systems will evaluate if we can meet the requested windows and provide our estimated pickup and dropoff times in the response to your quote request. You can then validate whether these estimated times meet your requirements, either using logic built into your app or by showing the estimated times to the end customer.
 
-## 3. Schedule a delivery[​](#3-schedule-a-delivery "Direct link to heading")
+## 3. Schedule a delivery [#3-schedule-a-delivery]
 
 TO create a windowed delivery, include **both** the `pickup_window` and `dropoff_window` fields. You may also want to enable SMS notifications for the dropoff contact.
 
@@ -37,7 +37,7 @@ The windows are validated according to the following rules:
 * Each window's `start_time` must be before its `end_time`
 * The dropoff window's `start_time` must be the same or later than the pickup window's `end_time` (`dropoff_window.start_time >= pickup_window.end_time`)
 
-```
+```json
 {  
     ... // other fields  
     "pickup_window": {  
@@ -57,11 +57,11 @@ The response to your quote request will include a few estimated time fields that
 * `estimated_pickup_time`: When we expect the Dasher will arrive at the pickup location
 * `estimated_dropoff_time`: When we expect the Dasher will arrive the dropoff location
 
-## 4. Set up webhooks[​](#4-set-up-webhooks "Direct link to heading")
+## 4. Set up webhooks [#4-set-up-webhooks]
 
 When using delivery windows, it's important to have [set up webhooks](/en-US/docs/drive/how_to/webhooks) so that you receive real-time notifications when a Dasher is assigned and on the way to pick up your delivery.
 
-## Next steps[​](#next-steps "Direct link to heading")
+## Next steps [#next-steps]
 
 * [Customize the SMS messages](/en-US/docs/drive/how_to/configure_sms) that are sent to the `dropoff_phone_number`
 

@@ -4,7 +4,7 @@
 
 If you're delivering higher-value goods, you can request that the Dasher collect a signature upon delivery to confirm that the delivery was given to the correct person.
 
-## 1. Prerequisites[​](#1-prerequisites "Direct link to heading")
+## 1. Prerequisites [#1-prerequisites]
 
 If you're new to Drive and haven't yet created your first delivery, you should start with one of our tutorials. The tutorials will walk you through getting the credentials you need to call the APIs and making some basic API calls.
 
@@ -12,11 +12,11 @@ If you're new to Drive and haven't yet created your first delivery, you should s
 * If you're writing an app in Node.js (using JavaScript or TypeScript), [get started using our Node.js SDK](/en-US/docs/drive/tutorials/get_started_sdk)
 * If you'd like to try our APIs interactively, [get started using our Postman collection](/en-US/docs/drive/tutorials/get_started_postman)
 
-## 2. Create a delivery that requires signature[​](#2-create-a-delivery-that-requires-signature "Direct link to heading")
+## 2. Create a delivery that requires signature [#2-create-a-delivery-that-requires-signature]
 
 When you create a delivery, you can indicate that a signature is required by including the `dropoff_requires_signature` field in your call to the [delivery creation API](/en-US/api/drive#operation/CreateDelivery) and setting the field's value to `true`. If you do so, `contactless_dropoff` must either be absent or set to `false`.
 
-```
+```json
 {  
     ... // other fields  
   
@@ -34,7 +34,7 @@ When you create a delivery, you can indicate that a signature is required by inc
 
 ```
 
-## 3. Receive signature images[​](#3-receive-signature-images "Direct link to heading")
+## 3. Receive signature images [#3-receive-signature-images]
 
 If you request signatures, you should update your app to handle a new field that will be returned in calls to the [delivery status API](/en-US/api/drive#tag/Delivery/operation/GetDelivery) and in the DELIVERY\_DROPPED\_OFF [webhook](/en-US/docs/drive/reference/webhooks): `dropoff_signature_image_url`, which will contain a string with a URL to an image of the dropoff contact's signature.
 

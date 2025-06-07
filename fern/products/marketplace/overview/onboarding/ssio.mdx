@@ -1,4 +1,4 @@
-## Overview[​](#overview "Direct link to heading")
+## Overview [#overview]
 
 DoorDash has built a self-serve integration onboarding product to streamline and optimize the end-to-end experience for merchants onboarding to a Marketplace integration. This product provides the back-end infrastructure to allow our partners to build a seamless experience from within their own environment and allow the merchant to own which DoorDash store is onboarded and when. The top-level flow of this product and corresponding process would be:
 
@@ -15,7 +15,7 @@ DoorDash has built a self-serve integration onboarding product to streamline and
 
 If you are looking for inspiration on what an end-to-end SSIO implementation might look like according to DoorDash certification requirements, please see our white-label implementation example [here](https://drive.google.com/file/d/1KhMvdQLx-dRCGgYgINSyOgNpG9ig-7Vv/view?usp=sharing).
 
-## Net New vs. Existing Merchant Flow[​](#net-new-vs-existing-merchant-flow "Direct link to heading")
+## Net New vs. Existing Merchant Flow [#net-new-vs-existing-merchant-flow]
 
 For Merchants that do not have a DoorDash Merchant account, extra steps are required by the Merchant to complete the store sign up process. The high level flow for the merchant is described below:
 
@@ -27,7 +27,7 @@ For Merchants that do not have a DoorDash Merchant account, extra steps are requ
 
 For Merchants that already exist on DoorDash, the steps required for onboarding are outlined in [Onboarding Store to Integration](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/#onboarding-store-to-integration).
 
-## API List[​](#api-list "Direct link to heading")
+## API List [#api-list]
 
 * oAuth Redirection - From the Partner environent, Partner redirects the merchant to DoorDash for oAuth using a unique oAuth URL.
 * oAuth Token Exchange - After merchant logs in with their DoorDash credentials, the resulting URL will contain an exchange code which is used by the Partner to get the Merchant JWT.
@@ -40,17 +40,17 @@ For Merchants that already exist on DoorDash, the steps required for onboarding 
 
  
 
-### Rate Limit Information[​](#rate-limit-information "Direct link to heading")
+### Rate Limit Information [#rate-limit-information]
 
 All SSIO API endpoints have a rate limit threshold of 600 requests per minute per endpoint. If you have any concerns with this threshold, please let us know.
 
 * **Note:** If after launching SSIO there is an unacceptable merchant pull-through rate (defined as the percentage of merchants who begin SSIO and are able to successfully complete activation without any blocking statuses), DoorDash may request to rollback while working on a solution for you to implement to improve this metric before reintroducing the SSIO product in your environment. If necessary, DoorDash may reduce your rate limit theshold to help enforce this.
 
-## Connect with DoorDash (oAuth)[​](#connect-with-doordash-oauth "Direct link to heading")
+## Connect with DoorDash (oAuth) [#connect-with-doordash-oauth]
 
 Merchants may have multiple stores/locations on the Partner side, and multiple stores on the DoorDash side. In order to know which location ID should be mapped to which DoorDash Store ID, we will need the Merchant to identify the mapping - this will be done via oAuth.
 
-### oAuth[​](#oauth "Direct link to heading")
+### oAuth [#oauth]
 
 When the Merchant kicks off the process to "add the DoorDash integration"/ "connect with DoorDash" from the partner environment, the partner portal will redirect the merchant to DoorDash's Identity service login page with the set of URL params defined by the protocol.
 
@@ -69,7 +69,7 @@ Get started setting up your Client ID in Developer Portal by following our step-
 * **response\_type**
 * **scope**
 
-### Consent[​](#consent "Direct link to heading")
+### Consent [#consent]
 
 When a Merchant clicks "Connect to DoorDash'' from the partner portal, they will redirect to DoorDash and be presented with a consent page. This page is a confirmation of what resources will be shared from DoorDash to the partner for this merchant.
 
@@ -89,7 +89,7 @@ You must provide DoorDash with up-to-date links to your **Terms & Conditions** a
 
 
 
-### Token Exchange & Expiration[​](#token-exchange--expiration "Direct link to heading")
+### Token Exchange & Expiration [#token-exchange--expiration]
 
 Once the Merchant consents, the interaction proceeds with the oAuth code-for-token exchange:
 
@@ -99,9 +99,9 @@ Once the Merchant consents, the interaction proceeds with the oAuth code-for-tok
 
 You will need to use the token to request for the list of DoorDash stores and to initialize onboarding. This token will expire after **one hour**. If an expired token is being used, DoorDash will reject the token with a 401 response code when you make the request for DoorDash stores or to initialize onboarding, and the merchant will need to re-authenticate again.
 
-## Onboarding Store to Integration[​](#onboarding-store-to-integration "Direct link to heading")
+## Onboarding Store to Integration [#onboarding-store-to-integration]
 
-### Exchange Token[​](#exchange-token "Direct link to heading")
+### Exchange Token [#exchange-token]
 
 After successful OAuth, the partner will be given the code which is used to exchange the Merchant JWT, which will be used to fetch available DoorDash stores for the authenticated user (business).
 
@@ -135,7 +135,7 @@ After successful OAuth, the partner will be given the code which is used to exch
 
 **Request**:
 
-```
+```json
 {  
     "exchange_code": "1f6262c2-1fb0-4bc3-80c5-af4a7bb06608"  
 }  
@@ -144,7 +144,7 @@ After successful OAuth, the partner will be given the code which is used to exch
 
 **Response** (Response Code `200`):
 
-```
+```json
 {  
   "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbMerchantpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE2NjMzNTU5MzMsImV4cCI6MTY5NDg5MTkzMywiYXVk"  
 }  
@@ -153,7 +153,7 @@ After successful OAuth, the partner will be given the code which is used to exch
 
 **Note**: The `access_token` returned will be used in the Fetch Stores and Initialize Onboarding API calls. This token will expire after one hour so the merchant may need to re-authenticate if the API calls are not made within that time. The `access_token` can only be used to create the merchant token once.
 
-### Fetch DoorDash Stores[​](#fetch-doordash-stores "Direct link to heading")
+### Fetch DoorDash Stores [#fetch-doordash-stores]
 
 After successful OAuth code exchange, the partner will be given the Merchant JWT, which can be used to fetch the business and store information from DoorDash for the authenticated user.
 
@@ -228,7 +228,7 @@ The below example would return up to 500 stores:
 
 **Response** (Response Code `200`):
 
-```
+```json
 {  
   "store_candidates": [  
     {  
@@ -261,7 +261,7 @@ The below example would return up to 500 stores:
 
 ```
 
-### Initialize Onboarding[​](#initialize-onboarding "Direct link to heading")
+### Initialize Onboarding [#initialize-onboarding]
 
 Once the Merchant has oAuth'd and has their list of DoorDash stores, they can select the mapping of partner store/location and DoorDash store on the provider portal. After a selection, the partner will call DoorDash to initialize the onboarding by providing the below information. This request is asynchronous.
 
@@ -306,7 +306,7 @@ Once the Merchant has oAuth'd and has their list of DoorDash stores, they can se
 
 **Request**:
 
-```
+```json
 {  
   "doordash_store_uuid": "f1c7f43b-64ca-4586-b990-171aaafbca2d",    
   "location_id": "xdDJSnx", [unique store/location ID on the partner side]  
@@ -319,14 +319,14 @@ Once the Merchant has oAuth'd and has their list of DoorDash stores, they can se
 
 **Response** (Response Code `202`):
 
-```
+```json
 {  
     "onboarding_id": "9154103a-be82-48fc-978d-792171f7ee32"  
 }  
 
 ```
 
-### Fetch Onboarding Status[​](#fetch-onboarding-status "Direct link to heading")
+### Fetch Onboarding Status [#fetch-onboarding-status]
 
 After successfully submitting the store onboarding request, an onboarding entry will be persisted in the DoorDash POS store onboarding platform. Onboarding status should be shown to the Merchant in the partner environment as part of the onboarding experience. There are two ways to check the current progress of the onboarding status, but you are required to subscribe to the webhook events; using the GET endpoint is an optional enhancement:
 
@@ -334,7 +334,7 @@ After successfully submitting the store onboarding request, an onboarding entry 
 
 Partners must have an endpoint configured to listen to DoorDash store onboarding status webhooks. To enable this, the partner will register a subscription endpoint for DoorDash to send webhooks to via **DoorDash Developer Portal**. Once a status changes on the onboarding store, a webhook event will be sent to the provided subscription endpoint. If a webhook fails, it will be retried 3 times. The payload format for this webhook will be the following:
 
-```
+```json
 {  
   "onboarding_id": "9154103a-be82-48fc-978d-792171f7ee32",  
   "location_id": "xdDJSnx", [unique store/location id on the partner side],  
@@ -395,7 +395,7 @@ No query parameter is needed.
 
 **Response** (Response Code `200`):
 
-```
+```json
 {  
   "onboarding_id": "9154103a-be82-48fc-978d-792171f7ee32",  
   "location_id": "xdDJSnx", [unique store/location id on the partner side],  
@@ -456,7 +456,7 @@ DoorDash Integration Onboarding team monitors SSIO exclusion values on a daily b
 | MENU\_BLOCK | MENU\_JOB\_FAILURE | Team confirms menu job failure reason and emails Merchant with error details. Merchant instructed to work with Partner to resolve issue if needed. |
 | MENU\_BLOCK | MENU\_BLANK\_FAILURE | Team emails merchant and informs of blank menu. Merchant instructed to work with Partner to resolve issue if needed. |
 
-### Menu Creation/Update[​](#menu-creationupdate "Direct link to heading")
+### Menu Creation/Update [#menu-creationupdate]
 
 Once the Initialize Onboarding step is completed, a **menu ingestion is automatically triggered** (this is why SSIO mandates Menu Pull as a prerequisite). If the menu job fails or the merchant simply has not finished preparing their menu yet, you can use this API endpoint to trigger a menu job. DoorDash internal logic will either create a new menu (if the menu has not been created yet or the first menu creation attempt failed) or update the existing menu (if the initial menu creation was successful and there is an existent menu associated with this `onboarding_id`).
 
@@ -501,12 +501,12 @@ No request payload is needed.
 
 **Response** (Response Code `202`):
 
-```
+```json
 {}  
 
 ```
 
-### Activate Integration[​](#activate-integration "Direct link to heading")
+### Activate Integration [#activate-integration]
 
 After a successful menu ingestion, the [Onboarding Status](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/#fetch-onboarding-status) will reflect the successful menu ingestion with menu\_uuid(s) and menu\_preview\_links(s). With the menu preview link, merchants can preview their menu(s) on DoorDash. Once the menu contents look good to the merchant, the partner can call the [Activate Integration API](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/#activate-integration) to activate the POS integration on DoorDash. This process is asynchronous but is expected to be completed within a few minutes at most. If successful, this step will:
 
@@ -553,12 +553,12 @@ No request payload is needed.
 
 **Response** (Response Code `202`):
 
-```
+```json
 {}  
 
 ```
 
-### Net New Merchant API[​](#net-new-merchant-api "Direct link to heading")
+### Net New Merchant API [#net-new-merchant-api]
 
 If a merchant does not have a DoorDash account yet or needs to create a store as a Merchant from an existing Consumer account, calling this API will return a sign up URL that will have some onboarding information pre-filled for the merchant. After the merchant clicks on the sign up link and finishes store sign up, a webhook with the onboarding status update will be sent to the partner. At that point, the merchant can continue the same flow as existing merchants would. To ensure net new merchants sign up on DoorDash through this API to deep-link your provider\_type / location\_id, you should include a call to action option to "Sign up on DoorDash" as part of your SSIO implementation. The default "Sign Up" option on our standard identity page will not have your provider\_type / location\_id deep-linked and therefore cause merchant confusion.
 
@@ -599,7 +599,7 @@ If a merchant does not have a DoorDash account yet or needs to create a store as
 
 **Request**:
 
-```
+```json
 {  
   "location_id": "xdDJSnx",  
   "store_name": "Yummy BBQ",  
@@ -621,14 +621,14 @@ If a merchant does not have a DoorDash account yet or needs to create a store as
 
 **Response** (Response Code `200`):
 
-```
+```json
 {  
   "signup_url": "https://www.doordash.com/merchant/applyV2/choose-package?uuid=283be1c0-8sds29d-46bd-a710-8ae7dsdds"  
 }  
 
 ```
 
-### Store Activation within SSIO[​](#store-activation-within-ssio "Direct link to heading")
+### Store Activation within SSIO [#store-activation-within-ssio]
 
 The store activation within SSIO is automation within Self-Serve Integration Onboarding so that new DoorDash Merchants going through the process can activate their store more easily.
 
@@ -653,7 +653,7 @@ There could be cases in which integration-activation is successful, but store ac
 
 In these scenarios, DoorDash will notify our integration partners via our [Store Onboarding Status endpoint + webhooks](#fetch-onboarding-status) using a new **exclusion code** (STORE\_NOT\_ACTIVE) and **details** (listed below).
 
-```
+```json
 {  
  "onboarding_id": "9154103a-be82-48fc-978d-792171f7ee32",  
  "location_id": "xdDJSnx",  
@@ -695,9 +695,9 @@ Yes, DoorDash will send an email to the Merchant once activated.
 
 No. To ensure the Merchant is one controlling their store activation, we’ve limited this automation to SSIO only.
 
-### Seamless Restarts for Integrated Onboarding[​](#seamless-restarts-for-integrated-onboarding "Direct link to heading")
+### Seamless Restarts for Integrated Onboarding [#seamless-restarts-for-integrated-onboarding]
 
-#### WHAT[​](#what "Direct link to heading")
+#### WHAT [#what]
 
 DoorDash is adding new automation within Self-Serve Integration Onboarding so that new DoorDash Merchants going through the process can restart jobs that are currently in progress (i.e. have a status other than `INTEGRATION_ACTIVATED`).
 
@@ -705,14 +705,14 @@ Previously, DoorDash support was required to manually abandon in-progress jobs o
 
 With additional automation added on the DoorDash side, Merchants/Providers will now be able to automatically restart a job without manual DoorDash intervention.
 
-#### WHY[​](#why "Direct link to heading")
+#### WHY [#why]
 
 From our integration onboarding research, a significant number of Merchants encounter this issue, blocking their onboarding. The most common scenarios where merchants need to restart integration onboarding are:
 
 * **(SSIO)** Cases where the wrong location ID is specified initially
 * **(SOW, CSV)** Cases where Menu Blockers are hit
 
-#### WHO[​](#who "Direct link to heading")
+#### WHO [#who]
 
 This change will be enabled for all onboarding flows, including:
 
@@ -720,7 +720,7 @@ This change will be enabled for all onboarding flows, including:
 * **Store Onboarding Webhooks**
 * **CSV Upload**
 
-#### FAQ[​](#faq "Direct link to heading")
+#### FAQ [#faq]
 
 1. **Will a new onboarding UUID be generated whenever store onboarding is restarted?**
 
@@ -733,7 +733,7 @@ This change will be enabled for all onboarding flows, including:
    * Store onboarding status webhooks will not be sent in scenarios where the job is abandoned due to being restarted
    * The store onboarding status endpoint can still be used to verify the status of the previous job
 
-## Merchant Communication Details[​](#merchant-communication-details "Direct link to heading")
+## Merchant Communication Details [#merchant-communication-details]
 
 Once a merchant begins the SSIO process from the partner environment, they will receive updates to their integration onboarding progress via two methods: DoorDash Merchant Portal and automated emails.
 
@@ -751,7 +751,7 @@ Additionally, merchants will receive updates on their integration onboarding pro
 
 If you initiate an onboarding request via CSV Upload in Developer Portal, the `merchant_decision_maker_email` and the merchant’s Business Admin user (maintained in DoorDash) associated with their store on DoorDash will receive an email requesting them to consent to the onboarding request initiated on their behalf. Only a Business Admin user may grant this consent. If a merchant does not have a Business Admin user, they can contact DoorDash Support to add one. Once consent is granted, then the DoorDash Merchant Portal milestones and automated emails will behave in the same manner as if the request was initiated via SSIO rather than CSV Upload.
 
-## CSV Upload Details[​](#csv-upload-details "Direct link to heading")
+## CSV Upload Details [#csv-upload-details]
 
 The SSIO architecture is built in such a way that each store is onboarded on a store-by-store basis in its current state. This provides a sub-optimal experience for merchants onboarding many locations at once. **To ensure the best merchant experience is provided, we recommend providing a way for merchants to map multiple locations within the partner environment to the DoorDash stores returned in the Fetch DoorDash Stores response in a single batch.** Understanding that every partner is different and you may not be able to accommodate such a user experience, we also offer our partners an alternative method to onboard merchants to any integration if you are onboarding many locations in one batch. **This approach should ONLY be used if you do not build a sufficient multi-location batching experience and a merchant has too many locations to oAuth each one individually.** If you are looking for inspiration on what an end-to-end SSIO implementation might look like according to DoorDash certification requirements, please see our white-label implementation example [here](https://drive.google.com/file/d/1KhMvdQLx-dRCGgYgINSyOgNpG9ig-7Vv/view?usp=sharing).
 
@@ -793,23 +793,23 @@ Once the business admin confirms the stores they will be redirected to a confirm
 | expected\_go\_live\_date | string | false | Partners to indicate an expected date to go live. If this value is not provided, the store will be onboarded as the DoorDash Activations specialist processes the request. If provided, the DoorDash activations team will attempt to honor the date, however, timelines can be delayed owing to issues on the Partner / Merchant’s end. |
 | mx\_decision\_maker\_email | string | true | Email contact for user on the merchant’s side initiating the request as well as for receiving status updates on the onboarding request |
 
-## Prerequisites & Other Requirements [​](#prerequisites--other-requirements "Direct link to heading")
+## Prerequisites & Other Requirements  [#prerequisites--other-requirements]
 
 ---
 
-#### [Prerequisite] Developer Portal Sign Up & Technical Migration[​](#prerequisite-developer-portal-sign-up--technical-migration "Direct link to heading")
+#### [Prerequisite] Developer Portal Sign Up & Technical Migration [#prerequisite-developer-portal-sign-up--technical-migration]
 
 To enhance our partner experience, DoorDash has launched a DoorDash Developer Portal. The Developer Portal allows partners to manage their integration, view integration metrics, integrated store information, and more. With regards to SSIO, partners can also use Developer Portal as a last resort to onboard merchants with many locations so they do not have to go through SSIO on a location-by-location basis (e.g. one by one) in the event where you do not build a multi-location batching experience (note: this feature is coming soon). Before launching SSIO, you must [sign up for Developer Portal](https://developer.doordash.com/en-US/docs/marketplace/faq/legacy_partner_migration/) to support onboarding merchants with many locations in case multi-location batching is not built. If you are not signed up for Developer Portal you will not pass SSIO certification due to the poor resultant merchant experience when onboarding a large number of stores to the integration. **Please note there are different steps required depending on if you already have an account in Developer Portal for DoorDash Drive.**
 
-#### [Prerequisite] Menu Pull[​](#prerequisite-menu-pull "Direct link to heading")
+#### [Prerequisite] Menu Pull [#prerequisite-menu-pull]
 
 You are required to build [Menu Pull](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_integration) capability as part of the DoorDash integration. This ensures a consistent experience for the merchant and ensures there is an optimal rescue path for any escalated cases needing manual action by DoorDash.
 
-#### [Requirement] Integration Transitioning Merchants[​](#requirement-integration-transitioning-merchants "Direct link to heading")
+#### [Requirement] Integration Transitioning Merchants [#requirement-integration-transitioning-merchants]
 
 We are allowing merchants to self-serve switching their DoorDash store from another POS provider to yours. This means that the [Fetch DoorDash Stores](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/#fetch-doordash-stores) response may include stores which are already active on a different integration. These stores will not have any indication if they are active on a different integration. Once the merchant completes the SSIO flow through your environment, their previous integration will no longer work. The merchant should work directly with their previous POS provider to cancel any services as needed. Partners must include some verbiage in the SSIO flow UI that any previous integration will be broken once they activate themselves on your integration.
 
-#### [Requirement] Ingest New Onboarding ID[​](#requirement-ingest-new-onboarding-id "Direct link to heading")
+#### [Requirement] Ingest New Onboarding ID [#requirement-ingest-new-onboarding-id]
 
 There are two scenarios where a new onboarding\_id value will be generated without the partner having called the [Initialize Onboarding](https://developer.doordash.com/en-US/docs/marketplace/overview/onboarding/ssio/#initialize-onboarding) endpoint.
 
@@ -818,15 +818,15 @@ There are two scenarios where a new onboarding\_id value will be generated witho
 
 It is safe to assume that if DoorDash sends an Onboarding Status Webhook with a new onboarding\_id, you should use that new onboarding\_id as the source of truth.
 
-#### [Requirement] Partner Environment URL[​](#requirement-partner-environment-url "Direct link to heading")
+#### [Requirement] Partner Environment URL [#requirement-partner-environment-url]
 
 For merchants signing up on DoorDash as a net new merchant, we will be directing them to the partner's portal to go through SSIO to finish their onboarding process to DoorDash. Therefore, partners are required to provide a URL to their environment for where merchants can start or continue the SSIO process.
 
-#### [Requirement] SSIO Restart[​](#requirement-ssio-restart "Direct link to heading")
+#### [Requirement] SSIO Restart [#requirement-ssio-restart]
 
 After a merchant starts SSIO and/or successfully finishes SSIO, they should be able to return to the beginnning and do it again if they so choose. This functionality is to ensure that merchants going through a Change of Ownership or who onboard the wrong store through SSIO have a way to bind their Location ID in the partner environment to the new or correct DoorDash store. This will also support the use-case if your locattion\_id is changing and you need to update the currently integrated store's location\_id.
 
-#### [Requirement] Partner-created Help Article[​](#requirement-partner-created-help-article "Direct link to heading")
+#### [Requirement] Partner-created Help Article [#requirement-partner-created-help-article]
 
 Since the SSIO flow is managed by the partner, DoorDash expects our partners to serve as first line of support for merchants who are having issues with the SSIO flow.
 However, if any issue requires the help of DoorDash to resolve, please work with [DoorDash Support] ([https://developer.doordash.com/en-US/docs/marketplace/how_to/request_support](https://developer.doordash.com/en-US/docs/marketplace/how_to/request_support)) as you normally would for other merchant integration issues. **We require an SSIO help doc which details the step-by-step process for completing the SSIO integration.** Expectations of what this partner-created help document should cover are detailed [here](https://4312591.fs1.hubspotusercontent-na1.net/hubfs/4312591/DoorDash%20Integration%20Onboarding%20Instructions%20for%20Partners%202022.pdf).
@@ -835,27 +835,27 @@ However, if any issue requires the help of DoorDash to resolve, please work with
 * The help article must be formatted as either a web page (strongly preferred) or PDF document accessible in a web browser
 * The help article must be hosted and maintained by the partner
 
-#### [FYI] Virtual Brands[​](#fyi-virtual-brands "Direct link to heading")
+#### [FYI] Virtual Brands [#fyi-virtual-brands]
 
 If merchants in your partner ecosystem have **unique** location\_id values for each virtual concept they have, those merchants can seamlessly integrate their virtual concepts through SSIO just as any other store would. However, if merchants in your partner ecosystem do **NOT** have unique location\_id values for each virtual concept they have, we will block those virtual concepts from onboarding through SSIO since DoorDash does not support having multiple stores sharing the same provider\_type / location\_id combination.
 
-#### [FYI] Staff Tips[​](#fyi-staff-tips "Direct link to heading")
+#### [FYI] Staff Tips [#fyi-staff-tips]
 
 If your integration does **not** support Staff Tips ([merchant\_tip\_amount](https://developer.doordash.com/en-US/api/marketplace/#section/Order)), merchants going through SSIO who previously had Staff Tips enabled will automatically have this functionality disabled when they activate themselves on your integration - this is to prevent the risk of failed orders. We recommend supporting this feature to avoid a disruption in the merchant experience. Please contact your Technical Account Manager if you build this feature to ensure you are included in our allowlist.
 
-#### [FYI] Launch Timeline[​](#fyi-launch-timeline "Direct link to heading")
+#### [FYI] Launch Timeline [#fyi-launch-timeline]
 
 Once you have passed all certification critera, you may enable production SSIO volume at 100%. Alternatively, you may scale SSIO production volume up gradually, but you must have 100% production volume through SSIO within 4 weeks of your first enablement increment. In other words, once you enable any number of merchants through your production SSIO, you have 4 weeks to scale to 100%. After 4 weeks, DoorDash will deprecate your legacy onboarding method and only onboarding requests sent through SSIO will be honored.
 
-## Partner Build Details[​](#partner-build-details "Direct link to heading")
+## Partner Build Details [#partner-build-details]
 
 ---
 
-### What Do Partners Need to Get Started?[​](#what-do-partners-need-to-get-started "Direct link to heading")
+### What Do Partners Need to Get Started? [#what-do-partners-need-to-get-started]
 
 When you are ready to start building SSIO, DoorDash will provide you with a few different resources to help you get started.
 
-#### DoorDash Provides the Following to Partners:[​](#doordash-provides-the-following-to-partners "Direct link to heading")
+#### DoorDash Provides the Following to Partners: [#doordash-provides-the-following-to-partners]
 
 * *oAuth URL* - use this URL to login with your dedicated business admin test user (DoorDash will ask which emails you want setup on your test stores for this).
 * *oAuth client* - this will be included in the oAuth URL.
@@ -865,7 +865,7 @@ When you are ready to start building SSIO, DoorDash will provide you with a few 
 * *E2E Flowchart* (High-level + Detaliled flows) - you can find this [here](https://drive.google.com/file/d/1c2w3tB2neGwkWdLJshjIsVZ-okoBZDRi/view?usp=share_link). You can see the E2E merchant journey going through SSIO APIs and expected milestones.
 * *White-label SSIO implementation example* - if you are looking for inspiration on what an end-to-end SSIO implementation might look like according to DoorDash certification requirements, please see our white-label implementation example [here](https://drive.google.com/file/d/1KhMvdQLx-dRCGgYgINSyOgNpG9ig-7Vv/view?usp=sharing).
 
-#### Partner Provides the Following to DoorDash:[​](#partner-provides-the-following-to-doordash "Direct link to heading")
+#### Partner Provides the Following to DoorDash: [#partner-provides-the-following-to-doordash]
 
 * *User emails* - we will need 1 Business Admin email (this will be used to oAuth and fetch stores) and 1 Store Operator email (this will be used to test an inadequate permissions error).
 * *Redirect URL* - this is the URL which merchants should be redirected to back to your environment after completing oAuth. The redirect URL used in your application must have the same scheme, authority, and prefix as the redirect URL allowlisted by DoorDash ([definitions](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier#Example_URIs)). This means if you allowlist `https://yoururl.com`, you could use redirect URLs such as `https://yoururl.com/some_value`, `https://yoururl.com/some_value/some_other_value`, etc. However, using a different prefix such as `https://somevalue.yoururl.com` will not work.
@@ -873,7 +873,7 @@ When you are ready to start building SSIO, DoorDash will provide you with a few 
 * *Privacy Policy* - this is the URL where we can find your Privacy Policy - it will be shown to merchants on your partner-specific identity page (where merchants grant consent). If you are in multiple regions, this needs to be 1 single URL for all locales.
 * *Partner starting URL* - this is where merchants can sign in or sign up for your service (e.g. where merchants go to login to your control center, dashboard, web portal, etc.).
 
-## Reset Onboarding API (Testing Only)[​](#reset-onboarding-api-testing-only "Direct link to heading")
+## Reset Onboarding API (Testing Only) [#reset-onboarding-api-testing-only]
 
 To help streamline your build/testing, we offer an API to reset the `onboarding_status` of a given `onboarding_id`. **This API is NOT available for production use.** It should **ONLY** be used for testing. It will **NOT** work for production `onboarding_id` values
 
@@ -895,17 +895,17 @@ To help streamline your build/testing, we offer an API to reset the `onboarding_
 
 ```
 
-## Certification Details[​](#certification-details "Direct link to heading")
+## Certification Details [#certification-details]
 
 ---
 
-### E2E Test Store Activation Proof of Concept [​](#e2e-test-store-activation-proof-of-concept "Direct link to heading")
+### E2E Test Store Activation Proof of Concept  [#e2e-test-store-activation-proof-of-concept]
 
 When SSIO is considered dev-complete, please coordinate with your Technical Account Manager to schedule a live certification ([certification tracker](https://docs.google.com/spreadsheets/d/1aL9DwJRoXaoCKpa7P-0WRGJEExqJnKCFe0EIvm4VK-s/edit?usp=sharing)) and review of your implementation of SSIO along with your [merchant-facing enablement material](https://4312591.fs1.hubspotusercontent-na1.net/hubfs/4312591/DoorDash%20Integration%20Onboarding%20Instructions%20for%20Partners%202022.pdf). This will help ensure the API best practices are being followed, you are not missing any critical piece of the process, and help empower our internal teams with context around how it works in your environment.
 
  
 
-## Terminology[​](#terminology "Direct link to heading")
+## Terminology [#terminology]
 
 * POS
 
@@ -927,7 +927,7 @@ When SSIO is considered dev-complete, please coordinate with your Technical Acco
 
   + The JWT token provider used to authenticate the calls to DoorDash
 
-## Specification Updates[​](#specification-updates "Direct link to heading")
+## Specification Updates [#specification-updates]
 
 | Release | Notes |
 | --- | --- |

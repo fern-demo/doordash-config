@@ -1,12 +1,12 @@
-### WHAT[​](#what "Direct link to heading")
+### WHAT [#what]
 
 DoorDash has built new functionality in our Open API to share asynchronous updates following [order adjustments](https://developer.doordash.com/en-US/docs/marketplace/how_to/merchant_order_adjustment). The updated order details will be sent to a partner-provided endpoint once the adjustment has been completed on the DoorDash side.
 
-### WHY[​](#why "Direct link to heading")
+### WHY [#why]
 
 This new enhancement allows partners to receive async confirmation once an update has been processed. Currently, partners only receive confirmation that an adjustment was received, not that it’s been processed. The enhancement also provides an updated version of the order payload to include taxes, subtotals, and item quantities which can be required for successful adjustments on the partner side.
 
-### HOW[​](#how "Direct link to heading")
+### HOW [#how]
 
 Once a partner-triggered `ITEM_UPDATE`, `ITEM_REMOVE`, or `ITEM_SUBSTITUTE` request is sent to the adjustment endpoint, DoorDash will handle the requested adjustment and send an async update to the partner-provided endpoint.
 
@@ -14,7 +14,7 @@ Within Developer Portal you will need to set up the **"Order Adjustment"** webho
 
 Example order update payload can be found here. The payload will contain the same fields as the original order in addition to the `order_adjustment_metadata` object.
 
-### FAQ[​](#faq "Direct link to heading")
+### FAQ [#faq]
 
 **How long will it take to get the async updated order?**  
 Expected latency is a few seconds with a maximum expected latency of 10 seconds.
@@ -22,11 +22,11 @@ Expected latency is a few seconds with a maximum expected latency of 10 seconds.
 **Where can I configure the subscription for the order updates to be sent?**  
 Once the enhancement is live, the subscription can be configured through the developer portal where all other subscriptions are set.
 
-### APPENDIX[​](#appendix "Direct link to heading")
+### APPENDIX [#appendix]
 
-#### Example Order Update Payload[​](#example-order-update-payload "Direct link to heading")
+#### Example Order Update Payload [#example-order-update-payload]
 
-```
+```json
 {  
   "event": {  
     "type": "OrderAdjustment",  

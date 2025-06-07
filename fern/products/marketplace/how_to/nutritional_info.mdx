@@ -3,7 +3,7 @@
 DoorDash has made an enhancement to the Open API contract to allow partners to provide
 nutritional and dietary information with the menu items. This information will be sent via our Menu API.
 
-## Overview[​](#overview "Direct link to heading")
+## Overview [#overview]
 
 Displaying nutritional and dietary information with the menu items helps consumers make
 informed decisions about the food they consume. Beside the value for the customers, menu
@@ -17,20 +17,20 @@ For this enhancement, partners have the ability to add the following nutritional
   + `Vegan`
   + `Gluten-Free`
 
-## Get Started[​](#get-started "Direct link to heading")
+## Get Started [#get-started]
 
-### Step 1: Alter Menu Payload[​](#step-1-alter-menu-payload "Direct link to heading")
+### Step 1: Alter Menu Payload [#step-1-alter-menu-payload]
 
 Alter menu payload to add desired nutritional information on an item OR item modifier level.
 
-#### Add Caloric Information to Menu Payload:[​](#add-caloric-information-to-menu-payload "Direct link to heading")
+#### Add Caloric Information to Menu Payload: [#add-caloric-information-to-menu-payload]
 
 Specify the display label, lower and higher range for item calorific information. For e.g.
 
 * `display_type` = ‘cal’
 * `higher_range` = 360
 
-##### Caloric Info JSON Snippet Example:[​](#caloric-info-json-snippet-example "Direct link to heading")
+##### Caloric Info JSON Snippet Example: [#caloric-info-json-snippet-example]
 
 ```
 "nutritional_info":{  
@@ -43,7 +43,7 @@ Specify the display label, lower and higher range for item calorific information
 
 ```
 
-#### Add Dietary Tags to Menu Payload:[​](#add-dietary-tags-to-menu-payload "Direct link to heading")
+#### Add Dietary Tags to Menu Payload: [#add-dietary-tags-to-menu-payload]
 
 Specify the dietary tags that need to be presented with the item from the following options:
 
@@ -51,7 +51,7 @@ Specify the dietary tags that need to be presented with the item from the follow
 * `TAG_KEY_DIETARY_VEGAN`
 * `TAG_KEY_DIETARY_GLUTEN_FREE`
 
-##### Dietary Tags JSON Snippet Example:[​](#dietary-tags-json-snippet-example "Direct link to heading")
+##### Dietary Tags JSON Snippet Example: [#dietary-tags-json-snippet-example]
 
 ```
 "classification_info":{  
@@ -62,14 +62,14 @@ Specify the dietary tags that need to be presented with the item from the follow
 
 ```
 
-### Step 2: Push Menu with new additional fields and validate in UI[​](#step-2-push-menu-with-new-additional-fields-and-validate-in-ui "Direct link to heading")
+### Step 2: Push Menu with new additional fields and validate in UI [#step-2-push-menu-with-new-additional-fields-and-validate-in-ui]
 
 Once the payload is altered to add the desired nutritional information, please push the menu (via MenuCreate or MenuUpdate) to the DD server. Validate in the UI that the caloric information + dietary tags are present.
 
 
 
 
-## Menu Payload Example:[​](#menu-payload-example "Direct link to heading")
+## Menu Payload Example: [#menu-payload-example]
 
 Below is a snippet of the menu payload with the additional dish information included:
 

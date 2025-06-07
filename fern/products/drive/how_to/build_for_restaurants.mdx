@@ -16,7 +16,7 @@ This document covers **how to integrate with DoorDash Drive for restaurants** in
 * Order management platforms
 * Restaurant websites and apps
 
-## 1. Prerequisites[​](#1-prerequisites "Direct link to heading")
+## 1. Prerequisites [#1-prerequisites]
 
 1. **Get started by [creating a Developer Portal account](https://developer.doordash.com/en-US/docs/drive/tutorials/get_started/#sign-into-the-developer-portal).** The Developer Portal is the tool you'll use to build and manage your DoorDash Drive integration. You can also [add other members](https://developer.doordash.com/en-US/docs/drive/how_to/add_members/) to your organization and assign permissions for each user based on your organization's needs.
    * If your organization does business in multiple countries, you will need to create a unique Developer Portal account per country.
@@ -28,7 +28,7 @@ This document covers **how to integrate with DoorDash Drive for restaurants** in
    * If you're writing an app in Node.js (using JavaScript or TypeScript), [get started using our Node.js SDK](https://developer.doordash.com/en-US/docs/drive/tutorials/get_started_sdk)
    * If you'd like to try our APIs interactively, [get started using our Postman collection](https://developer.doordash.com/en-US/docs/drive/tutorials/get_started_postman)
 
-## 2. Develop your Integration[​](#2-develop-your-integration "Direct link to heading")
+## 2. Develop your Integration [#2-develop-your-integration]
 
 **Key Points:**
 
@@ -51,13 +51,13 @@ This document covers **how to integrate with DoorDash Drive for restaurants** in
   + Merchant Portal
   + [DoorDash Support](https://developer.doordash.com/en-US/docs/drive/support#get-in-touch-with-us)
 
-### A) Onboarding[​](#a-onboarding "Direct link to heading")
+### A) Onboarding [#a-onboarding]
 
 DoorDash Drive maintains a data model of [businesses and stores](https://developer.doordash.com/en-US/docs/drive/reference/businesses_and_stores/). A **business** is a merchant that owns a collection of stores usually under the same brand name—typically a corporation, franchise, or LLC. A **store** is an individual location from which deliveries are made. Some examples of different stores/businesses include:
 
-#### Example A: POS Model with Different Businesses[​](#example-a-pos-model-with-different-businesses "Direct link to heading")
+#### Example A: POS Model with Different Businesses [#example-a-pos-model-with-different-businesses]
 
-##### One merchant with multiple businesses and stores under one online ordering/point of sales system.[​](#one-merchant-with-multiple-businesses-and-stores-under-one-online-orderingpoint-of-sales-system "Direct link to heading")
+##### One merchant with multiple businesses and stores under one online ordering/point of sales system. [#one-merchant-with-multiple-businesses-and-stores-under-one-online-orderingpoint-of-sales-system]
 
 ```mermaid
 graph TD
@@ -76,9 +76,9 @@ D --> L{Store}
 D --> M{Store}
 
 ```
-#### Example B: Franchisee Model[​](#example-b-franchisee-model "Direct link to heading")
+#### Example B: Franchisee Model [#example-b-franchisee-model]
 
-##### A restaurant with different store locations and a unique billing entity associated with each store.[​](#a-restaurant-with-different-store-locations-and-a-unique-billing-entity-associated-with-each-store "Direct link to heading")
+##### A restaurant with different store locations and a unique billing entity associated with each store. [#a-restaurant-with-different-store-locations-and-a-unique-billing-entity-associated-with-each-store]
 
 ```mermaid
 graph TD
@@ -91,9 +91,9 @@ C --> H{Store}
 D --> K{Store}
 ```
 
-#### Example C: Business with Multiple Store Locations[​](#example-c-business-with-multiple-store-locations "Direct link to heading")
+#### Example C: Business with Multiple Store Locations [#example-c-business-with-multiple-store-locations]
 
-##### One business with multiple store locations.[​](#one-business-with-multiple-store-locations "Direct link to heading")
+##### One business with multiple store locations. [#one-business-with-multiple-store-locations]
 
 ```mermaid
 graph TD
@@ -110,7 +110,7 @@ Onboarding businesses and stores via the API allows for improved delivery qualit
 
 **Note that each Developer Portal account should only contain businesses and stores in a single country.** If your organization does business in multiple countries, you will need to create a unique Developer Portal account per country. If you're having trouble testing deliveries outside of the US, you can [get in touch with our support team.](https://developer.doordash.com/portal/support)
 
-### B) Getting a Quote[​](#b-getting-a-quote "Direct link to heading")
+### B) Getting a Quote [#b-getting-a-quote]
 
 The [Create Quote API](https://developer.doordash.com/en-US/api/drive#tag/Delivery/operation/DeliveryQuote) allows you to [validate coverage and pricing](https://developer.doordash.com/en-US/docs/drive/how_to/quote_deliveries/) before formally creating a delivery and should be the first API call in a standard restaurant online ordering flow.
 
@@ -122,7 +122,7 @@ For organizations with no customer-facing checkout UI, such as POS and order man
 
 **Quotes are valid for 5 minutes.** It is recommended to automatically send a new Create Quote API call with the same details every 5 minutes to account for situations where the customer or restaurant operator may take longer than 5 minutes to complete checkout or assign the delivery to DoorDash.
 
-### C) Accepting a Quote[​](#c-accepting-a-quote "Direct link to heading")
+### C) Accepting a Quote [#c-accepting-a-quote]
 
 If the pricing and timing returned in the quote response are acceptable, you should call the [Accept Delivery Quote API](https://developer.doordash.com/en-US/api/drive/#tag/Delivery/operation/DeliveryQuoteAccept) to formally create the delivery. **Quotes must be accepted within 5 minutes of quote creation.**
 
@@ -134,11 +134,11 @@ A few other important items to note:
 
 Alternatively to the create/accept quote model, a restaurant can also send a [Create Delivery API](https://developer.doordash.com/en-US/api/drive#tag/Delivery/operation/CreateDelivery) call directly without first creating a quote. This is generally not recommended because there is no opportunity to validate coverage, timing, customer payment, or validity of the delivery information before creating the delivery. This can result in potential errors, cancellations, and refunds, as well as a negative user experience for the customer.
 
-### D) Important Fields[​](#d-important-fields "Direct link to heading")
+### D) Important Fields [#d-important-fields]
 
 See below for important fields for the restaurant use case. Required fields are necessary for production access. Recommended fields are encouraged to provide a best-in-class delivery experience, but are not needed for production access. Fields not listed in this section are not recommended for the restaurant use case and should not be included in payloads unless otherwise discussed with the DoorDash team.
 
-#### Required / Recommended Fields for All Deliveries[​](#required--recommended-fields-for-all-deliveries "Direct link to heading")
+#### Required / Recommended Fields for All Deliveries [#required--recommended-fields-for-all-deliveries]
 
 | Field Name | Description | Required or Recommended? | Why is this field important? |
 | --- | --- | --- | --- |
@@ -160,7 +160,7 @@ See below for important fields for the restaurant use case. Required fields are 
 | contactless\_dropoff | Allows the Dasher to leave the order at the customer's door, prompting them to take a photo upon dropoff. Cannot be true for restricted item deliveries like alcohol. | Recommended | Recommended for customers to have the option of a contactless delivery in the UI and sent to DoorDash, which leads to less Never Delivered/Cancellations if the customer is unable to take the delivery at that time |
 | items | List of items included in the delivery | Recommended for all deliveries; required for organizations delivering restricted items | Required for all organizations delivering restricted items per DoorDash Policy; also allows for better support experiences in the case of missing/incorrect items |
 
-#### Required / Recommended Fields for Restricted Item Deliveries (Alcohol)[​](#required--recommended-fields-for-restricted-item-deliveries-alcohol "Direct link to heading")
+#### Required / Recommended Fields for Restricted Item Deliveries (Alcohol) [#required--recommended-fields-for-restricted-item-deliveries-alcohol]
 
 | Field Name | Description | Required or Recommended? | Why is this field important? |
 | --- | --- | --- | --- |
@@ -168,14 +168,14 @@ See below for important fields for the restaurant use case. Required fields are 
 | order\_contains | Specifies the restricted item(s) contained in the order | **Required** | Required for all restricted item deliveries per DoorDash Policy |
 | action\_if\_undeliverable | Must be specified as "return\_to\_pickup," allowing the Dasher to return the items to the store if the delivery is unsuccessful | **Required** | Required for all restricted item deliveries per DoorDash Policy (note there is a return fee associated with returns) |
 
-#### Required / Recommended Fields for Catering & Large Orders[​](#required--recommended-fields-for-catering--large-orders "Direct link to heading")
+#### Required / Recommended Fields for Catering & Large Orders [#required--recommended-fields-for-catering--large-orders]
 
 | Field Name | Description | Required or Recommended? | Why is this field important? |
 | --- | --- | --- | --- |
 | order\_fulfillment\_method | Specifies the type of delivery, e.g. large order | **Required** for large order fulfillment/catering orders | Required to ensure that orders intended to be fulfilled through DoorDash's large order fulfillment service are handled appropriately |
 | dropoff\_options | Catering\_setup field specifies if the delivery requires the Dasher to complete catering setup | Recommended for large order fulfillment/catering orders | Recommended if catering setup is needed |
 
-### E) Error Handling[​](#e-error-handling "Direct link to heading")
+### E) Error Handling [#e-error-handling]
 
 When calling the Create Quote, Accept Quote, or Create Delivery APIs, DoorDash may return an error code for various reasons. Each API call is associated with a specific status:
 
@@ -189,9 +189,9 @@ It is required to have a clear feedback loop and workflow when DoorDash rejects 
 
 For example, if DoorDash sends a "Phone Number provided does not seem to be valid" error, the end user should be prompted to edit their phone number and send a new Create Quote call. Or if the error is "Allowed distance between addresses exceeded", we recommend asking the end user to confirm their address and the store from which they are ordering from. Refer to the [best practice of retry strategy page](https://developer.doordash.com/en-US/docs/drive/reference/retry_pattern/) for general guidance on retry strategies.
 
-### F) Delivery Management & Tracking[​](#f-delivery-management--tracking "Direct link to heading")
+### F) Delivery Management & Tracking [#f-delivery-management--tracking]
 
-#### a) Webhooks and Get Delivery API[​](#a-webhooks-and-get-delivery-api "Direct link to heading")
+#### a) Webhooks and Get Delivery API [#a-webhooks-and-get-delivery-api]
 
 A developer can receive updates about each specific delivery by subscribing to [webhooks](https://developer.doordash.com/en-US/docs/drive/how_to/webhooks/) from the Drive API. Webhooks provide real time updates to the customer about their order, as well as other events such as cancellations and returns. DoorDash strongly recommends integrating with webhooks to provide real time updates to the customer and ensure the best in class delivery experience. See the following documentation on webhooks:
 
@@ -201,7 +201,7 @@ A developer can receive updates about each specific delivery by subscribing to [
 
 A restaurant can also call the [Get Delivery API](https://developer.doordash.com/en-US/api/drive/#tag/Delivery/operation/GetDelivery) for the ​​status and details of a delivery. This can replace or be used in addition to webhook events.
 
-#### b) What should be communicated to the customer?[​](#b-what-should-be-communicated-to-the-customer "Direct link to heading")
+#### b) What should be communicated to the customer? [#b-what-should-be-communicated-to-the-customer]
 
 DoorDash **requires** restaurants to communicate the following delivery information to their customer:
 
@@ -217,7 +217,7 @@ This information can be displayed via the confirmation screen, email, or any oth
 
 If a restaurant is already communicating to the customer the above information, these configurations can be disabled in Developer Portal under the settings tab and by sending the "Dropoff\_contact\_send\_notifications" field as false.
 
-#### c) What should be communicated to the restaurant?[​](#c-what-should-be-communicated-to-the-restaurant "Direct link to heading")
+#### c) What should be communicated to the restaurant? [#c-what-should-be-communicated-to-the-restaurant]
 
 DoorDash **requires** developers to send the following information to the restaurant about each delivery:
 
@@ -241,7 +241,7 @@ DoorDash **requires** developers to send the following information to the restau
 * Customer phone number
   + This gives the restaurant the ability to call the customer if there are any issues with their order.
 
-### G) Canceling a Delivery[​](#g-canceling-a-delivery "Direct link to heading")
+### G) Canceling a Delivery [#g-canceling-a-delivery]
 
 A restaurant must have a workflow in place to handle cancellations as part of their development (this will be discussed during the Integrations Demo). There are three ways to cancel an order:
 
@@ -249,15 +249,15 @@ A restaurant must have a workflow in place to handle cancellations as part of th
 2. Merchant Portal: Merchants who have access to the DoorDash Merchant Portal can cancel deliveries **before** a Dasher is assigned. This URL is unique for each developer.
 3. [DoorDash Support](https://developer.doordash.com/en-US/docs/drive/support#get-in-touch-with-us): A restaurant can call DoorDash support to cancel a delivery any time during the delivery process.
 
-## 3. Test your Integration[​](#3-test-your-integration "Direct link to heading")
+## 3. Test your Integration [#3-test-your-integration]
 
 A developer can use the [Delivery Simulator](https://developer.doordash.com/en-US/docs/drive/how_to/use_delivery_simulator/) in the Developer Portal to test their integration during and post development. Deliveries created in the Delivery Simulator are for testing purposes and therefore not dispatched to real dashers. The delivery simulator allows a developer to easily create new test deliveries and update the state of each. After each state change, the status of the delivery should reflect the state in the API response and send different webhook events. This state of the delivery will also show in the [Get Delivery API](https://developer.doordash.com/en-US/api/drive/#tag/Delivery/operation/GetDelivery) call.
 
-### A) Validation Checklist prior to requesting a Demo[​](#a-validation-checklist-prior-to-requesting-a-demo "Direct link to heading")
+### A) Validation Checklist prior to requesting a Demo [#a-validation-checklist-prior-to-requesting-a-demo]
 
 In addition to using the Delivery Simulator, it is recommended for a developer to test scenarios in the Validation Checklist below prior to requesting a Developer Demo with DoorDash. This validation checklist includes different test scenarios DoorDash will run through on the demo and accelerate the certification process.
 
-#### Validation Checklist: Test Scripts[​](#validation-checklist-test-scripts "Direct link to heading")
+#### Validation Checklist: Test Scripts [#validation-checklist-test-scripts]
 
 | Scenario | Steps | Expected Results | API Calls vs Delivery Simulator | Reference Documentation |
 | --- | --- | --- | --- | --- |
@@ -274,7 +274,7 @@ Based on common issues we've seen, please confirm the following before requestin
 * If you are collecting tip through the interface, pass the tip field with that amount in the Create Quote/Accept Quote/Create Delivery API call
 * If DoorDash responds with an error, surface the error to the customer and ask them to re-validate the information to submit another Create Quote/Create Delivery API call
 
-## 4. Get Production Access: Demo process and Launch[​](#4-get-production-access-demo-process-and-launch "Direct link to heading")
+## 4. Get Production Access: Demo process and Launch [#4-get-production-access-demo-process-and-launch]
 
 We recommend completing the following before requesting production access:
 
@@ -283,9 +283,9 @@ We recommend completing the following before requesting production access:
 
 [See how to get production access here.](https://developer.doordash.com/en-US/docs/drive/how_to/get_production_access/#1-request-production-access-via-the-developer-portal)
 
-## 5. Maintain and grow your integration[​](#5-maintain-and-grow-your-integration "Direct link to heading")
+## 5. Maintain and grow your integration [#5-maintain-and-grow-your-integration]
 
-### A) Support/Health of Integration[​](#a-supporthealth-of-integration "Direct link to heading")
+### A) Support/Health of Integration [#a-supporthealth-of-integration]
 
 There are separate [support channels](https://developer.doordash.com/en-US/docs/drive/support/) for different types of support inquiries, including business-related queries, delivery/dasher-related issues, live delivery in progress, past deliveries, developer portal/integrations questions, billing/invoicing support, and outages.
 
@@ -296,7 +296,7 @@ There are two ways to [monitor integration health](https://developer.doordash.co
 * [Health Alerts](https://developer.doordash.com/en-US/docs/drive/reference/understand_elevated_error_emails/)
   + With DoorDash Drive, you will receive anomaly alerts to identify errors occuring with your integration. These alerts are sent to all users on the developer portal with guidance on the error type, developer name, and threshold of failures reached.
 
-### B) Grow your business with Drive[​](#b-grow-your-business-with-drive "Direct link to heading")
+### B) Grow your business with Drive [#b-grow-your-business-with-drive]
 
 There are other features a restaurant can enable to further grow their business on Drive, including:
 

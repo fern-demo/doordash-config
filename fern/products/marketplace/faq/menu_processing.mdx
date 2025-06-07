@@ -4,15 +4,15 @@ Limited access
 Marketplace APIs are not yet generally available. Please record interest in early access [here](https://docs.google.com/forms/d/e/1FAIpQLSfggU_NjGWCdi9vyWUicrnzJmtu9vC4zgbfSC3ROwSvW4eV2g/viewform).
 </Warning>
 
-## What is ‘reference’ referring to?[​](#what-is-reference-referring-to "Direct link to heading")
+## What is ‘reference’ referring to? [#what-is-reference-referring-to]
 
 When you submit a request to the API, the response will contain a reference id. This reference is meant to allow you to keep track of which requests have been successfully completed by our system. If desired, you can also provide a custom reference id by including a `reference` key at the highest level of the JSON object in the body of the request.
 
-## What is returned for menu.id when MenuCreate fails?[​](#what-is-returned-for-menuid-when-menucreate-fails "Direct link to heading")
+## What is returned for menu.id when MenuCreate fails? [#what-is-returned-for-menuid-when-menucreate-fails]
 
 Menu jobs are processed in two phases: the menu phase and the store hours phase. In the case that the menu phase is successful but the store hours are invalid, we will still create the core menu without the store hours. Since the store hour phase failed, we will return a Failed menu job and the menu id will be populated.
 
-## How long should I wait for a Menu Status Update Notification before retrying a menu?[​](#how-long-should-i-wait-for-a-menu-status-update-notification-before-retrying-a-menu "Direct link to heading")
+## How long should I wait for a Menu Status Update Notification before retrying a menu? [#how-long-should-i-wait-for-a-menu-status-update-notification-before-retrying-a-menu]
 
 DoorDash will attempt to process a menu for 120 minutes. After that time, the menu job will be cancelled and failed. If the first menu job is still pending and a second menu job is pushed before 120 minutes are up (retry), it will be rejected. Because of this, please wait 120 minutes before retrying a menu if you have not received a Menu Status Update Notification.
 

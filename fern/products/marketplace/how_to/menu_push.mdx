@@ -1,16 +1,16 @@
-## Prerequisites[​](#prerequisites "Direct link to heading")
+## Prerequisites [#prerequisites]
 
 Menu Push can be used by Providers to POST a menu and also can be used to update menus. [Menu Pull](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_pull) is required to be built, but it is recommended that Push logic is still built out on the provider’s side to automatically trigger menu updates when changes are made within the POS.
 
-## Overview[​](#overview "Direct link to heading")
+## Overview [#overview]
 
 For a Menu to be successfully pushed to DoorDash, it must include the fields: `merchant_supplied_id`, `provider_type`, `open_hours`, `special_hours` and `menu.name`. The request body schema can be found in the [API Reference Docs](https://developer.doordash.com/en-US/api/marketplace#tag/Menu-Endpoints/operation/menuCreate).
 
-## Get Started[​](#get-started "Direct link to heading")
+## Get Started [#get-started]
 
 ---
 
-### Step 1: Identify endpoint[​](#step-1-identify-endpoint "Direct link to heading")
+### Step 1: Identify endpoint [#step-1-identify-endpoint]
 
 Identify the [Create a Menu endpoint](https://developer.doordash.com/en-US/api/marketplace#tag/Menu-Endpoints/operation/menuCreate)
 
@@ -19,13 +19,13 @@ Identify the [Create a Menu endpoint](https://developer.doordash.com/en-US/api/m
 
 *Note: Please avoid using a menu POST for the same menu as this will create duplicate menus.*
 
-### Step 2: Ensure the menu.json has the correct format[​](#step-2-ensure-the-menujson-has-the-correct-format "Direct link to heading")
+### Step 2: Ensure the menu.json has the correct format [#step-2-ensure-the-menujson-has-the-correct-format]
 
 For the menu job to be successful the menu.json must be sent in the correct format.
 
 Below is a sample menu.json:
 
-```
+```json
 {  
   "reference": "12345-test-id",  
   "store": {  
@@ -225,7 +225,7 @@ Below is a sample menu.json:
 
 ```
 
-### Step 3: Allow Menu Push to be used for Menu updates[​](#step-3-allow-menu-push-to-be-used-for-menu-updates "Direct link to heading")
+### Step 3: Allow Menu Push to be used for Menu updates [#step-3-allow-menu-push-to-be-used-for-menu-updates]
 
 Updating Menus (Push)
 
@@ -238,7 +238,7 @@ The menu update pipeline works identically to the menu creation pipeline. When u
 
 Once our service is finished updating your menu or if the menu update fails, our [webhook](https://developer.doordash.com/en-US/docs/marketplace/how_to/menu_push#step-4-set-up-menu-status-webhook) will send a POST request to the endpoint you provide us with.
 
-#### Menu Response Codes:[​](#menu-response-codes "Direct link to heading")
+#### Menu Response Codes: [#menu-response-codes]
 
 | Status Code | Details |
 | --- | --- |
@@ -254,7 +254,7 @@ If you receive a `429`, please retry after 1 minute. If you receive a `500`, ple
 
 In the above example, there is already an item with the `merchant_supplied_id` of `5757`. This is stating that there are duplicate IDs for an item within the same level of the Menu. To resolve this error, you must have unique `merchant_supplied_ids` for items within the same Menu Level.
 
-### Step 4: Set up Menu status webhook[​](#step-4-set-up-menu-status-webhook "Direct link to heading")
+### Step 4: Set up Menu status webhook [#step-4-set-up-menu-status-webhook]
 
 Once our service is finished creating your menu or if the menu creation fails, the service will send out a POST webhook request with the menu creation result. You need to create an endpoint and provide us with its URL in order to receive the webhook notification. This request will contain the same "reference" as the response to your initial request, allowing you to keep track of which requests have been completely processed.
 
@@ -262,11 +262,11 @@ This endpoint can be set up within Developer Portal by [setting up a webhook sub
 
 ---
 
-## Progress Check[​](#progress-check "Direct link to heading")
+## Progress Check [#progress-check]
 
 Partners will get a menu job webhook call for each menu upon menu job completion from DoorDash. Reference of menu job webhook format:
 
-```
+```json
 {  
    "event":{  
       "type":"MenuCreate",  
@@ -285,7 +285,7 @@ Partners will get a menu job webhook call for each menu upon menu job completion
 
 Please save the `id` field as this will be needed to update the menu in the future. If the `id` field is returned in the Menu Status Notification, this means the core menu was successfully created. There can be situations where the `"status": "FAILURE"`, but the `id` is returned. This means that the menu was created successfully, but the store hours phase of menu creation failed. In this case, please save the `id` field to update the menu in the future and validate that the store hours are correct.
 
-## Next Steps[​](#next-steps "Direct link to heading")
+## Next Steps [#next-steps]
 
 To ensure that Menu Push is working as expected, please try and POST a menu to one of your [test stores](https://developer.doordash.com/en-US/docs/marketplace/how_to/create_a_test_store) that you have set up within Developer Portal. If Menu Push is not working as expected please reach out to support via Developer Portal.
 

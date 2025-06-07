@@ -1,9 +1,9 @@
-## Prerequisites[​](#prerequisites "Direct link to heading")
+## Prerequisites [#prerequisites]
 
 DoorDash has made an enhancement to the Open API contract to allow partners to provide
 default options or “recipes” for their menus.
 
-## Overview[​](#overview "Direct link to heading")
+## Overview [#overview]
 
 A recipe includes the ingredients that automatically come with a particular menu item, and allow
 the restaurants to correctly charge / not charge for the included ingredients. It also helps
@@ -27,9 +27,9 @@ Recipes will also allow the Merchants to define pricing rules, that would includ
 quantities of an ingredient to be included in the item price and additional quantity to incur an
 incremental charge to the order.
 
-## Get Started[​](#get-started "Direct link to heading")
+## Get Started [#get-started]
 
-### How[​](#how "Direct link to heading")
+### How [#how]
 
 DoorDash has amended the Menu API contract with a new field to indicate that items and options that need to be included as a recipe for the item.
 
@@ -101,11 +101,11 @@ If its parent item is a recipe item defined in the menu:
 
 ```
 
-### Example[​](#example "Direct link to heading")
+### Example [#example]
 
 **Menu**
 
-```
+```json
 {  
   "menu": {  
     "name": "Breakfast",  
@@ -201,7 +201,7 @@ If its parent item is a recipe item defined in the menu:
 
 **Order**
 
-```
+```json
 {  
   "id": "744de2d4-39ae-44e8-b7c8-6799add0cb9a",  
   "consumer": {  
@@ -270,7 +270,7 @@ If its parent item is a recipe item defined in the menu:
 
 ```
 
-## FAQ[​](#faq "Direct link to heading")
+## FAQ [#faq]
 
 **In what cases will a modifier appear in the “removed\_options” list?**
 
@@ -285,7 +285,7 @@ Scenario: Customer Orders “Caramel Macchiato”, an item that has only one rec
 
 In this order, the customer has opted to change (unselect default and select new option) the **Milk Temperature** to **Extra Hot**
 
-```
+```json
 {  
    "id": "5e87ace4-c87a-403f-9134-be4d3eef0055",  
    "store_order_cart_id": "3000000340445079",  
@@ -396,7 +396,7 @@ Customer Orders “Caffe Americano”, an item that has only one recipe componen
 
 In this order, the customer has opted to change add an additional Expresso shot, bringing the total to 3
 
-```
+```json
 {  
    "id":"e9b54601-4c31-4f5f-aba1-fdc9f2ddfdb5",  
    "store_order_cart_id":"3000000296721092",  

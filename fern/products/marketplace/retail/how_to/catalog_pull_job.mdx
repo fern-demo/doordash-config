@@ -1,14 +1,14 @@
-## Overview[​](#overview "Direct link to heading")
+## Overview [#overview]
 
 As part of the integration workflow, partners can implement an endpoint that allows DoorDash to pull all items sold at a store (the store's Catalog). A Catalog combines with Inventory to produce a customer-facing menu; without a Catalog, a store can't go live on DoorDash Marketplace. The Catalog pull feature allows for faster and more efficient store onboarding.
 
 The response from this endpoint should match [BatchAddOrUpdateItemRequest request model](https://developer.doordash.com/en-US/api/marketplace_v2#tag/ItemManagementModels/BatchAddOrUpdateItemRequest).
 
-## Get Started[​](#get-started "Direct link to heading")
+## Get Started [#get-started]
 
 ---
 
-### Step 1: Set up Endpoint Specification to Pull Catalog[​](#step-1-set-up-endpoint-specification-to-pull-catalog "Direct link to heading")
+### Step 1: Set up Endpoint Specification to Pull Catalog [#step-1-set-up-endpoint-specification-to-pull-catalog]
 
 The set up of the endpoint is:
 
@@ -22,7 +22,7 @@ A simple test to determine if 2 stores belong to the same business:
 * If item XYZ at store A has ID 123, while item XYZ at store B has ID 789, the 2 stores *do not* belong to the same business.
 * If item XYZ at store A has ID 123, and item XYZ at store B has ID 123, and store A and store B have the same owners, then the 2 stores *do* belong to the same business.
 
-### Step 2: Ensure that items.json response from endpoint has the correct format[​](#step-2-ensure-that-itemsjson-response-from-endpoint-has-the-correct-format "Direct link to heading")
+### Step 2: Ensure that items.json response from endpoint has the correct format [#step-2-ensure-that-itemsjson-response-from-endpoint-has-the-correct-format]
 
 As mentioned above, the Catalog pull request must return the response that matches [BatchAddOrUpdateItemRequest request model](https://developer.doordash.com/en-US/api/marketplace_v2#tag/ItemManagementModels/BatchAddOrUpdateItemRequest)
 
@@ -30,7 +30,7 @@ As mentioned above, the Catalog pull request must return the response that match
 
 Model response expected from endpoint:
 
-```
+```json
 {  
   "scope": {  
     "business_ids": [  
@@ -153,7 +153,7 @@ Model response expected from endpoint:
 
 ```
 
-### Step 3: Enroll your endpoint in the Developer Portal[​](#step-3-enroll-your-endpoint-in-the-developer-portal "Direct link to heading")
+### Step 3: Enroll your endpoint in the Developer Portal [#step-3-enroll-your-endpoint-in-the-developer-portal]
 
 Once the endpoint is ready, enroll it using the Developer Portal:
 
@@ -172,7 +172,7 @@ Once the endpoint is ready, enroll it using the Developer Portal:
 
 
 
-## Next Steps[​](#next-steps "Direct link to heading")
+## Next Steps [#next-steps]
 
 To ensure that Catalog pull is working as expected, please reach out to support via Developer Portal or your Technical Account Manager (if applicable) to test.
 

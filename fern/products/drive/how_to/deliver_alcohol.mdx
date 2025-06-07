@@ -12,7 +12,7 @@ With DoorDash Drive, you can deliver alcoholic beverages like beer, wine, and sp
 * You must have a process to get your customers' consent to the processing of their personal data by DoorDash for the purpose of ID verification
 * You must have signed an alcohol addendum to your DoorDash Drive agreement; read on to see how to complete this addendum
 
-## 1. Prerequisites[​](#1-prerequisites "Direct link to heading")
+## 1. Prerequisites [#1-prerequisites]
 
 If you're new to Drive and haven't yet created your first delivery, you should start with one of our tutorials. The tutorials will walk you through getting the credentials you need to call the APIs and making some basic API calls.
 
@@ -20,15 +20,15 @@ If you're new to Drive and haven't yet created your first delivery, you should s
 * If you're writing an app in Node.js (using JavaScript or TypeScript), [get started using our Node.js SDK](/en-US/docs/drive/tutorials/get_started_sdk)
 * If you'd like to try our APIs interactively, [get started using our Postman collection](/en-US/docs/drive/tutorials/get_started_postman)
 
-## 2. Sign the addendum[​](#2-sign-the-addendum "Direct link to heading")
+## 2. Sign the addendum [#2-sign-the-addendum]
 
 Once you've completed the integration requirements, start the process of signing the alcohol addendum to your DoorDash agreement by [submitting a support ticket](https://developer.doordash.com/portal/support). Our Operations team will work with you to confirm you meet all of the [integration requirements](/en-US/docs/drive/overview/integration_requirements#alcohol) and then send you an addendum to sign.
 
-## 3. Create an alcohol delivery[​](#3-create-an-alcohol-delivery "Direct link to heading")
+## 3. Create an alcohol delivery [#3-create-an-alcohol-delivery]
 
 To create an alcohol delivery, use the [create delivery endpoint](/en-US/api/drive#tag/Delivery/operation/CreateDelivery). Ensure your request body contains the following [required fields](https://developer.doordash.com/en-US/docs/drive/how_to/build_for_restaurants/#required--recommended-fields-for-restricted-item-deliveries-alcohol):
 
-```
+```json
 {  
     ... // other fields  
     "order_contains": {  
@@ -40,7 +40,7 @@ To create an alcohol delivery, use the [create delivery endpoint](/en-US/api/dri
 
 ```
 
-## 4. Handle alcohol returns[​](#4-handle-alcohol-returns "Direct link to heading")
+## 4. Handle alcohol returns [#4-handle-alcohol-returns]
 
 Because alcohol is a regulated item, you must be prepared to accept return-to-pickup deliveries in case the customer is unavailable or intoxicated or the Dasher is unable to verify the customer's age and (if required) their signature. If you haven't already, follow the [return-to-pickup how-to guide](/en-US/docs/drive/how_to/return_to_pickup).
 

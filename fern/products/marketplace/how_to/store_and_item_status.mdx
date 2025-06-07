@@ -1,12 +1,12 @@
 DoorDash has a set of APIs that allows store level actions to be implemented. This includes deactivating a store, getting store information, and getting store menu information.
 
-## Store activation status change[​](#store-activation-status-change "Direct link to heading")
+## Store activation status change [#store-activation-status-change]
 
 PUT `/api/v1/stores/{merchant_supplied_id}/status`
 
 DoorDash has a webhook that will allow you to deactivate a store. If there is a situation where a store needs to be deactivated, you will be able to deactivate the store immediately. Include the `merchant_supplied_id` of the store in the URL parameters. The payloads should have the following format, and are also detailed in the StoreActivationStatus Model:
 
-```
+```json
 {  
   "is_active": false,  
   "reason": string from list of accepted reasons for deactivation,  
@@ -46,7 +46,7 @@ If end time and duration are in the request we will honor the DoorDash configure
 
 Please notify your TAM if you intend to start sending temporary deactivation webhooks to test & validate the functionality.
 
-```
+```json
 {  
   "is_active": false,  
   "reason": string from list of accepted reasons for deactivation,  
@@ -57,7 +57,7 @@ Please notify your TAM if you intend to start sending temporary deactivation web
 
 ```
 
-```
+```json
 {  
   "is_active": false,  
   "reason": string from list of accepted reasons for deactivation,  
@@ -69,7 +69,7 @@ Please notify your TAM if you intend to start sending temporary deactivation web
 
 ```
 
-## Retrieving Store Info (GET)[​](#retrieving-store-info-get "Direct link to heading")
+## Retrieving Store Info (GET) [#retrieving-store-info-get]
 
 GET `api/v1/stores/{merchant_supplied_id}/store_details`
 
@@ -82,7 +82,7 @@ Is Auto-Order Release (AOR) enabled at this store?
 
 The response object is fully detailed in our API Reference documentation, and we’ve also included a sample instance in the Reference section of this document.
 
-## Retrieving Store Menu Details (GET)[​](#retrieving-store-menu-details-get "Direct link to heading")
+## Retrieving Store Menu Details (GET) [#retrieving-store-menu-details-get]
 
 GET `api/v1/stores/{merchant_supplied_id}/menu_details`
 
@@ -97,7 +97,7 @@ Partners can utilize this endpoint to retrieve live menu-level information for t
 
 The response object is fully detailed in our API Reference documentation, and we’ve also included a sample instance in the Reference section of this document.
 
-## Using the store status webhook function to reduce avoidable cancellations[​](#using-the-store-status-webhook-function-to-reduce-avoidable-cancellations "Direct link to heading")
+## Using the store status webhook function to reduce avoidable cancellations [#using-the-store-status-webhook-function-to-reduce-avoidable-cancellations]
 
 Please reference this [page](https://developer.doordash.com/en-US/docs/marketplace/how_to/store_status_case_study) to understand the importance of store status webhooks.
 

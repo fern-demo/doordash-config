@@ -1,14 +1,14 @@
-## Catalog Management API[​](#catalog-management-api "Direct link to heading")
+## Catalog Management API [#catalog-management-api]
 
-### Overview[​](#overview-1 "Direct link to heading")
+### Overview [#overview-1]
 
 The Item Management API is designed for DoorDash partners to manage information about the items they offer on the platform. It allows partners to add new items to the catalog and update information about existing items. Item information is managed at the business level, and each item is identified by a unique Merchant Supplied Item ID (MSID).
 
 **Endpoint URL:** `https://openapi.doordash.com/marketplace/api/v2/items`
 
-### Getting Started[​](#getting-started "Direct link to heading")
+### Getting Started [#getting-started]
 
-#### Request[​](#request "Direct link to heading")
+#### Request [#request]
 
 * **HTTP Method:**
 
@@ -19,11 +19,11 @@ The Item Management API is designed for DoorDash partners to manage information 
   + Refer to the [JWT authentication documentation](https://developer.doordash.com/en-US/docs/marketplace/how_to/JWTs) for authentication details.
 * **Payload Example:** [View Example JSON](https://developer.doordash.com/en-US/api/marketplace_v2/#tag/ItemManagementEndpoints/operation/batchAddItems)
 
-#### Response[​](#response "Direct link to heading")
+#### Response [#response]
 
 * **Success Response:**
 
-```
+```json
 {  
   "operation_id": "string",  
   "operation_status": "SUCCESS", // Possible values: "QUEUED" "IN_PROGRESS" "SUCCESS" "FAILED" "PARTIAL_SUCCESS"  
@@ -44,11 +44,11 @@ The Item Management API is designed for DoorDash partners to manage information 
 | 429 | request\_rate\_limited | - | - | - |
 | 500 | service\_fault | Default: Internal service failure, please try again later. | - | - |
 
-### Verification:[​](#verification "Direct link to heading")
+### Verification: [#verification]
 
 Once you believe you have made a successful call to the endpoint, reach out to your DoorDash technical account manager to verify. Please provide an example of the payload used in the request.
 
-### FAQ[​](#faq "Direct link to heading")
+### FAQ [#faq]
 
 1. **How do I get the required `business_id`?**
 

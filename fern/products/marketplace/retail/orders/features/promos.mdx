@@ -2,17 +2,17 @@
 
 # Implement integrated promotions
 
-## Prerequisites[​](#prerequisites "Direct link to heading")
+## Prerequisites [#prerequisites]
 
 DoorDash has made an enhancement to our Open API contract to allow partners to consume discount information within the order payload for promotional campaigns that are funded by the merchant. This additional information is passed through to the merchant when a consumer redeems a Merchant Funded Promotion configured within DoorDash Campaign Manager.
 
-## Overview[​](#overview "Direct link to heading")
+## Overview [#overview]
 
 Merchants want their point-of-sale (POS) system to be the source of truth for their accounting reconciliation. When running a DoorDash promotion today, the orders are transmitted to the POS without any insight into the amount of discount redeemed by the consumer. This makes it difficult for merchants to reconcile the amount of discount expensed vs revenue earned.
 
-## Get Started[​](#get-started "Direct link to heading")
+## Get Started [#get-started]
 
-### How[​](#how "Direct link to heading")
+### How [#how]
 
 After an eligible promotional campaign is configured within DoorDash Campaign Manager, a Merchant will need to provide the external\_campaign\_id to their DoorDash Account Owner. The DoorDash Engineering Team will take action to enable the Promotions functionality of the OpenAPI Order Service.
 
@@ -44,7 +44,7 @@ Upon configuration of the promotion, DoorDash will send additional fields within
 | `external_campaign_id` | Campaign reference id as defined by the merchant. |
 | `promo_quantity` (optional) | **Only applicable for item level discounts. Promotion quantity on either item or option.** `free_item_promo_quantity`: free item quantity & `discount_item_promo_quantity`: discounted item quantity & `free_option_promo_quantity`: free option quantity & `discount_option_promo_quantity`: discounted option quantity.  **Currently doordash supports following cases:**  `free_item_promo_quantity` alone & `discount_item_promo_quantity` alone & `free_item_promo_quantity` with `free_option_promo_quantity` |
 
-## FAQ[​](#faq "Direct link to heading")
+## FAQ [#faq]
 
 1. **Will the subtotal and tax reflect the promotion applied?**
    DoorDash will reflect the subtotal amount before the promotion is redeemed (pre-discount).
@@ -75,15 +75,15 @@ Upon configuration of the promotion, DoorDash will send additional fields within
 
 * DoorDash will only send the associated discount info `applied_discounts` on the order payload when the merchant is funding the promotion. (i.e `subtotal_discount_funding_source`:`merchant`)
 
-### Example Order[​](#example-order "Direct link to heading")
+### Example Order [#example-order]
 
 Below are portions of order messages with subtotal discount, item discount and no discount. Promotion related information is highlighted. Fields that are specific.
 
-#### Sample order with subtotal level discount[​](#sample-order-with-subtotal-level-discount "Direct link to heading")
+#### Sample order with subtotal level discount [#sample-order-with-subtotal-level-discount]
 
 Below is an example portion of the order payload for a subtotal discount. Fields that are specific to Promotions are highlighted.
 
-```
+```json
 {  
    "id": "1522756512",  
    "delivery_uuid": "69668578-b72d-4805-9327-4c5e64b1e75c",  
@@ -125,11 +125,11 @@ Below is an example portion of the order payload for a subtotal discount. Fields
 
 ```
 
-#### Sample order with item level discount[​](#sample-order-with-item-level-discount "Direct link to heading")
+#### Sample order with item level discount [#sample-order-with-item-level-discount]
 
 Free pizza with topping in the order.
 
-```
+```json
 {  
    "id": "1777340606",  
    "delivery_uuid": "46ef280e-3bc4-48f8-9c97-1c234f9488f5",  
@@ -191,11 +191,11 @@ Free pizza with topping in the order.
 
 ```
 
-#### Sample order without discount[​](#sample-order-without-discount "Direct link to heading")
+#### Sample order without discount [#sample-order-without-discount]
 
 No promotion information included in the message.
 
-```
+```json
 {  
    "id": "1825578540",  
    "delivery_uuid": "d810eed5-ecb1-417c-80dd-96f0c9f9c809",  

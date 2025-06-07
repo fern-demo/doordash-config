@@ -1,14 +1,14 @@
-## Inventory/Pricing Management API[​](#inventorypricing-management-api "Direct link to heading")
+## Inventory/Pricing Management API [#inventorypricing-management-api]
 
-### Overview[​](#overview-1 "Direct link to heading")
+### Overview [#overview-1]
 
 The Inventory/Pricing Management API is designed for DoorDash partners to manage inventory, pricing, and other in-store attributes of the items they offer on the platform. It allows partners to add inventory/pricing information for new items and update details for existing items at the store level.
 
 **Endpoint URL:** `https://openapi.doordash.com/marketplace/api/v2/stores/{store_location_id}/items`
 
-### Getting Started[​](#getting-started "Direct link to heading")
+### Getting Started [#getting-started]
 
-#### Request[​](#request "Direct link to heading")
+#### Request [#request]
 
 * **HTTP Method:**
 
@@ -20,11 +20,11 @@ The Inventory/Pricing Management API is designed for DoorDash partners to manage
   + Refer to the [JWT authentication documentation](https://developer.doordash.com/en-US/docs/marketplace/how_to/JWTs) for authentication details.
 * **Payload Example:** [View Example JSON](https://developer.doordash.com/en-US/docs/marketplace/retail/inventory_pricing/reference)
 
-#### Response[​](#response "Direct link to heading")
+#### Response [#response]
 
 * **Success Response:**
 
-```
+```json
 {  
   "operation_id": "string",  
   "operation_status": "SUCCESS",  
@@ -45,7 +45,7 @@ The Inventory/Pricing Management API is designed for DoorDash partners to manage
 | 429 | request\_rate\_limited | - | - | - |
 | 500 | service\_fault | Default: Internal service failure, please try again later. | - | - |
 
-### Verification:[​](#verification "Direct link to heading")
+### Verification: [#verification]
 
 To verify the successful update of inventory/pricing information at the store level, follow these steps:
 
@@ -61,7 +61,7 @@ To verify the successful update of inventory/pricing information at the store le
 
 Please provide an example of the payload used in the request when reaching out for verification.
 
-### Scenarios[​](#scenarios "Direct link to heading")
+### Scenarios [#scenarios]
 
 The following events will occur when new Merchants are being onboarded to DoorDash, or new stores under existing Merchants are being activated.
 
@@ -86,7 +86,7 @@ If it is not technically feasible for our partners to send near-real-time update
 | 1 | A full sync job runs nightly within the Merchants systems. An export of this snapshot is shared with Doordash | POST Inventory endpoint | All items across all stores are updated with the appropriate status: INACTIVE or ACTIVE | Scheduled — records batched (~1000 items) |
 | 2 | Due to the upcoming back-to-school season, backpacks are discounted from their original price of $39 across all stores | POST Inventory endpoint | All backpacks across all eligible stores are updated with "sale\_price": 28.99 | Scheduled — records batched (~1000 items) |
 
-### FAQ[​](#faq "Direct link to heading")
+### FAQ [#faq]
 
 1. **How is `store_location_id` determined?**
 

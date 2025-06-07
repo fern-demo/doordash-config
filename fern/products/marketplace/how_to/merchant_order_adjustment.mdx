@@ -1,4 +1,4 @@
-## Prerequisites[​](#prerequisites "Direct link to heading")
+## Prerequisites [#prerequisites]
 
 DoorDash has developed new functionality for OpenAPI merchants to adjust orders that have
 already been accepted.
@@ -10,7 +10,7 @@ Manager (TAM).
 The endpoint URL requires the DoorDash order UUID that is being adjusted and the body of the
 request should include a JSON that details its reasoning.
 
-## Overview[​](#overview "Direct link to heading")
+## Overview [#overview]
 
 POS-integrated merchants are typically set up to accept and confirm orders as long as the order
 passes through a set of validations. Occasionally, there are orders that are automatically
@@ -22,15 +22,15 @@ can’t fulfill the remainder of the Customer’s order. This can be time-consum
 
 This feature aims to increase flexibility with orders and cut down on order cancellations.
 
-## Get Started[​](#get-started "Direct link to heading")
+## Get Started [#get-started]
 
 ---
 
-### Step 1[​](#step-1 "Direct link to heading")
+### Step 1 [#step-1]
 
 Reach out to your technical account manager to ensure you are added to the allowlist for Merchant Induced Order adjustments
 
-### Step 2[​](#step-2 "Direct link to heading")
+### Step 2 [#step-2]
 
 Route adjustment request to new endpoint using the specified format and receive a response back from DoorDash
 
@@ -39,7 +39,7 @@ Route adjustment request to new endpoint using the specified format and receive 
 **PATCH**
 [https://openapi.doordash.com/marketplace/api/v1/orders/{"{id}"}/adjustment](https://openapi.doordash.com/marketplace/api/v1/orders/%7Bid%7D/adjustment)
 
-## Request Fields[​](#request-fields "Direct link to heading")
+## Request Fields [#request-fields]
 
 | Request Field | Definition |
 | --- | --- |
@@ -49,11 +49,11 @@ Route adjustment request to new endpoint using the specified format and receive 
 | line\_option\_id | Alphanumeric UUID for a specific line item in the order JSON which will be followed by “line\_option\_id |
 | quantity | New adjustment quantity that will be set by merchants |
 
-## Example Payloads[​](#example-payloads "Direct link to heading")
+## Example Payloads [#example-payloads]
 
 **Adjust Item Quantity:**
 
-```
+```json
 {  
     "items": [  
         {  
@@ -68,7 +68,7 @@ Route adjustment request to new endpoint using the specified format and receive 
 
 **Adjust Item Option Quantity:**
 
-```
+```json
 {  
     "items": [  
         {  
@@ -90,7 +90,7 @@ Route adjustment request to new endpoint using the specified format and receive 
 
 **Cancel Item:**
 
-```
+```json
 {  
     "items": [  
         {         
@@ -159,7 +159,7 @@ Route adjustment request to new endpoint using the specified format and receive 
 
 ```
 
-#### Response and Error Codes[​](#response-and-error-codes "Direct link to heading")
+#### Response and Error Codes [#response-and-error-codes]
 
 Once a request is received, DoorDash will respond with one of the following status codes
 
@@ -170,7 +170,7 @@ Once a request is received, DoorDash will respond with one of the following stat
 | 400 | Bad request, order not confirmed, order already cancelled, syntax |
 | 500 | Other, if line\_item\_id or line\_option\_id doesn't match with what’s in the order JSON |
 
-## Substitution adjustment[​](#substitution-adjustment "Direct link to heading")
+## Substitution adjustment [#substitution-adjustment]
 
 DoorDash also has the functionality that will allow merchants integrated via order API to
 share substitutions for order post checkout.
@@ -187,18 +187,18 @@ update the customer and final receipt.
 | price | Price of substitute item |
 | quantity | New quantity of substituted item |
 
-#### Customer Journey[​](#customer-journey "Direct link to heading")
+#### Customer Journey [#customer-journey]
 
 
 
-#### Endpoint[​](#endpoint "Direct link to heading")
+#### Endpoint [#endpoint]
 
 **PATCH**
 [https://openapi.doordash.com/marketplace/api/v1/orders/{"{id}"}/adjustment](https://openapi.doordash.com/marketplace/api/v1/orders/%7Bid%7D/adjustment)
 
 **Example Substitute Items:**
 
-```
+```json
 {  
    "items":[  
       {  
@@ -231,7 +231,7 @@ update the customer and final receipt.
 
 ```
 
-## FAQs[​](#faqs "Direct link to heading")
+## FAQs [#faqs]
 
 **How will reimbursement work for orders canceled via this feature?**
 

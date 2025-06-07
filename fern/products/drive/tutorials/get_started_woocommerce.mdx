@@ -10,7 +10,7 @@ Production access to the Drive API is currently restricted, and we cannot provid
 
 This tutorial will introduce you to the [Local Delivery by DoorDash plugin for WooCommerce](https://wordpress.org/plugins/). It assumes you're familiar with the basics of WordPress and WooCommerce. If you'd like to learn the Drive APIs by writing code, you should use the [Get started (Node.js SDK) tutorial](/en-US/docs/drive/tutorials/get_started_sdk) or [Get started (API) tutorial](/en-US/docs/drive/tutorials/get_started) instead.
 
-## Table of contents[​](#table-of-contents "Direct link to heading")
+## Table of contents [#table-of-contents]
 
 1. [Sign into the Developer Portal](#sign-into-the-developer-portal)
 2. [Create an access key](#create-an-access-key)
@@ -20,19 +20,19 @@ This tutorial will introduce you to the [Local Delivery by DoorDash plugin for W
 6. [Get the status of your delivery](#get-the-status-of-your-delivery)
 7. [Finish up](#finish-up)
 
-## Prerequisites[​](#prerequisites "Direct link to heading")
+## Prerequisites [#prerequisites]
 
 1. A valid SSL certificate is required.
 2. PHP version 7.4 or higher.
 3. A functional WordPress and WooCommerce installation.
 
-## Sign into the Developer Portal[​](#sign-into-the-developer-portal "Direct link to heading")
+## Sign into the Developer Portal [#sign-into-the-developer-portal]
 
 Go to the [Developer Portal](/en-US/portal?wooCommerce=true) using the link in the top right corner of this page. If you already have a DoorDash account, enter your email and password and sign in; if not, or if you want to use a different account for development, click Sign Up and follow the process to create an account.
 
 
 
-## Create an access key[​](#create-an-access-key "Direct link to heading")
+## Create an access key [#create-an-access-key]
 
 In the left navigation, click Credentials.
 
@@ -50,25 +50,25 @@ Click Copy to copy the access key to your clipboard and then paste it somewhere 
 
 
 
-## Install the plugin[​](#install-the-plugin "Direct link to heading")
+## Install the plugin [#install-the-plugin]
 
-### Installation[​](#installation "Direct link to heading")
+### Installation [#installation]
 
 Follow the instructions below to install the *Local Delivery by DoorDash plugin*.
 
-### From Local Delivery by DoorDash from within WordPress[​](#from-local-delivery-by-doordash-from-within-wordpress "Direct link to heading")
+### From Local Delivery by DoorDash from within WordPress [#from-local-delivery-by-doordash-from-within-wordpress]
 
 1. From your dashboard, navigate to *Plugins > Add New*.
 2. Search for `Local Delivery by DoorDash`.
 3. Click **Install Now**.
 4. Click **Activate**, after the plugin downloads.
 
-### Install Local Delivery by DoorDash Manually[​](#install-local-delivery-by-doordash-manually "Direct link to heading")
+### Install Local Delivery by DoorDash Manually [#install-local-delivery-by-doordash-manually]
 
 1. Upload the `woocommerce-doordash` folder to your `/wp-content/plugins/` directory.
 2. Activate the Local Delivery by DoorDash plugin by visiting *Plugins > Installed Plugins* and clicking **Activate**.
 
-### Configuration[​](#configuration "Direct link to heading")
+### Configuration [#configuration]
 
 After installation, a new tab will be added under *WooCommerce > Settings* called “Local Delivery by DoorDash.” Use the controls  to configure your connection with DoorDash, create an API user for DoorDash to update your orders with delivery status information, and manage the pickup locations for your deliveries.
 
@@ -76,31 +76,31 @@ After installation, a new tab will be added under *WooCommerce > Settings* calle
 
 *Local Delivery by DoorDash settings screen*
 
-### Settings Tab[​](#settings-tab "Direct link to heading")
+### Settings Tab [#settings-tab]
 
 The first tab contains general configuration settings for the plugin, allowing you to connect the plugin to the DoorDash API, configure the types of deliveries your store offers and the fees that will be charged to customers, and the default delivery hours for your store.
 
-#### API Configuration[​](#api-configuration "Direct link to heading")
+#### API Configuration [#api-configuration]
 
 If you don’t already have one, you will need to create an account on the [DoorDash Developer portal](https://developer.doordash.com/portal?wooCommerce=true) to be able to create deliveries. After your account is created, you can follow the instructions on the DoorDash Developer documentation on [creating and managing credentials](/en-US/docs/drive/how_to/manage_credentials/) to generate your Developer ID, Key ID, and Signing Secret.
 
-##### Developer ID[​](#developer-id "Direct link to heading")
+##### Developer ID [#developer-id]
 
 This ID identifies your user on the DoorDash Developer Portal and is used to connect to the DoorDash Drive API. Paste the value of the `developer_id` generated with your access keys in this field. Note: Your `developer_id` will remain the same for all sets of credentials within your DoorDash Organization.
 
-##### Active Environment[​](#active-environment "Direct link to heading")
+##### Active Environment [#active-environment]
 
 The DoorDash Drive API provides *Sandbox* and *Production* modes. *Sandbox* mode can be used for testing your integration and will not create live deliveries. *Production* mode will dispatch a DoorDasher to complete a delivery. The plugin allows for separate *Sandbox* and *Production* keys to be entered in the configuration, and the active mode can be selected with this dropdown.
 
-##### Key ID and Signing Secret[​](#key-id-and-signing-secret "Direct link to heading")
+##### Key ID and Signing Secret [#key-id-and-signing-secret]
 
 After generating your Access Keys, paste the appropriate values in these fields to allow your site to communicate with the DoorDash Drive API. Both *Production* and *Sandbox* keys are saved.
 
-#### Delivery Configuration[​](#delivery-configuration "Direct link to heading")
+#### Delivery Configuration [#delivery-configuration]
 
 These settings allow you to select the desired parameters for deliveries from your store.
 
-##### Delivery Scheduling[​](#delivery-scheduling "Direct link to heading")
+##### Delivery Scheduling [#delivery-scheduling]
 
 There are two types of delivery available. Either or both can be offered to customers.
 
@@ -109,19 +109,19 @@ There are two types of delivery available. Either or both can be offered to cust
 
 *Select both **ASAP** and **Scheduled Deliveries** to allow customers to choose their delivery type.*
 
-##### Order Lead Time[​](#order-lead-time "Direct link to heading")
+##### Order Lead Time [#order-lead-time]
 
 This value is the number of minutes that are required to fill an order before a DoorDasher should arrive. In retail environments, this might be just 10 minutes to allow an employee to pick a product and bag it for the DoorDasher. For restaurant environments, this value might be 60 minutes to allow for an order to be prepared by the kitchen. In some cases, this value might be much higher to allow for preparation of more complex orders.
 
-##### Default Pickup Instructions[​](#default-pickup-instructions "Direct link to heading")
+##### Default Pickup Instructions [#default-pickup-instructions]
 
 The text in this field will be sent through the DoorDash app to the DoorDasher assigned to the delivery. These are instructions for the Dasher to follow upon pickup of the order. This can be overridden on a per-location basis.
 
-#### Fees Configuration[​](#fees-configuration "Direct link to heading")
+#### Fees Configuration [#fees-configuration]
 
 These settings configure the fees charged to your customers for DoorDash delivery. *Note: DoorDash rates are paid by the shop owner. [See the documentation](/en-US/docs/drive/overview/pricing_payment/).*
 
-##### Delivery Fees Mode[​](#delivery-fees-mode "Direct link to heading")
+##### Delivery Fees Mode [#delivery-fees-mode]
 
 This setting controls the type(s) of fees charged to your customers for DoorDash delivery. There are three options:
 
@@ -129,15 +129,15 @@ This setting controls the type(s) of fees charged to your customers for DoorDash
 2. **Charge customer the quoted DoorDash rate** will pass the quoted cost on to the customer as a shipping charge in WooCommerce.
 3. **Charge customer a fixed rate** allows for a fixed price to be set for delivery.
 
-##### Delivery Fee[​](#delivery-fee "Direct link to heading")
+##### Delivery Fee [#delivery-fee]
 
 When used with *Charge customer a fixed rate*, the amount entered in this field will be added to the order as a shipping charge. When used with *Charge customer the quoted DoorDash rate*, this amount will be **added** to the quoted DoorDash rate.
 
-#### DoorDasher Tipping[​](#doordasher-tipping "Direct link to heading")
+#### DoorDasher Tipping [#doordasher-tipping]
 
 This setting allows for tipping for DoorDashers to be disabled. This is not recommended as tips can help an order get accepted by a Dasher more quickly. 100% of the tip goes directly to the Dasher.
 
-### Default Delivery Hours[​](#default-delivery-hours "Direct link to heading")
+### Default Delivery Hours [#default-delivery-hours]
 
 Default delivery hours will apply to all locations that do not have their own delivery hours configured. This is helpful when you have many locations that all offer the same hours.
 
@@ -147,7 +147,7 @@ Enter hours for each day with a dash separating the opening and closing time, eg
 
 *Webhooks configuration tab in Local Delivery by DoorDash settings*
 
-### Webhooks Tab[​](#webhooks-tab "Direct link to heading")
+### Webhooks Tab [#webhooks-tab]
 
 Webhooks are events that fire when a certain action has been completed. In the case of the DoorDash Drive API, these events pertain to the lifecycle of a delivery. Webhooks are sent out of DoorDash when a delivery has been accepted, when the Dasher arrives at the pickup, when the order is delivered, etc.
 
@@ -175,7 +175,7 @@ Now follow the [instructions to configure your webhook in the portal](/en-US/doc
 
 *Multiple locations can be configured on the Locations screen.*
 
-### Locations[​](#locations "Direct link to heading")
+### Locations [#locations]
 
 Local Delivery by DoorDash allows shop owners to configure multiple pickup locations for your business. Each location can be configured with a location name that is displayed to the user, the address where orders will be picked up by DoorDashers, delivery hours for that location. Each location can also be configured with an individual email address which can be used to monitor new orders to be fulfilled from that location.
 
@@ -185,29 +185,29 @@ Click the **Add pickup location** button to add your first location.
 
 *Location editor screen*s
 
-### Location Information[​](#location-information "Direct link to heading")
+### Location Information [#location-information]
 
-#### Location Name[​](#location-name "Direct link to heading")
+#### Location Name [#location-name]
 
 This is the name for this location that will be displayed to customers when selecting a location for their order to be fulfilled from.
 
-#### Enabled[​](#enabled "Direct link to heading")
+#### Enabled [#enabled]
 
 If disabled, this location will not be displayed as an available location for DoorDash delivery.
 
-#### Email Address[​](#email-address "Direct link to heading")
+#### Email Address [#email-address]
 
 New order notifications for this location will be sent to this email address (in addition to your configured WooCommerce admin email). This allows for individual locations to have a separate email account to monitor for incoming orders, or to trigger third-party automations.
 
-#### Phone Number[​](#phone-number "Direct link to heading")
+#### Phone Number [#phone-number]
 
 The phone number for the Dasher to call, including country code, if there are any issues with the pick up. The phone number must be a valid US phone number.
 
-#### Pickup Instructions[​](#pickup-instructions "Direct link to heading")
+#### Pickup Instructions [#pickup-instructions]
 
 If filled in, the contents of this field will be provided to Dashers picking up orders from this location.
 
-### Address[​](#address "Direct link to heading")
+### Address [#address]
 
 Fill in the address fields with the physical address of the pickup location. State and Country should use two-character abbreviations, e.g. *PA* and *US*.
 
@@ -215,7 +215,7 @@ Fill in the address fields with the physical address of the pickup location. Sta
 
 *Custom hours section of the Location editor*
 
-### Hours[​](#hours "Direct link to heading")
+### Hours [#hours]
 
 Check the “Customize hours for this location” checkbox to display hours fields that can be customized for this location.
 
@@ -225,11 +225,11 @@ Enter hours for each day with a dash separating the opening and closing time, eg
 
 *Location listing screen*
 
-### Location List[​](#location-list "Direct link to heading")
+### Location List [#location-list]
 
 After locations have been added, they will be listed on the Locations screen. Locations can be added, edited, or deleted from this screen. There are also toggles available for each location to allow for turning custom hours for that location on or off, or quickly enabling/disabling the location.
 
-## Adding a Shipping Method[​](#adding-a-shipping-method "Direct link to heading")
+## Adding a Shipping Method [#adding-a-shipping-method]
 
 Local Delivery by DoorDash works as a WooCommerce shipping method. To allow customers to select it as a shipping method, the method must be added to a Shipping zone.
 
@@ -259,7 +259,7 @@ Select “DoorDash” from the list and click **Add shipping method**.
 
 After creating the shipping method, you may configure the title displayed to the user and the tax status for the method. You may also enable or disable the DoorDash shipping method from the Shipping Zone screen.
 
-## Orders[​](#orders "Direct link to heading")
+## Orders [#orders]
 
 When orders have been placed with DoorDash selected as the shipping method, an API call is sent to the DoorDash Drive API which kicks off the delivery process. An email is sent to the address configured in the selected pickup location, and data about the delivery is saved with the order.
 
@@ -273,11 +273,11 @@ On the right in the *Order Notes* section, you can see the updates that have bee
 
 When the delivery has been dropped off, the order is automatically marked as complete.
 
-## Create a delivery[​](#create-a-delivery "Direct link to heading")
+## Create a delivery [#create-a-delivery]
 
 Now you can create a delivery request using the Plugin in your WooCommerce store.
 
-## Use the Delivery Simulator[​](#use-the-delivery-simulator "Direct link to heading")
+## Use the Delivery Simulator [#use-the-delivery-simulator]
 
 You can use the Delivery Simulator to advance your delivery through the stages of the delivery process, from creation to Dasher assignment to pickup to delivery.
 
@@ -289,7 +289,7 @@ Find the delivery you created by looking for the identifier `#D-12345`. Click Ad
 
 
 
-## Get the status of your delivery[​](#get-the-status-of-your-delivery "Direct link to heading")
+## Get the status of your delivery [#get-the-status-of-your-delivery]
 
 You have three options to programmatically obtain the latest status of a delivery:
 
@@ -297,11 +297,11 @@ You have three options to programmatically obtain the latest status of a deliver
 2. [Node.js SDK request](/en-US/docs/drive/tutorials/get_started_sdk#get-the-status-of-your-delivery)
 3. [Postman request](/en-US/docs/drive/tutorials/get_started_postman#get-the-status-of-your-delivery)
 
-## Finish up[​](#finish-up "Direct link to heading")
+## Finish up [#finish-up]
 
 You can use the Delivery Simulator to advance your delivery through the stages of the delivery process and then re-run the Get Delivery Status request to see how the delivery details change.
 
-## Next steps[​](#next-steps "Direct link to heading")
+## Next steps [#next-steps]
 
 Now that you're familiar with the Local Delivery by DoorDash plugin, you're ready to start adding delivery capabilities to your WooCommerce Store! Explore more detail about [configuring shipping zones and delivery settings](/en-US/docs/drive/how_to/woocommerce_settings), and [configuration options for developers and site administrators](/en-US/docs/drive/reference/woocommerce_plugin).
 

@@ -1,17 +1,17 @@
-## Overview[​](#overview "Direct link to heading")
+## Overview [#overview]
 
-### What is Order Ready Signal?[​](#what-is-order-ready-signal "Direct link to heading")
+### What is Order Ready Signal? [#what-is-order-ready-signal]
 
 * Order Ready Signal (ORS) is a timestamp integration partners can share with DoorDash that captures when an order is complete and ready for pickup by the Dasher (delivery orders) or the Customer (pickup orders).
 * Order Ready Signal can typically be mapped to existing signals in your integration (Order Ready button from a hardware device, or a bump from a KDS screen), we can also partner with you to develop an easy way to pass this signal.
 
-### Why Implement Order Ready Signal?[​](#why-implement-order-ready-signal "Direct link to heading")
+### Why Implement Order Ready Signal? [#why-implement-order-ready-signal]
 
 * Order Ready Signal is an easy-to-implement way to prevent late Dasher arrivals, a core Merchant pain point.
 * With just a few lines of code, integration partners can leverage existing endpoints to improve the Merchant experience and increase revenue.
 * If an order is ready faster than expected, Order Ready Signal acts as a trigger that immediately assigns the closest Dasher available, leading to a more efficient delivery.
 
-### Benefits[​](#benefits "Direct link to heading")
+### Benefits [#benefits]
 
 **For Merchants:**
 
@@ -31,11 +31,11 @@ A case study conducted with a top DoorDash integration partner who implemented O
 * **22 second** reduction in total delivery time
 * **2.3%** reduction in Customer-reported food quality issues
 
-### Who Should Implement?[​](#who-should-implement "Direct link to heading")
+### Who Should Implement? [#who-should-implement]
 
 This feature is recommended for all restaurant partners integrated with DoorDash’s Menu and Orders APIs, including POS providers, order aggregators, and directly integrated Merchants focused on delivering a high quality online ordering and delivery experience.
 
-### What makes a successful Order Ready Signal launch?[​](#what-makes-a-successful-order-ready-signal-launch "Direct link to heading")
+### What makes a successful Order Ready Signal launch? [#what-makes-a-successful-order-ready-signal-launch]
 
 **Clear understanding of Order Ready Signal Mapping**
 
@@ -50,9 +50,9 @@ This feature is recommended for all restaurant partners integrated with DoorDash
 * Get credit for improving your integration offerings
 * Share launch news with your customers via your communication channels
 
-## Feature Requirements[​](#feature-requirements "Direct link to heading")
+## Feature Requirements [#feature-requirements]
 
-### Technical Requirements[​](#technical-requirements "Direct link to heading")
+### Technical Requirements [#technical-requirements]
 
 * You will need to [generate a JWT Auth token](https://developer.doordash.com/en-US/docs/marketplace/how_to/JWTs).
 * Endpoint: PATCH `https://openapi.doordash.com/marketplace/api/v1/orders/{id}/events/{event_type}`
@@ -61,13 +61,13 @@ This feature is recommended for all restaurant partners integrated with DoorDash
   + `merchant_supplied_id`: this value is passed from the provider to DoorDash when the provider confirms the order. This is usually the internal POS order ID.
   + `event_type`: `order_ready_for_pickup` is the value included in the URL parameters.
 
-### Implementation Checklist[​](#implementation-checklist "Direct link to heading")
+### Implementation Checklist [#implementation-checklist]
 
-#### Step 1: Receive an order[​](#step-1-receive-an-order "Direct link to heading")
+#### Step 1: Receive an order [#step-1-receive-an-order]
 
 Refer to the [order confirmation documentation](http://localhost:3000/docs/marketplace/how_to/order_integration) on how to receive and confirm an order.
 
-#### Step 2: Notify DoorDash the order is ready[​](#step-2-notify-doordash-the-order-is-ready "Direct link to heading")
+#### Step 2: Notify DoorDash the order is ready [#step-2-notify-doordash-the-order-is-ready]
 
 The below request should be sent to the endpoint whenever in-store operators are finished preparing the order and it is ready for pickup by the Dasher or Customer.
 
@@ -76,14 +76,14 @@ PATCH
 
 **Example Payload:**
 
-```
+```json
 {  
 "merchant_supplied_id": "1dfa934a-190c-43a9-b2e0-449e5b8cccde"  
 }  
 
 ```
 
-### Response Status Codes[​](#response-status-codes "Direct link to heading")
+### Response Status Codes [#response-status-codes]
 
 | Status Code | Details |
 | --- | --- |
@@ -95,7 +95,7 @@ PATCH
 | 429 | Request is rate limited |
 | 500 | Internal Server Error |
 
-### Testing and Validation[​](#testing-and-validation "Direct link to heading")
+### Testing and Validation [#testing-and-validation]
 
 1. [Place a pickup test order via the developer portal](https://developer.doordash.com/en-US/docs/marketplace/how_to/create_a_test_order)
 2. [Confirm the test order.](https://developer.doordash.com/en-US/api/marketplace#tag/Order-Endpoints/operation/confirmOrder)
@@ -108,7 +108,7 @@ PATCH
    * After the order ready signal is received, the status will update to “Ready for pickup”:
      
 
-## User Flow Recommendations[​](#user-flow-recommendations "Direct link to heading")
+## User Flow Recommendations [#user-flow-recommendations]
 
 **Intended Users:**
 
@@ -146,7 +146,7 @@ PATCH
 * The operator can swipe the order off the screen once it is complete and ready to hand off
 * The operator can click "yes" to close an "order complete?" pop up
 
-## Feature Rollout and Announcement[​](#feature-rollout-and-announcement "Direct link to heading")
+## Feature Rollout and Announcement [#feature-rollout-and-announcement]
 
 **Best Practices for Announcing the Feature**
 
@@ -161,7 +161,7 @@ PATCH
 
 * Publish a help article on your website, informing Merchants about how to use this functionality.
 
-## FAQ[​](#faq "Direct link to heading")
+## FAQ [#faq]
 
 * **Who can I reach out to for support with implementation?** 
   + Reach out to [DoorDash Developer Portal support](https://developer.doordash.com/en-US/docs/marketplace/how_to/request_support).
@@ -173,7 +173,7 @@ PATCH
 * **Do I need to reach out to DoorDash to enable this feature?** 
   + No, this feature should be fully self-serve. Please follow the steps in this guide.
 
-## Appendix[​](#appendix "Direct link to heading")
+## Appendix [#appendix]
 
 * How to create a JWT - More details [here](https://developer.doordash.com/en-US/docs/drive/how_to/JWTs)
 * How to place a test order - More details [here](https://developer.doordash.com/en-US/docs/marketplace/how_to/create_a_test_order)

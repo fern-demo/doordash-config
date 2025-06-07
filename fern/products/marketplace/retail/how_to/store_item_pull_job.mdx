@@ -1,4 +1,4 @@
-## Overview[​](#overview "Direct link to heading")
+## Overview [#overview]
 
 As part of the integration workflow, partners can implement an endpoint that allows DoorDash to pull and replace all StoreItems sold in a store location. This effectively refreshes the item availability and pricing visible to Customers shopping on DoorDash.
 
@@ -11,11 +11,11 @@ Partners can trigger the job creating a StoreItem pull job by [POST /api/v2/jobs
 
 The job parameters in CreateJobRequest should match [CreatePullStoreItemsJobParameters](https://developer.doordash.com/en-US/api/marketplace_v2/#tag/ItemManagementModels/CreatePullStoreItemsJobParameters).
 
-## Get Started[​](#get-started "Direct link to heading")
+## Get Started [#get-started]
 
 ---
 
-### Step 1: Set up Endpoint Specification to Pull StoreItem[​](#step-1-set-up-endpoint-specification-to-pull-storeitem "Direct link to heading")
+### Step 1: Set up Endpoint Specification to Pull StoreItem [#step-1-set-up-endpoint-specification-to-pull-storeitem]
 
 The set up of the endpoint is:
 
@@ -34,7 +34,7 @@ or, for paginated flow:
 
 Currently we support static tokens and Oauth authentication mechanisms when calling Pull Store Item endpoint. If DoorDash needs to authenticate with your endpoint using Oauth, please share the oauth endpoint with Technical Account Manager to register in DoorDash.
 
-### Step 2: Ensure that storeItems.json response from endpoint has the correct format[​](#step-2-ensure-that-storeitemsjson-response-from-endpoint-has-the-correct-format "Direct link to heading")
+### Step 2: Ensure that storeItems.json response from endpoint has the correct format [#step-2-ensure-that-storeitemsjson-response-from-endpoint-has-the-correct-format]
 
 As mentioned above, the StoreItem Pull request must return the response that matches [BatchAddOrUpdateStoreItemRequest request model](https://developer.doordash.com/en-US/api/marketplace_v2/#tag/ItemManagementModels/BatchAddOrUpdateStoreItemRequest)
 
@@ -42,7 +42,7 @@ As mentioned above, the StoreItem Pull request must return the response that mat
 
 Sample response expected from endpoint:
 
-```
+```json
 {  
   "items": [  
       
@@ -81,7 +81,7 @@ Sample response expected from endpoint:
 
 If you are using the paginated pull flow, expect additional response in the "meta" fields:
 
-```
+```json
 {  
   "meta":  
       
@@ -95,13 +95,13 @@ If you are using the paginated pull flow, expect additional response in the "met
 
 ```
 
-### Step 3: Trigger StoreItem Pull by creating pull Job[​](#step-3-trigger-storeitem-pull-by-creating-pull-job "Direct link to heading")
+### Step 3: Trigger StoreItem Pull by creating pull Job [#step-3-trigger-storeitem-pull-by-creating-pull-job]
 
 You can trigger a StoreItem pull by POST [`/api/v2/jobs`](https://developer.doordash.com/en-US/api/marketplace_v2/#tag/JobManagementEndpoints/operation/createJobs) with [CreateJob request](https://developer.doordash.com/en-US/api/marketplace_v2/#tag/ItemManagementModels/CreateJobRequest) and job parameters in CreateJobRequest should match [CreatePullStoreItemsJobParameters](https://developer.doordash.com/en-US/api/marketplace_v2/#tag/ItemManagementModels/CreatePullStoreItemsJobParameters). The CreateJob request can accept only 1 location. To pull inventory for multiple locations, you will make multiple requests to the /api/v2/jobs endpoint, one for each location.
 
 Following is a sample CreateJob request to trigger StoreItem pull *without pagination*
 
-```
+```json
 {  
   "job_type": "PULL_STORE_ITEMS",  
   "job_parameters": {  
@@ -115,7 +115,7 @@ Following is a sample CreateJob request to trigger StoreItem pull *without pagin
 
 Sample CreateJob request to trigger StoreItem pull *with pagination*
 
-```
+```json
 {  
   "job_type": "PULL_STORE_ITEMS_WITH_PAGINATION",  
   "job_parameters": {  
@@ -127,7 +127,7 @@ Sample CreateJob request to trigger StoreItem pull *with pagination*
 
 ```
 
-## Next Steps[​](#next-steps "Direct link to heading")
+## Next Steps [#next-steps]
 
 To ensure that StoreItem Pull is working as expected, please reach out to support via Developer Portal or your Technical Account Manager (if applicable) to test StoreItem Pull.
 

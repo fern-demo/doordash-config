@@ -1,4 +1,4 @@
-## Menu Structure[​](#menu-structure "Direct link to heading")
+## Menu Structure [#menu-structure]
 
 DoorDash menus have a hierarchical structure that is comprised of the following levels:
 
@@ -14,7 +14,7 @@ DoorDash menus have a hierarchical structure that is comprised of the following 
 
 ---
 
-## Menu Level[​](#menu-level "Direct link to heading")
+## Menu Level [#menu-level]
 
 * `menu.name` (**required**) - internal name of the menu, not shown externally
 * `menu.subtitle` - external name of the menu
@@ -26,9 +26,9 @@ DoorDash menus have a hierarchical structure that is comprised of the following 
 
 
 
-### Hours[​](#hours "Direct link to heading")
+### Hours [#hours]
 
-#### Store Open Hours[​](#store-open-hours "Direct link to heading")
+#### Store Open Hours [#store-open-hours]
 
 * `store_open_hours.start_time` - local start time for when orders can successfully be placed
 * `store_open_hours.end_time` - local end time for when orders can successfully be placed
@@ -61,7 +61,7 @@ DoorDash menus have a hierarchical structure that is comprised of the following 
 * Hours for a single menu cannot have separate specified hour periods that overlap.
   + As an example, these hours below would be considered invalid:
 
-```
+```json
 {  
     "day_index": "FRI",  
     "start_time": "08:00:00",  
@@ -77,7 +77,7 @@ DoorDash menus have a hierarchical structure that is comprised of the following 
 
 [Hours FAQs](https://developer.doordash.com/en-US/docs/marketplace/faq/menu_hours/)
 
-#### Store Special Hours[​](#store-special-hours "Direct link to heading")
+#### Store Special Hours [#store-special-hours]
 
 Store Special Hours can be used to specify operating hours for a distinct date that differ from your typical hours. You may use special hours to either close, shorten, of extend operating hours.
 
@@ -109,7 +109,7 @@ Because Store Special Hours are date specific, if you wish you specify interday 
 
 ---
 
-## Category Level[​](#category-level "Direct link to heading")
+## Category Level [#category-level]
 
 * `category.name` (**required**)
 * `category.subtitle`
@@ -123,7 +123,7 @@ DoorDash auto-adds a "**Popular Items**" category that is generated based on the
 
 ---
 
-## Item Level[​](#item-level "Direct link to heading")
+## Item Level [#item-level]
 
 * `item.name` (**required**)
 * `item.description`
@@ -136,7 +136,7 @@ DoorDash auto-adds a "**Popular Items**" category that is generated based on the
 
 
 
-### Item Images[​](#item-images "Direct link to heading")
+### Item Images [#item-images]
 
 [Full How-To Guide](https://developer.doordash.com/en-US/docs/marketplace/how_to/integrated_images)
 
@@ -147,7 +147,7 @@ DoorDash auto-adds a "**Popular Items**" category that is generated based on the
 
 
 
-### Dietary Information[​](#dietary-information "Direct link to heading")
+### Dietary Information [#dietary-information]
 
 [Full How-To Guide](https://developer.doordash.com/en-US/docs/marketplace/how_to/nutritional_info)
 
@@ -160,7 +160,7 @@ DoorDash auto-adds a "**Popular Items**" category that is generated based on the
 
 
 
-### Item Special Hours[​](#item-special-hours "Direct link to heading")
+### Item Special Hours [#item-special-hours]
 
 [Full How-To Guide](https://developer.doordash.com/en-US/docs/marketplace/how_to/item_level_hours)
 
@@ -174,7 +174,7 @@ Item Special Hours can be used to limit item availability to certain periods wit
 
 ---
 
-## Extra Level[​](#extra-level "Direct link to heading")
+## Extra Level [#extra-level]
 
 Think of extras as the equivalent of categories, but instead of containing items, they contain item modifiers ("options").
 
@@ -220,32 +220,32 @@ Think of extras as the equivalent of categories, but instead of containing items
 
 
 
-### Quantity Enforcers[​](#quantity-enforcers "Direct link to heading")
+### Quantity Enforcers [#quantity-enforcers]
 
 The representation of the menu on our Marketplace can vary significantly based on how these attributes are set, so multiple scenarios will be presented to provide clarity.
 
-#### num\_options[​](#num_options "Direct link to heading")
+#### num\_options [#num_options]
 
 * `extra.min_num_options`
 * `extra.max_num_options`
 
 Controls the **number of distinct options** within the extra that must/can be added to the item. This input also controls the subtext that is displayed under the extra name (e.g “**Select at least 1**”).
 
-#### option\_choice\_quantity[​](#option_choice_quantity "Direct link to heading")
+#### option\_choice\_quantity [#option_choice_quantity]
 
 * `extra.min_option_choice_quantity`
 * `extra.max_option_choice_quantity`
 
 Controls the **quantity of an individual option** within the extra that must/can be added to the item.
 
-#### aggregate\_options\_quantity[​](#aggregate_options_quantity "Direct link to heading")
+#### aggregate\_options\_quantity [#aggregate_options_quantity]
 
 * `extra.min_aggregate_options_quantity`
 * `extra.max_aggregate_options_quantity`
 
 Controls the **total quantity of options** within the extra that must/can be added to the item
 
-### Checkboxes[​](#checkboxes "Direct link to heading")
+### Checkboxes [#checkboxes]
 
 If none of the above inputs (`num_options`, `option_choice_quantity`, `aggregate_options_quantity`) are specified, the default selection method is checkboxes with no required selections and no max option limit.
 
@@ -255,12 +255,12 @@ If `extra.min_num_options` and `extra.max_num_options` are provided, then these 
 
 
 
-### Radio Buttons[​](#radio-buttons "Direct link to heading")
+### Radio Buttons [#radio-buttons]
 
 If `extra.min_num_options` and `extra.max_num_options` are both set to `1`, then the selection method for the extra will be radio buttons rather than checkboxes.
 
 
-### Quantity Selectors[​](#quantity-selectors "Direct link to heading")
+### Quantity Selectors [#quantity-selectors]
 
 To offer quantity selectors as the selection method, `extra.min_aggregate_options_quantity` and `extra.max_aggregate_options_quantity` must be specified.
 
@@ -272,7 +272,7 @@ To limit the quantity of a single option that can be added within the extra, `ex
 * Additional nesting is not supported with quantity selectors.
   + Example: you would not be able to have an additional extra within ‘Pepperoni’ that would allow the customer to choose ‘Spicy Pepperoni’ or ‘Mild Pepperoni’ as you could with checkboxes or radio buttons.
 
-### Quantity Enforcer Matrix[​](#quantity-enforcer-matrix "Direct link to heading")
+### Quantity Enforcer Matrix [#quantity-enforcer-matrix]
 
 |  | Checkboxes | Radio Buttons | Quantity Selectors |
 | --- | --- | --- | --- |
@@ -283,7 +283,7 @@ To limit the quantity of a single option that can be added within the extra, `ex
 | `min_aggregate_options_quantity` | Must be omitted | Must be omitted | Required |
 | `max_aggregate_options_quantity` | Must be omitted | Must be omitted | Required |
 
-### Defective Scenarios[​](#defective-scenarios "Direct link to heading")
+### Defective Scenarios [#defective-scenarios]
 
 In certain cases, quantity enforcers can be configured in a way that makes the item impossible to order.
 
@@ -302,7 +302,7 @@ To provide a better experience for consumers, DoorDash will proactively flag the
 
 ---
 
-## Option Level[​](#option-level "Direct link to heading")
+## Option Level [#option-level]
 
 * `option.name` (**required**)
 * `option.price` (**required**)
@@ -316,7 +316,7 @@ To provide a better experience for consumers, DoorDash will proactively flag the
 
   [menu\_options\_breakdown](/en-US/assets/files/menu_configuration_reference_menu_options-956559540262777ecd18ac4262e309ce.png)
 
-### Recipes[​](#recipes "Direct link to heading")
+### Recipes [#recipes]
 
 [Full How-To Guide](https://developer.doordash.com/en-US/docs/marketplace/how_to/recipes)
 

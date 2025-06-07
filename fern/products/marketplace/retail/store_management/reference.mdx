@@ -1,10 +1,10 @@
-## Store Management API Payload[​](#store-management-api-payload "Direct link to heading")
+## Store Management API Payload [#store-management-api-payload]
 
-### Example JSON Payload[​](#example-json-payload "Direct link to heading")
+### Example JSON Payload [#example-json-payload]
 
 Example Payload
 
-```
+```json
 {  
   "open_hours": [  
     {  
@@ -45,13 +45,13 @@ Example Payload
 
 ```
 
-## Store Open Hours[​](#store-open-hours "Direct link to heading")
+## Store Open Hours [#store-open-hours]
 
 * `open_hours.start_time`: Local start time for when orders can successfully be placed.
 * `open_hours.end_time`: Local end time for when orders can successfully be placed.
 * `open_hours.day_index`: Day of the week for specified hours.
 
-### Considerations when setting hours:[​](#considerations-when-setting-hours "Direct link to heading")
+### Considerations when setting hours: [#considerations-when-setting-hours]
 
 * DoorDash deducts 20 minutes from `open_hours.end_time` to determine the true ordering hours for our Marketplace. This allows Dashers ample time to pick up the order before the restaurant closes.
 * To display hours as ‘All Day’ on Marketplace, set hours to the following:
@@ -84,7 +84,7 @@ Example Payload
 
   ```
 
-## Store Special Hours[​](#store-special-hours "Direct link to heading")
+## Store Special Hours [#store-special-hours]
 
 Store Special Hours can be used to specify operating hours for a distinct date that differ from your typical hours. You may use special hours to either close, shorten, or extend operating hours.
 
