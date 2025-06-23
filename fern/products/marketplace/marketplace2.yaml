@@ -282,3 +282,6 @@ navigation:
       - api: Marketplace 2 API Reference
         api-name: marketplace2
         flattened: true 
+        snippets:
+          python: doordash
+          typescript: doordash

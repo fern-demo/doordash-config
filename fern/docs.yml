@@ -10,6 +10,11 @@ layout:
   tabs-placement: header
 
 products:
+  - display-name: Home
+    path: products/home/home.yml
+    icon: fa-solid fa-home
+    slug: home
+    subtitle: DoorDash Developer Portal
   - display-name: Drive
     path: products/drive/drive-v2.yaml # default to latest (V2)
     icon: fa-solid fa-truck-fast
